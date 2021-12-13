@@ -48,3 +48,15 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 |         NewUriCombineUriBuilder | 1,191.66 ns | 12.725 ns | 10.626 ns | 1,191.78 ns | 0.1335 |     840 B |
 |    NewUriCombineFormatAndNewUri |   533.27 ns | 23.693 ns | 69.861 ns |   497.46 ns | 0.0629 |     400 B |
 |     NewUriCombineFormatAndNoUri |    42.20 ns |  2.938 ns |  8.663 ns |    38.63 ns | 0.0293 |     184 B |
+
+## Url combining Windows
+
+|                          Method |        Mean |     Error |    StdDev |  Gen 0 | Allocated |
+|-------------------------------- |------------:|----------:|----------:|-------:|----------:|
+|                          NewUri |   313.53 ns |  3.738 ns |  3.314 ns | 0.1106 |     232 B |
+|             NewUriStringCombine |    87.49 ns |  1.709 ns |  1.427 ns | 0.1186 |     248 B |
+|              NewUriOfficeDevPnP |   113.53 ns |  2.301 ns |  2.910 ns | 0.1185 |     248 B |
+| NewUriCombineUriBuilderToString | 1,869.03 ns | 19.779 ns | 16.517 ns | 0.5264 |   1,104 B |
+|         NewUriCombineUriBuilder | 1,450.61 ns | 20.730 ns | 18.376 ns | 0.4005 |     840 B |
+|    NewUriCombineFormatAndNewUri |   546.38 ns |  7.408 ns |  6.567 ns | 0.1912 |     400 B |
+|     NewUriCombineFormatAndNoUri |    70.07 ns |  1.418 ns |  2.122 ns | 0.0880 |     184 B |
