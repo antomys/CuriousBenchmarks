@@ -35,10 +35,10 @@ public class HttpMethods
             new("measures", "Population")
         });
 
-        var result = await content.ReadAsStringAsync();
+        var result = content.ReadAsStringAsync();
         const string urlNew = Url + "?";
 
-        await Task.CompletedTask;
+        await result;
     }
 
     [Benchmark]
@@ -50,10 +50,10 @@ public class HttpMethods
             {"measures", "Population"}
         });
 
-        var result = await content.ReadAsStringAsync();
+        var result = content.ReadAsStringAsync();
         const string urlNew = Url + "?";
 
-        await Task.CompletedTask;
+        await result;
     }
 
     [Benchmark]

@@ -7,12 +7,12 @@ Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
 [Host]     : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
-|                                      Method |       Mean |    Error |   StdDev |  Gen 0 | Allocated |
-|-------------------------------------------- |-----------:|---------:|---------:|-------:|----------:|
-|                        BuildDictionaryQuery |   381.0 ns |  3.95 ns |  3.09 ns | 0.1540 |     968 B |
-| BuildFormUrlEncodedContentKeyValuePairQuery |   764.5 ns |  4.28 ns |  3.57 ns | 0.2232 |   1,400 B |
-|   BuildFormUrlEncodedContentDictionaryQuery |   839.7 ns |  3.18 ns |  2.82 ns | 0.2518 |   1,584 B |
-|                           CustomMethodQuery | 2,362.7 ns | 19.42 ns | 18.17 ns | 0.1945 |   1,232 B |
-|        CustomMethodStaticStringBuilderQuery | 2,311.0 ns | 10.14 ns |  9.48 ns | 0.1373 |     880 B |
-|                 AspNetCoreQueryBuilderQuery |   278.7 ns |  1.97 ns |  1.85 ns | 0.1183 |     744 B |
-|                              LinqBuildQuery |   332.3 ns |  6.28 ns |  5.87 ns | 0.1273 |     800 B |
+|                                      Method |       Mean |    Error |   StdDev |     Median |  Gen 0 | Allocated |
+|-------------------------------------------- |-----------:|---------:|---------:|-----------:|-------:|----------:|
+|                        BuildDictionaryQuery |   387.0 ns |  7.70 ns | 21.08 ns |   384.4 ns | 0.1540 |     968 B |
+| BuildFormUrlEncodedContentKeyValuePairQuery |   770.3 ns |  6.18 ns |  5.78 ns |   773.1 ns | 0.2232 |   1,400 B |
+|   BuildFormUrlEncodedContentDictionaryQuery |   848.7 ns |  2.44 ns |  2.28 ns |   849.1 ns | 0.2518 |   1,584 B |
+|                           CustomMethodQuery | 2,483.6 ns | 36.50 ns | 56.82 ns | 2,455.9 ns | 0.1945 |   1,232 B |
+|        CustomMethodStaticStringBuilderQuery | 2,381.5 ns | 16.03 ns | 12.52 ns | 2,381.5 ns | 0.1373 |     880 B |
+|                 AspNetCoreQueryBuilderQuery |   286.7 ns |  5.75 ns |  8.60 ns |   282.6 ns | 0.1183 |     744 B |
+|                              LinqBuildQuery |   329.5 ns |  6.52 ns | 11.77 ns |   324.9 ns | 0.1273 |     800 B |
