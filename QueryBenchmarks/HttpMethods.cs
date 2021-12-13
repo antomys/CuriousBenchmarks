@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace QueryBenchmarks;
+
 [MemoryDiagnoser]
 public class HttpMethods
 {
     private const string Url = "https://datausa.io/api/data";
+    private static StringBuilder _stringBuilder = new("?");
 
     [Benchmark]
     public async Task BuildDictionaryQuery()
@@ -20,9 +22,8 @@ public class HttpMethods
         };
 
         var queryString = QueryHelpers.AddQueryString(Url, queries);
-        using var client = new HttpClient {BaseAddress = new Uri(queryString)};
 
-        var response = await client.GetAsync(client.BaseAddress, CancellationToken.None);
+        await Task.CompletedTask;
     }
 
     [Benchmark]
@@ -36,9 +37,8 @@ public class HttpMethods
 
         var result = await content.ReadAsStringAsync();
         const string urlNew = Url + "?";
-        using var client = new HttpClient {BaseAddress = new Uri(new Uri(urlNew), result)};
 
-        var response = await client.GetAsync(client.BaseAddress, CancellationToken.None);
+        await Task.CompletedTask;
     }
 
     [Benchmark]
@@ -52,9 +52,8 @@ public class HttpMethods
 
         var result = await content.ReadAsStringAsync();
         const string urlNew = Url + "?";
-        using var client = new HttpClient {BaseAddress = new Uri(new Uri(urlNew), result)};
 
-        var response = await client.GetAsync(client.BaseAddress, CancellationToken.None);
+        await Task.CompletedTask;
     }
 
     [Benchmark]
@@ -67,9 +66,22 @@ public class HttpMethods
         };
 
         var urlNew = Url + ToQueryString(queryParams);
-        using var client = new HttpClient {BaseAddress = new Uri(urlNew)};
 
-        var response = await client.GetAsync(client.BaseAddress, CancellationToken.None);
+        await Task.CompletedTask;
+    }
+    
+    [Benchmark]
+    public async Task CustomMethodStaticStringBuilderQuery()
+    {
+        var queryParams = new NameValueCollection
+        {
+            {"drilldowns", "Nation"},
+            {"measures", "Population"}
+        };
+
+        var urlNew = Url + StaticStringBuilderString(queryParams);
+
+        await Task.CompletedTask;
     }
 
     [Benchmark]
@@ -83,12 +95,31 @@ public class HttpMethods
 
         var newUrl = Url + qb.ToQueryString();
 
-        using var client = new HttpClient {BaseAddress = new Uri(newUrl)};
-
-        var response = await client.GetAsync(client.BaseAddress, CancellationToken.None);
+        await Task.CompletedTask;
     }
 
-    private string ToQueryString(NameValueCollection nvc)
+    [Benchmark]
+    public async Task LinqBuildQuery()
+    {
+        var qb = new Dictionary<string, string>
+        {
+            {"drilldowns", "Nation"},
+            {"measures", "Population"}
+        };
+
+        var newUrl = Url + LinqQuery(qb);
+
+        await Task.CompletedTask;
+    }
+
+    private static string LinqQuery(IDictionary<string, string> dict)
+    {
+        var values = dict.Select(it => $"{it.Key}={Uri.EscapeDataString(it.Value)}");
+
+        return '?' + string.Join("&", values);
+    }
+
+    private static string ToQueryString(NameValueCollection nvc)
     {
         var sb = new StringBuilder("?");
 
@@ -97,13 +128,34 @@ public class HttpMethods
         foreach (var key in nvc.AllKeys)
         foreach (var value in nvc.GetValues(key))
         {
-            if (!first) sb.Append("&");
+            if (!first) sb.Append('&');
 
-            sb.AppendFormat("{0}={1}", Uri.EscapeDataString(key), Uri.EscapeDataString(value));
+            sb.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
 
             first = false;
         }
 
         return sb.ToString();
+    }
+    
+    private static string StaticStringBuilderString(NameValueCollection nvc)
+    {
+
+        var first = true;
+
+        foreach (var key in nvc.AllKeys)
+        foreach (var value in nvc.GetValues(key))
+        {
+            if (!first) _stringBuilder.Append('&');
+
+            _stringBuilder.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
+
+            first = false;
+        }
+
+        var result = _stringBuilder.ToString();
+        _stringBuilder.Clear();
+
+        return result;
     }
 }
