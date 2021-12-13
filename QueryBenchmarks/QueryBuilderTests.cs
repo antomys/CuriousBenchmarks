@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.WebUtilities;
 namespace QueryBenchmarks;
 
 [MemoryDiagnoser]
-public class HttpMethods
+public class QueryBuilderTests
 {
     private const string Url = "https://datausa.io/api/data";
-    private static StringBuilder _stringBuilder = new("?");
+    private static readonly StringBuilder StringBuilder = new("?");
 
     [Benchmark]
     public async Task BuildDictionaryQuery()
@@ -146,15 +146,15 @@ public class HttpMethods
         foreach (var key in nvc.AllKeys)
         foreach (var value in nvc.GetValues(key))
         {
-            if (!first) _stringBuilder.Append('&');
+            if (!first) StringBuilder.Append('&');
 
-            _stringBuilder.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
+            StringBuilder.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
 
             first = false;
         }
 
-        var result = _stringBuilder.ToString();
-        _stringBuilder.Clear();
+        var result = StringBuilder.ToString();
+        StringBuilder.Clear();
 
         return result;
     }
