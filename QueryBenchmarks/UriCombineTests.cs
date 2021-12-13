@@ -7,7 +7,13 @@ public class UriCombineTests
 {
     private readonly Uri _defaultUri = new("https://datausa.io/");
     private const string AdditionalPiece = "/api/data/Something/Else";
+    private static string? _absoluteUri;
     private const char PathDelimiter = '/';
+
+    public UriCombineTests()
+    {
+        _absoluteUri = _defaultUri.AbsoluteUri;
+    }
     
     [Benchmark]
     public void NewUri()
@@ -50,6 +56,12 @@ public class UriCombineTests
     {
         var newUri = AppendFast(_defaultUri, AdditionalPiece);
     }
+    
+    [Benchmark]
+    public void NewUriCombineFormatAndNoUriCached()
+    {
+        var newUri = AppendFastCached(AdditionalPiece);
+    }
 
     private static string Combine(string uri1, string uri2)
     {
@@ -91,6 +103,19 @@ public class UriCombineTests
         return new Uri(baseUri, relative);
     }
 
+    private static string AppendFastCached(string relativePath)
+    {
+        //avoid the use of Uri as it's not needed, and adds a bit of overhead.
+        if (_absoluteUri is null)
+        {
+            throw new ArgumentNullException(_absoluteUri);
+        }
+        var baseUri = _absoluteUri.EndsWith('/') ? _absoluteUri : _absoluteUri + '/';
+        var relative = relativePath.StartsWith('/') ? relativePath[1..] : relativePath;
+        
+        return baseUri + relative;
+    }
+    
     private static string AppendFast(Uri uri, string relativePath)
     {
         //avoid the use of Uri as it's not needed, and adds a bit of overhead.
@@ -100,8 +125,8 @@ public class UriCombineTests
         
         return baseUri + relative;
     }
-    
-    public static string CombineV2(string path, string relative) 
+
+    private static string CombineV2(string path, string relative) 
     {
         
         relative ??= string.Empty;

@@ -39,15 +39,16 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 ## Url combining MacOs:
 
-|                          Method |        Mean |     Error |    StdDev |      Median |  Gen 0 | Allocated |
-|-------------------------------- |------------:|----------:|----------:|------------:|-------:|----------:|
-|                          NewUri |   259.84 ns |  1.363 ns |  1.275 ns |   259.40 ns | 0.0367 |     232 B |
-|             NewUriStringCombine |    54.62 ns |  1.069 ns |  1.050 ns |    54.61 ns | 0.0395 |     248 B |
-|              NewUriOfficeDevPnP |    74.24 ns |  0.455 ns |  0.425 ns |    74.27 ns | 0.0395 |     248 B |
-| NewUriCombineUriBuilderToString | 1,568.96 ns | 28.783 ns | 25.515 ns | 1,565.71 ns | 0.1755 |   1,104 B |
-|         NewUriCombineUriBuilder | 1,191.66 ns | 12.725 ns | 10.626 ns | 1,191.78 ns | 0.1335 |     840 B |
-|    NewUriCombineFormatAndNewUri |   533.27 ns | 23.693 ns | 69.861 ns |   497.46 ns | 0.0629 |     400 B |
-|     NewUriCombineFormatAndNoUri |    42.20 ns |  2.938 ns |  8.663 ns |    38.63 ns | 0.0293 |     184 B |
+|                            Method |        Mean |     Error |    StdDev |  Gen 0 |  Gen 1 | Allocated |
+|---------------------------------- |------------:|----------:|----------:|-------:|-------:|----------:|
+|                            NewUri |   275.81 ns |  7.082 ns | 20.090 ns | 0.0367 | 0.0005 |     232 B |
+|               NewUriStringCombine |    56.06 ns |  1.474 ns |  4.346 ns | 0.0395 |      - |     248 B |
+|                NewUriOfficeDevPnP |    70.19 ns |  1.089 ns |  0.966 ns | 0.0395 |      - |     248 B |
+|   NewUriCombineUriBuilderToString | 1,474.98 ns | 28.667 ns | 41.113 ns | 0.1755 |      - |   1,104 B |
+|           NewUriCombineUriBuilder | 1,078.42 ns | 14.039 ns | 12.445 ns | 0.1335 |      - |     840 B |
+|      NewUriCombineFormatAndNewUri |   463.06 ns |  5.086 ns |  4.247 ns | 0.0634 |      - |     400 B |
+|       NewUriCombineFormatAndNoUri |    32.34 ns |  0.205 ns |  0.191 ns | 0.0293 |      - |     184 B |
+| NewUriCombineFormatAndNoUriCached |    30.64 ns |  0.293 ns |  0.274 ns | 0.0293 |      - |     184 B |
 
 ## Url combining Windows
 
