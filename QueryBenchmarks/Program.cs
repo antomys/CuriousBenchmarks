@@ -6,6 +6,6 @@ class Program
 {
     public static void Main(string[] args)
     {
-        var summary = BenchmarkRunner.Run<UriCombineTests>();
+        var summary = BenchmarkRunner.Run<EnumUnboxingTesting>();
     }
 }

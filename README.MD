@@ -78,3 +78,13 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 |--------------------|----------:|----------:|----------:|-------:|----------:|
 | UnboxByString      | 59.686 ns | 0.7811 ns | 0.7307 ns | 0.0344 |      72 B |
 | UnboxByIntToString |  9.053 ns | 0.0820 ns | 0.0727 ns |      - |         - |
+
+
+# MacOs
+
+|        Method |      Mean |    Error |   StdDev |  Gen 0 | Allocated |
+|-------------- |----------:|---------:|---------:|-------:|----------:|
+| UnboxByString | 172.17 ns | 1.596 ns | 1.332 ns | 0.0560 |     352 B |
+|   UnboxByCast |  42.55 ns | 0.303 ns | 0.269 ns | 0.0102 |      64 B |
+|  EnumToString | 303.11 ns | 2.596 ns | 2.301 ns | 0.0458 |     288 B |
+|   EnumGetName | 314.46 ns | 0.927 ns | 0.774 ns |      - |         - |
