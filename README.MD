@@ -52,15 +52,16 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 ## Url combining Windows
 
-|                          Method |        Mean |     Error |    StdDev |  Gen 0 | Allocated |
-|-------------------------------- |------------:|----------:|----------:|-------:|----------:|
-|                          NewUri |   313.53 ns |  3.738 ns |  3.314 ns | 0.1106 |     232 B |
-|             NewUriStringCombine |    87.49 ns |  1.709 ns |  1.427 ns | 0.1186 |     248 B |
-|              NewUriOfficeDevPnP |   113.53 ns |  2.301 ns |  2.910 ns | 0.1185 |     248 B |
-| NewUriCombineUriBuilderToString | 1,869.03 ns | 19.779 ns | 16.517 ns | 0.5264 |   1,104 B |
-|         NewUriCombineUriBuilder | 1,450.61 ns | 20.730 ns | 18.376 ns | 0.4005 |     840 B |
-|    NewUriCombineFormatAndNewUri |   546.38 ns |  7.408 ns |  6.567 ns | 0.1912 |     400 B |
-|     NewUriCombineFormatAndNoUri |    70.07 ns |  1.418 ns |  2.122 ns | 0.0880 |     184 B |
+|                            Method |        Mean |     Error |    StdDev |  Gen 0 | Allocated |
+|---------------------------------- |------------:|----------:|----------:|-------:|----------:|
+|                            NewUri |   336.86 ns |  4.097 ns |  3.632 ns | 0.1106 |     232 B |
+|               NewUriStringCombine |    97.90 ns |  1.675 ns |  2.057 ns | 0.1186 |     248 B |
+|                NewUriOfficeDevPnP |   128.15 ns |  2.333 ns |  2.292 ns | 0.1185 |     248 B |
+|   NewUriCombineUriBuilderToString | 1,916.28 ns | 24.827 ns | 23.223 ns | 0.5264 |   1,104 B |
+|           NewUriCombineUriBuilder | 1,477.95 ns | 16.800 ns | 14.893 ns | 0.4005 |     840 B |
+|      NewUriCombineFormatAndNewUri |   559.36 ns | 11.229 ns | 10.504 ns | 0.1907 |     400 B |
+|       NewUriCombineFormatAndNoUri |    71.32 ns |  1.444 ns |  2.205 ns | 0.0880 |     184 B |
+| NewUriCombineFormatAndNoUriCached |    67.70 ns |  1.352 ns |  1.939 ns | 0.0880 |     184 B |
 
 ## Enum benchmarks
 
@@ -73,7 +74,7 @@ Intel Core i7-7500U CPU 2.70GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cor
 DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 
-|        Method |      Mean |     Error |    StdDev |  Gen 0 | Allocated |
-|-------------- |----------:|----------:|----------:|-------:|----------:|
-| UnboxByString | 59.686 ns | 0.7811 ns | 0.7307 ns | 0.0344 |      72 B |
-|   UnboxByShit |  9.053 ns | 0.0820 ns | 0.0727 ns |      - |         - |
+| Method             |      Mean |     Error |    StdDev |  Gen 0 | Allocated |
+|--------------------|----------:|----------:|----------:|-------:|----------:|
+| UnboxByString      | 59.686 ns | 0.7811 ns | 0.7307 ns | 0.0344 |      72 B |
+| UnboxByIntToString |  9.053 ns | 0.0820 ns | 0.0727 ns |      - |         - |
