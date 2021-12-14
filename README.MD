@@ -26,7 +26,6 @@ Intel Core i7-7500U CPU 2.70GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cor
 [Host]     : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
-
 |                                      Method |       Mean |    Error |   StdDev |  Gen 0 | Allocated |
 |-------------------------------------------- |-----------:|---------:|---------:|-------:|----------:|
 |                        BuildDictionaryQuery |   581.5 ns |  8.52 ns |  7.97 ns | 0.4625 |     968 B |
@@ -37,7 +36,7 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 |                 AspNetCoreQueryBuilderQuery |   476.8 ns |  9.49 ns | 13.61 ns | 0.3557 |     744 B |
 |                              LinqBuildQuery |   544.9 ns | 10.15 ns | 10.43 ns | 0.3824 |     800 B |
 
-## Url combining MacOs:
+### Url combining MacOs:
 
 |                            Method |        Mean |     Error |    StdDev |  Gen 0 |  Gen 1 | Allocated |
 |---------------------------------- |------------:|----------:|----------:|-------:|-------:|----------:|
@@ -50,7 +49,7 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 |       NewUriCombineFormatAndNoUri |    32.34 ns |  0.205 ns |  0.191 ns | 0.0293 |      - |     184 B |
 | NewUriCombineFormatAndNoUriCached |    30.64 ns |  0.293 ns |  0.274 ns | 0.0293 |      - |     184 B |
 
-## Url combining Windows
+### Url combining Windows
 
 |                            Method |        Mean |     Error |    StdDev |  Gen 0 | Allocated |
 |---------------------------------- |------------:|----------:|----------:|-------:|----------:|
@@ -67,24 +66,17 @@ DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 // * Summary *
 
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1387 (21H2)
-Intel Core i7-7500U CPU 2.70GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.100
-[Host]     : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
-DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
+|        Method |      Mean |    Error |    StdDev |  Gen 0 | Allocated |
+|-------------- |----------:|---------:|----------:|-------:|----------:|
+| UnboxByString | 260.00 ns | 5.201 ns | 10.144 ns | 0.1683 |     352 B |
+|   UnboxByCast |  69.99 ns | 1.222 ns |  1.255 ns | 0.0305 |      64 B |
+|  EnumToString | 386.48 ns | 4.680 ns |  9.238 ns | 0.1373 |     288 B |
+|   EnumGetName | 348.30 ns | 2.894 ns |  2.565 ns |      - |         - |
 
-
-| Method             |      Mean |     Error |    StdDev |  Gen 0 | Allocated |
-|--------------------|----------:|----------:|----------:|-------:|----------:|
-| UnboxByString      | 59.686 ns | 0.7811 ns | 0.7307 ns | 0.0344 |      72 B |
-| UnboxByIntToString |  9.053 ns | 0.0820 ns | 0.0727 ns |      - |         - |
-
-
-# MacOs
-
+### MacOs
 |        Method |      Mean |    Error |   StdDev |  Gen 0 | Allocated |
 |-------------- |----------:|---------:|---------:|-------:|----------:|
-| UnboxByString | 172.17 ns | 1.596 ns | 1.332 ns | 0.0560 |     352 B |
-|   UnboxByCast |  42.55 ns | 0.303 ns | 0.269 ns | 0.0102 |      64 B |
-|  EnumToString | 303.11 ns | 2.596 ns | 2.301 ns | 0.0458 |     288 B |
-|   EnumGetName | 314.46 ns | 0.927 ns | 0.774 ns |      - |         - |
+| UnboxByString | 257.49 ns | 3.573 ns | 3.167 ns | 0.1683 |     352 B |
+|   UnboxByCast |  69.86 ns | 1.398 ns | 1.818 ns | 0.0305 |      64 B |
+|  EnumToString | 378.87 ns | 7.258 ns | 6.434 ns | 0.1373 |     288 B |
+|   EnumGetName | 350.48 ns | 2.667 ns | 2.227 ns |      - |         - |
