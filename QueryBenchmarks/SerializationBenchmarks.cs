@@ -47,7 +47,7 @@ public class SerializationBenchmarks
     {
         var memoryStream = new MemoryStream();
         var jsonWriter = new Utf8JsonWriter(memoryStream);
-        JsonSerializer.Serialize(jsonWriter, _person, typeof(ICollection<TestModel>), TestModelGenerationContext.Default);
+        JsonSerializer.Serialize(jsonWriter, _person, TestModelJsonContext.Default.ICollectionTestModel);
 
         return memoryStream;
     }
