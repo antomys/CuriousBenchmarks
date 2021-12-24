@@ -1,10 +1,10 @@
+using System.Text;
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using Bogus;
-using QueryBenchmarks.JsonSourceGen;
 
-namespace QueryBenchmarks;
+namespace QueryBenchmarks.JsonSourceGen;
 
 [MemoryDiagnoser]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
@@ -50,5 +50,46 @@ public class SerializationBenchmarks
         JsonSerializer.Serialize(jsonWriter, _person, TestModelJsonContext.Default.ICollectionTestModel);
 
         return memoryStream;
+    }
+    
+    [BenchmarkCategory("Stream"), Benchmark]
+    public MemoryStream Utf8StreamSerializer()
+    {
+        var memoryStream = new MemoryStream();
+        Utf8Json.JsonSerializer.Serialize(memoryStream, _person);
+
+        return memoryStream;
+    }
+
+    [BenchmarkCategory("String"), Benchmark(Baseline = true)]
+    public string ClassicStringSerializer()
+    {
+        return JsonSerializer.Serialize(_person, _options);
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string GeneratedStringSerializer()
+    {
+        return JsonSerializer.Serialize(_person, TestModelJsonContext.Default.ICollectionTestModel);
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string NewtonsoftStringSerializer()
+    {
+        return Newtonsoft.Json.JsonConvert.SerializeObject(_person);
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string JilStringSerializer()
+    {
+        return Jil.JSON.Serialize(_person);
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string Utf8JsonStringSerializer()
+    {
+        var serialized = Utf8Json.JsonSerializer.Serialize(_person)!;
+
+        return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
     }
 }

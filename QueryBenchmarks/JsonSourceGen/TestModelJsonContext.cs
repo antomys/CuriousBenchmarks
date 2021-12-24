@@ -8,5 +8,4 @@ namespace QueryBenchmarks.JsonSourceGen;
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 public partial class TestModelJsonContext : JsonSerializerContext
 {
-    
 }
