@@ -1,31 +1,23 @@
+using System.Runtime.Serialization;
 using MessagePack;
 
 namespace QueryBenchmarks.JsonSourceGen;
 
+[MessagePackObject(true)]
 public class TestModel
 {
-    public string FirstName { get; set; } = default!;
-    public string LastName { get; set; } = default!;
-    public DateTime Date { get; set; }
-    public int TemperatureCelsius { get; set; }
-    public string Summary { get; set; } = default!;
-}
-
-[MessagePackObject]
-public class TestModelMessagePack
-{
-    [Key(0)]
+    [DataMember(Name = "firstName")]
     public string FirstName { get; set; } = default!;
     
-    [Key(1)]
+    [DataMember(Name = "lastName")]
     public string LastName { get; set; } = default!;
     
-    [Key(2)]
+    [DataMember(Name = "date")]
     public DateTime Date { get; set; }
     
-    [Key(3)]
+    [DataMember(Name = "temperatureCelsius")]
     public int TemperatureCelsius { get; set; }
     
-    [Key(4)]
+    [DataMember(Name = "summary")]
     public string Summary { get; set; } = default!;
 }

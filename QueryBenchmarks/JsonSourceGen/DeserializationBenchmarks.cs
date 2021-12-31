@@ -17,7 +17,7 @@ public class DeserializationBenchmarks
     };
 
     private string _person = string.Empty;
-    private byte[] _personsMsgPack;
+    private byte[] _personsMsgPack = default!;
 
     [GlobalSetup]
     public void Setup()
@@ -32,7 +32,7 @@ public class DeserializationBenchmarks
             .RuleFor(x => x.Summary, y => y.Random.String2(5))
             .Generate(1000), _options);
         
-        Faker<TestModelMessagePack> fakerMsgPack = new();
+        Faker<TestModel> fakerMsgPack = new();
         _personsMsgPack = MessagePackSerializer.Serialize(fakerMsgPack
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
             .RuleFor(x => x.LastName, y => y.Name.LastName())
@@ -60,11 +60,11 @@ public class DeserializationBenchmarks
         return Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<TestModel>>(_person)!;
     }
     
-    [BenchmarkCategory("String"), Benchmark]
+    /*[BenchmarkCategory("String"), Benchmark]
     public ICollection<TestModel> JilDeserializer()
     {
         return Jil.JSON.Deserialize<ICollection<TestModel>>(_person)!;
-    }
+    }*/
     
     [BenchmarkCategory("String"), Benchmark]
     public ICollection<TestModel> Utf8Deserializer()
@@ -73,8 +73,14 @@ public class DeserializationBenchmarks
     }
     
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModelMessagePack> MsgPackDeserializer()
+    public ICollection<TestModel> SpanJsonDeserializer()
     {
-        return MessagePackSerializer.Deserialize<ICollection<TestModelMessagePack>>(_personsMsgPack);
+        return SpanJson.JsonSerializer.Generic.Utf16.Deserialize<ICollection<TestModel>>(_person)!;
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public ICollection<TestModel> MsgPackDeserializer()
+    {
+        return MessagePackSerializer.Deserialize<ICollection<TestModel>>(_personsMsgPack);
     }
 }
