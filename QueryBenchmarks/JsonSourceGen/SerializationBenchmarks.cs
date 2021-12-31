@@ -18,7 +18,6 @@ public class SerializationBenchmarks
     };
 
     private List<TestModel> _persons = new();
-    private List<TestModelMessagePack> _personsMsgPack = new();
 
     [GlobalSetup]
     public void Setup()
@@ -31,16 +30,16 @@ public class SerializationBenchmarks
             .RuleFor(x => x.Date, y => y.Date.Past())
             .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int())
             .RuleFor(x => x.Summary, y => y.Random.String2(5))
-            .Generate(1000);
+            .Generate(100000);
         
-        Faker<TestModelMessagePack> fakerMsgPack = new();
+        /*Faker<TestModelMessagePack> fakerMsgPack = new();
         _personsMsgPack = fakerMsgPack
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
             .RuleFor(x => x.LastName, y => y.Name.LastName())
             .RuleFor(x => x.Date, y => y.Date.Past())
             .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int())
             .RuleFor(x => x.Summary, y => y.Random.String2(5))
-            .Generate(1000);
+            .Generate(1000);*/
     }
 
     [BenchmarkCategory("Stream"), Benchmark(Baseline = true)]
@@ -76,7 +75,7 @@ public class SerializationBenchmarks
     public MemoryStream MsgPackStreamSerializer()
     {
         var memoryStream = new MemoryStream();
-        MessagePackSerializer.Serialize(memoryStream, _personsMsgPack);
+        MessagePackSerializer.Serialize(memoryStream, _persons);
 
         return memoryStream;
     }
@@ -114,10 +113,26 @@ public class SerializationBenchmarks
     }
     
     [BenchmarkCategory("String"), Benchmark]
-    public string MsgPackStringSerializer()
+    public string SpanJsonStringFromByteSerializer()
     {
-        var serialized = MessagePackSerializer.Serialize(_personsMsgPack)!;
+        var serialized = SpanJson.JsonSerializer.Generic.Utf8.Serialize(_persons)!;
 
         return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string SpanJsonStringSerializer()
+    {
+        var serialized = SpanJson.JsonSerializer.Generic.Utf16.Serialize(_persons)!;
+
+        return serialized;
+    }
+    
+    [BenchmarkCategory("String"), Benchmark]
+    public string MsgPackStringSerializer()
+    {
+        var serialized = MessagePackSerializer.Serialize(_persons)!;
+
+        return MessagePackSerializer.ConvertToJson(serialized);
     }
 }
