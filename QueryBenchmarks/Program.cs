@@ -1,12 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using QueryBenchmarks.JsonSourceGen;
+using QueryBenchmarks;
 
-namespace QueryBenchmarks;
-
-class Program
-{
-    public static void Main()
-    {
-        var summary = BenchmarkRunner.Run<GroupByTest>();
-    } 
-}   
+var _ = BenchmarkRunner.Run<UriCombineTests>();

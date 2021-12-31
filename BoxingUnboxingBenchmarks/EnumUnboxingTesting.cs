@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
 
-namespace QueryBenchmarks;
+namespace BoxingUnboxingBenchmarks;
 
 internal enum TestEnum
 {
