@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using MessagePack;
 
-namespace QueryBenchmarks.JsonSourceGen;
+namespace JsonBenchmarks.TestModel;
 
 [MessagePackObject(true)]
 public class TestModel

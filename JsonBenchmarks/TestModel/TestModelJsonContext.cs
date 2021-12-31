@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace QueryBenchmarks.JsonSourceGen;
+namespace JsonBenchmarks.TestModel;
 
 [JsonSerializable(typeof(ICollection<TestModel>))]
 [JsonSourceGenerationOptions(

@@ -5,7 +5,7 @@ using BenchmarkDotNet.Configs;
 using Bogus;
 using MessagePack;
 
-namespace QueryBenchmarks.JsonSourceGen;
+namespace JsonBenchmarks;
 
 [MemoryDiagnoser]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
@@ -17,12 +17,12 @@ public class SerializationBenchmarks
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    private List<TestModel> _persons = new();
+    private List<TestModel.TestModel> _persons = new();
 
     [GlobalSetup]
     public void Setup()
     {
-        Faker<TestModel> faker = new();
+        Faker<TestModel.TestModel> faker = new();
         Randomizer.Seed = new Random(420);
         _persons = faker
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
@@ -57,7 +57,7 @@ public class SerializationBenchmarks
     {
         var memoryStream = new MemoryStream();
         var jsonWriter = new Utf8JsonWriter(memoryStream);
-        JsonSerializer.Serialize(jsonWriter, _persons, TestModelJsonContext.Default.ICollectionTestModel);
+        JsonSerializer.Serialize(jsonWriter, _persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
 
         return memoryStream;
     }
@@ -89,7 +89,7 @@ public class SerializationBenchmarks
     [BenchmarkCategory("String"), Benchmark]
     public string GeneratedStringSerializer()
     {
-        return JsonSerializer.Serialize(_persons, TestModelJsonContext.Default.ICollectionTestModel);
+        return JsonSerializer.Serialize(_persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
     }
     
     [BenchmarkCategory("String"), Benchmark]
