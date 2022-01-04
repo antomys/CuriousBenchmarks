@@ -21,14 +21,14 @@ public class GroupByTest
             .RuleFor(x => x.InnerTestModelId, y => y.Random.String2(20))
             .RuleFor(x => x.DateOnly, y => y.Date.Past())
             .RuleFor(x => x.TestModelId, y => y.Random.String2(20))
-            .Generate(500);
+            .Generate(50000);
         
         _testModelsList.AddRange(faker
             .RuleFor(x => x.Integer, y => y.Random.Int())
             .RuleFor(x => x.InnerTestModelId, _ => InnerTestModelConstId)
             .RuleFor(x => x.DateOnly, y => y.Date.Past())
             .RuleFor(x => x.TestModelId, y => y.Random.String2(20))
-            .Generate(500));
+            .Generate(50000));
 
         var testModelFaker = new Faker<InnerTestModelId>();
 
@@ -37,7 +37,7 @@ public class GroupByTest
             .RuleFor(x => x.InnerId, y => y.Random.String2(20))
             .RuleFor(x => x.DateOnly, y => y.Date.Past())
             .RuleFor(x => x.Integer, y => y.Random.Int())
-            .Generate(999).ToDictionary(x => x.InnerId);
+            .Generate(99999).ToDictionary(x => x.InnerId);
         _innerTestModels = generatedFakes2;
         _innerTestModels.Add(InnerTestModelConstId, new InnerTestModelId{InnerId = InnerTestModelConstId, Integer = default, DateOnly = DateTime.Now});
     }
@@ -46,13 +46,23 @@ public class GroupByTest
     public void GroupByTake()
     {
         var _ = _testModelsList.GroupBy(x => x.InnerTestModelId)
-            .Select(_ => _innerTestModels[InnerTestModelConstId]);
+            .Select(_ => _innerTestModels[InnerTestModelConstId])
+            .ToArray();
+    }
+        
+    [Benchmark]
+    public void DistinctByTake()
+    {
+        var _ = _testModelsList.DistinctBy(x => x.InnerTestModelId)
+            .Select(_ => _innerTestModels[InnerTestModelConstId])
+            .ToArray();
     }
     
     [Benchmark]
     public void DistinctTake()
     {
         var _ = _testModelsList.Select(x => x.InnerTestModelId).Distinct()
-            .Select(_ => _innerTestModels[InnerTestModelConstId]);
+            .Select(_ => _innerTestModels[InnerTestModelConstId])
+            .ToArray();
     }
 }
