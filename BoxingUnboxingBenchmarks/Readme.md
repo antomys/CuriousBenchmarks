@@ -19,7 +19,7 @@ DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
 |  EnumToString | 427.66 ns | 7.960 ns | 7.446 ns | 0.1373 |     288 B |
 |   EnumGetName | 386.31 ns | 7.308 ns | 6.836 ns |      - |         - |
 
-####Conclusion :
+## Conclusion :
 
 1. Best way to take enum int value is `((int) @enum).ToString();`.
 2. Best way to get enum name is `Enum.GetName(@enum);`
