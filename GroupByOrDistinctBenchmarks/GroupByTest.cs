@@ -1,12 +1,15 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using Bogus;
 using GroupByOrDistinctBenchmarks.TestModels;
 
 namespace GroupByOrDistinctBenchmarks;
 
-[MemoryDiagnoser(true)]
+[MemoryDiagnoser]
 public class GroupByTest
 {
+    private readonly Consumer _consumer = new();
+    
     private List<TestModel> _testModelsList = new();
     private Dictionary<string, InnerTestModelId> _innerTestModels = new();
     private const string InnerTestModelConstId = "InnerTestModelConstId";
@@ -31,8 +34,7 @@ public class GroupByTest
             .Generate(50000));
 
         var testModelFaker = new Faker<InnerTestModelId>();
-
-
+        
         var generatedFakes2 = testModelFaker
             .RuleFor(x => x.InnerId, y => y.Random.String2(20))
             .RuleFor(x => x.DateOnly, y => y.Date.Past())
@@ -45,24 +47,28 @@ public class GroupByTest
     [Benchmark(Baseline = true)]
     public void GroupByTake()
     {
-        var _ = _testModelsList.GroupBy(x => x.InnerTestModelId)
+        _testModelsList
+            .GroupBy(x => x.InnerTestModelId)
             .Select(_ => _innerTestModels[InnerTestModelConstId])
-            .ToArray();
+            .Consume(_consumer);
     }
         
     [Benchmark]
     public void DistinctByTake()
-    {
-        var _ = _testModelsList.DistinctBy(x => x.InnerTestModelId)
+    { 
+        _testModelsList
+            .DistinctBy(x => x.InnerTestModelId)
             .Select(_ => _innerTestModels[InnerTestModelConstId])
-            .ToArray();
+            .Consume(_consumer);
     }
     
     [Benchmark]
     public void DistinctTake()
     {
-        var _ = _testModelsList.Select(x => x.InnerTestModelId).Distinct()
+        _testModelsList
+            .Select(x => x.InnerTestModelId)
+            .Distinct()
             .Select(_ => _innerTestModels[InnerTestModelConstId])
-            .ToArray();
+            .Consume(_consumer);
     }
 }

@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxingUnboxingBenchmarks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupByOrDistinctBenchmarks", "GroupByOrDistinctBenchmarks\GroupByOrDistinctBenchmarks.csproj", "{729A1397-4EA1-45C6-92B2-572C28FA6D1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringExtensionsBenchmarks", "StringExtensionsBenchmarks\StringExtensionsBenchmarks.csproj", "{B3011916-BAB2-4FEE-96A3-B8E61C041B02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{729A1397-4EA1-45C6-92B2-572C28FA6D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729A1397-4EA1-45C6-92B2-572C28FA6D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{729A1397-4EA1-45C6-92B2-572C28FA6D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3011916-BAB2-4FEE-96A3-B8E61C041B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3011916-BAB2-4FEE-96A3-B8E61C041B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3011916-BAB2-4FEE-96A3-B8E61C041B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3011916-BAB2-4FEE-96A3-B8E61C041B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
