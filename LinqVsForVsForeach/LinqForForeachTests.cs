@@ -62,10 +62,9 @@ public class LinqForForeachTests
     [Benchmark]
     public void LinqMethod()
     {
-        var testOutputModels = _testInputModels
+        _testInputModels
             .Where(x=> x != null)
-            .Select(x => JsonSerializer.Serialize(x));
-        
-        _consumer.Consume(testOutputModels);
+            .Select(x => JsonSerializer.Serialize(x))
+            .Consume(_consumer);
     }
 }
