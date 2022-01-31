@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>LinqVsForVsForeach.LinqForForeachTests-20220131-140343</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.1, OS=macOS Monterey 12.1 (21C52) [Darwin 21.2.0]
+Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK=6.0.101
+  [Host]     : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+  DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th> Method</th><th>ModelsCount</th><th>      Mean</th><th>   Error</th><th>  StdDev</th><th>Ratio</th><th>RatioSD</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>ForMethod</td><td>10</td><td>5.750 &mu;s</td><td>0.0485 &mu;s</td><td>0.0454 &mu;s</td><td>1.00</td><td>0.00</td><td>0.6104</td><td>0.0076</td><td>-</td><td>4 KB</td>
+</tr><tr><td>ForeachMethod</td><td>10</td><td>6.025 &mu;s</td><td>0.1198 &mu;s</td><td>0.1793 &mu;s</td><td>1.05</td><td>0.04</td><td>0.6180</td><td>0.0076</td><td>-</td><td>4 KB</td>
+</tr><tr><td>LinqMethod</td><td>10</td><td>6.080 &mu;s</td><td>0.1197 &mu;s</td><td>0.1932 &mu;s</td><td>1.07</td><td>0.04</td><td>0.6180</td><td>0.0076</td><td>-</td><td>4 KB</td>
+</tr><tr><td>ForMethod</td><td>100</td><td>59.744 &mu;s</td><td>0.6981 &mu;s</td><td>0.6189 &mu;s</td><td>1.00</td><td>0.00</td><td>6.1035</td><td>0.8545</td><td>-</td><td>37 KB</td>
+</tr><tr><td>ForeachMethod</td><td>100</td><td>60.474 &mu;s</td><td>0.4057 &mu;s</td><td>0.3388 &mu;s</td><td>1.01</td><td>0.01</td><td>6.1035</td><td>0.7935</td><td>-</td><td>37 KB</td>
+</tr><tr><td>LinqMethod</td><td>100</td><td>62.507 &mu;s</td><td>1.2257 &mu;s</td><td>1.7578 &mu;s</td><td>1.05</td><td>0.03</td><td>6.1035</td><td>0.8545</td><td>-</td><td>38 KB</td>
+</tr><tr><td>ForMethod</td><td>1000</td><td>628.782 &mu;s</td><td>12.4588 &mu;s</td><td>11.6540 &mu;s</td><td>1.00</td><td>0.00</td><td>60.5469</td><td>21.4844</td><td>-</td><td>375 KB</td>
+</tr><tr><td>ForeachMethod</td><td>1000</td><td>614.713 &mu;s</td><td>8.9986 &mu;s</td><td>8.4173 &mu;s</td><td>0.98</td><td>0.03</td><td>60.5469</td><td>22.4609</td><td>-</td><td>375 KB</td>
+</tr><tr><td>LinqMethod</td><td>1000</td><td>680.029 &mu;s</td><td>8.7286 &mu;s</td><td>7.7376 &mu;s</td><td>1.08</td><td>0.03</td><td>60.5469</td><td>22.4609</td><td>-</td><td>375 KB</td>
+</tr><tr><td>ForMethod</td><td>10000</td><td>8,960.548 &mu;s</td><td>166.0377 &mu;s</td><td>155.3118 &mu;s</td><td>1.00</td><td>0.00</td><td>640.6250</td><td>296.8750</td><td>46.8750</td><td>3,746 KB</td>
+</tr><tr><td>ForeachMethod</td><td>10000</td><td>8,752.884 &mu;s</td><td>166.1027 &mu;s</td><td>155.3726 &mu;s</td><td>0.98</td><td>0.03</td><td>640.6250</td><td>296.8750</td><td>46.8750</td><td>3,746 KB</td>
+</tr><tr><td>LinqMethod</td><td>10000</td><td>8,842.664 &mu;s</td><td>175.8686 &mu;s</td><td>202.5305 &mu;s</td><td>0.99</td><td>0.03</td><td>640.6250</td><td>296.8750</td><td>46.8750</td><td>3,746 KB</td>
+</tr><tr><td>ForMethod</td><td>100000</td><td>117,487.236 &mu;s</td><td>538.7671 &mu;s</td><td>449.8949 &mu;s</td><td>1.00</td><td>0.00</td><td>6400.0000</td><td>2600.0000</td><td>600.0000</td><td>37,461 KB</td>
+</tr><tr><td>ForeachMethod</td><td>100000</td><td>117,477.484 &mu;s</td><td>2,118.7946 &mu;s</td><td>1,981.9218 &mu;s</td><td>1.00</td><td>0.01</td><td>6400.0000</td><td>2600.0000</td><td>600.0000</td><td>37,461 KB</td>
+</tr><tr><td>LinqMethod</td><td>100000</td><td>119,094.724 &mu;s</td><td>1,853.9627 &mu;s</td><td>1,734.1979 &mu;s</td><td>1.01</td><td>0.02</td><td>6400.0000</td><td>2600.0000</td><td>600.0000</td><td>37,461 KB</td>
+</tr><tr><td>ForMethod</td><td>1000000</td><td>1,282,275.389 &mu;s</td><td>25,166.2432 &mu;s</td><td>47,268.3049 &mu;s</td><td>1.00</td><td>0.00</td><td>59000.0000</td><td>20000.0000</td><td>-</td><td>374,593 KB</td>
+</tr><tr><td>ForeachMethod</td><td>1000000</td><td>1,273,504.526 &mu;s</td><td>25,401.9246 &mu;s</td><td>51,313.1406 &mu;s</td><td>0.99</td><td>0.05</td><td>59000.0000</td><td>20000.0000</td><td>-</td><td>374,577 KB</td>
+</tr><tr><td>LinqMethod</td><td>1000000</td><td>1,261,325.058 &mu;s</td><td>24,003.8565 &mu;s</td><td>26,680.2229 &mu;s</td><td>0.99</td><td>0.04</td><td>59000.0000</td><td>20000.0000</td><td>-</td><td>374,580 KB</td>
+</tr></tbody></table>
+</body>
+</html>
