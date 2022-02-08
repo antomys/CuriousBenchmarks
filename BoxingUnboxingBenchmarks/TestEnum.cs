@@ -2,16 +2,17 @@ namespace BoxingUnboxingBenchmarks;
 
 internal enum TestEnum
 {
-    None = 0,
-    Something = 1,
-    Anything = 2,
-    None1 = 3,
-    Something1 = 4,
-    Anything1 = 5,
-    None11 = 6,
-    Something11 = 7,
-    Anything11 = 8,
-    None111 = 9,
-    Something111 = 11,
-    Anything111 = 10,
+    Zero = 0,
+    First = 1,
+    Second = 2,
+    Third = 3,
+    Fourth = 4,
+    Fifth = 5,
+    Sixth = 6,
+    Seventh = 7,
+    Eighth = 8,
+    Ninth = 9,
+    Tenth = 10,
+    Eleventh = 11,
+    Twelfth = 12
 }

@@ -1,10 +1,12 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
+using BenchmarkDotNet.Order;
 
 namespace QueryBenchmarks;
 
 [MemoryDiagnoser]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class UriCombineTests

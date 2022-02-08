@@ -3,18 +3,24 @@ using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
+using BenchmarkDotNet.Order;
 using Bogus;
 using MessagePack;
 
 namespace JsonBenchmarks;
 
 [MemoryDiagnoser]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [CategoriesColumn]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class SerializationBenchmarks
 {
+    // Intentionally left public for BenchmarkDotNet Params.
+    [Params(1000, 10000, 100000, 1000000)]
+    public int CollectionSize { get; set; }
+    
     private readonly JsonSerializerOptions _options = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -33,16 +39,7 @@ public class SerializationBenchmarks
             .RuleFor(x => x.Date, y => y.Date.Past())
             .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int())
             .RuleFor(x => x.Summary, y => y.Random.String2(5))
-            .Generate(100000);
-        
-        /*Faker<TestModelMessagePack> fakerMsgPack = new();
-        _personsMsgPack = fakerMsgPack
-            .RuleFor(x => x.FirstName, y => y.Name.FirstName())
-            .RuleFor(x => x.LastName, y => y.Name.LastName())
-            .RuleFor(x => x.Date, y => y.Date.Past())
-            .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int())
-            .RuleFor(x => x.Summary, y => y.Random.String2(5))
-            .Generate(1000);*/
+            .Generate(CollectionSize);
     }
 
     [BenchmarkCategory("Stream"), Benchmark(Baseline = true)]

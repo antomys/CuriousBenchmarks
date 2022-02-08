@@ -1,64 +1,125 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
+using BenchmarkDotNet.Order;
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace BoxingUnboxingBenchmarks;
 
 [MemoryDiagnoser]
+[CategoriesColumn]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class EnumUnboxingTesting
 {
     private readonly Consumer _consumer = new();
-    
-    private static readonly TestEnum[] TestEnums = {
-        TestEnum.None,
-        TestEnum.None1,
-        TestEnum.None11,
-        TestEnum.None111,
-        TestEnum.Something,
-        TestEnum.Something1,
-        TestEnum.Something11,
-        TestEnum.Something111,
-        TestEnum.Anything,
-        TestEnum.Anything1,
-        TestEnum.Anything11,
-        TestEnum.Anything111,
-    };
-    
-    [Benchmark]
-    public void UnboxByString()
+
+    private static TestEnum[] _testEnums = default!;
+
+    [GlobalSetup]
+    public void Setup()
     {
-        foreach (var @enum in TestEnums)
+        _testEnums = new []
         {
-            @enum.ToString("D").Consume(_consumer);
+            TestEnum.First,
+            TestEnum.Second,
+            TestEnum.Third,
+            TestEnum.Fourth,
+            TestEnum.Fifth,
+            TestEnum.Sixth,
+            TestEnum.Seventh,
+            TestEnum.Eighth,
+            TestEnum.Ninth,
+            TestEnum.Tenth,
+            TestEnum.Eleventh,
+            TestEnum.Twelfth
+        };
+    }
+
+    [BenchmarkCategory("Int from Enum"), Benchmark]
+    public void IntFromEnumOneToString()
+    {
+        TestEnum.First.ToString("D").Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("Int from Enum"), Benchmark]
+    public void IntFromEnumOneCast()
+    {
+        ((int) TestEnum.First).ToString().Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("String from Enum"), Benchmark]
+    public void StringFromEnumOneToString()
+    {
+        TestEnum.First.ToString().Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("String from Enum"), Benchmark]
+    public void StringFromEnumOneGetName()
+    {
+        Enum.GetName(TestEnum.First).Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("Array. Int from Enum"), Benchmark]
+    public void EnumIntByToString()
+    {
+        for(var i = 0; i < _testEnums.Length; i++)
+        {
+            _testEnums[i].ToString("D").Consume(_consumer);
         }
     }
 
-    [Benchmark]
-    public void UnboxByCast()
+    [BenchmarkCategory("Array. Int from Enum"), Benchmark]
+    public void EnumIntByCast()
     {
-        foreach (var @enum in TestEnums)
+        for(var i = 0; i < _testEnums.Length; i++)
         {
-            ((int) @enum).ToString().Consume(_consumer);
+            ((int) _testEnums[i]).ToString().Consume(_consumer);
         }
     }
 
-    [Benchmark]
+    [BenchmarkCategory("Array. String from Enum"), Benchmark]
     public void EnumToString()
     {
-        foreach (var @enum in TestEnums)
+        for(var i = 0; i < _testEnums.Length; i++)
         {
-            @enum.ToString().Consume(_consumer);
+            _testEnums[i].ToString().Consume(_consumer);
         }
     }
     
-    [Benchmark]
+    [BenchmarkCategory("Array. String from Enum"), Benchmark]
     public void EnumGetName()
     {
-        foreach (var @enum in TestEnums)
+        for(var i = 0; i < _testEnums.Length; i++)
         {
-            Enum.GetName(@enum).Consume(_consumer);
+            Enum.GetName(_testEnums[i]).Consume(_consumer);
         }
+    }
+    
+    [BenchmarkCategory("Array. Int from Enum Linq"), Benchmark]
+    public void EnumIntByToStringLinq()
+    {
+        _testEnums.Select(testEnum => testEnum.ToString("D")).Consume(_consumer);
+    }
+
+    [BenchmarkCategory("Array. Int from Enum Linq"), Benchmark]
+    public void EnumIntByCastLinq()
+    {
+        _testEnums.Select(testEnum =>  ((int) testEnum).ToString()).Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("Array. String from Enum Linq"), Benchmark]
+    public void EnumToStringLinq()
+    {
+        _testEnums.Select(testEnum =>  testEnum.ToString()).Consume(_consumer);
+    }
+    
+    [BenchmarkCategory("Array. String from Enum Linq"), Benchmark]
+    public void EnumGetNameLinq()
+    {
+        _testEnums.Select(Enum.GetName).Consume(_consumer);
     }
 }

@@ -11,9 +11,9 @@ public class TestModel
     
     [DataMember(Name = "lastName")]
     public string LastName { get; set; } = default!;
-    
+
     [DataMember(Name = "date")]
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
     
     [DataMember(Name = "temperatureCelsius")]
     public int TemperatureCelsius { get; set; }

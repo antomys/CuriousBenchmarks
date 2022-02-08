@@ -4,3 +4,5 @@ using BenchmarkDotNet.Running;
 using JsonBenchmarks;
 
 var _ = BenchmarkRunner.Run<DeserializationBenchmarks>();
+
+BenchmarkRunner.Run<SerializationBenchmarks>();

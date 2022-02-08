@@ -1,12 +1,16 @@
 using System.Collections.Specialized;
 using System.Text;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Order;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace QueryBenchmarks;
 
 [MemoryDiagnoser]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[JsonExporterAttribute.Full, MarkdownExporterAttribute.GitHub]
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 public class QueryBuilderTests
 {
     private const string Url = "https://datausa.io/api/data";

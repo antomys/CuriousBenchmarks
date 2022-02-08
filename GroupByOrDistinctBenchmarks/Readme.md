@@ -1,103 +1,57 @@
-##Detailed results 
+``` ini
 
-###GroupByTest.GroupByTake: DefaultJob
- - Runtime = .NET 6.0.1 (6.0.121.56705), X64 RyuJIT; GC = Concurrent Workstation
- - Mean = 28.428 ms, StdErr = 0.160 ms (0.56%), N = 45, StdDev = 1.074 ms
- - Min = 26.704 ms, Q1 = 27.677 ms, Median = 28.111 ms, Q3 = 28.918 ms, Max = 31.244 ms
- - IQR = 1.240 ms, LowerFence = 25.817 ms, UpperFence = 30.778 ms
- - ConfidenceInterval = [27.864 ms; 28.993 ms] (CI 99.9%), Margin = 0.565 ms (1.99% of Mean)
- - Skewness = 0.89, Kurtosis = 3.08, MValue = 2
-
--------------------- Histogram --------------------
-
-[26.307 ms ; 26.866 ms) | @
-
-[26.866 ms ; 27.572 ms) | @@@@@@
-
-[27.572 ms ; 28.365 ms) | @@@@@@@@@@@@@@@@@@@@@
-
-[28.365 ms ; 29.238 ms) | @@@@@@@@
-
-[29.238 ms ; 30.575 ms) | @@@@@
-
-[30.575 ms ; 31.368 ms) | @@@@
-
----------------------------------------------------
-
-###GroupByTest.DistinctByTake: DefaultJob
-
-- Runtime = .NET 6.0.1 (6.0.121.56705), X64 RyuJIT; GC = Concurrent Workstation 
-- Mean = 8.101 ms, StdErr = 0.039 ms (0.48%), N = 19, StdDev = 0.170 ms 
-- Min = 7.835 ms, Q1 = 7.955 ms, Median = 8.123 ms, Q3 = 8.234 ms, Max = 8.402 ms 
-- IQR = 0.279 ms, LowerFence = 7.537 ms, UpperFence = 8.653 ms 
-- ConfidenceInterval = [7.948 ms; 8.254 ms] (CI 99.9%), Margin = 0.153 ms (1.89% of Mean)
-- Skewness = -0.03, Kurtosis = 1.67, MValue = 2
-
--------------------- Histogram --------------------
-
-[7.823 ms ; 7.990 ms) | @@@@@@@
-
-[7.990 ms ; 8.261 ms) | @@@@@@@@@
-
-[8.261 ms ; 8.436 ms) | @@@
-
----------------------------------------------------
-
-###GroupByTest.DistinctTake: DefaultJob
-
-- Runtime = .NET 6.0.1 (6.0.121.56705), X64 RyuJIT; GC = Concurrent Workstation 
-- Mean = 8.295 ms, StdErr = 0.023 ms (0.28%), N = 13, StdDev = 0.083 ms 
-- Min = 8.104 ms, Q1 = 8.260 ms, Median = 8.296 ms, Q3 = 8.327 ms, Max = 8.415 ms 
-- IQR = 0.067 ms, LowerFence = 8.159 ms, UpperFence = 8.428 ms 
-- ConfidenceInterval = [8.196 ms; 8.395 ms] (CI 99.9%), Margin = 0.099 ms (1.20% of Mean)
-- Skewness = -0.56, Kurtosis = 2.91, MValue = 2
-
--------------------- Histogram --------------------
-
-[8.058 ms ; 8.461 ms) | @@@@@@@@@@@@@
-
----------------------------------------------------
-
-#Summary
-
- - BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1415 (21H2)
- - Intel Core i7-7500U CPU 2.70GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores 
- - .NET SDK=6.0.101
- - [Host]     : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT 
- - DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+BenchmarkDotNet=v0.13.1, OS=macOS Monterey 12.1 (21C52) [Darwin 21.2.0]
+Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK=6.0.101
+  [Host]     : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+  DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
 
 
-|         Method |      Mean |     Error |    StdDev | Ratio |    Gen 0 |    Gen 1 |    Gen 2 | Allocated |
-|--------------- |----------:|----------:|----------:|------:|---------:|---------:|---------:|----------:|
-|    GroupByTake | 28.428 ms | 0.5647 ms | 1.0744 ms |  1.00 | 875.0000 | 437.5000 | 156.2500 |      6 MB |
-| DistinctByTake |  8.101 ms | 0.1530 ms | 0.1700 ms |  0.29 | 203.1250 | 109.3750 |  93.7500 |      3 MB |
-|   DistinctTake |  8.295 ms | 0.0992 ms | 0.0829 ms |  0.29 | 203.1250 | 109.3750 |  93.7500 |      3 MB |
+```
+|         Method | GenerationSize |           Mean |          Error |         StdDev |        StdErr |         Median |            Min |            Max |             Q1 |             Q3 |        Op/s | Ratio | RatioSD | Rank |      Gen 0 |     Gen 1 |    Gen 2 |     Allocated |
+|--------------- |--------------- |---------------:|---------------:|---------------:|--------------:|---------------:|---------------:|---------------:|---------------:|---------------:|------------:|------:|--------:|-----:|-----------:|----------:|---------:|--------------:|
+| DistinctByTake |             10 |       1.184 μs |      0.0229 μs |      0.0214 μs |     0.0055 μs |       1.182 μs |       1.141 μs |       1.230 μs |       1.173 μs |       1.194 μs | 844,568.470 |  0.61 |    0.02 |    1 |     0.1431 |         - |        - |         904 B |
+|   DistinctTake |             10 |       1.272 μs |      0.0250 μs |      0.0390 μs |     0.0069 μs |       1.259 μs |       1.221 μs |       1.353 μs |       1.240 μs |       1.302 μs | 785,964.981 |  0.66 |    0.02 |    2 |     0.1431 |         - |        - |         904 B |
+|    GroupByTake |             10 |       1.929 μs |      0.0381 μs |      0.0407 μs |     0.0096 μs |       1.919 μs |       1.875 μs |       2.022 μs |       1.904 μs |       1.956 μs | 518,411.993 |  1.00 |    0.00 |    3 |     0.2899 |         - |        - |       1,824 B |
+|                |                |                |                |                |               |                |                |                |                |                |             |       |         |      |            |           |          |               |
+|   DistinctTake |            100 |      10.811 μs |      0.2145 μs |      0.2296 μs |     0.0541 μs |      10.792 μs |      10.415 μs |      11.249 μs |      10.640 μs |      10.951 μs |  92,500.631 |  0.63 |    0.02 |    1 |     1.1902 |         - |        - |       7,520 B |
+| DistinctByTake |            100 |      10.855 μs |      0.2154 μs |      0.3354 μs |     0.0593 μs |      10.885 μs |      10.283 μs |      11.601 μs |      10.602 μs |      11.028 μs |  92,121.692 |  0.64 |    0.03 |    1 |     1.1902 |         - |        - |       7,520 B |
+|    GroupByTake |            100 |      17.086 μs |      0.3415 μs |      0.4441 μs |     0.0907 μs |      17.042 μs |      16.505 μs |      18.253 μs |      16.747 μs |      17.365 μs |  58,528.601 |  1.00 |    0.00 |    2 |     2.1362 |    0.0610 |        - |      13,448 B |
+|                |                |                |                |                |               |                |                |                |                |                |             |       |         |      |            |           |          |               |
+| DistinctByTake |           1000 |     101.868 μs |      1.5314 μs |      1.3576 μs |     0.3628 μs |     102.151 μs |      99.215 μs |     104.123 μs |     101.295 μs |     102.330 μs |   9,816.579 |  0.61 |    0.02 |    1 |    11.5967 |    0.6104 |        - |      73,296 B |
+|   DistinctTake |           1000 |     106.535 μs |      2.1069 μs |      2.1636 μs |     0.5248 μs |     107.009 μs |     102.415 μs |     111.391 μs |     104.926 μs |     107.641 μs |   9,386.562 |  0.64 |    0.02 |    2 |    11.5967 |    0.6104 |        - |      73,296 B |
+|    GroupByTake |           1000 |     166.259 μs |      3.2431 μs |      3.1851 μs |     0.7963 μs |     166.492 μs |     159.771 μs |     170.822 μs |     164.465 μs |     167.776 μs |   6,014.711 |  1.00 |    0.00 |    3 |    19.2871 |    4.1504 |        - |     121,440 B |
+|                |                |                |                |                |               |                |                |                |                |                |             |       |         |      |            |           |          |               |
+| DistinctByTake |          10000 |   1,126.477 μs |     18.9909 μs |     34.2446 μs |     5.3481 μs |   1,110.716 μs |   1,084.926 μs |   1,202.337 μs |   1,102.101 μs |   1,151.692 μs |     887.724 |  0.31 |    0.01 |    1 |    93.7500 |   58.5938 |  52.7344 |     673,429 B |
+|   DistinctTake |          10000 |   1,137.627 μs |     20.1265 μs |     30.1244 μs |     5.4999 μs |   1,123.158 μs |   1,102.933 μs |   1,204.875 μs |   1,115.840 μs |   1,156.437 μs |     879.023 |  0.31 |    0.01 |    1 |    93.7500 |   56.6406 |  52.7344 |     673,460 B |
+|    GroupByTake |          10000 |   3,688.942 μs |     73.4129 μs |    114.2950 μs |    20.2047 μs |   3,696.741 μs |   3,434.869 μs |   3,864.226 μs |   3,606.799 μs |   3,786.186 μs |     271.080 |  1.00 |    0.00 |    2 |   226.5625 |  128.9063 |  54.6875 |   1,405,196 B |
+|                |                |                |                |                |               |                |                |                |                |                |             |       |         |      |            |           |          |               |
+|   DistinctTake |         100000 |  14,288.438 μs |    270.2789 μs |    277.5565 μs |    67.3173 μs |  14,365.931 μs |  13,338.231 μs |  14,569.948 μs |  14,296.480 μs |  14,412.896 μs |      69.987 |  0.30 |    0.01 |    1 |   140.6250 |  109.3750 | 109.3750 |   6,038,081 B |
+| DistinctByTake |         100000 |  15,221.219 μs |    237.0035 μs |    462.2571 μs |    67.4271 μs |  15,084.564 μs |  14,761.388 μs |  16,672.484 μs |  14,964.976 μs |  15,211.807 μs |      65.698 |  0.32 |    0.01 |    2 |   140.6250 |  109.3750 | 109.3750 |   6,038,081 B |
+|    GroupByTake |         100000 |  47,803.171 μs |    901.8992 μs |    965.0221 μs |   227.4579 μs |  48,077.263 μs |  45,619.199 μs |  49,057.364 μs |  47,204.383 μs |  48,446.921 μs |      20.919 |  1.00 |    0.00 |    3 |  1500.0000 |  600.0000 | 100.0000 |  12,995,896 B |
+|                |                |                |                |                |               |                |                |                |                |                |             |       |         |      |            |           |          |               |
+|   DistinctTake |        1000000 | 205,054.804 μs |  1,822.9504 μs |  1,705.1889 μs |   440.2779 μs | 205,165.394 μs | 202,182.739 μs | 207,983.912 μs | 204,012.866 μs | 206,037.224 μs |       4.877 |  0.28 |    0.01 |    1 |          - |         - |        - |  53,889,195 B |
+| DistinctByTake |        1000000 | 223,898.589 μs |  1,713.8574 μs |  1,603.1433 μs |   413.9298 μs | 223,712.208 μs | 220,147.633 μs | 226,609.389 μs | 223,233.048 μs | 224,683.063 μs |       4.466 |  0.31 |    0.01 |    2 |          - |         - |        - |  53,888,976 B |
+|    GroupByTake |        1000000 | 730,137.508 μs | 14,225.7276 μs | 18,497.4642 μs | 3,775.7791 μs | 724,330.003 μs | 709,387.172 μs | 770,729.582 μs | 713,686.034 μs | 743,436.696 μs |       1.370 |  1.00 |    0.00 |    3 | 14000.0000 | 5000.0000 |        - | 121,556,320 B |
 
-### * Hints *
 Outliers
 
-GroupByTest.GroupByTake: Default    -> 8 outliers were removed (34.14 ms..51.22 ms)
+GroupByTest.DistinctByTake: Default ->  1 outlier  was  removed (1.29 us)
 
-GroupByTest.DistinctByTake: Default -> 1 outlier  was  removed (8.68 ms)
+GroupByTest.GroupByTake: Default    ->  1 outlier  was  removed (2.06 us)
 
-GroupByTest.DistinctTake: Default   -> 2 outliers were removed (8.62 ms, 8.89 ms)
+GroupByTest.DistinctByTake: Default ->  1 outlier  was  removed, 2 outliers were detected (99.22 us, 104.55 us)
 
-### * Legends *
+GroupByTest.DistinctByTake: Default ->  4 outliers were removed (1.26 ms..1.41 ms)
 
-Mean      : Arithmetic mean of all measurements
+GroupByTest.DistinctTake: Default   ->  3 outliers were removed (1.24 ms..1.28 ms)
 
-Error     : Half of 99.9% confidence interval
+GroupByTest.DistinctTake: Default   ->  2 outliers were removed, 4 outliers were detected (13.34 ms, 13.95 ms, 14.74 ms, 14.76 ms)
 
-StdDev    : Standard deviation of all measurements
+GroupByTest.DistinctByTake: Default ->  8 outliers were removed (16.97 ms..17.71 ms)
 
-Ratio     : Mean of the ratio distribution ([Current]/[Baseline])
+GroupByTest.GroupByTake: Default    ->  2 outliers were removed (53.23 ms, 53.73 ms)
 
-Gen 0     : GC Generation 0 collects per 1000 operations
+GroupByTest.DistinctByTake: Default ->  1 outlier  was  detected (220.15 ms)
 
-Gen 1     : GC Generation 1 collects per 1000 operations
-
-Gen 2     : GC Generation 2 collects per 1000 operations
-
-Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
-
-1 ms      : 1 Millisecond (0.001 sec)
+GroupByTest.GroupByTake: Default    ->  1 outlier  was  removed (791.74 ms)
