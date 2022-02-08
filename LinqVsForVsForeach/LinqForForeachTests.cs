@@ -1,11 +1,14 @@
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Exporters.Csv;
 using Bogus;
 
 namespace LinqVsForVsForeach;
 
-[MemoryDiagnoser(true)]
+[MemoryDiagnoser]
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class LinqForForeachTests
 {
     [Params(10, 100, 1000, 10000, 100000, 1000000)]
@@ -13,7 +16,8 @@ public class LinqForForeachTests
 
     private readonly Consumer _consumer = new();
 
-    private TestModel[] _testInputModels;
+    // Remark : hack to shut up compiler.
+    private TestModel?[] _testInputModels = default!;
     
     [GlobalCleanup]
     public void GlobalCleanup()

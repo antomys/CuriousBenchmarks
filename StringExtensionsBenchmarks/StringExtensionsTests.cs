@@ -1,10 +1,13 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Exporters.Csv;
 using StringExtensionsBenchmarks.StringExtensions;
 
 namespace StringExtensionsBenchmarks;
 
 [MemoryDiagnoser]
-public class GenericTestClass
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+public class StringExtensionsTests
 {
    private readonly string[] _testStringArray = {
       "TEst string first one 11111",

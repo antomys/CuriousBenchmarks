@@ -1,27 +1,17 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Exporters.Csv;
 
 namespace BoxingUnboxingBenchmarks;
 
-internal enum TestEnum
-{
-    None = 0,
-    Something = 1,
-    Anything = 2,
-    None1 = 3,
-    Something1 = 4,
-    Anything1 = 5,
-    None11 = 6,
-    Something11 = 7,
-    Anything11 = 8,
-    None111 = 9,
-    Something111 = 11,
-    Anything111 = 10,
-}
-
 [MemoryDiagnoser]
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class EnumUnboxingTesting
 {
-    private static readonly TestEnum[] _testEnums = {
+    private readonly Consumer _consumer = new();
+    
+    private static readonly TestEnum[] TestEnums = {
         TestEnum.None,
         TestEnum.None1,
         TestEnum.None11,
@@ -39,36 +29,36 @@ public class EnumUnboxingTesting
     [Benchmark]
     public void UnboxByString()
     {
-        foreach (var @enum in _testEnums)
+        foreach (var @enum in TestEnums)
         {
-            @enum.ToString("D");
+            @enum.ToString("D").Consume(_consumer);
         }
     }
 
     [Benchmark]
     public void UnboxByCast()
     {
-        foreach (var @enum in _testEnums)
+        foreach (var @enum in TestEnums)
         {
-            ((int) @enum).ToString();
+            ((int) @enum).ToString().Consume(_consumer);
         }
     }
 
     [Benchmark]
     public void EnumToString()
     {
-        foreach (var @enum in _testEnums)
+        foreach (var @enum in TestEnums)
         {
-            @enum.ToString();
+            @enum.ToString().Consume(_consumer);
         }
     }
     
     [Benchmark]
     public void EnumGetName()
     {
-        foreach (var @enum in _testEnums)
+        foreach (var @enum in TestEnums)
         {
-            Enum.GetName(@enum);
+            Enum.GetName(@enum).Consume(_consumer);
         }
     }
 }

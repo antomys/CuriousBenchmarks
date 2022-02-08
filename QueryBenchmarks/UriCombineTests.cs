@@ -1,14 +1,20 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Exporters.Csv;
 
 namespace QueryBenchmarks;
 
 [MemoryDiagnoser]
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class UriCombineTests
 {
     private readonly Uri _defaultUri = new("https://datausa.io/");
     private const string AdditionalPiece = "/api/data/Something/Else";
     private static string? _absoluteUri;
     private const char PathDelimiter = '/';
+
+    private readonly Consumer _consumer = new();
 
     public UriCombineTests()
     {
@@ -18,49 +24,49 @@ public class UriCombineTests
     [Benchmark]
     public void NewUri()
     {
-        var newUri = new Uri(_defaultUri, AdditionalPiece);
+        var _ = new Uri(_defaultUri, AdditionalPiece);
     }
     
     [Benchmark]
     public void NewUriStringCombine()
     {
-        var newUri = Combine(_defaultUri.ToString(), AdditionalPiece);
+        Combine(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
     }
 
     [Benchmark]
     public void NewUriOfficeDevPnP()
     {
-        var newUri = CombineV2(_defaultUri.ToString(), AdditionalPiece);
+        CombineV2(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
     }
     
     [Benchmark]
     public void NewUriCombineUriBuilderToString()
     {
-        var newUri = CombineUrl(_defaultUri.ToString(), AdditionalPiece);
+        CombineUrl(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
     }
     
     [Benchmark]
     public void NewUriCombineUriBuilder()
     {
-        var newUri = CombineUrl(_defaultUri, AdditionalPiece);
+        CombineUrl(_defaultUri, AdditionalPiece).Consume(_consumer);
     }
     
     [Benchmark]
     public void NewUriCombineFormatAndNewUri()
     {
-        var newUri = Append(_defaultUri, AdditionalPiece);
+        var _ = Append(_defaultUri, AdditionalPiece);
     }
     
     [Benchmark]
     public void NewUriCombineFormatAndNoUri()
     {
-        var newUri = AppendFast(_defaultUri, AdditionalPiece);
+        AppendFast(_defaultUri, AdditionalPiece).Consume(_consumer);
     }
     
     [Benchmark]
     public void NewUriCombineFormatAndNoUriCached()
     {
-        var newUri = AppendFastCached(AdditionalPiece);
+        AppendFastCached(AdditionalPiece).Consume(_consumer);
     }
 
     private static string Combine(string uri1, string uri2)
@@ -128,11 +134,6 @@ public class UriCombineTests
 
     private static string CombineV2(string path, string relative) 
     {
-        
-        relative ??= string.Empty;
-
-        path ??= string.Empty;
-
         switch (relative.Length)
         {
             case 0 when path.Length == 0:

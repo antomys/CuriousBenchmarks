@@ -1,11 +1,14 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Exporters.Csv;
 using Bogus;
 using GroupByOrDistinctBenchmarks.TestModels;
 
 namespace GroupByOrDistinctBenchmarks;
 
 [MemoryDiagnoser]
+[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class GroupByTest
 {
     private readonly Consumer _consumer = new();
