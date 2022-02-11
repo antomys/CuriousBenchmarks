@@ -29,11 +29,6 @@ public static class OldStringExtensions
     
     private static string GenerateSlug(this string phrase)
     {
-        if (string.IsNullOrWhiteSpace(phrase))
-        {
-            throw new ArgumentNullException(nameof(phrase));
-        }
-
         phrase = SlugRegexes[RegexEnum.InvalidCharsRegex].Replace(phrase, string.Empty);
         phrase = SlugRegexes[RegexEnum.MultilineRegex].Replace(phrase, WhiteSpaceDelimiter).Trim();
         phrase = SlugRegexes[RegexEnum.HyphenRegex].Replace(phrase, DashDelimiter);

@@ -135,4 +135,50 @@ public class SerializationBenchmarks
 
         return MessagePackSerializer.ConvertToJson(serialized);
     }
+    
+    [BenchmarkCategory("Async Stream"), Benchmark(Baseline = true)]
+    public MemoryStream ClassicSerializerAsync()
+    {
+        var memoryStream = new MemoryStream();
+        JsonSerializer.SerializeAsync(memoryStream, _persons, _options);
+
+        return memoryStream;
+    }
+    
+    [BenchmarkCategory("Async Stream"), Benchmark]
+    public async Task<MemoryStream> GeneratedSerializerAsync()
+    {
+        var memoryStream = new MemoryStream();
+        
+        await JsonSerializer.SerializeAsync(memoryStream, _persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
+
+        return memoryStream;
+    }
+    
+    [BenchmarkCategory("Async Stream"), Benchmark]
+    public async Task<MemoryStream> Utf8StreamSerializerAsync()
+    {
+        var memoryStream = new MemoryStream();
+        await Utf8Json.JsonSerializer.SerializeAsync(memoryStream, _persons);
+
+        return memoryStream;
+    }
+    
+    [BenchmarkCategory("Async Stream"), Benchmark]
+    public async Task<MemoryStream> SpanJsonStreamSerializerAsync()
+    {
+        var memoryStream = new MemoryStream();
+        await SpanJson.JsonSerializer.Generic.Utf8.SerializeAsync(_persons, memoryStream);
+
+        return memoryStream;
+    }
+    
+    [BenchmarkCategory("Async Stream"), Benchmark]
+    public async Task<MemoryStream> MsgPackStreamSerializerAsync()
+    {
+        var memoryStream = new MemoryStream();
+        await MessagePackSerializer.SerializeAsync(memoryStream, _persons);
+
+        return memoryStream;
+    }
 }
