@@ -11,7 +11,7 @@ namespace GroupByOrDistinctBenchmarks;
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
-public class GroupByTest
+public class DistinctGroupByBenchmarks
 {
     // Intentionally left public for BenchmarkDotNet Params.
     [Params(10,100,1000,10000,100000,1000000)]

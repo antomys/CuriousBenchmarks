@@ -1,8 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 using JsonBenchmarks;
+using JsonBenchmarks.Benchmarks;
 
-var _ = BenchmarkRunner.Run<DeserializationBenchmarks>();
+BenchmarkRunner.Run<DeserializationBenchmarks>();
 
 BenchmarkRunner.Run<SerializationBenchmarks>();

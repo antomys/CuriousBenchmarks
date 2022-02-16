@@ -1,4 +1,4 @@
-namespace StringExtensionsBenchmarks;
+namespace StringExtensionsBenchmarks.Models;
 
 internal class StringsTestModel
 {

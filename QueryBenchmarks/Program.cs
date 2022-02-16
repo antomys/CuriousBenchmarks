@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
-using QueryBenchmarks;
+using QueryBenchmarks.Benchmarks;
 
-var _ = BenchmarkRunner.Run<UriCombineTests>();
+BenchmarkRunner.Run<UriCombineBenchmarks>();
 
-BenchmarkRunner.Run<QueryBuilderTests>();
+BenchmarkRunner.Run<QueryBuilderBenchmarks>();

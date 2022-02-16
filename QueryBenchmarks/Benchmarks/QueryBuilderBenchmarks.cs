@@ -5,13 +5,13 @@ using BenchmarkDotNet.Order;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace QueryBenchmarks;
+namespace QueryBenchmarks.Benchmarks;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [JsonExporterAttribute.Full, MarkdownExporterAttribute.GitHub]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-public class QueryBuilderTests
+public class QueryBuilderBenchmarks
 {
     private const string Url = "https://datausa.io/api/data";
     private static readonly StringBuilder StringBuilder = new("?");

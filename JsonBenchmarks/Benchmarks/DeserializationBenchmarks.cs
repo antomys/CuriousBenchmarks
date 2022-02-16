@@ -6,7 +6,7 @@ using BenchmarkDotNet.Order;
 using Bogus;
 using MessagePack;
 
-namespace JsonBenchmarks;
+namespace JsonBenchmarks.Benchmarks;
 
 [MemoryDiagnoser]
 [CategoriesColumn]

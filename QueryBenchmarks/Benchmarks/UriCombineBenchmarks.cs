@@ -3,13 +3,13 @@ using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 
-namespace QueryBenchmarks;
+namespace QueryBenchmarks.Benchmarks;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
-public class UriCombineTests
+public class UriCombineBenchmarks
 {
     private readonly Uri _defaultUri = new("https://datausa.io/");
     private const string AdditionalPiece = "/api/data/Something/Else";
@@ -18,7 +18,7 @@ public class UriCombineTests
 
     private readonly Consumer _consumer = new();
 
-    public UriCombineTests()
+    public UriCombineBenchmarks()
     {
         _absoluteUri = _defaultUri.AbsoluteUri;
     }

@@ -1,25 +1,17 @@
-using System.Buffers;
 using System.Globalization;
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 namespace StringExtensionsBenchmarks.StringExtensions;
 
 /// <summary>
 /// Additional extensions to manipulate with strings.
 /// </summary>
-public static class StringExtensions
+public static class SpanOwnerStringExtensions
 {
-    internal const string DashedViewDelimiter = " - ";
-
-    internal const char Space = ' ';
-
-    internal const char LinkDelimiter = '-';
-
-    internal const char UrlDelimiter = '/';
-    
     /// <summary>
     /// Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
     /// </summary>
-    private const ushort MaxByteSize = 128;
+    private const ushort MaxByteSize = 64;
 
     /// <summary>
     /// Counts occurence of char in string. Probably, fastest way to do this.
@@ -44,16 +36,16 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// Creates a new string from input params strings with <see cref="DashedViewDelimiter"/> between. <br/>
+    /// Creates a new string from input params strings with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
     /// Uses inside string.Join. Slightly slower that ToDashFormatV2 but still relevant.
     /// </summary>
     /// <param name="inputValues">Input string parameters.</param>
-    /// <returns>New created <see cref="string"/> formatted with <see cref="DashedViewDelimiter"/>.</returns>
+    /// <returns>New created <see cref="string"/> formatted with <see cref="Constants.DashedViewDelimiter"/>.</returns>
     public static string ToDashFormat(this string[] inputValues)
-        => string.Join(DashedViewDelimiter, inputValues);
+        => string.Join(Constants.DashedViewDelimiter, inputValues);
 
     /// <summary>
-    /// Creates a new string from input string with <see cref="DashedViewDelimiter"/> between. <br/>
+    /// Creates a new string from input string with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
     /// Inside uses method string.Create with a callback to create a new string (slightly faster than ToDashFormatV2 method).
     /// </summary>
     /// <param name="input1">First <see cref="string"/> value</param>
@@ -63,7 +55,7 @@ public static class StringExtensions
     /// New created <see cref="string"/> New formatted string.
     /// </returns>
     public static string ToDashFormat(this string input1, string input2) =>
-        string.Create(input1.Length + input2.Length + DashedViewDelimiter.Length, (value0: input1, input2), (span, valueTuple) =>
+        string.Create(input1.Length + input2.Length + Constants.DashedViewDelimiter.Length, (value0: input1, input2), (span, valueTuple) =>
         {
             var index = 0;
             var (val0, val1) = valueTuple;
@@ -71,38 +63,33 @@ public static class StringExtensions
             val0.CopyTo(span);
             index += val0.Length;
 
-            DashedViewDelimiter.CopyTo(span[index..]);
-            index += DashedViewDelimiter.Length;
+            Constants.DashedViewDelimiter.CopyTo(span[index..]);
+            index += Constants.DashedViewDelimiter.Length;
 
             val1.CopyTo(span[index..]);
         });
 
     /// <summary>
     /// Creates slug from input parameters.
-    /// Lowers string and places <see cref="LinkDelimiter"/> between.
+    /// Lowers string and places <see cref="Constants.LinkDelimiter"/> between.
     /// </summary>
     /// <param name="input1">First input string. Cannot be null.</param>
     /// <param name="input2">Second input string. Can be null.</param>
     /// <param name="input3">Third input string. Can be null.</param>
-    /// <returns>Formatted (slugify) string using <see cref="LinkDelimiter"/>.</returns>
+    /// <returns>Formatted (slugify) string using <see cref="Constants.LinkDelimiter"/>.</returns>
     public static string ToLinkFormat(this string input1, string? input2 = default, string? input3 = default)
     {
-        if (!string.IsNullOrEmpty(input2))
-        {
-            return InternalToLinkFormat(input1, input2);
-        }
-
         if (!string.IsNullOrEmpty(input2) && !string.IsNullOrEmpty(input3))
         {
             return InternalToLinkFormat(input1, input2, input3);
         }
 
-        return InternalToLinkFormat(input1);
+        return !string.IsNullOrEmpty(input2) ? InternalToLinkFormat(input1, input2) : InternalToLinkFormat(input1);
     }
 
     /// <summary>
     ///     Creates slug from array of input strings.
-    ///     Lowers string and places <see cref="LinkDelimiter"/> between.
+    ///     Lowers string and places <see cref="Constants.LinkDelimiter"/> between.
     /// </summary>
     /// <param name="inputStrings">Array of input string variables.</param>
     /// <returns>New Formatter slug <see cref="string"/>.</returns>
@@ -119,30 +106,23 @@ public static class StringExtensions
         var overallLength = GetLength(inputStrings, 1);
         var isStackAlloc = overallLength <= MaxByteSize;
         var currentPosition = 0;
-
-        var resultSpan = isStackAlloc
-            ? stackalloc char[overallLength]
-            : ArrayPool<char>.Shared.Rent(overallLength);
-
+        
+        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
+        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        
         for (var i = 0; i < inputStrings.Length - 1; i++)
         {
-            BuildPart(inputStrings[i], resultSpan, ref currentPosition, LinkDelimiter);
+            BuildPart(inputStrings[i], resultSpan, ref currentPosition, Constants.LinkDelimiter);
         }
 
         BuildPart(inputStrings[^1], resultSpan, ref currentPosition);
 
         RemoveSpaces(resultSpan, ref currentPosition);
 
-        if (isStackAlloc)
-        {
-            return resultSpan.ToString();
-        }
+        return resultSpan.Length == overallLength 
+            ? resultSpan.ToString() 
+            : resultSpan[..overallLength].ToString();
 
-        var result = resultSpan.ToString();
-
-        ArrayPool<char>.Shared.Return(resultSpan.ToArray());
-
-        return result;
     }
 
     private static string InternalToLinkFormat(string input1)
@@ -151,80 +131,60 @@ public static class StringExtensions
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
-        var resultSpan = isStackAlloc
-            ? stackalloc char[overallLength]
-            : ArrayPool<char>.Shared.Rent(overallLength);
 
-        BuildPart(input1, resultSpan, ref currentPosition, LinkDelimiter);
+        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
+        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
 
         RemoveSpaces(resultSpan, ref currentPosition);
 
-        if (isStackAlloc)
-        {
-            return resultSpan.ToString();
-        }
-
-        var result = resultSpan.ToString();
-
-        ArrayPool<char>.Shared.Return(resultSpan.ToArray());
-
-        return result;
+        return resultSpan.Length == overallLength 
+            ? resultSpan.ToString() 
+            : resultSpan[..overallLength].ToString();
     }
 
     private static string InternalToLinkFormat(string input1, string input2)
     {
-        var overallLength = input1.Length;
+        var overallLength = input1.Length + input2.Length + 1;
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
-        var resultSpan = isStackAlloc
-            ? stackalloc char[overallLength]
-            : ArrayPool<char>.Shared.Rent(overallLength);
 
-        BuildPart(input1, resultSpan, ref currentPosition, LinkDelimiter);
+        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
+        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
         BuildPart(input2, resultSpan, ref currentPosition);
 
         RemoveSpaces(resultSpan, ref currentPosition);
 
-        if (isStackAlloc)
-        {
-            return resultSpan.ToString();
-        }
+        return resultSpan.Length == overallLength 
+            ? resultSpan.ToString() 
+            : resultSpan[..overallLength].ToString();
 
-        var result = resultSpan.ToString();
-
-        ArrayPool<char>.Shared.Return(resultSpan.ToArray());
-
-        return result;
     }
 
     private static string InternalToLinkFormat(string input1, string input2, string input3)
     {
-        var overallLength = input1.Length;
+        var overallLength = input1.Length + input2.Length + input3.Length + 2;
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
-        var resultSpan = isStackAlloc
-            ? stackalloc char[overallLength]
-            : ArrayPool<char>.Shared.Rent(overallLength);
 
-        BuildPart(input1, resultSpan, ref currentPosition, LinkDelimiter);
-        BuildPart(input2, resultSpan, ref currentPosition, LinkDelimiter);
+        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
+        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        BuildPart(input2, resultSpan, ref currentPosition, Constants.LinkDelimiter);
         BuildPart(input3, resultSpan, ref currentPosition);
 
         RemoveSpaces(resultSpan, ref currentPosition);
 
-        if (isStackAlloc)
-        {
-            return resultSpan.ToString();
+        return resultSpan.Length == overallLength 
+            ? resultSpan.ToString() 
+            : resultSpan[..overallLength].ToString();
         }
-
-        var result = resultSpan.ToString();
-
-        ArrayPool<char>.Shared.Return(resultSpan.ToArray());
-
-        return result;
-    }
 
     /// <summary>
     /// Method to retrieve overall length of all array values.
@@ -265,8 +225,8 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// Method that removed <see cref="Space"/> from <see cref="Span{T}"/> and
-    /// changes into <see cref="LinkDelimiter"/>.
+    /// Method that removed <see cref="Constants.Space"/> from <see cref="Span{T}"/> and
+    /// changes into <see cref="Constants.LinkDelimiter"/>.
     /// </summary>
     /// <param name="globalSpan">Span of chars.</param>
     /// <param name="currentPosition">Global indexer for globalSpan.</param>
@@ -274,7 +234,7 @@ public static class StringExtensions
     {
         var remaining = globalSpan[..currentPosition];
 
-        var indexOfSpace = remaining.IndexOf(Space);
+        var indexOfSpace = remaining.IndexOf(Constants.Space);
 
         if (indexOfSpace < 0)
         {
@@ -283,9 +243,9 @@ public static class StringExtensions
 
         while (indexOfSpace != -1)
         {
-            remaining[indexOfSpace] = LinkDelimiter;
+            remaining[indexOfSpace] = Constants.LinkDelimiter;
             remaining = remaining[(indexOfSpace + 1)..];
-            indexOfSpace = remaining.IndexOf(Space);
+            indexOfSpace = remaining.IndexOf(Constants.Space);
         }
     }
 }

@@ -1,6 +1,12 @@
 ﻿using BenchmarkDotNet.Running;
-using StringExtensionsBenchmarks;
+using StringExtensionsBenchmarks.Benchmarks;
+using StringExtensionsBenchmarks.StringExtensions;
 
-var _ = BenchmarkRunner.Run<StringExtensionsTests>();
 
-BenchmarkRunner.Run<InterpolationTests>();
+// BenchmarkRunner.Run<GenuineStringExtensionsBenchmarks>();
+//
+// BenchmarkRunner.Run<StackStringExtensionsBenchmarks>();
+//
+// BenchmarkRunner.Run<InterpolationBenchmarks>();
+
+BenchmarkRunner.Run<StringGenerationBenchmarks>();
