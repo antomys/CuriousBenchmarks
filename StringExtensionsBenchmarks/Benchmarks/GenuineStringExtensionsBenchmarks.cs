@@ -37,7 +37,7 @@ public class GenuineStringExtensionsBenchmarks
    }
 
    [BenchmarkCategory("LinkFormat"), Benchmark]
-   public void GenerateLinkFormatNewSpanOwner()
+   public void GenerateLinkFormatSpanOwner()
    {
       _testStringArray
          .Select(x => SpanOwnerStringExtensions.ToLinkFormat(x.Values))
@@ -53,7 +53,7 @@ public class GenuineStringExtensionsBenchmarks
    }
    
    [BenchmarkCategory("DashView"), Benchmark]
-   public void GenerateDashFormatNativeSpanOwner()
+   public void GenerateDashFormatSpanOwner()
    {
       _testStringArray
          .Select(x => SpanOwnerStringExtensions.ToDashFormat(x.Values))
@@ -61,10 +61,10 @@ public class GenuineStringExtensionsBenchmarks
    }
 
    [BenchmarkCategory("DashView"), Benchmark]
-   public void GenerateDashFormatTwoValuesSpanOwner()
+   public void GenerateDashFormatArrayPool()
    {
       _testStringArray
-         .Select(x => SpanOwnerStringExtensions.ToDashFormat(x.Values))
+         .Select(x => ArrayPoolStringExtensions.ToDashFormat(x.Values))
          .Consume(_consumer);
    }
 }
