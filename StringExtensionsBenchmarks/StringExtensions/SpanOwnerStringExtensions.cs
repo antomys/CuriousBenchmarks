@@ -4,17 +4,17 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 namespace StringExtensionsBenchmarks.StringExtensions;
 
 /// <summary>
-/// Additional extensions to manipulate with strings.
+///     Additional extensions to manipulate with strings.
 /// </summary>
 public static class SpanOwnerStringExtensions
 {
     /// <summary>
-    /// Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
+    ///     Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
     /// </summary>
     private const ushort MaxByteSize = 64;
 
     /// <summary>
-    /// Counts occurence of char in string. Probably, fastest way to do this.
+    ///     Counts occurence of char in string. Probably, fastest way to do this.
     /// </summary>
     /// <param name="rawString">string, where to seek</param>
     /// <param name="function">function, char that should be seeked in string</param>
@@ -36,8 +36,8 @@ public static class SpanOwnerStringExtensions
     }
 
     /// <summary>
-    /// Creates a new string from input params strings with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
-    /// Uses inside string.Join. Slightly slower that ToDashFormatV2 but still relevant.
+    ///     Creates a new string from input params strings with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
+    ///     Uses inside string.Join. Slightly slower that ToDashFormatV2 but still relevant.
     /// </summary>
     /// <param name="inputValues">Input string parameters.</param>
     /// <returns>New created <see cref="string"/> formatted with <see cref="Constants.DashedViewDelimiter"/>.</returns>
@@ -45,8 +45,8 @@ public static class SpanOwnerStringExtensions
         => string.Join(Constants.DashedViewDelimiter, inputValues);
 
     /// <summary>
-    /// Creates a new string from input string with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
-    /// Inside uses method string.Create with a callback to create a new string (slightly faster than ToDashFormatV2 method).
+    ///     Creates a new string from input string with <see cref="Constants.DashedViewDelimiter"/> between. <br/>
+    ///     Inside uses method string.Create with a callback to create a new string (slightly faster than ToDashFormatV2 method).
     /// </summary>
     /// <param name="input1">First <see cref="string"/> value</param>
     /// <param name="input2">Second <see cref="string"/> value</param>
@@ -70,8 +70,8 @@ public static class SpanOwnerStringExtensions
         });
 
     /// <summary>
-    /// Creates slug from input parameters.
-    /// Lowers string and places <see cref="Constants.LinkDelimiter"/> between.
+    ///     Creates slug from input parameters.
+    ///     Lowers string and places <see cref="Constants.LinkDelimiter"/> between.
     /// </summary>
     /// <param name="input1">First input string. Cannot be null.</param>
     /// <param name="input2">Second input string. Can be null.</param>
@@ -187,7 +187,7 @@ public static class SpanOwnerStringExtensions
         }
 
     /// <summary>
-    /// Method to retrieve overall length of all array values.
+    ///     Method to retrieve overall length of all array values.
     /// </summary>
     /// <param name="inputStrings">Collection of input strings.</param>
     /// <param name="fixedLength">Fixed length to be added to the overall length (delimiter length). By default - 0.</param>
@@ -205,7 +205,7 @@ public static class SpanOwnerStringExtensions
     }
 
     /// <summary>
-    /// Builds part of global span from input string variable.
+    ///     Builds part of global span from input string variable.
     /// </summary>
     /// <param name="input">Input string variable.</param>
     /// <param name="overallSpan">Global <see cref="Span{T}"/>.</param>
@@ -225,8 +225,8 @@ public static class SpanOwnerStringExtensions
     }
 
     /// <summary>
-    /// Method that removed <see cref="Constants.Space"/> from <see cref="Span{T}"/> and
-    /// changes into <see cref="Constants.LinkDelimiter"/>.
+    ///     Method that removed <see cref="Constants.Space"/> from <see cref="Span{T}"/> and
+    ///     changes into <see cref="Constants.LinkDelimiter"/>.
     /// </summary>
     /// <param name="globalSpan">Span of chars.</param>
     /// <param name="currentPosition">Global indexer for globalSpan.</param>

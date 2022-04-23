@@ -1,6 +1,6 @@
 namespace StringExtensionsBenchmarks.Models;
 
-public class InterpolationModel
+public sealed class InterpolationModel
 {
     public string FirstValue { get; set; }
     

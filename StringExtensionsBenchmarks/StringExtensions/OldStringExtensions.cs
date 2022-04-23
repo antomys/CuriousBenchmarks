@@ -31,7 +31,7 @@ public static class OldStringExtensions
         => string.Join(Constants.Space, inputValues);
 
     /// <summary>
-    /// Counts occurence of char in string. Probably, fastest way to do this.
+    ///     Counts occurence of char in string. Probably, fastest way to do this.
     /// </summary>
     /// <param name="rawString">string, where to seek</param>
     /// <param name="function">function, char that should be seeked in string</param>

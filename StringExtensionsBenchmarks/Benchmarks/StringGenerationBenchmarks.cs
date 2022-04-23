@@ -6,8 +6,6 @@ using BenchmarkDotNet.Order;
 using MlkPwgen;
 using StringExtensionsBenchmarks.StringExtensions;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace StringExtensionsBenchmarks.Benchmarks;
 
 [MemoryDiagnoser]

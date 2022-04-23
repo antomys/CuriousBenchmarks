@@ -9,7 +9,7 @@
     
     <ItemGroup>
       <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-      <PackageReference Include="Bogus" Version="34.0.1" />
+      <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
       <PackageReference Include="MlkPwgen" Version="0.3.0" />
     </ItemGroup>

@@ -7,8 +7,6 @@ using Bogus;
 using StringExtensionsBenchmarks.Models;
 using StringExtensionsBenchmarks.StringExtensions;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace StringExtensionsBenchmarks.Benchmarks;
 
 [MemoryDiagnoser]

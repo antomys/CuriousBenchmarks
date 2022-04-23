@@ -4,10 +4,14 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
+using JsonBenchmarks.Models;
 using MessagePack;
 
 namespace JsonBenchmarks.Benchmarks;
 
+/// <summary>
+///     Deserialization benchmarks.
+/// </summary>
 [MemoryDiagnoser]
 [CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
@@ -16,6 +20,9 @@ namespace JsonBenchmarks.Benchmarks;
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class DeserializationBenchmarks
 {
+    /// <summary>
+    ///     Size of collection.
+    /// </summary>
     [Params(1000, 10000, 100000, 1000000)]
     public int CollectionSize { get; set; }
     
@@ -29,10 +36,13 @@ public class DeserializationBenchmarks
     private byte[] _personsByteArray = default!;
     private string _personsJilString = string.Empty;
 
+    /// <summary>
+    ///     Global setting up private fields.
+    /// </summary>
     [GlobalSetup]
     public void Setup()
     {
-        Faker<TestModel.TestModel> faker = new();
+        Faker<TestModel> faker = new();
         Randomizer.Seed = new Random(420);
         var persons = faker
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
@@ -47,45 +57,73 @@ public class DeserializationBenchmarks
         _personsJilString = Jil.JSON.Serialize(persons);
     }
 
+    /// <summary>
+    ///     Deserialize with System.Text.Json.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark(Baseline = true)]
-    public ICollection<TestModel.TestModel> ClassicDeserializer()
+    public ICollection<TestModel> ClassicDeserializer()
     {
-        return JsonSerializer.Deserialize<ICollection<TestModel.TestModel>>(_personsString, _options)!;
+        return JsonSerializer.Deserialize<ICollection<TestModel>>(_personsString, _options)!;
     }
     
+    /// <summary>
+    ///     Deserialize with System.Text.Json source gen.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> GeneratedDeserializer()
+    public ICollection<TestModel> GeneratedDeserializer()
     {
-        return JsonSerializer.Deserialize(_personsString, TestModel.TestModelJsonContext.Default.ICollectionTestModel)!;
+        return JsonSerializer.Deserialize(_personsString, TestModelJsonContext.Default.ICollectionTestModel)!;
     }
     
+    /// <summary>
+    ///     Deserialize with Newtonsoft.Json.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> NewtonsoftDeserializer()
+    public ICollection<TestModel> NewtonsoftDeserializer()
     {
-        return Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<TestModel.TestModel>>(_personsString)!;
+        return Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<TestModel>>(_personsString)!;
     }
     
+    /// <summary>
+    ///     Deserialize with Jil.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> JilDeserializer()
+    public ICollection<TestModel> JilDeserializer()
     {
-        return Jil.JSON.Deserialize<ICollection<TestModel.TestModel>>(_personsJilString)!;
+        return Jil.JSON.Deserialize<ICollection<TestModel>>(_personsJilString)!;
     }
     
+    /// <summary>
+    ///     Deserialize with Utf8Json.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> Utf8Deserializer()
+    public ICollection<TestModel> Utf8Deserializer()
     {
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<TestModel.TestModel>>(_personsString)!;
+        return Utf8Json.JsonSerializer.Deserialize<ICollection<TestModel>>(_personsString)!;
     }
     
+    /// <summary>
+    ///     Deserialize with SpanJson.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> SpanJsonDeserializer()
+    public ICollection<TestModel> SpanJsonDeserializer()
     {
-        return SpanJson.JsonSerializer.Generic.Utf16.Deserialize<ICollection<TestModel.TestModel>>(_personsString)!;
+        return SpanJson.JsonSerializer.Generic.Utf16.Deserialize<ICollection<TestModel>>(_personsString)!;
     }
     
+    /// <summary>
+    ///     Deserialize with MessagePack.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("String"), Benchmark]
-    public ICollection<TestModel.TestModel> MsgPackDeserializer()
+    public ICollection<TestModel> MsgPackDeserializer()
     {
-        return MessagePackSerializer.Deserialize<ICollection<TestModel.TestModel>>(_personsByteArray);
+        return MessagePackSerializer.Deserialize<ICollection<TestModel>>(_personsByteArray);
     }
 }

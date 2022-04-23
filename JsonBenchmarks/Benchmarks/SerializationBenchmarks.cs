@@ -5,10 +5,14 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
+using JsonBenchmarks.Models;
 using MessagePack;
 
 namespace JsonBenchmarks.Benchmarks;
 
+/// <summary>
+///     Serialization benchmarks.
+/// </summary>
 [MemoryDiagnoser]
 [CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
@@ -17,7 +21,10 @@ namespace JsonBenchmarks.Benchmarks;
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class SerializationBenchmarks
 {
-    // Intentionally left public for BenchmarkDotNet Params.
+    /// <summary>
+    ///     Size of generation.
+    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+    /// </summary>
     [Params(1000, 10000, 100000, 1000000)]
     public int CollectionSize { get; set; }
     
@@ -26,12 +33,15 @@ public class SerializationBenchmarks
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    private List<TestModel.TestModel> _persons = new();
+    private List<TestModel> _persons = new();
 
+    /// <summary>
+    ///     Setting private fields.
+    /// </summary>
     [GlobalSetup]
     public void Setup()
     {
-        Faker<TestModel.TestModel> faker = new();
+        Faker<TestModel> faker = new();
         Randomizer.Seed = new Random(420);
         _persons = faker
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
@@ -42,6 +52,10 @@ public class SerializationBenchmarks
             .Generate(CollectionSize);
     }
 
+    /// <summary>
+    ///     Serializes with System.Text.Json.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("Stream"), Benchmark(Baseline = true)]
     public MemoryStream ClassicSerializer()
     {
@@ -52,16 +66,24 @@ public class SerializationBenchmarks
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with System.Text.Json source gen.
+    /// </summary>
+    /// <returns></returns>
     [BenchmarkCategory("Stream"), Benchmark]
     public MemoryStream GeneratedSerializer()
     {
         var memoryStream = new MemoryStream();
         var jsonWriter = new Utf8JsonWriter(memoryStream);
-        JsonSerializer.Serialize(jsonWriter, _persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
+        JsonSerializer.Serialize(jsonWriter, _persons, TestModelJsonContext.Default.ICollectionTestModel);
 
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with Utf8Json.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Stream"), Benchmark]
     public MemoryStream Utf8StreamSerializer()
     {
@@ -71,6 +93,10 @@ public class SerializationBenchmarks
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Stream"), Benchmark]
     public MemoryStream MsgPackStreamSerializer()
     {
@@ -80,30 +106,50 @@ public class SerializationBenchmarks
         return memoryStream;
     }
 
+    /// <summary>
+    ///     Serializes with System.Text.Json.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark(Baseline = true)]
     public string ClassicStringSerializer()
     {
         return JsonSerializer.Serialize(_persons, _options);
     }
     
+    /// <summary>
+    ///     Serializes with System.Text.Json source gen.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string GeneratedStringSerializer()
     {
-        return JsonSerializer.Serialize(_persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
+        return JsonSerializer.Serialize(_persons, TestModelJsonContext.Default.ICollectionTestModel);
     }
     
+    /// <summary>
+    ///     Serializes with Newtonsoft.Json.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string NewtonsoftStringSerializer()
     {
         return Newtonsoft.Json.JsonConvert.SerializeObject(_persons);
     }
     
+    /// <summary>
+    ///     Serializes with Jil.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string JilStringSerializer()
     {
         return Jil.JSON.Serialize(_persons);
     }
     
+    /// <summary>
+    ///     Serializes with Utf8Json.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string Utf8JsonStringSerializer()
     {
@@ -112,6 +158,10 @@ public class SerializationBenchmarks
         return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
     }
     
+    /// <summary>
+    ///     Serializes with SpanJson to bytes.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string SpanJsonStringFromByteSerializer()
     {
@@ -120,6 +170,10 @@ public class SerializationBenchmarks
         return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
     }
     
+    /// <summary>
+    ///     Serializes with SpanJson to string.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string SpanJsonStringSerializer()
     {
@@ -128,6 +182,10 @@ public class SerializationBenchmarks
         return serialized;
     }
     
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("String"), Benchmark]
     public string MsgPackStringSerializer()
     {
@@ -136,6 +194,10 @@ public class SerializationBenchmarks
         return MessagePackSerializer.ConvertToJson(serialized);
     }
     
+    /// <summary>
+    ///     Serializes with System.Text.Json.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Async Stream"), Benchmark(Baseline = true)]
     public MemoryStream ClassicSerializerAsync()
     {
@@ -145,16 +207,24 @@ public class SerializationBenchmarks
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with System.Text.Json source gen.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Async Stream"), Benchmark]
     public async Task<MemoryStream> GeneratedSerializerAsync()
     {
         var memoryStream = new MemoryStream();
         
-        await JsonSerializer.SerializeAsync(memoryStream, _persons, TestModel.TestModelJsonContext.Default.ICollectionTestModel);
+        await JsonSerializer.SerializeAsync(memoryStream, _persons, TestModelJsonContext.Default.ICollectionTestModel);
 
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with Utf8Json.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Async Stream"), Benchmark]
     public async Task<MemoryStream> Utf8StreamSerializerAsync()
     {
@@ -164,6 +234,10 @@ public class SerializationBenchmarks
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with SpanJson.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Async Stream"), Benchmark]
     public async Task<MemoryStream> SpanJsonStreamSerializerAsync()
     {
@@ -173,6 +247,10 @@ public class SerializationBenchmarks
         return memoryStream;
     }
     
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory("Async Stream"), Benchmark]
     public async Task<MemoryStream> MsgPackStreamSerializerAsync()
     {

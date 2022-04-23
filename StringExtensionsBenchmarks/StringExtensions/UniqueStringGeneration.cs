@@ -35,7 +35,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="size">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -62,7 +62,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -87,7 +87,7 @@ public static class UniqueStringGeneration
     }
 
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -111,7 +111,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>

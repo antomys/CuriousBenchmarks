@@ -1,6 +1,6 @@
 namespace StringExtensionsBenchmarks.Models;
 
-internal class StringsTestModel
+internal sealed class StringsTestModel
 {
     public string[] Values { get; set; }
 }
