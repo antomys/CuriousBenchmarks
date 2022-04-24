@@ -7,11 +7,13 @@ using Bogus;
 using StringExtensionsBenchmarks.Models;
 using StringExtensionsBenchmarks.StringExtensions;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace StringExtensionsBenchmarks.Benchmarks;
 
+/// <summary>
+///      New set of benchmarks with new extensions.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
@@ -22,10 +24,17 @@ public class StackStringExtensionsBenchmarks
 
    private List<StringsTestModel> _testStringArray = null!;
    
-   // Intentionally left public for BenchmarkDotNet Params.
+   /// <summary>
+   ///     Parameter for models count.
+   ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+   /// </summary>
    [Params(10, 100, 1000, 10000, 100000, 1000000)]
+   // ReSharper disable once UnusedAutoPropertyAccessor.Global
    public int Count { get; set; }
    
+   /// <summary>
+   ///   Global setup.
+   /// </summary>
    [GlobalSetup]
    public void Setup()
    {
@@ -36,35 +45,47 @@ public class StackStringExtensionsBenchmarks
          .Generate(Count);
    }
    
-   [BenchmarkCategory("LinkFormat"), Benchmark(Baseline = true)]
+   /// <summary>
+   ///   Old method to generate link (ex: asd-ada).
+   /// </summary>
+   [BenchmarkCategory("Link Format"), Benchmark(Baseline = true)]
    public void GenerateLinkFormatOld()
    {
       _testStringArray
-         .Select(x=> OldStringExtensions.ToLinkFormat(x.Values))
+         .Select(stringsTestModel=> OldStringExtensions.ToLinkFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
    
-   [BenchmarkCategory("LinkFormat"), Benchmark]
+   /// <summary>
+   ///   New method to generate link (ex: asd-ada).
+   /// </summary>
+   [BenchmarkCategory("Link Format"), Benchmark]
    public void GenerateLinkFormatNew()
    {
       _testStringArray
-         .Select(x => ArrayPoolStringExtensions.ToLinkFormat(x.Values))
+         .Select(stringsTestModel => ArrayPoolStringExtensions.ToLinkFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
 
-   [BenchmarkCategory("DashView"), Benchmark]
+   /// <summary>
+   ///   Old method to generate dashed view (ex: asd - ada).
+   /// </summary>
+   [BenchmarkCategory("Dash View"), Benchmark]
    public void GenerateDashFormatOld()
    {
       _testStringArray
-         .Select(x => OldStringExtensions.ToLinkFormat(x.Values))
+         .Select(stringsTestModel => OldStringExtensions.ToDashedView(stringsTestModel.Values))
          .Consume(_consumer);
    }
    
-   [BenchmarkCategory("DashView"), Benchmark]
+   /// <summary>
+   ///   Old method to generate dashed view (ex: asd - ada).
+   /// </summary>
+   [BenchmarkCategory("Dash View"), Benchmark]
    public void GenerateDashFormatNew()
    {
       _testStringArray
-         .Select(x => ArrayPoolStringExtensions.ToDashFormat(x.Values))
+         .Select(stringsTestModel => ArrayPoolStringExtensions.ToDashFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
 }

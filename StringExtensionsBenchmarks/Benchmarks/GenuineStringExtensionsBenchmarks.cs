@@ -7,11 +7,13 @@ using Bogus;
 using StringExtensionsBenchmarks.Models;
 using StringExtensionsBenchmarks.StringExtensions;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace StringExtensionsBenchmarks.Benchmarks;
 
+/// <summary>
+///      Original string benchmarks.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
@@ -22,10 +24,17 @@ public class GenuineStringExtensionsBenchmarks
 
    private List<StringsTestModel> _testStringArray = null!;
    
-   // Intentionally left public for BenchmarkDotNet Params.
+   /// <summary>
+   ///     Parameter for models count.
+   ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+   /// </summary>
    [Params(10, 100, 1000, 10000, 100000, 1000000)]
+   // ReSharper disable once UnusedAutoPropertyAccessor.Global
    public int Count { get; set; }
    
+   /// <summary>
+   ///   Global setup.
+   /// </summary>
    [GlobalSetup]
    public void Setup()
    {
@@ -36,35 +45,47 @@ public class GenuineStringExtensionsBenchmarks
          .Generate(Count);
    }
 
+   /// <summary>
+   ///   Generates link format
+   /// </summary>
    [BenchmarkCategory("LinkFormat"), Benchmark]
    public void GenerateLinkFormatSpanOwner()
    {
       _testStringArray
-         .Select(x => SpanOwnerStringExtensions.ToLinkFormat(x.Values))
+         .Select(stringsTestModel => SpanOwnerStringExtensions.ToLinkFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
 
+   /// <summary>
+   ///   Generate with arrayPool.
+   /// </summary>
    [BenchmarkCategory("LinkFormat"), Benchmark]
    public void GenerateLinkFormatArrayPool()
    {
       _testStringArray
-         .Select(x => ArrayPoolStringExtensions.ToLinkFormat(x.Values))
+         .Select(stringsTestModel => ArrayPoolStringExtensions.ToLinkFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
    
+   /// <summary>
+   ///   Dash format with SpanOwner.
+   /// </summary>
    [BenchmarkCategory("DashView"), Benchmark]
    public void GenerateDashFormatSpanOwner()
    {
       _testStringArray
-         .Select(x => SpanOwnerStringExtensions.ToDashFormat(x.Values))
+         .Select(stringsTestModel => SpanOwnerStringExtensions.ToDashFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
 
+   /// <summary>
+   ///   Dash format with arrayPool.
+   /// </summary>
    [BenchmarkCategory("DashView"), Benchmark]
    public void GenerateDashFormatArrayPool()
    {
       _testStringArray
-         .Select(x => ArrayPoolStringExtensions.ToDashFormat(x.Values))
+         .Select(stringsTestModel => ArrayPoolStringExtensions.ToDashFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
 }

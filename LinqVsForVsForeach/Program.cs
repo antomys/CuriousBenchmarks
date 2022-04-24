@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using LinqVsForVsForeach;
 
-BenchmarkRunner.Run<LinqForForeachTests>();
+BenchmarkRunner.Run<LinqForForeachBenchmarks>();

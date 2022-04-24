@@ -1,8 +1,17 @@
 namespace StringExtensionsBenchmarks.Models;
 
-public class InterpolationModel
+/// <summary>
+///     Model with interpolation.
+/// </summary>
+public sealed class InterpolationModel
 {
-    public string FirstValue { get; set; }
+    /// <summary>
+    ///     First value
+    /// </summary>
+    public string FirstValue { get; set; } = string.Empty;
     
-    public string SecondValue { get; set; }
+    /// <summary>
+    ///     Second value.
+    /// </summary>
+    public string SecondValue { get; set; } = string.Empty;
 }

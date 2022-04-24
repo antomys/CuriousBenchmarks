@@ -5,6 +5,9 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 namespace StringExtensionsBenchmarks.StringExtensions;
 
+/// <summary>
+///     Extensions for generating unique strings.
+/// </summary>
 public static class UniqueStringGeneration
 {
     private static readonly char[] Chars =
@@ -12,6 +15,11 @@ public static class UniqueStringGeneration
 
     private const int ByteSize = 0x100;
 
+    /// <summary>
+    ///     Generates and gets unique string (original version).
+    /// </summary>
+    /// <param name="size">Size of generated string.</param>
+    /// <returns><see cref="string"/>.</returns>
     public static string GetUniqueStringOriginal(int size)
     {
         var data = new byte[4 * size];
@@ -35,7 +43,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="size">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -62,7 +70,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -87,7 +95,7 @@ public static class UniqueStringGeneration
     }
 
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
@@ -111,7 +119,7 @@ public static class UniqueStringGeneration
     }
     
     /// <summary>
-    /// Generates unique string value of a gives size.
+    ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>

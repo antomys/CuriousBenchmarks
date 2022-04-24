@@ -1,20 +1,30 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
-using GroupByOrDistinctBenchmarks.TestModels;
+using GroupByOrDistinctBenchmarks.Models;
 
 namespace GroupByOrDistinctBenchmarks;
 
+/// <summary>
+///     Distinct/GroupBy benchmarks.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class DistinctGroupByBenchmarks
 {
-    // Intentionally left public for BenchmarkDotNet Params.
+    /// <summary>
+    ///     Size of generation.
+    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+    /// </summary>
     [Params(10,100,1000,10000,100000,1000000)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int GenerationSize { get; set; }
     
     private readonly Consumer _consumer = new();
@@ -23,6 +33,9 @@ public class DistinctGroupByBenchmarks
     private Dictionary<string, InnerTestModelId> _innerTestModels = new();
     private const string InnerTestModelConstId = "InnerTestModelConstId";
 
+    /// <summary>
+    ///     Setting private fields.
+    /// </summary>
     [GlobalSetup]
     public void Setup()
     {
@@ -55,6 +68,9 @@ public class DistinctGroupByBenchmarks
         _innerTestModels.Add(InnerTestModelConstId, new InnerTestModelId{InnerId = InnerTestModelConstId, Integer = default, DateOnly = DateTime.Now});
     }
 
+    /// <summary>
+    ///     Testing GroupBy and Take.
+    /// </summary>
     [Benchmark(Baseline = true)]
     public void GroupByTake()
     {
@@ -64,6 +80,9 @@ public class DistinctGroupByBenchmarks
             .Consume(_consumer);
     }
         
+    /// <summary>
+    ///     Testing DistinctBy.
+    /// </summary>
     [Benchmark]
     public void DistinctByTake()
     { 
@@ -73,6 +92,9 @@ public class DistinctGroupByBenchmarks
             .Consume(_consumer);
     }
     
+    /// <summary>
+    /// Testing Select + Distinct + Select.
+    /// </summary>
     [Benchmark]
     public void DistinctTake()
     {
