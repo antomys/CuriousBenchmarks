@@ -1,37 +1,57 @@
 using System.Collections.Specialized;
 using System.Text;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
+using QueryBenchmarks.Extensions;
 
 namespace QueryBenchmarks.Benchmarks;
 
+/// <summary>
+///     Query building methods benchmarks.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[JsonExporterAttribute.Full, MarkdownExporterAttribute.GitHub]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
+[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class QueryBuilderBenchmarks
 {
     private const string Url = "https://datausa.io/api/data";
     private static readonly StringBuilder StringBuilder = new("?");
 
-    [Benchmark]
-    public async Task BuildDictionaryQuery()
+    private static readonly Dictionary<string, string> TestValues = new()
     {
-        var queries = new Dictionary<string, string>
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        };
+        { "drilldowns", "Nation" },
+        { "measures", "Population" }
+    };
+    
+    private static readonly NameValueCollection TestNvc = new()
+    {
+        {"drilldowns", "Nation"},
+        {"measures", "Population"}
+    };
 
-        var queryString = QueryHelpers.AddQueryString(Url, queries);
-
-        await Task.CompletedTask;
+    /// <summary>
+    ///     Build query from dict.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string BuildDictionaryQuery()
+    {
+        return QueryHelpers.AddQueryString(Url, TestValues);
     }
 
-    [Benchmark]
-    public async Task BuildFormUrlEncodedContentKeyValuePairQuery()
+    /// <summary>
+    ///     ASync building query with Kvp.
+    /// </summary>
+    /// <returns></returns>
+    [BenchmarkCategory("Async"), Benchmark]
+    public async Task<string> BuildFormUrlEncodedContentKeyValuePairQuery()
     {
         using var content = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
         {
@@ -39,57 +59,51 @@ public class QueryBuilderBenchmarks
             new("measures", "Population")
         });
 
-        var result = content.ReadAsStringAsync();
-        const string urlNew = Url + "?";
-
-        await result;
+        var result = await content.ReadAsStringAsync();
+        
+        return Url + "?" + result;
     }
 
-    [Benchmark]
-    public async Task BuildFormUrlEncodedContentDictionaryQuery()
+    /// <summary>
+    ///     Async creating query.
+    /// </summary>
+    /// <returns></returns>
+    [BenchmarkCategory("Async"), Benchmark]
+    public async Task<string> BuildFormUrlEncodedContentDictionaryQuery()
     {
-        using var content = new FormUrlEncodedContent(new Dictionary<string, string>
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        });
+        using var content = new FormUrlEncodedContent(TestValues);
 
-        var result = content.ReadAsStringAsync();
-        const string urlNew = Url + "?";
-
-        await result;
+        var result = await content.ReadAsStringAsync();
+        
+        return Url + "?" + result;
     }
 
+    /// <summary>
+    ///     Custom method.
+    /// </summary>
+    /// <returns></returns>
     [Benchmark]
-    public async Task CustomMethodQuery()
+    public string CustomMethodQuery()
     {
-        var queryParams = new NameValueCollection
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        };
-
-        var urlNew = Url + ToQueryString(queryParams);
-
-        await Task.CompletedTask;
+        return Url + TestNvc.ToQueryString();
     }
     
+    /// <summary>
+    ///     Static version of StringBuilder.
+    /// </summary>
+    /// <returns></returns>
     [Benchmark]
-    public async Task CustomMethodStaticStringBuilderQuery()
+    public string CustomMethodStaticStringBuilderQuery()
     {
-        var queryParams = new NameValueCollection
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        };
-
-        var urlNew = Url + StaticStringBuilderString(queryParams);
-
-        await Task.CompletedTask;
+        return Url + StaticStringBuilderString(TestNvc);
     }
 
+    /// <summary>
+    ///     Asp.net query builder.
+    /// </summary>
+    /// <returns></returns>
     [Benchmark]
-    public async Task AspNetCoreQueryBuilderQuery()
+    public string AspNetCoreQueryBuilderQuery()
     {
         var qb = new QueryBuilder
         {
@@ -97,62 +111,29 @@ public class QueryBuilderBenchmarks
             {"measures", "Population"}
         };
 
-        var newUrl = Url + qb.ToQueryString();
-
-        await Task.CompletedTask;
+        return Url + qb.ToQueryString();
     }
 
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
     [Benchmark]
-    public async Task LinqBuildQuery()
+    public string LinqBuildQuery()
     {
-        var qb = new Dictionary<string, string>
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        };
-
-        var newUrl = Url + LinqQuery(qb);
-
-        await Task.CompletedTask;
-    }
-
-    private static string LinqQuery(IDictionary<string, string> dict)
-    {
-        var values = dict.Select(it => $"{it.Key}={Uri.EscapeDataString(it.Value)}");
-
-        return '?' + string.Join("&", values);
-    }
-
-    private static string ToQueryString(NameValueCollection nvc)
-    {
-        var sb = new StringBuilder("?");
-
-        var first = true;
-
-        foreach (var key in nvc.AllKeys)
-        foreach (var value in nvc.GetValues(key))
-        {
-            if (!first) sb.Append('&');
-
-            sb.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
-
-            first = false;
-        }
-
-        return sb.ToString();
+        return Url + TestValues.LinqQuery();
     }
     
     private static string StaticStringBuilderString(NameValueCollection nvc)
     {
-
         var first = true;
 
         foreach (var key in nvc.AllKeys)
-        foreach (var value in nvc.GetValues(key))
+        foreach (var value in nvc.GetValues(key)!)
         {
             if (!first) StringBuilder.Append('&');
 
-            StringBuilder.Append($"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}");
+            StringBuilder.Append($"{Uri.EscapeDataString(key!)}={Uri.EscapeDataString(value)}");
 
             first = false;
         }

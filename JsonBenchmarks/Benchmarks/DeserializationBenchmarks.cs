@@ -24,13 +24,10 @@ public class DeserializationBenchmarks
     ///     Size of collection.
     /// </summary>
     [Params(1000, 10000, 100000, 1000000)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int CollectionSize { get; set; }
     
-    private readonly JsonSerializerOptions _options = new()
-    {
-        
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
+    private readonly JsonSerializerOptions _options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     private string _personsString = string.Empty;
     private byte[] _personsByteArray = default!;

@@ -9,7 +9,11 @@ using StringExtensionsBenchmarks.Models;
 
 namespace StringExtensionsBenchmarks.Benchmarks;
 
+/// <summary>
+///     Interpolation benchmarks.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
@@ -20,10 +24,19 @@ public class InterpolationBenchmarks
     private readonly Consumer _consumer = new();
     private InterpolationModel _interpolationModel = null!;
     
-    // Intentionally left public for BenchmarkDotNet Params.
+    private static readonly StringBuilder StringBuilder = new();
+    
+    /// <summary>
+    ///     Parameter for models count.
+    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+    /// </summary>
     [Params(10, 100, 1000, 10000, 100000, 1000000)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int Count { get; set; }
     
+    /// <summary>
+    ///     Global setup.
+    /// </summary>
     [GlobalSetup]
     public void Setup()
     {
@@ -35,24 +48,36 @@ public class InterpolationBenchmarks
 
     }
     
-    [Benchmark]
+    /// <summary>
+    ///     Combines with interpolation.
+    /// </summary>
+    [Benchmark(Baseline = true)]
     public void CombineInterpolation()
     {
         $"{_interpolationModel.FirstValue}{_interpolationModel.SecondValue}".Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Combines with string.Format.
+    /// </summary>
     [Benchmark]
     public void CombineFormat()
     {
         string.Format(TestTemplate, _interpolationModel.FirstValue, _interpolationModel.SecondValue).Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Combines with string.Concat.
+    /// </summary>
     [Benchmark]
     public void ConcatString()
     { 
         string.Concat(_interpolationModel.FirstValue, _interpolationModel.SecondValue).Consume(_consumer);
     }
    
+    /// <summary>
+    ///     Combines with StringBuilder.
+    /// </summary>
     [Benchmark]
     public void CombineStringBuilder()
     {
@@ -62,7 +87,25 @@ public class InterpolationBenchmarks
         
         sb.ToString().Consume(_consumer);
     }
+    
+    /// <summary>
+    ///     Combines with StringBuilder.
+    /// </summary>
+    [Benchmark]
+    public void CombineStaticStringBuilder()
+    {
+        StringBuilder.Append(_interpolationModel.FirstValue);
+        StringBuilder.Append(_interpolationModel.SecondValue);
+
+        var str = StringBuilder.ToString();
+        StringBuilder.Clear();
+        
+        str.Consume(_consumer);
+    }
    
+    /// <summary>
+    ///     Combines with string.Create.
+    /// </summary>
     [Benchmark]
     public void CombineSpan()
     { 

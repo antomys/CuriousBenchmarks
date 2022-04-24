@@ -1,24 +1,31 @@
-## Query builder
+``` ini
 
-|                                      Method |       Mean |    Error |    StdDev |   StdErr |     Median |        Min |        Max |         Q1 |         Q3 |        Op/s | Rank |  Gen 0 | Allocated |
-|-------------------------------------------- |-----------:|---------:|----------:|---------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|-----:|-------:|----------:|
-|                 AspNetCoreQueryBuilderQuery |   314.7 ns |  8.36 ns |  23.86 ns |  2.46 ns |   308.8 ns |   286.7 ns |   384.8 ns |   294.7 ns |   325.8 ns | 3,177,835.9 |    1 | 0.1183 |     744 B |
-|                              LinqBuildQuery |   335.6 ns |  5.54 ns |   5.18 ns |  1.34 ns |   336.2 ns |   327.7 ns |   343.5 ns |   331.1 ns |   338.7 ns | 2,979,747.9 |    2 | 0.1273 |     800 B |
-|                        BuildDictionaryQuery |   398.7 ns |  8.01 ns |  13.38 ns |  2.23 ns |   398.3 ns |   363.9 ns |   429.7 ns |   387.4 ns |   406.3 ns | 2,508,353.5 |    3 | 0.1535 |     968 B |
-| BuildFormUrlEncodedContentKeyValuePairQuery |   850.4 ns | 16.94 ns |  29.22 ns |  4.74 ns |   852.2 ns |   792.4 ns |   939.3 ns |   832.3 ns |   867.4 ns | 1,175,856.1 |    4 | 0.2232 |   1,400 B |
-|   BuildFormUrlEncodedContentDictionaryQuery |   985.6 ns | 28.48 ns |  80.79 ns |  8.38 ns |   951.1 ns |   871.7 ns | 1,232.7 ns |   925.2 ns | 1,029.9 ns | 1,014,644.9 |    5 | 0.2518 |   1,584 B |
-|        CustomMethodStaticStringBuilderQuery | 2,548.1 ns | 47.78 ns | 114.47 ns | 13.88 ns | 2,501.1 ns | 2,425.7 ns | 2,922.8 ns | 2,471.0 ns | 2,604.1 ns |   392,450.7 |    6 | 0.1373 |     880 B |
-|                           CustomMethodQuery | 2,814.8 ns | 96.59 ns | 277.12 ns | 28.43 ns | 2,701.9 ns | 2,443.9 ns | 3,588.8 ns | 2,610.9 ns | 2,952.3 ns |   355,269.7 |    7 | 0.1945 |   1,232 B |
-
-## Url builder
-
+BenchmarkDotNet=v0.13.1, OS=macOS Monterey 12.3.1 (21E258) [Darwin 21.4.0]
+Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK=6.0.101
+  [Host]     : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+  DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
+```
+## Uri combining
 |                            Method |       Mean |    Error |   StdDev |  StdErr |        Min |        Max |         Q1 |         Q3 |     Median |        Op/s | Rank |  Gen 0 | Allocated |
 |---------------------------------- |-----------:|---------:|---------:|--------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|-----:|-------:|----------:|
-|                            NewUri |   239.1 ns |  3.54 ns |  3.14 ns | 0.84 ns |   235.3 ns |   245.4 ns |   236.9 ns |   240.2 ns |   238.3 ns | 4,181,717.2 |    1 | 0.0367 |     232 B |
-| NewUriCombineFormatAndNoUriCached |   254.3 ns |  5.09 ns |  6.80 ns | 1.36 ns |   234.1 ns |   263.2 ns |   254.2 ns |   258.1 ns |   255.9 ns | 3,932,054.0 |    2 | 0.0343 |     216 B |
-|               NewUriStringCombine |   255.2 ns |  2.84 ns |  2.66 ns | 0.69 ns |   252.1 ns |   260.2 ns |   253.1 ns |   256.6 ns |   254.5 ns | 3,919,251.5 |    2 | 0.0443 |     280 B |
-|       NewUriCombineFormatAndNoUri |   258.6 ns |  5.10 ns |  7.15 ns | 1.38 ns |   244.1 ns |   272.7 ns |   255.6 ns |   262.2 ns |   259.7 ns | 3,866,697.1 |    2 | 0.0343 |     216 B |
-|                NewUriOfficeDevPnP |   272.4 ns |  2.25 ns |  1.99 ns | 0.53 ns |   269.4 ns |   276.1 ns |   271.3 ns |   273.6 ns |   272.1 ns | 3,670,790.2 |    3 | 0.0443 |     280 B |
-|      NewUriCombineFormatAndNewUri |   489.2 ns |  9.55 ns | 17.47 ns | 2.70 ns |   453.3 ns |   519.9 ns |   477.8 ns |   499.4 ns |   491.1 ns | 2,044,312.9 |    4 | 0.0629 |     400 B |
-|           NewUriCombineUriBuilder | 1,411.2 ns | 27.18 ns | 34.38 ns | 7.17 ns | 1,330.8 ns | 1,474.6 ns | 1,401.7 ns | 1,428.7 ns | 1,415.9 ns |   708,629.5 |    5 | 0.1373 |     872 B |
-|   NewUriCombineUriBuilderToString | 1,571.1 ns | 24.63 ns | 28.36 ns | 6.34 ns | 1,538.5 ns | 1,657.7 ns | 1,547.9 ns | 1,582.5 ns | 1,569.9 ns |   636,515.5 |    6 | 0.1793 |   1,136 B |
+|                            NewUri |   240.9 ns |  2.74 ns |  2.56 ns | 0.66 ns |   237.3 ns |   246.5 ns |   239.0 ns |   242.1 ns |   240.6 ns | 4,150,547.1 |    1 | 0.0367 |     232 B |
+| NewUriCombineFormatAndNoUriCached |   243.0 ns |  4.42 ns |  8.08 ns | 1.25 ns |   234.8 ns |   274.5 ns |   237.8 ns |   244.0 ns |   241.5 ns | 4,115,855.7 |    1 | 0.0343 |     216 B |
+|               NewUriStringCombine |   259.2 ns |  2.13 ns |  2.00 ns | 0.52 ns |   256.4 ns |   262.4 ns |   257.6 ns |   260.9 ns |   258.5 ns | 3,857,798.7 |    2 | 0.0443 |     280 B |
+|                NewUriOfficeDevPnP |   279.3 ns |  2.17 ns |  1.81 ns | 0.50 ns |   276.3 ns |   282.2 ns |   278.3 ns |   281.3 ns |   279.0 ns | 3,580,469.6 |    3 | 0.0443 |     280 B |
+|       NewUriCombineFormatAndNoUri |   279.6 ns | 10.88 ns | 31.92 ns | 3.21 ns |   238.5 ns |   359.0 ns |   253.1 ns |   305.2 ns |   271.9 ns | 3,576,151.1 |    3 | 0.0343 |     216 B |
+|      NewUriCombineFormatAndNewUri |   456.6 ns |  6.82 ns |  6.38 ns | 1.65 ns |   447.2 ns |   467.5 ns |   452.6 ns |   461.4 ns |   454.2 ns | 2,190,187.7 |    4 | 0.0634 |     400 B |
+|           NewUriCombineUriBuilder | 1,280.1 ns | 13.71 ns | 12.83 ns | 3.31 ns | 1,262.6 ns | 1,303.7 ns | 1,269.7 ns | 1,286.3 ns | 1,280.0 ns |   781,191.3 |    5 | 0.1373 |     872 B |
+|   NewUriCombineUriBuilderToString | 1,633.5 ns |  9.22 ns |  8.17 ns | 2.18 ns | 1,624.4 ns | 1,651.3 ns | 1,628.7 ns | 1,634.1 ns | 1,630.3 ns |   612,166.5 |    6 | 0.1793 |   1,136 B |
+
+## Query builders
+|                                      Method | Categories |     Mean |    Error |    StdDev |   StdErr |   Median |      Min |        Max |       Q1 |         Q3 |        Op/s | Rank |  Gen 0 | Allocated |
+|-------------------------------------------- |----------- |---------:|---------:|----------:|---------:|---------:|---------:|-----------:|---------:|-----------:|------------:|-----:|-------:|----------:|
+|                        BuildDictionaryQuery |            | 272.7 ns |  4.58 ns |   3.83 ns |  1.06 ns | 271.4 ns | 268.6 ns |   281.0 ns | 270.0 ns |   273.8 ns | 3,666,708.5 |    1 | 0.1197 |     752 B |
+|                              LinqBuildQuery |            | 340.6 ns | 21.49 ns |  63.37 ns |  6.34 ns | 343.3 ns | 232.8 ns |   459.5 ns | 288.2 ns |   392.9 ns | 2,936,415.0 |    2 | 0.0930 |     584 B |
+|                 AspNetCoreQueryBuilderQuery |            | 355.7 ns | 26.96 ns |  79.49 ns |  7.95 ns | 353.8 ns | 262.3 ns |   544.4 ns | 269.3 ns |   415.4 ns | 2,811,179.2 |    2 | 0.1183 |     744 B |
+|        CustomMethodStaticStringBuilderQuery |            | 780.5 ns | 15.43 ns |  13.68 ns |  3.66 ns | 780.8 ns | 763.8 ns |   805.8 ns | 769.4 ns |   789.3 ns | 1,281,164.5 |    3 | 0.0496 |     312 B |
+|                           CustomMethodQuery |            | 940.8 ns | 54.41 ns | 158.71 ns | 16.03 ns | 841.0 ns | 816.0 ns | 1,371.4 ns | 825.7 ns | 1,036.9 ns | 1,062,941.3 |    4 | 0.1049 |     664 B |
+|                                             |            |          |          |           |          |          |          |            |          |            |             |      |        |           |
+| BuildFormUrlEncodedContentKeyValuePairQuery |      Async | 794.6 ns | 10.92 ns |   9.68 ns |  2.59 ns | 793.8 ns | 783.4 ns |   817.1 ns | 787.3 ns |   795.3 ns | 1,258,495.7 |    1 | 0.2584 |   1,624 B |
+|   BuildFormUrlEncodedContentDictionaryQuery |      Async | 857.2 ns | 12.67 ns |  11.23 ns |  3.00 ns | 853.3 ns | 845.9 ns |   881.6 ns | 848.3 ns |   862.6 ns | 1,166,547.3 |    2 | 0.2537 |   1,592 B |

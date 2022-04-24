@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
@@ -11,7 +12,9 @@ namespace GroupByOrDistinctBenchmarks;
 ///     Distinct/GroupBy benchmarks.
 /// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class DistinctGroupByBenchmarks
@@ -21,6 +24,7 @@ public class DistinctGroupByBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(10,100,1000,10000,100000,1000000)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int GenerationSize { get; set; }
     
     private readonly Consumer _consumer = new();

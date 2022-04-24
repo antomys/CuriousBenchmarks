@@ -1,12 +1,19 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
+using QueryBenchmarks.Extensions;
 
 namespace QueryBenchmarks.Benchmarks;
 
+/// <summary>
+///     Url combination benchmarks.
+/// </summary>
 [MemoryDiagnoser]
+[CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class UriCombineBenchmarks
@@ -14,142 +21,87 @@ public class UriCombineBenchmarks
     private readonly Uri _defaultUri = new("https://datausa.io/");
     private const string AdditionalPiece = "/api/data/Something/Else";
     private static string? _absoluteUri;
-    private const char PathDelimiter = '/';
 
     private readonly Consumer _consumer = new();
-
-    public UriCombineBenchmarks()
+    
+    /// <summary>
+    ///     Global setup of private methods.
+    /// </summary>
+    [GlobalSetup]
+    public void Setup()
     {
         _absoluteUri = _defaultUri.AbsoluteUri;
     }
     
+    /// <summary>
+    ///     Creates new uri with relative url.
+    /// </summary>
     [Benchmark]
     public void NewUri()
     {
         var _ = new Uri(_defaultUri, AdditionalPiece);
     }
     
+    /// <summary>
+    ///     New uri string combine. V1
+    /// </summary>
     [Benchmark]
     public void NewUriStringCombine()
     {
-        Combine(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
+       _defaultUri.ToString().CombineV1(AdditionalPiece).Consume(_consumer);
     }
 
+    /// <summary>
+    ///     Combine v3.
+    /// </summary>
     [Benchmark]
     public void NewUriOfficeDevPnP()
     {
-        CombineV2(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
+        _defaultUri.ToString().CombineV3(AdditionalPiece).Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Combine v2.
+    /// </summary>
     [Benchmark]
     public void NewUriCombineUriBuilderToString()
     {
-        CombineUrl(_defaultUri.ToString(), AdditionalPiece).Consume(_consumer);
+        _defaultUri.ToString().CombineV2(AdditionalPiece).Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Combine v2 original.
+    /// </summary>
     [Benchmark]
     public void NewUriCombineUriBuilder()
     {
-        CombineUrl(_defaultUri, AdditionalPiece).Consume(_consumer);
+        _defaultUri.CombineV2(AdditionalPiece).Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Append.
+    /// </summary>
     [Benchmark]
     public void NewUriCombineFormatAndNewUri()
     {
-        var _ = Append(_defaultUri, AdditionalPiece);
+        var _ = _defaultUri.Append(AdditionalPiece);
     }
     
+    /// <summary>
+    ///     Append fast.
+    /// </summary>
     [Benchmark]
     public void NewUriCombineFormatAndNoUri()
     {
-        AppendFast(_defaultUri, AdditionalPiece).Consume(_consumer);
+        _defaultUri.AppendFast(AdditionalPiece).Consume(_consumer);
     }
     
+    /// <summary>
+    ///     Append fast with caching.
+    /// </summary>
     [Benchmark]
     public void NewUriCombineFormatAndNoUriCached()
     {
-        AppendFastCached(AdditionalPiece).Consume(_consumer);
-    }
-
-    private static string Combine(string uri1, string uri2)
-    {
-        uri1 = uri1.TrimEnd('/');
-        uri2 = uri2.TrimStart('/');
-        
-        return $"{uri1}/{uri2}";
-    }
-    
-    private string CombineUrl(string baseUrl, string relativeUrl) 
-    { 
-        var baseUri = new UriBuilder(baseUrl);
-
-        if (Uri.TryCreate(baseUri.Uri, relativeUrl, out var newUri))
-        {
-            return newUri.ToString();
-        }
-        
-        throw new ArgumentException("Unable to combine specified url values");
-    }
-    
-    private string CombineUrl(Uri baseUrl, string relativeUrl) 
-    { 
-        var baseUri = new UriBuilder(baseUrl);
-
-        if (Uri.TryCreate(baseUri.Uri, relativeUrl, out var newUri))
-        {
-            return newUri.ToString();
-        }
-        
-        throw new ArgumentException("Unable to combine specified url values");
-    }
-
-    private static Uri Append(Uri uri, string relativePath)
-    {
-        var baseUri = uri.AbsoluteUri.EndsWith('/') ? uri : new Uri(uri.AbsoluteUri + '/');
-        var relative = relativePath.StartsWith('/') ? relativePath[1..] : relativePath;
-        
-        return new Uri(baseUri, relative);
-    }
-
-    private static string AppendFastCached(string relativePath)
-    {
-        //avoid the use of Uri as it's not needed, and adds a bit of overhead.
-        if (_absoluteUri is null)
-        {
-            throw new ArgumentNullException(_absoluteUri);
-        }
-        var baseUri = _absoluteUri.EndsWith('/') ? _absoluteUri : _absoluteUri + '/';
-        var relative = relativePath.StartsWith('/') ? relativePath[1..] : relativePath;
-        
-        return baseUri + relative;
-    }
-    
-    private static string AppendFast(Uri uri, string relativePath)
-    {
-        //avoid the use of Uri as it's not needed, and adds a bit of overhead.
-        var absoluteUri = uri.AbsoluteUri; //a calculated property, better cache it
-        var baseUri = absoluteUri.EndsWith('/') ? absoluteUri : absoluteUri + '/';
-        var relative = relativePath.StartsWith('/') ? relativePath[1..] : relativePath;
-        
-        return baseUri + relative;
-    }
-
-    private static string CombineV2(string path, string relative) 
-    {
-        switch (relative.Length)
-        {
-            case 0 when path.Length == 0:
-                return string.Empty;
-            case 0:
-                return path;
-        }
-
-        if(path.Length == 0)
-            return relative;
-
-        path = path.Replace('\\', PathDelimiter);
-        relative = relative.Replace('\\', PathDelimiter);
-
-        return path.TrimEnd(PathDelimiter) + PathDelimiter + relative.TrimStart(PathDelimiter);
+        AdditionalPiece.AppendFastCached(_absoluteUri!).Consume(_consumer);
     }
 }

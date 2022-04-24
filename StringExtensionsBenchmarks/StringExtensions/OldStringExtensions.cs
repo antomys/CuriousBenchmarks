@@ -2,6 +2,9 @@ using System.Text.RegularExpressions;
 
 namespace StringExtensionsBenchmarks.StringExtensions;
 
+/// <summary>
+///     Old string extensions.
+/// </summary>
 public static class OldStringExtensions
 {
     private static readonly Dictionary<RegexEnum, Regex> SlugRegexes = new()
@@ -18,15 +21,36 @@ public static class OldStringExtensions
         HyphenRegex,
     }
 
+    /// <summary>
+    ///     Joins all string values with delimiter <see cref="Constants.Space"/>.
+    /// </summary>
+    /// <param name="inputValues">Array of input values.</param>
+    /// <returns><see cref="string"/>.</returns>
     public static string ToLinkFormat(params string[] inputValues) =>
         GenerateSlug(string.Join(Constants.Space, inputValues));
 
+    /// <summary>
+    ///     Joins all string values with delimiter <see cref="Constants.Space"/>.
+    /// </summary>
+    /// <param name="inputCollection">Array of input values.</param>
+    /// <param name="inputParams">inputParams</param>
+    /// <returns><see cref="string"/>.</returns>
     public static string ToLinkFormat(this IEnumerable<string> inputCollection, params string[] inputParams)
         => GenerateSlug(string.Join(Constants.Space, inputCollection.Concat(inputParams)));
 
+    /// <summary>
+    ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
+    /// </summary>
+    /// <param name="stringCollection">collection of strings.</param>
+    /// <returns><see cref="string"/>.</returns>
     public static string ToDashedView(this IEnumerable<string> stringCollection) =>
         string.Join(Constants.Space, stringCollection);
 
+    /// <summary>
+    ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
+    /// </summary>
+    /// <param name="inputValues">collection of strings.</param>
+    /// <returns><see cref="string"/>.</returns>
     public static string ToDashedView(params string[] inputValues)
         => string.Join(Constants.Space, inputValues);
 

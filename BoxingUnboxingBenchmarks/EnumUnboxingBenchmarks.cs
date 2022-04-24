@@ -3,7 +3,6 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
-// ReSharper disable ForCanBeConvertedToForeach
 
 namespace BoxingUnboxingBenchmarks;
 
@@ -69,6 +68,31 @@ public class EnumUnboxingBenchmarks
             TestEnum.Zero => nameof(TestEnum.Zero),
             _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, null)
         };
+    
+    /// <summary>
+    ///     The simplest method to get name of the enum
+    /// </summary>
+    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <returns>input enum name.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If out of range of enum.</exception>
+    private static int GetValue(TestEnum testEnum) 
+        => testEnum switch
+        {
+            TestEnum.First => 1,
+            TestEnum.Second => 2,
+            TestEnum.Third => 3,
+            TestEnum.Fourth => 4,
+            TestEnum.Fifth => 5,
+            TestEnum.Sixth => 6,
+            TestEnum.Seventh => 7,
+            TestEnum.Eighth => 8,
+            TestEnum.Ninth => 9,
+            TestEnum.Tenth => 10,
+            TestEnum.Eleventh => 11,
+            TestEnum.Twelfth => 12,
+            TestEnum.Zero => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, null)
+        };
 
     /// <summary>
     ///     Getting int value from enum by .ToString().
@@ -86,6 +110,15 @@ public class EnumUnboxingBenchmarks
     public string IntFromEnumCast()
     {
         return ((int) _testEnums[0]).ToString();
+    }
+    
+    /// <summary>
+    ///     Getting int value from enum by custom method
+    /// </summary>
+    [BenchmarkCategory("Int from Enum"), Benchmark]
+    public string IntFromEnumCustom()
+    {
+        return GetValue(_testEnums[0]).ToString();
     }
     
     /// <summary>
@@ -119,7 +152,7 @@ public class EnumUnboxingBenchmarks
     ///     <see cref="IntFromEnumToString"/>
     /// </summary>
     [BenchmarkCategory("Array. Int from Enum"), Benchmark]
-    public void EnumIntByToString()
+    public void EnumIntToString()
     {
         for(var i = 0; i < _testEnums.Length; i++)
         {
@@ -136,6 +169,18 @@ public class EnumUnboxingBenchmarks
         for(var i = 0; i < _testEnums.Length; i++)
         {
             ((int) _testEnums[i]).ToString().Consume(_consumer);
+        }
+    }
+    
+    /// <summary>
+    ///     <see cref="IntFromEnumCustom"/>
+    /// </summary>
+    [BenchmarkCategory("Array. Int from Enum"), Benchmark]
+    public void EnumIntCustom()
+    {
+        for(var i = 0; i < _testEnums.Length; i++)
+        {
+            GetValue(_testEnums[i]).ToString().Consume(_consumer);
         }
     }
 
@@ -176,7 +221,7 @@ public class EnumUnboxingBenchmarks
     }
     
     /// <summary>
-    ///     <see cref="EnumIntByToString"/>
+    ///     <see cref="EnumIntToString"/>
     /// </summary>
     [BenchmarkCategory("Array. Int from Enum Linq"), Benchmark]
     public void EnumIntByToStringLinq()
@@ -185,7 +230,7 @@ public class EnumUnboxingBenchmarks
     }
 
     /// <summary>
-    ///     <see cref="EnumIntByToString"/>
+    ///     <see cref="EnumIntToString"/>
     /// </summary>
     [BenchmarkCategory("Array. Int from Enum Linq"), Benchmark]
     public void EnumIntByCastLinq()
@@ -194,29 +239,38 @@ public class EnumUnboxingBenchmarks
     }
     
     /// <summary>
-    ///     <see cref="EnumIntByToString"/>
+    ///     <see cref="EnumIntToString"/>
+    /// </summary>
+    [BenchmarkCategory("Array. Int from Enum Linq"), Benchmark]
+    public void EnumIntCustomLinq()
+    {
+        _testEnums.Select(testEnum => GetValue(testEnum).ToString()).Consume(_consumer);
+    }
+    
+    /// <summary>
+    ///     <see cref="EnumIntToString"/>
     /// </summary>
     [BenchmarkCategory("Array. String from Enum Linq"), Benchmark]
     public void EnumToStringLinq()
     {
-        _testEnums.Select(testEnum =>  testEnum.ToString()).Consume(_consumer);
+        _testEnums.Select(testEnum => testEnum.ToString()).Consume(_consumer);
     }
     
     /// <summary>
-    ///     <see cref="EnumIntByToString"/>
+    ///     <see cref="EnumIntToString"/>
     /// </summary>
     [BenchmarkCategory("Array. String from Enum Linq"), Benchmark]
     public void EnumGetNameLinq()
     {
-        _testEnums.Select(Enum.GetName).Consume(_consumer);
+        _testEnums.Select(testEnum => Enum.GetName(testEnum)).Consume(_consumer);
     }
     
     /// <summary>
-    ///     <see cref="EnumIntByToString"/>
+    ///     <see cref="EnumIntToString"/>
     /// </summary>
     [BenchmarkCategory("Array. String from Enum Linq"), Benchmark]
     public void EnumGetNameCustomLinq()
     {
-        _testEnums.Select(GetName).Consume(_consumer);
+        _testEnums.Select(testEnum => GetName(testEnum)).Consume(_consumer);
     }
 }

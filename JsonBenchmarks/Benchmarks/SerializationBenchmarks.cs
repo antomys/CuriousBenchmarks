@@ -26,6 +26,7 @@ public class SerializationBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(1000, 10000, 100000, 1000000)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int CollectionSize { get; set; }
     
     private readonly JsonSerializerOptions _options = new()
