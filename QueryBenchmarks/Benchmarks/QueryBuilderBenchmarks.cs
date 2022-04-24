@@ -119,9 +119,29 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string LinqBuildQuery()
+    public string LinqBuildQueryV1()
     {
         return Url + TestValues.LinqQuery();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string LinqBuildQueryV2()
+    {
+        return Url + TestValues.LinqQueryV2();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string LinqBuildQueryV3()
+    {
+        return Url + TestValues.LinqQueryV3();
     }
     
     private static string StaticStringBuilderString(NameValueCollection nvc)
