@@ -4,6 +4,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
+using Bogus;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using QueryBenchmarks.Extensions;
@@ -16,26 +17,49 @@ namespace QueryBenchmarks.Benchmarks;
 [MemoryDiagnoser]
 [CategoriesColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
 [RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class QueryBuilderBenchmarks
 {
-    private const string Url = "https://datausa.io/api/data";
-    private static readonly StringBuilder StringBuilder = new("?");
-
-    private static readonly Dictionary<string, string> TestValues = new()
-    {
-        { "drilldowns", "Nation" },
-        { "measures", "Population" }
-    };
+    /// <summary>
+    ///     Parameter for models count.
+    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
+    /// </summary>
+    [Params(1,2,3,4,5,6,7,8,9,10)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public int Count { get; set; }
     
-    private static readonly NameValueCollection TestNvc = new()
-    {
-        {"drilldowns", "Nation"},
-        {"measures", "Population"}
-    };
+    private const string Url = "https://datausa.io/api/data";
+    
+    private static readonly StringBuilder StringBuilder = new("?");
+    private static readonly Dictionary<string, string> TestValues = new();
+    private static readonly NameValueCollection TestNvc = new();
+    private static readonly QueryBuilder QueryBuilder = new();
+    
+    private static KeyValuePair<string, string>[]? _testKvp;
 
+    /// <summary>
+    ///     Global setup.
+    /// </summary>
+    [GlobalSetup]
+    public void Setup()
+    {
+        var faker = new Faker();
+        Randomizer.Seed = new Random(420);
+        _testKvp = new KeyValuePair<string, string>[Count];
+
+        for (var i = 0; i < Count; i++)
+        {
+            var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
+
+            TestValues.Add(testKey, testValue);
+            TestNvc.Add(testKey, testValue);
+            QueryBuilder.Add(testKey, testValue);
+            
+            _testKvp[i] = KeyValuePair.Create(testKey, testValue);
+        }
+    }
     /// <summary>
     ///     Build query from dict.
     /// </summary>
@@ -53,11 +77,7 @@ public class QueryBuilderBenchmarks
     [BenchmarkCategory("Async"), Benchmark]
     public async Task<string> BuildFormUrlEncodedContentKeyValuePairQuery()
     {
-        using var content = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
-        {
-            new("drilldowns", "Nation"),
-            new("measures", "Population")
-        });
+        using var content = new FormUrlEncodedContent(_testKvp!);
 
         var result = await content.ReadAsStringAsync();
         
@@ -105,13 +125,7 @@ public class QueryBuilderBenchmarks
     [Benchmark]
     public string AspNetCoreQueryBuilderQuery()
     {
-        var qb = new QueryBuilder
-        {
-            {"drilldowns", "Nation"},
-            {"measures", "Population"}
-        };
-
-        return Url + qb.ToQueryString();
+        return Url + QueryBuilder.ToQueryString();
     }
 
     /// <summary>

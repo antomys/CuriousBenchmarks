@@ -9,7 +9,6 @@ namespace QueryBenchmarks.Extensions;
 /// </summary>
 public static class QueryExtensions
 {
-    
     /// <summary>
     ///     Creates query using linq and interpolation.
     /// </summary>
