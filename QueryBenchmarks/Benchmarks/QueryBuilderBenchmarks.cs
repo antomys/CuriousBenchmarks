@@ -139,6 +139,26 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
+    public string LinqBuildQueryV2ModV1()
+    {
+        return Url + TestValues.LinqQueryV2ModV1();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string LinqBuildQueryV2ModV2()
+    {
+        return Url + TestValues.LinqQueryV2ModV2();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
     public string LinqBuildQueryV3()
     {
         return Url + TestValues.LinqQueryV3();
