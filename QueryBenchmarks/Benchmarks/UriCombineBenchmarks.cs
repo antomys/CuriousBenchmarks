@@ -18,64 +18,88 @@ namespace QueryBenchmarks.Benchmarks;
 [JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
 public class UriCombineBenchmarks
 {
-    private readonly Uri _defaultUri = new("https://datausa.io/");
+    private static readonly Uri DefaultUri = new("https://datausa.io/");
     private const string AdditionalPiece = "/api/data/Something/Else";
-    private static string? _absoluteUri;
+    private static readonly string AbsoluteUri = DefaultUri.AbsoluteUri;
 
     private readonly Consumer _consumer = new();
-    
+
     /// <summary>
-    ///     Global setup of private methods.
+    ///     Creates new uri with relative url.
     /// </summary>
-    [GlobalSetup]
-    public void Setup()
+    [Benchmark(Baseline = true)]
+    public void NewUri()
     {
-        _absoluteUri = _defaultUri.AbsoluteUri;
+        var _ = new Uri(DefaultUri, AdditionalPiece);
     }
     
     /// <summary>
     ///     Creates new uri with relative url.
     /// </summary>
     [Benchmark]
-    public void NewUri()
+    public void StringUriWithSpan()
     {
-        var _ = new Uri(_defaultUri, AdditionalPiece);
+        var result = string.Create(AbsoluteUri.Length + AdditionalPiece.Length,
+            (AbsoluteUri, AdditionalPiece),
+            (span, tuple) =>
+            {
+                var (def, add) = tuple;
+                var index = 0;
+                def.CopyTo(span);
+                index += def.Length;
+
+                if (def[^1] is not '/')
+                {
+                    span[index++] = '/';
+                }
+
+                if (add[0] is '/')
+                {
+                    add[1..].CopyTo(span[index..]);
+
+                    return;
+                }
+
+                add.CopyTo(span[index..]);
+            });
+        
+        result.Consume(_consumer);
     }
     
     /// <summary>
     ///     New uri string combine. V1
     /// </summary>
     [Benchmark]
-    public void NewUriStringCombine()
+    public void StringUriCombine()
     {
-       _defaultUri.ToString().CombineV1(AdditionalPiece).Consume(_consumer);
+        AbsoluteUri.CombineV1(AdditionalPiece).Consume(_consumer);
     }
 
     /// <summary>
     ///     Combine v3.
     /// </summary>
     [Benchmark]
-    public void NewUriOfficeDevPnP()
+    public void StringUriSwitchCase()
     {
-        _defaultUri.ToString().CombineV3(AdditionalPiece).Consume(_consumer);
+        AbsoluteUri.SwitchCaseMethod(AdditionalPiece).Consume(_consumer);
     }
     
     /// <summary>
     ///     Combine v2.
     /// </summary>
     [Benchmark]
-    public void NewUriCombineUriBuilderToString()
+    public void NewUriBuilderTryCreate()
     {
-        _defaultUri.ToString().CombineV2(AdditionalPiece).Consume(_consumer);
+        AbsoluteUri.UriBuilderTryCreate(AdditionalPiece).Consume(_consumer);
     }
     
     /// <summary>
     ///     Combine v2 original.
     /// </summary>
     [Benchmark]
-    public void NewUriCombineUriBuilder()
+    public void StringUriBuilderTryCreate()
     {
-        _defaultUri.CombineV2(AdditionalPiece).Consume(_consumer);
+        DefaultUri.UriBuilderTryCreate(AdditionalPiece).Consume(_consumer);
     }
     
     /// <summary>
@@ -84,7 +108,7 @@ public class UriCombineBenchmarks
     [Benchmark]
     public void NewUriCombineFormatAndNewUri()
     {
-        var _ = _defaultUri.Append(AdditionalPiece);
+        var _ = DefaultUri.Append(AdditionalPiece);
     }
     
     /// <summary>
@@ -93,7 +117,7 @@ public class UriCombineBenchmarks
     [Benchmark]
     public void NewUriCombineFormatAndNoUri()
     {
-        _defaultUri.AppendFast(AdditionalPiece).Consume(_consumer);
+        DefaultUri.AppendFast(AdditionalPiece).Consume(_consumer);
     }
     
     /// <summary>
@@ -102,6 +126,6 @@ public class UriCombineBenchmarks
     [Benchmark]
     public void NewUriCombineFormatAndNoUriCached()
     {
-        AdditionalPiece.AppendFastCached(_absoluteUri!).Consume(_consumer);
+        AdditionalPiece.AppendFastCached(AbsoluteUri).Consume(_consumer);
     }
 }
