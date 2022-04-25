@@ -5,7 +5,6 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using QueryBenchmarks.Extensions;
 
@@ -35,7 +34,8 @@ public class QueryBuilderBenchmarks
     private static readonly StringBuilder StringBuilder = new("?");
     private static readonly Dictionary<string, string> TestValues = new();
     private static readonly NameValueCollection TestNvc = new();
-    private static readonly QueryBuilder QueryBuilder = new();
+    private static readonly Microsoft.AspNetCore.Http.Extensions.QueryBuilder QueryBuilder = new();
+    private static readonly QueryBuilderV1 QueryBuilderV1ValuesNew = new();
     
     private static KeyValuePair<string, string>[]? _testKvp;
 
@@ -47,15 +47,16 @@ public class QueryBuilderBenchmarks
     {
         var faker = new Faker();
         Randomizer.Seed = new Random(420);
-        _testKvp = new KeyValuePair<string, string>[Count];
+        _testKvp = new KeyValuePair<string, string>[10];
 
-        for (var i = 0; i < Count; i++)
+        for (var i = 0; i < 10; i++)
         {
             var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
 
             TestValues.Add(testKey, testValue);
             TestNvc.Add(testKey, testValue);
             QueryBuilder.Add(testKey, testValue);
+            QueryBuilderV1ValuesNew.Add(testKey, testValue);
             
             _testKvp[i] = KeyValuePair.Create(testKey, testValue);
         }
@@ -122,7 +123,7 @@ public class QueryBuilderBenchmarks
     ///     Asp.net query builder.
     /// </summary>
     /// <returns></returns>
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public string AspNetCoreQueryBuilderQuery()
     {
         return Url + QueryBuilder.ToQueryString();
@@ -166,6 +167,32 @@ public class QueryBuilderBenchmarks
     public string LinqBuildQueryV2ModV2()
     {
         return Url + TestValues.LinqQueryV2ModV2();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string LinqBuildQueryV2ModV3()
+    {
+        return Url + QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
+    }
+    
+    /// <summary>
+    ///     Linq query builder.
+    /// </summary>
+    /// <returns></returns>
+    [Benchmark]
+    public string LinqBuildQueryV2ModV3Span()
+    {
+        var query = QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
+
+        return string.Create(Url.Length + query.Length, (Url, query), (span, tuple) =>
+        {
+            tuple.Url.CopyTo(span);
+            tuple.query.CopyTo(span[tuple.Url.Length..]);
+        });
     }
     
     /// <summary>

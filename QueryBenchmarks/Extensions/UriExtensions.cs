@@ -28,7 +28,7 @@ public static class UriExtensions
     /// <param name="relativeUrl">Relative url.</param>
     /// <returns>string.</returns>
     /// <exception cref="ArgumentException">If Unable to combine specified url values.</exception>
-    public static string CombineV2(this string baseUrl, string relativeUrl) 
+    public static string UriBuilderTryCreate(this string baseUrl, string relativeUrl) 
     { 
         var baseUri = new UriBuilder(baseUrl);
 
@@ -47,7 +47,7 @@ public static class UriExtensions
     /// <param name="relativeUrl">Relative url.</param>
     /// <returns>string.</returns>
     /// <exception cref="ArgumentException">If Unable to combine specified url values.</exception>
-    public static string CombineV2(this Uri baseUrl, string relativeUrl) 
+    public static string UriBuilderTryCreate(this Uri baseUrl, string relativeUrl) 
     { 
         var baseUri = new UriBuilder(baseUrl);
 
@@ -115,7 +115,7 @@ public static class UriExtensions
     /// <param name="path"></param>
     /// <param name="relative"></param>
     /// <returns></returns>
-    public static string CombineV3(this string path, string relative) 
+    public static string SwitchCaseMethod(this string path, string relative) 
     {
         switch (relative.Length)
         {
