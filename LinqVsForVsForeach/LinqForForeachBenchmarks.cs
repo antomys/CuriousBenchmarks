@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
@@ -71,7 +72,9 @@ public class LinqForForeachBenchmarks
         for (var i = 0; i < _testInputModels.Length; i++)
         {
             if (_testInputModels[i] is null)
+            {
                 continue;
+            }
             
             testOutputModels[i] = JsonSerializer.Serialize(_testInputModels[i]);
         }
@@ -80,8 +83,32 @@ public class LinqForForeachBenchmarks
     }
     
     /// <summary>
+    ///     Testing with `for` method and arrayPool.
+    /// </summary>
+    [Benchmark]
+    public void ForArrayPoolMethod()
+    {
+        var testOutputModels = ArrayPool<string>.Shared.Rent(_testInputModels.Length);
+
+        for (var i = 0; i < _testInputModels.Length; i++)
+        {
+            if (_testInputModels[i] is null)
+            {
+                continue;
+            }
+            
+            testOutputModels[i] = JsonSerializer.Serialize(_testInputModels[i]);
+        }
+        
+        _consumer.Consume(testOutputModels);
+        
+        ArrayPool<string>.Shared.Return(testOutputModels);
+    }
+    
+    /// <summary>
     ///     Testing with `Foreach` method.
     /// </summary>
+     
     [Benchmark]
     public void ForeachMethod()
     {
@@ -90,7 +117,9 @@ public class LinqForForeachBenchmarks
         foreach (var testModel in _testInputModels)
         {
             if (testModel is null)
+            {
                 continue;
+            }
             
             testOutputModels.Add(JsonSerializer.Serialize(testModel));
         }
