@@ -5,9 +5,9 @@ using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
-using LinqVsForVsForeach.Models;
+using LinqVsForVsForeachBenchmarks.Models;
 
-namespace LinqVsForVsForeach;
+namespace LinqVsForVsForeachBenchmarks;
 
 /// <summary>
 ///     Linq vs For vs Foreach benchmarks.

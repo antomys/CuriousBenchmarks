@@ -6,6 +6,18 @@ Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
   [Host]     : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
   DefaultJob : .NET 6.0.1 (6.0.121.56705), X64 RyuJIT
 ```
+
+## Sources:
+
+- MaverickJson : https://github.com/zlatanov/json
+- SpanJson : https://github.com/Tornhoof/SpanJson
+- MsgPack : https://github.com/neuecc/MessagePack-CSharp
+- Jil : https://github.com/kevin-montrose/Jil
+- Utf8Json : https://github.com/neuecc/Utf8Json
+- Newtonsoft.Json : https://github.com/JamesNK/Newtonsoft.Json
+- Protobuf.Net : https://github.com/protobuf-net/protobuf-net
+- ZeroFormatter : https://github.com/alexinea/Alexinea.ZeroFormatter/ (fork with fixes)
+
 ## Deserialization
 |                 Method | CollectionSize |           Mean |         Error |        StdDev |       StdErr |         Median |            Min |            Max |             Q1 |             Q3 |            P95 |       Op/s | Ratio | RatioSD | Rank |      Gen 0 |      Gen 1 |     Gen 2 |  Allocated |
 |----------------------- |--------------- |---------------:|--------------:|--------------:|-------------:|---------------:|---------------:|---------------:|---------------:|---------------:|---------------:|-----------:|------:|--------:|-----:|-----------:|-----------:|----------:|-----------:|

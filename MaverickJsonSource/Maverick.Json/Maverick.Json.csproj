@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Description>Provides standards-based UTF-8 support for the serialization of JSON.</Description>
+        <Version>4.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <PackageVersion>4.0.0</PackageVersion>
+        <PackageProjectUrl>https://github.com/zlatanov/json</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>json</PackageTags>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    </PropertyGroup>
+
+    <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
+        <PackageReference Include="System.Memory" Version="4.5.4" />
+        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Helpers\ObjectConstructor.Variants.tt">
+            <Generator>TextTemplatingFileGenerator</Generator>
+            <LastGenOutput>ObjectConstructor.Variants.cs</LastGenOutput>
+        </None>
+
+        <Compile Update="Helpers\ObjectConstructor.Variants.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ObjectConstructor.Variants.tt</DependentUpon>
+        </Compile>
+    </ItemGroup>
+</Project>

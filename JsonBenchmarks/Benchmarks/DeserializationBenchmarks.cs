@@ -24,14 +24,24 @@ public class DeserializationBenchmarks
     ///     Size of collection.
     /// </summary>
     [Params(1000, 10000, 100000, 1000000)]
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int CollectionSize { get; set; }
     
-    private readonly JsonSerializerOptions _options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    private readonly JsonSerializerOptions _options = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+    
+    private readonly Maverick.Json.JsonSettings _maverickSettings = new()
+    {
+        NamingStrategy = Maverick.Json.JsonNamingStrategy.CamelCase,
+        Format = Maverick.Json.JsonFormat.None
+    };
 
     private string _personsString = string.Empty;
     private byte[] _personsByteArray = default!;
     private string _personsJilString = string.Empty;
+    private byte[] _zeroFormatterByteArray = default!;
+    private byte[] _protobufBytes = default!;
 
     /// <summary>
     ///     Global setting up private fields.
@@ -44,14 +54,20 @@ public class DeserializationBenchmarks
         var persons = faker
             .RuleFor(x => x.FirstName, y => y.Name.FirstName())
             .RuleFor(x => x.LastName, y => y.Name.LastName())
-            .RuleFor(x=> x.Date, y => y.Date.PastOffset())
-            .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int(0))
-            .RuleFor(x => x.Summary, y => y.Random.String2(5))
+            .RuleFor(x=> x.Date, y => y.Date.Past())
+            .RuleFor(x => x.TemperatureCelsius, y => y.Random.Int())
+            .RuleFor(x => x.Summary, y => y.Random.String2(10))
             .Generate(CollectionSize);
+        
 
         _personsByteArray = MessagePackSerializer.Serialize(persons);
         _personsString = JsonSerializer.Serialize(persons, _options);
         _personsJilString = Jil.JSON.Serialize(persons);
+        _zeroFormatterByteArray = ZeroFormatter.ZeroFormatterSerializer.Serialize(TestModelVirtual.ToTestModelVirtual(persons));
+        
+        using var memoryStream = new MemoryStream();
+        ProtoBuf.Serializer.Serialize(memoryStream, persons);
+        _protobufBytes = memoryStream.ToArray();
     }
 
     /// <summary>
@@ -63,7 +79,7 @@ public class DeserializationBenchmarks
     {
         return JsonSerializer.Deserialize<ICollection<TestModel>>(_personsString, _options)!;
     }
-    
+
     /// <summary>
     ///     Deserialize with System.Text.Json source gen.
     /// </summary>
@@ -72,6 +88,16 @@ public class DeserializationBenchmarks
     public ICollection<TestModel> GeneratedDeserializer()
     {
         return JsonSerializer.Deserialize(_personsString, TestModelJsonContext.Default.ICollectionTestModel)!;
+    }
+    
+    /// <summary>
+    ///     Deserialize with Maverick.Json source gen.
+    /// </summary>
+    /// <returns></returns>
+    [BenchmarkCategory("String"), Benchmark]
+    public ICollection<TestModel> MaverickJsonDeserializer()
+    {
+        return Maverick.Json.JsonConvert.Deserialize<TestModel[]>(_personsString, _maverickSettings);
     }
     
     /// <summary>
@@ -92,6 +118,27 @@ public class DeserializationBenchmarks
     public ICollection<TestModel> JilDeserializer()
     {
         return Jil.JSON.Deserialize<ICollection<TestModel>>(_personsJilString)!;
+    }
+    
+    /// <summary>
+    ///     Deserialize with ZeroFormatter.
+    /// </summary>
+    /// <returns></returns>
+    [BenchmarkCategory("String"), Benchmark]
+    public ICollection<TestModelVirtual> ZeroFormatterDeserializer()
+    {
+        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<ICollection<TestModelVirtual>>(_zeroFormatterByteArray);
+    }
+    
+    /// <summary>
+    ///     Deserialize with protobuf.
+    /// </summary>
+    /// <returns></returns>
+    [BenchmarkCategory("String"), Benchmark]
+    public ICollection<TestModel> ProtobufDeserializer()
+    {
+        using var memoryStream = new MemoryStream(_protobufBytes);
+        return ProtoBuf.Serializer.Deserialize<ICollection<TestModel>>(memoryStream);
     }
     
     /// <summary>

@@ -1,4 +1,4 @@
-namespace LinqVsForVsForeach.Models;
+namespace LinqVsForVsForeachBenchmarks.Models;
 
 /// <summary>
 ///     Test model class.

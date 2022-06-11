@@ -26,7 +26,6 @@ public class QueryBuilderBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(1,2,3,4,5,6,7,8,9,10)]
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int Count { get; set; }
     
     private const string Url = "https://datausa.io/api/data";
@@ -190,8 +189,9 @@ public class QueryBuilderBenchmarks
 
         return string.Create(Url.Length + query.Length, (Url, query), (span, tuple) =>
         {
-            tuple.Url.CopyTo(span);
-            tuple.query.CopyTo(span[tuple.Url.Length..]);
+            var (url, s) = tuple;
+            url.CopyTo(span);
+            s.CopyTo(span[url.Length..]);
         });
     }
     
