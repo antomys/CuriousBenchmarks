@@ -141,7 +141,7 @@ public class SerializationBenchmarks
 
         return memoryStream;
     }
-    
+
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
@@ -154,7 +154,7 @@ public class SerializationBenchmarks
 
         return memoryStream;
     }
-    
+
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
@@ -189,6 +189,26 @@ public class SerializationBenchmarks
     }
     
     /// <summary>
+    ///     Serializes with System.Text.Json.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [BenchmarkCategory("Byte"), Benchmark(Baseline = true)]
+    public byte[] ClassicByteSerializer()
+    {
+        return JsonSerializer.SerializeToUtf8Bytes(_persons, _options);
+    }
+    
+    /// <summary>
+    ///     Serializes with System.Text.Json source gen.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [BenchmarkCategory("Byte"), Benchmark]
+    public byte[] GeneratedByteSerializer()
+    {
+        return JsonSerializer.SerializeToUtf8Bytes(_persons, TestModelJsonContext.Default.ICollectionTestModel);
+    }
+    
+    /// <summary>
     ///     Serializes with Maverick.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
@@ -217,7 +237,7 @@ public class SerializationBenchmarks
     {
         return Jil.JSON.Serialize(_persons);
     }
-    
+
     /// <summary>
     ///     Serializes with Utf8Json.
     /// </summary>
@@ -235,7 +255,17 @@ public class SerializationBenchmarks
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory("Byte"), Benchmark]
-    public byte[] ZeroFormatterStringSerializer()
+    public byte[] Utf8JsonByteSerializer()
+    {
+        return Utf8Json.JsonSerializer.Serialize(_persons)!;
+    }
+    
+    /// <summary>
+    ///     Serializes with Utf8Json.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [BenchmarkCategory("Byte"), Benchmark]
+    public byte[] ZeroFormatterByteSerializer()
     {
         var serialized = ZeroFormatter.ZeroFormatterSerializer.Serialize(_personsVirtual)!;
 
@@ -267,6 +297,18 @@ public class SerializationBenchmarks
     }
     
     /// <summary>
+    ///     Serializes with SpanJson to byte array.
+    /// </summary>
+    /// <returns><see cref="byte"/></returns>
+    [BenchmarkCategory("Byte"), Benchmark]
+    public byte[] SpanJsonByteSerializer()
+    {
+        var serialized = SpanJson.JsonSerializer.Generic.Utf8.Serialize(_persons)!;
+
+        return serialized;
+    }
+    
+    /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
     /// <returns><see cref="string"/></returns>
@@ -276,6 +318,16 @@ public class SerializationBenchmarks
         var serialized = MessagePackSerializer.Serialize(_persons)!;
 
         return MessagePackSerializer.ConvertToJson(serialized);
+    }
+    
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [BenchmarkCategory("Byte"), Benchmark]
+    public byte[] MsgPackByteSerializer()
+    {
+        return MessagePackSerializer.Serialize(_persons)!;
     }
     
     /// <summary>
