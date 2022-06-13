@@ -14,7 +14,7 @@ public class StringSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark(Baseline = true)]
-    public string Classic()
+    public string SystemTextJson()
     {
         return System.Text.Json.JsonSerializer.Serialize(Persons, Options);
     }
@@ -24,7 +24,7 @@ public class StringSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public string ClassicGenerated()
+    public string SystemTextJsonSourceGen()
     {
         return System.Text.Json.JsonSerializer.Serialize(Persons, TestModelJsonContext.Default.ICollectionTestModel);
     }

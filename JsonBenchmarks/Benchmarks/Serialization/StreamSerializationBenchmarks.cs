@@ -14,7 +14,7 @@ public class StreamSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns></returns>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark(Baseline = true)]
-    public MemoryStream Classic()
+    public MemoryStream SystemTextJson()
     {
         using var memoryStream = new MemoryStream();
         var jsonWriter = new Utf8JsonWriter(memoryStream);
@@ -28,7 +28,7 @@ public class StreamSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns></returns>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark]
-    public MemoryStream ClassicGenerated()
+    public MemoryStream SystemTextJsonSourceGen()
     {
         using  var memoryStream = new MemoryStream();
         var jsonWriter = new Utf8JsonWriter(memoryStream);

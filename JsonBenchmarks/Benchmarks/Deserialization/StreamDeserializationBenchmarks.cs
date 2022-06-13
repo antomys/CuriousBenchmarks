@@ -46,7 +46,7 @@ public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
     ///     Deserialize with System.Text.Json.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark(Baseline = true)]
-    public ICollection<TestModel> Classic()
+    public ICollection<TestModel> SystemTextJson()
     {
         _testStream.Position = 0;
         
@@ -57,7 +57,7 @@ public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
     ///     Deserialize with System.Text.Json source gen.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark]
-    public ICollection<TestModel> ClassicGenerated()
+    public ICollection<TestModel> SystemTextJsonSourceGen()
     {
         _testStream.Position = 0;
         
