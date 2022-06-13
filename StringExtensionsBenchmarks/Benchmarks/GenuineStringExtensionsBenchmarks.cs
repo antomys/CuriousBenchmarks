@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using StringExtensionsBenchmarks.Models;
@@ -13,11 +12,10 @@ namespace StringExtensionsBenchmarks.Benchmarks;
 ///      Original string benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class GenuineStringExtensionsBenchmarks
 {
    private readonly Consumer _consumer = new();
@@ -48,8 +46,8 @@ public class GenuineStringExtensionsBenchmarks
    /// <summary>
    ///   Generates link format
    /// </summary>
-   [BenchmarkCategory("LinkFormat"), Benchmark]
-   public void GenerateLinkFormatSpanOwner()
+   [BenchmarkCategory(GroupConstants.LinkFormat), Benchmark]
+   public void LinkFormatSpanOwner()
    {
       _testStringArray
          .Select(stringsTestModel => SpanOwnerStringExtensions.ToLinkFormat(stringsTestModel.Values))
@@ -59,8 +57,8 @@ public class GenuineStringExtensionsBenchmarks
    /// <summary>
    ///   Generate with arrayPool.
    /// </summary>
-   [BenchmarkCategory("LinkFormat"), Benchmark]
-   public void GenerateLinkFormatArrayPool()
+   [BenchmarkCategory(GroupConstants.LinkFormat), Benchmark]
+   public void LinkFormatArrayPool()
    {
       _testStringArray
          .Select(stringsTestModel => ArrayPoolStringExtensions.ToLinkFormat(stringsTestModel.Values))
@@ -70,8 +68,8 @@ public class GenuineStringExtensionsBenchmarks
    /// <summary>
    ///   Dash format with SpanOwner.
    /// </summary>
-   [BenchmarkCategory("DashView"), Benchmark]
-   public void GenerateDashFormatSpanOwner()
+   [BenchmarkCategory(GroupConstants.DashView), Benchmark]
+   public void DashFormatSpanOwner()
    {
       _testStringArray
          .Select(stringsTestModel => SpanOwnerStringExtensions.ToDashFormat(stringsTestModel.Values))
@@ -81,8 +79,8 @@ public class GenuineStringExtensionsBenchmarks
    /// <summary>
    ///   Dash format with arrayPool.
    /// </summary>
-   [BenchmarkCategory("DashView"), Benchmark]
-   public void GenerateDashFormatArrayPool()
+   [BenchmarkCategory(GroupConstants.DashView), Benchmark]
+   public void DashFormatArrayPool()
    {
       _testStringArray
          .Select(stringsTestModel => ArrayPoolStringExtensions.ToDashFormat(stringsTestModel.Values))

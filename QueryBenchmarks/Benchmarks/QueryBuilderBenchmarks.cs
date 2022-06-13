@@ -2,7 +2,6 @@ using System.Collections.Specialized;
 using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using Microsoft.AspNetCore.WebUtilities;
@@ -14,11 +13,10 @@ namespace QueryBenchmarks.Benchmarks;
 ///     Query building methods benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class QueryBuilderBenchmarks
 {
     /// <summary>
@@ -26,7 +24,6 @@ public class QueryBuilderBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(1,2,3,4,5,6,7,8,9,10)]
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int Count { get; set; }
     
     private const string Url = "https://datausa.io/api/data";
@@ -66,17 +63,17 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string BuildDictionaryQuery()
+    public string QueryFromDictionary()
     {
         return QueryHelpers.AddQueryString(Url, TestValues);
     }
 
     /// <summary>
-    ///     ASync building query with Kvp.
+    ///     Async building query with Kvp.
     /// </summary>
     /// <returns></returns>
-    [BenchmarkCategory("Async"), Benchmark]
-    public async Task<string> BuildFormUrlEncodedContentKeyValuePairQuery()
+    [BenchmarkCategory(GroupConstants.Async), Benchmark]
+    public async Task<string> FormUrlEncodedContentQueryAsync()
     {
         using var content = new FormUrlEncodedContent(_testKvp!);
 
@@ -89,8 +86,8 @@ public class QueryBuilderBenchmarks
     ///     Async creating query.
     /// </summary>
     /// <returns></returns>
-    [BenchmarkCategory("Async"), Benchmark]
-    public async Task<string> BuildFormUrlEncodedContentDictionaryQuery()
+    [BenchmarkCategory(GroupConstants.Async), Benchmark]
+    public async Task<string> FormUrlEncodedContentDictionaryQueryAsync()
     {
         using var content = new FormUrlEncodedContent(TestValues);
 
@@ -104,7 +101,7 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string CustomMethodQuery()
+    public string CustomQuery()
     {
         return Url + TestNvc.ToQueryString();
     }
@@ -114,7 +111,7 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string CustomMethodStaticStringBuilderQuery()
+    public string CustomStaticStringBuilderQuery()
     {
         return Url + StaticStringBuilderString(TestNvc);
     }
@@ -154,7 +151,7 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string LinqBuildQueryV2ModV1()
+    public string LinqBuildQueryV21()
     {
         return Url + TestValues.LinqQueryV2ModV1();
     }
@@ -164,7 +161,7 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string LinqBuildQueryV2ModV2()
+    public string LinqBuildQueryV22()
     {
         return Url + TestValues.LinqQueryV2ModV2();
     }
@@ -174,7 +171,7 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string LinqBuildQueryV2ModV3()
+    public string LinqBuildQueryV23()
     {
         return Url + QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
     }
@@ -184,14 +181,15 @@ public class QueryBuilderBenchmarks
     /// </summary>
     /// <returns></returns>
     [Benchmark]
-    public string LinqBuildQueryV2ModV3Span()
+    public string LinqBuildQueryV23Span()
     {
         var query = QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
 
         return string.Create(Url.Length + query.Length, (Url, query), (span, tuple) =>
         {
-            tuple.Url.CopyTo(span);
-            tuple.query.CopyTo(span[tuple.Url.Length..]);
+            var (url, s) = tuple;
+            url.CopyTo(span);
+            s.CopyTo(span[url.Length..]);
         });
     }
     
