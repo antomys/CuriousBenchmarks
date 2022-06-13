@@ -40,7 +40,10 @@ public class DeserializationBenchmarksBase
         Format = Maverick.Json.JsonFormat.None
     };
 
-    protected List<TestModel> TestModels;
+    /// <summary>
+    ///     Collection of <see cref="TestModel"/> for creating various serialized initial data.
+    /// </summary>
+    protected List<TestModel> TestModels = null!;
 
     /// <summary>
     ///     Global setting up private fields.

@@ -37,7 +37,7 @@ public class StringByteDeserializationBenchmarks : DeserializationBenchmarksBase
     ///     Deserialize with System.Text.Json.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.StringBytes), Benchmark(Baseline = true)]
-    public ICollection<TestModel> Classic()
+    public ICollection<TestModel> SystemTextJson()
     {
         return System.Text.Json.JsonSerializer.Deserialize<ICollection<TestModel>>(_testByteArray, Options)!;
     }
@@ -46,7 +46,7 @@ public class StringByteDeserializationBenchmarks : DeserializationBenchmarksBase
     ///     Deserialize with System.Text.Json source gen.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.StringBytes), Benchmark]
-    public ICollection<TestModel> ClassicGenerated()
+    public ICollection<TestModel> SystemTextJsonSourceGen()
     {
         return System.Text.Json.JsonSerializer.Deserialize(_testByteArray, TestModelJsonContext.Default.ICollectionTestModel)!;
     }

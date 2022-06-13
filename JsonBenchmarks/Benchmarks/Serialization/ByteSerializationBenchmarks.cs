@@ -13,7 +13,7 @@ public class ByteSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark(Baseline = true)]
-    public byte[] Classic()
+    public byte[] SystemTextJson()
     {
         return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(Persons, Options);
     }
@@ -23,7 +23,7 @@ public class ByteSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
-    public byte[] ClassicGenerated()
+    public byte[] SystemTextJsonSourceGen()
     {
         return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(Persons, TestModelJsonContext.Default.ICollectionTestModel);
     }
@@ -67,7 +67,7 @@ public class ByteSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="string"/></returns>
     [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
-    public byte[] MsgPackClassic()
+    public byte[] MsgPackSystemTextJson()
     {
         return MessagePack.MessagePackSerializer.Serialize(Persons)!;
     }

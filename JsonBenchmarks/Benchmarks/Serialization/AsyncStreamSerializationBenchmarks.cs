@@ -13,7 +13,7 @@ public class AsyncStreamSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark(Baseline = true)]
-    public async Task<MemoryStream> Classic()
+    public async Task<MemoryStream> SystemTextJson()
     {
         await using var memoryStream = new MemoryStream();
         await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, Persons, Options);
@@ -26,7 +26,7 @@ public class AsyncStreamSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> ClassicGenerated()
+    public async Task<MemoryStream> SystemTextJsonSourceGen()
     {
         await using var memoryStream = new MemoryStream();
         
@@ -66,7 +66,7 @@ public class AsyncStreamSerializationBenchmarks : SerializationBenchmarksBase
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
     [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> MsgPackClassic()
+    public async Task<MemoryStream> MsgPackSystemTextJson()
     {
         await using var memoryStream = new MemoryStream();
         await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, Persons);

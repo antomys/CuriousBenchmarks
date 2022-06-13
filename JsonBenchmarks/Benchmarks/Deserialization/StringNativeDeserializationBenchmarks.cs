@@ -29,7 +29,7 @@ public class StringNativeDeserializationBenchmarks : DeserializationBenchmarksBa
     /// </summary>
     /// <returns></returns>
     [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark(Baseline = true)]
-    public ICollection<TestModel> Classic()
+    public ICollection<TestModel> SystemTextJson()
     {
         return System.Text.Json.JsonSerializer.Deserialize<ICollection<TestModel>>(_testString, Options)!;
     }
@@ -39,7 +39,7 @@ public class StringNativeDeserializationBenchmarks : DeserializationBenchmarksBa
     /// </summary>
     /// <returns></returns>
     [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public ICollection<TestModel> ClassicGenerated()
+    public ICollection<TestModel> SystemTextJsonSourceGen()
     {
         return System.Text.Json.JsonSerializer.Deserialize(_testString, TestModelJsonContext.Default.ICollectionTestModel)!;
     }

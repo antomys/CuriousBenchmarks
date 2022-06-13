@@ -46,7 +46,7 @@ public class AsyncStreamDeserializationBenchmarks : DeserializationBenchmarksBas
     ///     Deserialize with System.Text.Json.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark(Baseline = true)]
-    public async Task<ICollection<TestModel>?> Classic()
+    public async Task<ICollection<TestModel>?> SystemTextJson()
     {
         _testStream.Position = 0;
         return await System.Text.Json.JsonSerializer.DeserializeAsync<ICollection<TestModel>>(_testStream, Options);
@@ -56,7 +56,7 @@ public class AsyncStreamDeserializationBenchmarks : DeserializationBenchmarksBas
     ///     Deserialize with System.Text.Json source gen.
     /// </summary>
     [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark]
-    public async Task<ICollection<TestModel>?> ClassicGenerated()
+    public async Task<ICollection<TestModel>?> SystemTextJsonSourceGen()
     {
         _testStream.Position = 0;
         return await System.Text.Json.JsonSerializer.DeserializeAsync(_testStream, TestModelJsonContext.Default.ICollectionTestModel);
