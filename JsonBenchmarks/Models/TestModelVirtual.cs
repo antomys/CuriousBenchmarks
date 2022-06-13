@@ -43,15 +43,17 @@ public class TestModelVirtual
     /// </summary>
     /// <param name="testModels"></param>
     /// <returns></returns>
-    public static IEnumerable<TestModelVirtual> ToTestModelVirtual(IEnumerable<TestModel> testModels)
+    public static List<TestModelVirtual> ToTestModelVirtual(IEnumerable<TestModel> testModels)
     {
-        return testModels.Select(testModel => new TestModelVirtual
-        {
-            FirstName = testModel.FirstName,
-            LastName = testModel.LastName,
-            Date = testModel.Date,
-            TemperatureCelsius = testModel.TemperatureCelsius,
-            Summary = testModel.Summary
-        });
+        return testModels
+            .Select(testModel => new TestModelVirtual 
+                {
+                    FirstName = testModel.FirstName,
+                    LastName = testModel.LastName,
+                    Date = testModel.Date,
+                    TemperatureCelsius = testModel.TemperatureCelsius,
+                    Summary = testModel.Summary
+                })
+            .ToList();
     }
 }

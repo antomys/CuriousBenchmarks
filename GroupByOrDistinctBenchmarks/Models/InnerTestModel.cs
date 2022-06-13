@@ -3,18 +3,18 @@ namespace GroupByOrDistinctBenchmarks.Models;
 /// <summary>
 ///     Inner test class of test class.
 /// </summary>
-public sealed class InnerTestModelId
+public sealed class InnerTestModel
 {
     /// <summary>
     ///     Id of inner test model.
     /// </summary>
     public string InnerId { get; set; } = string.Empty;
-    
+
     /// <summary>
     ///     Date
     /// </summary>
-    public DateTime DateOnly { get; set; }
-    
+    public DateTime DateOnly { get; set; } = DateTime.Now;
+
     /// <summary>
     ///     Test int value.
     /// </summary>

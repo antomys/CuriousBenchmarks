@@ -1,4 +1,4 @@
-namespace QueryBenchmarks;
+namespace QueryBenchmarks.Extensions;
 
 /// <inheritdoc />
 public sealed class QueryBuilderV1 : Dictionary<string, string>

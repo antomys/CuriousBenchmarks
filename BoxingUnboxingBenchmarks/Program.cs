@@ -1,4 +1,3 @@
 ﻿using BenchmarkDotNet.Running;
-using BoxingUnboxingBenchmarks;
 
-BenchmarkRunner.Run<EnumUnboxingBenchmarks>();
+BenchmarkRunner.Run(typeof(Program).Assembly);

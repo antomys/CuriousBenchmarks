@@ -1,4 +1,6 @@
-﻿namespace HashCodeBenchmarks.Extensions;
+﻿using HashCodeBenchmarks.Models;
+
+namespace HashCodeBenchmarks.Extensions;
 
 /// <summary>
 ///     Collection of different hashing algorithms and tricks from stackoverflow.

@@ -1,5 +1,8 @@
 ﻿namespace HashCodeBenchmarks.Extensions;
 
+/// <summary>
+///     Fifth version of getting hash code.
+/// </summary>
 public readonly struct HashCodeV5 : IEquatable<HashCodeV5>
 {
     private const int EmptyCollectionPrimeNumber = 19;
@@ -7,8 +10,19 @@ public readonly struct HashCodeV5 : IEquatable<HashCodeV5>
 
     private HashCodeV5(int value) => _value = value;
 
+    /// <summary>
+    ///     Implicit converting to int.
+    /// </summary>
+    /// <param name="hashCode"></param>
+    /// <returns></returns>
     public static implicit operator int(HashCodeV5 hashCode) => hashCode._value;
 
+    /// <summary>
+    ///     Override of == operator.
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static bool operator ==(HashCodeV5 left, HashCodeV5 right) => left.Equals(right);
 
     public static bool operator !=(HashCodeV5 left, HashCodeV5 right) => !(left == right);

@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using StringExtensionsBenchmarks.Models;
@@ -13,11 +12,10 @@ namespace StringExtensionsBenchmarks.Benchmarks;
 ///      New set of benchmarks with new extensions.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class StackStringExtensionsBenchmarks
 {
    private readonly Consumer _consumer = new();
@@ -48,8 +46,8 @@ public class StackStringExtensionsBenchmarks
    /// <summary>
    ///   Old method to generate link (ex: asd-ada).
    /// </summary>
-   [BenchmarkCategory("Link Format"), Benchmark(Baseline = true)]
-   public void GenerateLinkFormatOld()
+   [BenchmarkCategory(GroupConstants.LinkFormat), Benchmark(Baseline = true)]
+   public void LinkFormat()
    {
       _testStringArray
          .Select(stringsTestModel=> OldStringExtensions.ToLinkFormat(stringsTestModel.Values))
@@ -59,8 +57,8 @@ public class StackStringExtensionsBenchmarks
    /// <summary>
    ///   New method to generate link (ex: asd-ada).
    /// </summary>
-   [BenchmarkCategory("Link Format"), Benchmark]
-   public void GenerateLinkFormatNew()
+   [BenchmarkCategory(GroupConstants.LinkFormat), Benchmark]
+   public void LinkFormatV1()
    {
       _testStringArray
          .Select(stringsTestModel => ArrayPoolStringExtensions.ToLinkFormat(stringsTestModel.Values))
@@ -70,8 +68,8 @@ public class StackStringExtensionsBenchmarks
    /// <summary>
    ///   Old method to generate dashed view (ex: asd - ada).
    /// </summary>
-   [BenchmarkCategory("Dash View"), Benchmark]
-   public void GenerateDashFormatOld()
+   [BenchmarkCategory(GroupConstants.DashView), Benchmark]
+   public void DashFormat()
    {
       _testStringArray
          .Select(stringsTestModel => OldStringExtensions.ToDashedView(stringsTestModel.Values))
@@ -81,8 +79,8 @@ public class StackStringExtensionsBenchmarks
    /// <summary>
    ///   Old method to generate dashed view (ex: asd - ada).
    /// </summary>
-   [BenchmarkCategory("Dash View"), Benchmark]
-   public void GenerateDashFormatNew()
+   [BenchmarkCategory(GroupConstants.DashView), Benchmark]
+   public void DashFormatV1()
    {
       _testStringArray
          .Select(stringsTestModel => ArrayPoolStringExtensions.ToDashFormat(stringsTestModel.Values))

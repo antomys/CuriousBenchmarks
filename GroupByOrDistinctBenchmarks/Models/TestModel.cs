@@ -13,12 +13,12 @@ public sealed class TestModel
     ///     Id of inner test model.
     /// </summary>
     public string InnerTestModelId { get; set; } = string.Empty;
-    
+
     /// <summary>
     ///     Test Date.
     /// </summary>
-    public DateTime DateOnly { get; set; }
-    
+    public DateTime DateOnly { get; set; } = DateTime.Now;
+
     /// <summary>
     ///     Test int value.
     /// </summary>

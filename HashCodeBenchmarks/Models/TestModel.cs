@@ -1,4 +1,4 @@
-﻿namespace HashCodeBenchmarks;
+﻿namespace HashCodeBenchmarks.Models;
 
 public sealed class TestModel
 {

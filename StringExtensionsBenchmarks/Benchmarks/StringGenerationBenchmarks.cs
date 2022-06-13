@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using MlkPwgen;
 using StringExtensionsBenchmarks.StringExtensions;
@@ -12,11 +11,10 @@ namespace StringExtensionsBenchmarks.Benchmarks;
 ///     String generation benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class StringGenerationBenchmarks
 {
     /// <summary>
@@ -33,7 +31,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using original method.
     /// </summary>
     [Benchmark(Baseline = true)]
-    public void GetRandomStringOriginal()
+    public void RandomString()
     {
         UniqueStringGeneration.GetUniqueStringOriginal(Size).Consume(_consumer);
     }
@@ -42,7 +40,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using original method + string.Create.
     /// </summary>
     [Benchmark]
-    public void GetUniqueKeyOriginalStringCreate()
+    public void UniqueOriginalStringCreate()
     {
         UniqueStringGeneration.GetUniqueKeyOriginalStringCreate(Size).Consume(_consumer);
     }
@@ -51,7 +49,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using new method.
     /// </summary>
     [Benchmark]
-    public void GetUniqueKeyNew()
+    public void UniqueRandomV1()
     {
         UniqueStringGeneration.GetUniqueKeyNew(Size).Consume(_consumer);
     }
@@ -60,7 +58,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using new method with SpanOwner.
     /// </summary>
     [Benchmark]
-    public void GetUniqueKeyNewSpanOwner()
+    public void UniqueRandomV1SpanOwner()
     {
         UniqueStringGeneration.GetUniqueKeyNewSpanOwner(Size).Consume(_consumer);
     }
@@ -69,7 +67,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using new method with ArrayPool.
     /// </summary>
     [Benchmark]
-    public void GetUniqueKeyNewArrayPool()
+    public void UniqueRandomV1ArrayPool()
     {
         UniqueStringGeneration.GetUniqueKeyNewArrayPool(Size).Consume(_consumer);
     }
@@ -78,7 +76,7 @@ public class StringGenerationBenchmarks
     ///     Gets random string using external library created by MlkPwger.
     /// </summary>
     [Benchmark]
-    public void GenerateCryptoMlkPwger()
+    public void CryptoMlkPwger()
     {
         PasswordGenerator.Generate(Size).Consume(_consumer);
     }

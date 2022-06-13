@@ -2,7 +2,6 @@ using System.Text.Json;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using LinqVsForVsForeachBenchmarks.Models;
@@ -13,11 +12,10 @@ namespace LinqVsForVsForeachBenchmarks;
 ///     Linq vs For vs Foreach benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class LinqForForeachBenchmarks
 {
     /// <summary>
@@ -25,7 +23,6 @@ public class LinqForForeachBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(10, 100, 1000, 10000, 100000, 1000000)]
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int ModelsCount { get; set; }
 
     private readonly Consumer _consumer = new();
@@ -61,10 +58,10 @@ public class LinqForForeachBenchmarks
     }
 
     /// <summary>
-    ///     Testing with `for` method.
+    ///     Testing with 'for' method.
     /// </summary>
     [Benchmark(Baseline = true)]
-    public void ForMethod()
+    public void For()
     {
         var testOutputModels = new string[_testInputModels.Length];
 
@@ -80,10 +77,10 @@ public class LinqForForeachBenchmarks
     }
     
     /// <summary>
-    ///     Testing with `Foreach` method.
+    ///     Testing with 'Foreach' method.
     /// </summary>
     [Benchmark]
-    public void ForeachMethod()
+    public void Foreach()
     {
         var testOutputModels = new List<string>(_testInputModels.Length);
         
@@ -99,10 +96,10 @@ public class LinqForForeachBenchmarks
     }
 
     /// <summary>
-    ///     Testing with `Linq` methods.
+    ///     Testing with 'Linq' methods.
     /// </summary>
     [Benchmark]
-    public void LinqMethod()
+    public void Linq()
     {
         _testInputModels
             .Where(testModel=> testModel is not null)
