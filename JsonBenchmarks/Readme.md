@@ -384,6 +384,8 @@ Currently, following Json Serialization/Deserialization libraries were used:
 <a name="conclusions"></a>
 ## Conclusions
 
+`Jil` behaved very unexpectedly bad. In some cases it refused to work with no reason.
+
 Personally i will recommend using `SpanJson`. It has clean api and no additional overhead.
 The two fastest are `MessagePack` and `Protobuf`, but they come with cost of compatibility with other serializers and have extraordinary API.
 
