@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using GroupByOrDistinctBenchmarks.Models;
@@ -12,11 +11,10 @@ namespace GroupByOrDistinctBenchmarks;
 ///     Distinct/GroupBy benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class DistinctGroupByBenchmarks
 {
     /// <summary>
@@ -24,13 +22,12 @@ public class DistinctGroupByBenchmarks
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(10,100,1000,10000,100000,1000000)]
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int GenerationSize { get; set; }
     
     private readonly Consumer _consumer = new();
     
     private List<TestModel> _testModelsList = new();
-    private Dictionary<string, InnerTestModelId> _innerTestModels = new();
+    private Dictionary<string, InnerTestModel> _innerTestModels = new();
     private const string InnerTestModelConstId = "InnerTestModelConstId";
 
     /// <summary>
@@ -56,7 +53,7 @@ public class DistinctGroupByBenchmarks
             .RuleFor(x => x.TestModelId, y => y.Random.String2(20))
             .Generate(GenerationSize));
 
-        var testModelFaker = new Faker<InnerTestModelId>();
+        var testModelFaker = new Faker<InnerTestModel>();
         
         var generatedFakes2 = testModelFaker
             .RuleFor(x => x.InnerId, y => y.Random.String2(20))
@@ -65,7 +62,7 @@ public class DistinctGroupByBenchmarks
             .Generate(GenerationSize * 2 - 1).ToDictionary(x => x.InnerId);
         
         _innerTestModels = generatedFakes2;
-        _innerTestModels.Add(InnerTestModelConstId, new InnerTestModelId{InnerId = InnerTestModelConstId, Integer = default, DateOnly = DateTime.Now});
+        _innerTestModels.Add(InnerTestModelConstId, new InnerTestModel{InnerId = InnerTestModelConstId, Integer = default, DateOnly = DateTime.Now});
     }
 
     /// <summary>
@@ -93,7 +90,7 @@ public class DistinctGroupByBenchmarks
     }
     
     /// <summary>
-    /// Testing Select + Distinct + Select.
+    ///     Testing Select + Distinct + Select.
     /// </summary>
     [Benchmark]
     public void DistinctTake()

@@ -2,7 +2,6 @@ using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using Bogus;
 using StringExtensionsBenchmarks.Models;
@@ -13,11 +12,10 @@ namespace StringExtensionsBenchmarks.Benchmarks;
 ///     Interpolation benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class InterpolationBenchmarks
 {
     private const string TestTemplate = "{0}{1}";
@@ -52,7 +50,7 @@ public class InterpolationBenchmarks
     ///     Combines with interpolation.
     /// </summary>
     [Benchmark(Baseline = true)]
-    public void CombineInterpolation()
+    public void StringInterpolation()
     {
         $"{_interpolationModel.FirstValue}{_interpolationModel.SecondValue}".Consume(_consumer);
     }
@@ -61,7 +59,7 @@ public class InterpolationBenchmarks
     ///     Combines with string.Format.
     /// </summary>
     [Benchmark]
-    public void CombineFormat()
+    public void StringFormat()
     {
         string.Format(TestTemplate, _interpolationModel.FirstValue, _interpolationModel.SecondValue).Consume(_consumer);
     }
@@ -70,7 +68,7 @@ public class InterpolationBenchmarks
     ///     Combines with string.Concat.
     /// </summary>
     [Benchmark]
-    public void ConcatString()
+    public void StringConcat()
     { 
         string.Concat(_interpolationModel.FirstValue, _interpolationModel.SecondValue).Consume(_consumer);
     }
@@ -79,7 +77,7 @@ public class InterpolationBenchmarks
     ///     Combines with StringBuilder.
     /// </summary>
     [Benchmark]
-    public void CombineStringBuilder()
+    public void StringBuilderAppend()
     {
         var sb = new StringBuilder();
         sb.Append(_interpolationModel.FirstValue);
@@ -92,7 +90,7 @@ public class InterpolationBenchmarks
     ///     Combines with StringBuilder.
     /// </summary>
     [Benchmark]
-    public void CombineStaticStringBuilder()
+    public void StaticStringBuilderAppend()
     {
         StringBuilder.Append(_interpolationModel.FirstValue);
         StringBuilder.Append(_interpolationModel.SecondValue);
@@ -107,7 +105,7 @@ public class InterpolationBenchmarks
     ///     Combines with string.Create.
     /// </summary>
     [Benchmark]
-    public void CombineSpan()
+    public void StringCreate()
     { 
         string.Create(_interpolationModel.FirstValue.Length + _interpolationModel.SecondValue.Length, (_interpolationModel.FirstValue, _interpolationModel.SecondValue),
             (shit, bebe) =>

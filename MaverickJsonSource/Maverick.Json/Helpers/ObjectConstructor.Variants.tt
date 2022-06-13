@@ -1,0 +1,28 @@
+﻿using System.Reflection;
+using Maverick.Json.Serialization;
+
+namespace Maverick.Json
+{
+    internal static partial class ObjectConstructor
+    {
+<# for ( var i = 1; i <= 100; ++i ) { #>
+        private delegate TOwner Constructor<TOwner, P0<# for ( var j = 1; j < i; ++j ) { #>, P<#=j.ToString() #><# } #>>( P0 p0<# for ( var j = 1; j < i; ++j ) { #>, P<#=j.ToString() #> p<#=j.ToString() #><# } #> );
+
+        private static JsonConstructorDelegate<TOwner> Create<TOwner, P0<# for ( var j = 1; j < i; ++j ) { #>, P<#=j.ToString() #><# } #>>( ConstructorInfo ctorInfo, JsonProperty<TOwner, P0> p0<# for ( var j = 1; j < i; ++j ) { #>, JsonProperty<TOwner, P<#=j.ToString() #>> p<#=j.ToString() #><# } #> )
+        {
+            var ctor = CreateDelegate<Constructor<TOwner, P0<# for ( var j = 1; j < i; ++j ) { #>, P<#=j.ToString() #><# } #>>>( ctorInfo );
+                
+            return ( ref JsonPropertyValues<TOwner> propertyValues ) =>
+            {
+                var v0 = propertyValues.GetValue( p0 );
+<# for ( var j = 1; j < i; ++j ) { #>
+                var v<#=j.ToString()#> = propertyValues.GetValue( p<#=j.ToString()#> );
+<# } #>
+
+                return ctor( v0<# for ( var j = 1; j < i; ++j ) { #>, v<#=j.ToString() #><# } #> );
+            };
+        }
+
+<# } #>
+    }
+}

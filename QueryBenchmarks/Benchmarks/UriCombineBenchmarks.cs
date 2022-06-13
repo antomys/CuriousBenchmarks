@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
-using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Order;
 using QueryBenchmarks.Extensions;
 
@@ -11,11 +10,10 @@ namespace QueryBenchmarks.Benchmarks;
 ///     Url combination benchmarks.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn]
+[CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[RankColumn, MinColumn, MaxColumn, Q1Column, Q3Column, AllStatisticsColumn]
-[JsonExporterAttribute.Full, CsvMeasurementsExporter, CsvExporter(CsvSeparator.Comma), HtmlExporter, MarkdownExporterAttribute.GitHub]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
 public class UriCombineBenchmarks
 {
     private static readonly Uri DefaultUri = new("https://datausa.io/");
@@ -37,7 +35,7 @@ public class UriCombineBenchmarks
     ///     Creates new uri with relative url.
     /// </summary>
     [Benchmark]
-    public void StringUriWithSpan()
+    public void StringUriSpan()
     {
         var result = string.Create(AbsoluteUri.Length + AdditionalPiece.Length,
             (AbsoluteUri, AdditionalPiece),
@@ -79,7 +77,7 @@ public class UriCombineBenchmarks
     ///     Combine v3.
     /// </summary>
     [Benchmark]
-    public void StringUriSwitchCase()
+    public void StringUriSwitch()
     {
         AbsoluteUri.SwitchCaseMethod(AdditionalPiece).Consume(_consumer);
     }
