@@ -11,7 +11,7 @@ public static class ArrayPoolStringExtensions
     /// <summary>
     ///     Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
     /// </summary>
-    private const ushort MaxByteSize = 64;
+    private const ushort MaxByteSize = 63;
 
     /// <summary>
     ///     Counts occurence of char in string. Probably, fastest way to do this.

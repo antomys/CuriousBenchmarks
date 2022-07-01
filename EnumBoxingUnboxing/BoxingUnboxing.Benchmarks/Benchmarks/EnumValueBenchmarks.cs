@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BoxingUnboxingBenchmarks.Extensions;
+using BoxingUnboxing.Benchmarks.Extensions;
 
-namespace BoxingUnboxingBenchmarks.Benchmarks;
+namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
 /// <summary>
 ///     Benchmarks of getting int value from enum.
@@ -32,7 +32,7 @@ public class EnumValueBenchmarks : EnumBenchmarksBase
     [BenchmarkCategory(GroupConstants.Value), Benchmark]
     public string IntCustom()
     {
-        return EnumExtensions.GetValue(TestEnums[0]).ToString();
+        return EnumExtensions.CustomGetValue(TestEnums[0]).ToString();
     }
 
 }

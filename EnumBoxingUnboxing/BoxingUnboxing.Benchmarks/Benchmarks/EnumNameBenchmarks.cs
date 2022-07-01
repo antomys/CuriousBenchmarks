@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BoxingUnboxingBenchmarks.Extensions;
+using BoxingUnboxing.Benchmarks.Extensions;
 
-namespace BoxingUnboxingBenchmarks.Benchmarks;
+namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
 /// <summary>
 ///     Getting Name of Enum benchmarks
@@ -32,7 +32,7 @@ public class EnumNameBenchmarks : EnumBenchmarksBase
     [BenchmarkCategory(GroupConstants.Name), Benchmark]
     public string NameCustom()
     {
-        return EnumExtensions.GetName(TestEnums[0]);
+        return EnumExtensions.CustomGetName(TestEnums[0]);
     }
 
 }

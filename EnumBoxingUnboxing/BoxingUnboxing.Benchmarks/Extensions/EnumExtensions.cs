@@ -1,4 +1,4 @@
-﻿namespace BoxingUnboxingBenchmarks.Extensions;
+﻿namespace BoxingUnboxing.Benchmarks.Extensions;
 
 /// <summary>
 ///     Enum extensions.
@@ -6,12 +6,12 @@
 internal static class EnumExtensions
 {
     /// <summary>
-    ///     The simplest method to get name of the enum
+    ///     The simplest method to get name of the enum.
     /// </summary>
     /// <param name="testEnum"><see cref="TestEnum"/>.</param>
     /// <returns>input enum name.</returns>
     /// <exception cref="ArgumentOutOfRangeException">If out of range of enum.</exception>
-    internal static string GetName(TestEnum testEnum) 
+    internal static string CustomGetName(TestEnum testEnum) 
         => testEnum switch
         {
             TestEnum.First => nameof(TestEnum.First),
@@ -36,7 +36,7 @@ internal static class EnumExtensions
     /// <param name="testEnum"><see cref="TestEnum"/>.</param>
     /// <returns>input enum name.</returns>
     /// <exception cref="ArgumentOutOfRangeException">If out of range of enum.</exception>
-    internal static int GetValue(TestEnum testEnum) 
+    internal static int CustomGetValue(TestEnum testEnum) 
         => testEnum switch
         {
             TestEnum.First => 1,

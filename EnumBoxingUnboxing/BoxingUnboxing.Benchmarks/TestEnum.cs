@@ -1,72 +1,72 @@
-namespace BoxingUnboxingBenchmarks;
+namespace BoxingUnboxing.Benchmarks;
 
 /// <summary>
-///     Testing enum
+///     Testing enum.
 /// </summary>
 public enum TestEnum
 {
     /// <summary>
-    ///     Zero
+    ///     Zero.
     /// </summary>
     Zero = 0,
     
     /// <summary>
-    ///     First
+    ///     First.
     /// </summary>
     First = 1,
     
     /// <summary>
-    ///     Second
+    ///     Second.
     /// </summary>
     Second = 2,
     
     /// <summary>
-    ///     Third
+    ///     Third.
     /// </summary>
     Third = 3,
     
     /// <summary>
-    ///     Fourth
+    ///     Fourth.
     /// </summary>
     Fourth = 4,
     
     /// <summary>
-    ///     Fifth
+    ///     Fifth.
     /// </summary>
     Fifth = 5,
     
     /// <summary>
-    ///     Sixth
+    ///     Sixth.
     /// </summary>
     Sixth = 6,
     
     /// <summary>
-    ///     Seventh
+    ///     Seventh.
     /// </summary>
     Seventh = 7,
     
     /// <summary>
-    ///     Eighth
+    ///     Eighth.
     /// </summary>
     Eighth = 8,
     
     /// <summary>
-    ///     Ninth
+    ///     Ninth.
     /// </summary>
     Ninth = 9,
     
     /// <summary>
-    ///     Tenth
+    ///     Tenth.
     /// </summary>
     Tenth = 10,
     
     /// <summary>
-    ///     Eleventh
+    ///     Eleventh.
     /// </summary>
     Eleventh = 11,
     
     /// <summary>
-    ///     Twelfth
+    ///     Twelfth.
     /// </summary>
     Twelfth = 12
 }

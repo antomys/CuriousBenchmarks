@@ -1,4 +1,4 @@
-﻿namespace BoxingUnboxingBenchmarks;
+﻿namespace BoxingUnboxing.Benchmarks;
 
 internal static class GroupConstants
 {

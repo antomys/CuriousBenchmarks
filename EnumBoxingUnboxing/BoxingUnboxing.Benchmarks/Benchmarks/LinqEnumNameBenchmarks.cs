@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
-using BoxingUnboxingBenchmarks.Extensions;
+using BoxingUnboxing.Benchmarks.Extensions;
 
-namespace BoxingUnboxingBenchmarks.Benchmarks;
+namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
 /// <inheritdoc />
 public class LinqEnumNameBenchmarks : EnumBenchmarksBase
@@ -31,6 +31,6 @@ public class LinqEnumNameBenchmarks : EnumBenchmarksBase
     [BenchmarkCategory(GroupConstants.LinqName), Benchmark]
     public void LinqNameCustom()
     {
-        TestEnums.Select(testEnum => EnumExtensions.GetName(testEnum)).Consume(Consumer);
+        TestEnums.Select(testEnum => EnumExtensions.CustomGetName(testEnum)).Consume(Consumer);
     }
 }

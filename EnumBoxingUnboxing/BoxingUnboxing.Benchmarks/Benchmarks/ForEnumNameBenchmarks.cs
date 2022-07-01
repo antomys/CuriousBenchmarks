@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
-using BoxingUnboxingBenchmarks.Extensions;
+using BoxingUnboxing.Benchmarks.Extensions;
 
-namespace BoxingUnboxingBenchmarks.Benchmarks;
+namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
 /// <inheritdoc />
 public class ForEnumNameBenchmarks : EnumBenchmarksBase
@@ -39,7 +39,7 @@ public class ForEnumNameBenchmarks : EnumBenchmarksBase
     {
         for(var i = 0; i < TestEnums.Length; i++)
         {
-            EnumExtensions.GetName(TestEnums[i]).Consume(Consumer);
+            EnumExtensions.CustomGetName(TestEnums[i]).Consume(Consumer);
         }
     }
 }

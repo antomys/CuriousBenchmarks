@@ -3,7 +3,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Order;
 
-namespace BoxingUnboxingBenchmarks.Benchmarks;
+namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
 /// <summary>
 ///     Enum boxing/unboxing benchmarks base.
@@ -16,7 +16,7 @@ namespace BoxingUnboxingBenchmarks.Benchmarks;
 public class EnumBenchmarksBase
 {
     /// <summary>
-    ///     <see cref="Consumer"/>
+    ///     <see cref="Consumer"/>.
     /// </summary>
     protected static readonly Consumer Consumer = new();
     /// <summary>

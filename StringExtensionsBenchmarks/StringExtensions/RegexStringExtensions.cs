@@ -5,7 +5,7 @@ namespace StringExtensionsBenchmarks.StringExtensions;
 /// <summary>
 ///     Old string extensions.
 /// </summary>
-public static class OldStringExtensions
+public static class RegexStringExtensions
 {
     private static readonly Dictionary<RegexEnum, Regex> SlugRegexes = new()
     {
