@@ -1,4 +1,4 @@
-﻿namespace HashCodeBenchmarks.Extensions;
+﻿namespace HashCode.Benchmarks.Extensions;
 
 public readonly struct HashCodeV6
 {

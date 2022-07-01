@@ -1,6 +1,6 @@
-﻿using HashCodeBenchmarks.Models;
+﻿using HashCode.Benchmarks.Models;
 
-namespace HashCodeBenchmarks.Extensions;
+namespace HashCode.Benchmarks.Extensions;
 
 /// <summary>
 ///     Collection of different hashing algorithms and tricks from stackoverflow.
@@ -25,7 +25,7 @@ public static class HashingExtensions
     /// <returns>hash int</returns>
     public static int GetHashCodeV2(int id, string value)
     {
-        return HashCode.Combine(id, value);
+        return System.HashCode.Combine(id, value);
     }
 
     public static int GetHashCodeV3(int id, string value)

@@ -1,4 +1,4 @@
-﻿namespace HashCodeBenchmarks.Extensions;
+﻿namespace HashCode.Benchmarks.Extensions;
 
 /// <summary>
 ///     Fifth version of getting hash code.

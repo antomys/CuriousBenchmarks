@@ -1,10 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using Bogus;
-using HashCodeBenchmarks.Extensions;
-using HashCodeBenchmarks.Models;
+using HashCode.Benchmarks.Extensions;
+using HashCode.Benchmarks.Models;
 
-namespace HashCodeBenchmarks;
+namespace HashCode.Benchmarks;
 
 [MemoryDiagnoser]
 [CategoriesColumn, AllStatisticsColumn]

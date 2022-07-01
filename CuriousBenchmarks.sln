@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MaverickJsonSource", "Maver
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maverick.Json", "MaverickJsonSource\Maverick.Json\Maverick.Json.csproj", "{A933A555-D516-4313-8E3A-1311C51D6226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashCodeBenchmarks", "HashCodeBenchmarks\HashCodeBenchmarks.csproj", "{920DD5FF-66CF-4A92-9933-FF13AF819607}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnumBoxingUnboxing", "EnumBoxingUnboxing", "{C35BA106-F934-40FB-85AE-E2572EDB1B2E}"
 	ProjectSection(SolutionItems) = preProject
 		EnumBoxingUnboxing\Readme.md = EnumBoxingUnboxing\Readme.md
@@ -24,6 +22,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxingUnboxing.Tests", "EnumBoxingUnboxing\BoxingUnboxing.Tests\BoxingUnboxing.Tests.csproj", "{33878926-9F84-44DD-9BAD-C435A7AFEFBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxingUnboxing.Benchmarks", "EnumBoxingUnboxing\BoxingUnboxing.Benchmarks\BoxingUnboxing.Benchmarks.csproj", "{0C8419E0-1DA9-4AA4-A32A-40EEB5EC9938}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HashCode", "HashCode", "{6F1E784A-EAAE-4280-B089-5D01FDD3F8E2}"
+	ProjectSection(SolutionItems) = preProject
+		HashCode\Readme.md = HashCode\Readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashCode.Benchmarks", "HashCode\HashCode.Benchmarks\HashCode.Benchmarks.csproj", "{F204069D-1B6A-4D9F-9C27-690095F823DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +60,6 @@ Global
 		{A933A555-D516-4313-8E3A-1311C51D6226}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A933A555-D516-4313-8E3A-1311C51D6226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A933A555-D516-4313-8E3A-1311C51D6226}.Release|Any CPU.Build.0 = Release|Any CPU
-		{920DD5FF-66CF-4A92-9933-FF13AF819607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{920DD5FF-66CF-4A92-9933-FF13AF819607}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{920DD5FF-66CF-4A92-9933-FF13AF819607}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{920DD5FF-66CF-4A92-9933-FF13AF819607}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,10 +68,15 @@ Global
 		{0C8419E0-1DA9-4AA4-A32A-40EEB5EC9938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C8419E0-1DA9-4AA4-A32A-40EEB5EC9938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C8419E0-1DA9-4AA4-A32A-40EEB5EC9938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F204069D-1B6A-4D9F-9C27-690095F823DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F204069D-1B6A-4D9F-9C27-690095F823DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F204069D-1B6A-4D9F-9C27-690095F823DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F204069D-1B6A-4D9F-9C27-690095F823DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A933A555-D516-4313-8E3A-1311C51D6226} = {DC363249-764B-4D14-A933-3237D77036F4}
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD} = {C35BA106-F934-40FB-85AE-E2572EDB1B2E}
 		{0C8419E0-1DA9-4AA4-A32A-40EEB5EC9938} = {C35BA106-F934-40FB-85AE-E2572EDB1B2E}
+		{F204069D-1B6A-4D9F-9C27-690095F823DE} = {6F1E784A-EAAE-4280-B089-5D01FDD3F8E2}
 	EndGlobalSection
 EndGlobal
