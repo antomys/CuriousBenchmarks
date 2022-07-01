@@ -31,7 +31,7 @@ internal static class EnumExtensions
         };
     
     /// <summary>
-    ///     The simplest method to get name of the enum
+    ///     The simplest method to get name of the enum.
     /// </summary>
     /// <param name="testEnum"><see cref="TestEnum"/>.</param>
     /// <returns>input enum name.</returns>

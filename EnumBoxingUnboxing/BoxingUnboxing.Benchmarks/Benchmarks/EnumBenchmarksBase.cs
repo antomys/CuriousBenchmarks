@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Order;
 
 namespace BoxingUnboxing.Benchmarks.Benchmarks;
@@ -9,20 +8,19 @@ namespace BoxingUnboxing.Benchmarks.Benchmarks;
 ///     Enum boxing/unboxing benchmarks base.
 /// </summary>
 [MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
+[CategoriesColumn]
+[AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
+[MarkdownExporterAttribute.GitHub]
+[CsvMeasurementsExporter]
+[RPlotExporter]
 public class EnumBenchmarksBase
 {
     /// <summary>
-    ///     <see cref="Consumer"/>.
+    ///     Gets collection of enums.
     /// </summary>
-    protected static readonly Consumer Consumer = new();
-    /// <summary>
-    ///     Collection of enums.
-    /// </summary>
-    protected static TestEnum[] TestEnums = default!;
+    protected static TestEnum[] TestEnums { get; private set; } = default!;
 
     /// <summary>
     ///     Global setup of private fields.
@@ -30,7 +28,7 @@ public class EnumBenchmarksBase
     [GlobalSetup]
     public void Setup()
     {
-        TestEnums = new []
+        TestEnums = new[]
         {
             TestEnum.First,
             TestEnum.Second,
@@ -43,7 +41,7 @@ public class EnumBenchmarksBase
             TestEnum.Ninth,
             TestEnum.Tenth,
             TestEnum.Eleventh,
-            TestEnum.Twelfth
+            TestEnum.Twelfth,
         };
     }
 }

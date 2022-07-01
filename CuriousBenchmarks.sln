@@ -17,6 +17,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashCodeBenchmarks", "HashCodeBenchmarks\HashCodeBenchmarks.csproj", "{920DD5FF-66CF-4A92-9933-FF13AF819607}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnumBoxingUnboxing", "EnumBoxingUnboxing", "{C35BA106-F934-40FB-85AE-E2572EDB1B2E}"
+	ProjectSection(SolutionItems) = preProject
+		EnumBoxingUnboxing\Readme.md = EnumBoxingUnboxing\Readme.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxingUnboxing.Tests", "EnumBoxingUnboxing\BoxingUnboxing.Tests\BoxingUnboxing.Tests.csproj", "{33878926-9F84-44DD-9BAD-C435A7AFEFBD}"
 EndProject

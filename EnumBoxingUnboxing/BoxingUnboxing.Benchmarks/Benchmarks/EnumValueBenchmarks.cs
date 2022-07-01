@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BoxingUnboxing.Benchmarks.Extensions;
+using BoxingUnboxing.Benchmarks.Services;
 
 namespace BoxingUnboxing.Benchmarks.Benchmarks;
 
@@ -12,27 +13,26 @@ public class EnumValueBenchmarks : EnumBenchmarksBase
     ///     Getting int value from enum by .ToString().
     /// </summary>
     [BenchmarkCategory(GroupConstants.Value), Benchmark]
-    public string IntToString()
+    public string ToStringFormatD()
     {
-        return TestEnums[0].ToString("D");
+        return TestEnums[0].ToStringFormatD();
     }
-    
+
     /// <summary>
     ///     Getting int value from enum by implicit cast of enum
     /// </summary>
     [BenchmarkCategory(GroupConstants.Value), Benchmark]
-    public string IntCast()
+    public string IntCastToString()
     {
-        return ((int) TestEnums[0]).ToString();
+        return TestEnums[0].IntCastToString();
     }
-    
+
     /// <summary>
     ///     Getting int value from enum by custom method
     /// </summary>
     [BenchmarkCategory(GroupConstants.Value), Benchmark]
-    public string IntCustom()
+    public string ExternalMethodToString()
     {
-        return EnumExtensions.CustomGetValue(TestEnums[0]).ToString();
+        return TestEnums[0].CustomGetValue();
     }
-
 }
