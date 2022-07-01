@@ -26,23 +26,14 @@ public class StringGenerationBenchmarks
     public int Size { get; set; }
 
     private readonly Consumer _consumer = new();
-    
-    /// <summary>
-    ///     Gets random string using original method.
-    /// </summary>
-    [Benchmark(Baseline = true)]
-    public void RandomString()
-    {
-        UniqueStringGeneration.GetUniqueStringOriginal(Size).Consume(_consumer);
-    }
-    
+
     /// <summary>
     ///     Gets random string using original method + string.Create.
     /// </summary>
-    [Benchmark]
-    public void UniqueOriginalStringCreate()
+    [Benchmark(Baseline = true)]
+    public void OriginalRandomString()
     {
-        UniqueStringGeneration.GetUniqueKeyOriginalStringCreate(Size).Consume(_consumer);
+        UniqueStringGeneration.GetUniqueOriginal(Size).Consume(_consumer);
     }
     
     /// <summary>
@@ -51,7 +42,7 @@ public class StringGenerationBenchmarks
     [Benchmark]
     public void UniqueRandomV1()
     {
-        UniqueStringGeneration.GetUniqueKeyNew(Size).Consume(_consumer);
+        UniqueStringGeneration.GetUniqueHashSet(Size).Consume(_consumer);
     }
     
     /// <summary>
@@ -60,7 +51,7 @@ public class StringGenerationBenchmarks
     [Benchmark]
     public void UniqueRandomV1SpanOwner()
     {
-        UniqueStringGeneration.GetUniqueKeyNewSpanOwner(Size).Consume(_consumer);
+        UniqueStringGeneration.GetUniqueSpanOwner(Size).Consume(_consumer);
     }
     
     /// <summary>

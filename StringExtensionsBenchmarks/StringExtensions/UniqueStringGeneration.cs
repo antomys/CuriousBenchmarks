@@ -20,7 +20,7 @@ public static class UniqueStringGeneration
     /// </summary>
     /// <param name="size">Size of generated string.</param>
     /// <returns><see cref="string"/>.</returns>
-    public static string GetUniqueStringOriginal(int size)
+    public static string GetUniqueOriginal(int size)
     {
         var data = new byte[4 * size];
         using (var crypto = RandomNumberGenerator.Create())
@@ -41,40 +41,13 @@ public static class UniqueStringGeneration
             }
         });
     }
-    
-    /// <summary>
-    ///     Generates unique string value of a gives size.
-    /// </summary>
-    /// <param name="size">Given size of generated string.</param>
-    /// <returns>Generated string.</returns>
-    public static string GetUniqueKeyOriginalStringCreate(int size)
-    {
-        var data = new byte[4 * size];
-        using (var crypto = RandomNumberGenerator.Create())
-        {
-            crypto.GetBytes(data);
-        }
 
-        return string.Create(size, (Chars, size, data), (span, tuple) =>
-        {
-            var (chars, internalSize, internalData) = tuple;
-            
-            for (var i = 0; i < internalSize; i++)
-            {
-                var rnd = BitConverter.ToUInt32(internalData, i * 4);
-                var idx = rnd % chars.Length;
-
-                span[i] = Chars[idx];
-            }
-        });
-    }
-    
     /// <summary>
     ///     Generates unique string value of a gives size.
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
-    public static string GetUniqueKeyNew(int length) 
+    public static string GetUniqueHashSet(int length) 
     {
         var allowedCharSet = new HashSet<char>(Chars).ToArray();
         
@@ -99,7 +72,7 @@ public static class UniqueStringGeneration
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
-    public static string GetUniqueKeyNewSpanOwner(int length) 
+    public static string GetUniqueSpanOwner(int length) 
     {
         switch (length <= 64)
         {

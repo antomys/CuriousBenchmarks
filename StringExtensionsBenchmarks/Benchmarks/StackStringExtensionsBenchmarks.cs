@@ -50,7 +50,7 @@ public class StackStringExtensionsBenchmarks
    public void LinkFormat()
    {
       _testStringArray
-         .Select(stringsTestModel=> OldStringExtensions.ToLinkFormat(stringsTestModel.Values))
+         .Select(stringsTestModel=> RegexStringExtensions.ToLinkFormat(stringsTestModel.Values))
          .Consume(_consumer);
    }
    
@@ -72,7 +72,7 @@ public class StackStringExtensionsBenchmarks
    public void DashFormat()
    {
       _testStringArray
-         .Select(stringsTestModel => OldStringExtensions.ToDashedView(stringsTestModel.Values))
+         .Select(stringsTestModel => RegexStringExtensions.ToDashedView(stringsTestModel.Values))
          .Consume(_consumer);
    }
    
