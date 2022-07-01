@@ -1,5 +1,7 @@
 # Getting Int or String from Enum using different approaches
 
+### **Note:** All benchmarks chars are available here [Click to proceed to Github folder](assets)
+
 ### Table of contents
 - [Machine information](#machine-information)
 - [Benchmark results](#benchmark-results)
