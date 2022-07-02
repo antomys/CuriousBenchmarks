@@ -10,46 +10,55 @@ public static class HashingExtensions
     /// <summary>
     ///     Default native method
     /// </summary>
-    /// <param name="testModel"></param>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
     /// <returns>hash int</returns>
-    public static int GetHashCodeV1(TestModel testModel)
+    public static int Default(SimpleModel simpleModel)
     {
-        return testModel.GetHashCode();
+        return simpleModel.GetHashCode();
     }
     
     /// <summary>
     ///     Using <see cref="HashCode.Combine{T1,T2}"/>
     /// </summary>
-    /// <param name="id">test model id.</param>
-    /// <param name="value">test mode value.</param>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
     /// <returns>hash int</returns>
-    public static int GetHashCodeV2(int id, string value)
+    public static int DefaultCombine(SimpleModel simpleModel)
     {
-        return System.HashCode.Combine(id, value);
+        return System.HashCode.Combine(simpleModel.Id, simpleModel.Value);
     }
 
-    public static int GetHashCodeV3(int id, string value)
+    /// <summary>
+    ///     Manual method of getting hash code.
+    /// </summary>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
+    /// <returns>hash int</returns>
+    public static int Manual(SimpleModel simpleModel)
     {
         unchecked // Allow arithmetic overflow, numbers will just "wrap around"
         {
             var hashcode = 1430287;
-            hashcode = hashcode * 7302013 ^ id.GetHashCode();
-            hashcode = hashcode * 7302013 ^ value.GetHashCode();
+            hashcode = hashcode * 7302013 ^ simpleModel.Id.GetHashCode();
+            hashcode = hashcode * 7302013 ^ simpleModel.Value.GetHashCode();
 
             return hashcode;
         }
     }
     
-    public static int GetHashCodeV4(int id, string value)
+    /// <summary>
+    ///     Manual method of getting hash code with bitwise operations.
+    /// </summary>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
+    /// <returns>hash int</returns>
+    public static int ManualBitwise(SimpleModel simpleModel)
     {
         unchecked
         {
             var num = 0x7e53a269;
-            num = -1521134295 * num + id;
+            num = -1521134295 * num + simpleModel.Id;
             num += num << 10;
             num ^= num >> 6;
 
-            num = -1521134295 * num + value.GetHashCode(StringComparison.OrdinalIgnoreCase);
+            num = -1521134295 * num + simpleModel.Value.GetHashCode(StringComparison.OrdinalIgnoreCase);
             num += num << 10;
             num ^= num >> 6;
 
@@ -57,13 +66,33 @@ public static class HashingExtensions
         }
     } 
     
-    public static int GetHashCodeV5(int id, string value)
+    /// <summary>
+    ///     <see cref="HashCodeV5"/> method of getting hash code.
+    /// </summary>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
+    /// <returns>hash int</returns>
+    public static int StructV5(SimpleModel simpleModel)
     {
-        return HashCodeV5.Of(id).And(value);
+        return HashCodeV5.Of(simpleModel);
     }
     
-    public static int GetHashCodeV6(int id, string value)
+    /// <summary>
+    ///     <see cref="HashCodeV6"/> method of getting hash code.
+    /// </summary>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
+    /// <returns>hash int</returns>
+    public static int StructV6(SimpleModel simpleModel)
     {
-        return HashCodeV6.Start.Hash(id).Hash(value);
+        return HashCodeV6.Start.Hash(simpleModel);
+    }
+    
+    /// <summary>
+    ///     <see cref="HashCodeV6Ref"/> method of getting hash code.
+    /// </summary>
+    /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
+    /// <returns>hash int</returns>
+    public static int StructV6Ref(SimpleModel simpleModel)
+    {
+        return HashCodeV6Ref.Hash(simpleModel);
     }
 }

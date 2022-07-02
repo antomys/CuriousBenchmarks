@@ -20,11 +20,17 @@ public readonly struct HashCodeV5 : IEquatable<HashCodeV5>
     /// <summary>
     ///     Override of == operator.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">left <see cref="HashCodeV5"/></param>
+    /// <param name="right">right <see cref="HashCodeV5"/></param>
+    /// <returns>Bool</returns>
     public static bool operator ==(HashCodeV5 left, HashCodeV5 right) => left.Equals(right);
 
+    /// <summary>
+    ///     Override of != operator.
+    /// </summary>
+    /// <param name="left">left <see cref="HashCodeV5"/></param>
+    /// <param name="right">right <see cref="HashCodeV5"/></param>
+    /// <returns>Bool</returns>
     public static bool operator !=(HashCodeV5 left, HashCodeV5 right) => !(left == right);
 
     public static HashCodeV5 Of<T>(T item) => new(GetHashCode(item));
