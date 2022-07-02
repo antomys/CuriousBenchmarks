@@ -3,7 +3,7 @@ namespace Iterators.Benchmarks.Models;
 /// <summary>
 ///     Test model class.
 /// </summary>
-public sealed class TestModel
+public sealed class SimpleModel
 {
     /// <summary>
     ///     Test id.

@@ -1,4 +1,1 @@
-﻿using BenchmarkDotNet.Running;
-using Iterators.Benchmarks;
-
-BenchmarkRunner.Run<LinqForForeachBenchmarks>();
+﻿BenchmarkDotNet.Running.BenchmarkRunner.Run(typeof(Program).Assembly);
