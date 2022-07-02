@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Benchmarks", "Json\Jso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqGroupByDistinct.Benchmarks", "LinqGroupByDistinct\LinqGroupByDistinct.Benchmarks\LinqGroupByDistinct.Benchmarks.csproj", "{367B908C-F702-4A27-9901-9A9C751EB76E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iterators.Tests", "Iterators\Iterators.Tests\Iterators.Tests.csproj", "{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{367B908C-F702-4A27-9901-9A9C751EB76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{367B908C-F702-4A27-9901-9A9C751EB76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{367B908C-F702-4A27-9901-9A9C751EB76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD} = {C35BA106-F934-40FB-85AE-E2572EDB1B2E}
@@ -106,5 +112,6 @@ Global
 		{7A9354CD-45B9-4A56-AE83-96373945B5C4} = {9AF86D2B-CF26-4ED6-A6DD-8562F84C27D5}
 		{AB7C5321-2DAA-4299-AF6A-DCA0028023C7} = {EA753603-E41E-47E1-A9F4-2D4BF68BD638}
 		{367B908C-F702-4A27-9901-9A9C751EB76E} = {535A8EEC-29EE-4E67-958B-B7D75CF10C6A}
+		{87D352B1-30A8-4BE3-B707-EFCC2ED1D9F0} = {9AF86D2B-CF26-4ED6-A6DD-8562F84C27D5}
 	EndGlobalSection
 EndGlobal
