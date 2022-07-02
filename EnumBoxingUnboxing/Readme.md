@@ -1,8 +1,6 @@
-# Getting Int or String from Enum using different approaches
+# Getting name or value from Enum
 
-### **Note:** All benchmarks chars are available here [Click to proceed to Github folder](assets)
-
-### Table of contents
+## Table of contents
 - [Machine information](#machine-information)
 - [Benchmark results](#benchmark-results)
   * [Getting int value from Enum](#getting-int-value-from-enum)
@@ -24,30 +22,31 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 ## Benchmark results
 
 <a name="getting-int-value-from-enum"></a>
-### Getting int value from Enum
+### Getting int value as string from Enum
 
-| Method      |      Mean |     Error |    StdDev |    StdErr |       Min |        Q1 |    Median |        Q3 |       Max |          Op/s |  Gen 0 | Allocated |
-|-------------|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|--------------:|-------:|----------:|
-| IntCast     |  2.262 ns | 0.0789 ns | 0.0659 ns | 0.0183 ns |  2.167 ns |  2.224 ns |  2.250 ns |  2.288 ns |  2.419 ns | 442,145,721.5 |      - |         - |
-| IntCustom   |  5.448 ns | 0.1165 ns | 0.0973 ns | 0.0270 ns |  5.279 ns |  5.407 ns |  5.484 ns |  5.505 ns |  5.582 ns | 183,551,001.9 |      - |         - |
-| IntToString | 14.404 ns | 0.5976 ns | 1.7431 ns | 0.1761 ns | 12.039 ns | 12.774 ns | 14.185 ns | 15.502 ns | 18.667 ns |  69,425,828.0 | 0.0057 |      24 B |
-
+| Method                 |      Mean |     Error |   StdDev |    StdErr |    Median |       Min |        Q1 |        Q3 |       Max |          Op/s |  Gen 0 | Allocated |
+|------------------------|----------:|----------:|---------:|----------:|----------:|----------:|----------:|----------:|----------:|--------------:|-------:|----------:|
+| IntCastToString        |  3.109 ns | 0.4105 ns | 1.151 ns | 0.1207 ns |  2.578 ns |  2.031 ns |  2.305 ns |  3.471 ns |  6.724 ns | 321,657,559.0 |      - |         - |
+| ExternalMethodToString |  9.699 ns | 1.4750 ns | 4.303 ns | 0.4346 ns | 10.220 ns |  4.245 ns |  4.894 ns | 11.820 ns | 21.797 ns | 103,101,658.8 |      - |         - |
+| ToStringFormatD        | 37.376 ns | 3.2854 ns | 9.213 ns | 0.9657 ns | 35.766 ns | 19.015 ns | 32.075 ns | 41.859 ns | 62.580 ns |  26,754,935.7 | 0.0057 |      24 B |
 #### MultimodalDistribution
-`EnumValueBenchmarks.IntToString`: Default -> It seems that the distribution is bimodal (mValue = 3.52)
+`EnumValueBenchmarks.ExternalMethodToString:` Default -> It seems that the distribution is multimodal (mValue = 4.22)
+
 ![BarPlot](assets/BoxingUnboxing.Benchmarks.Benchmarks.EnumValueBenchmarks-barplot.png)
 ![BoxPlot](assets/BoxingUnboxing.Benchmarks.Benchmarks.EnumValueBenchmarks-boxplot.png)
+
 
 <a name="getting-name-of-current-enum"></a>
 ### Getting Name of current Enum
 
-| Method       |      Mean |     Error |    StdDev |    StdErr |       Min |        Q1 |    Median |        Q3 |       Max |          Op/s |  Gen 0 | Allocated |
-|--------------|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|--------------:|-------:|----------:|
-| NameCustom   |  2.524 ns | 0.1371 ns | 0.2541 ns | 0.0387 ns |  2.155 ns |  2.336 ns |  2.480 ns |  2.684 ns |  3.154 ns | 396,139,904.2 |      - |         - |
-| NameToString | 31.141 ns | 1.2277 ns | 3.5617 ns | 0.3616 ns | 26.017 ns | 28.289 ns | 30.565 ns | 33.086 ns | 40.831 ns |  32,112,087.9 | 0.0057 |      24 B |
-| NameGetName  | 32.135 ns | 0.9130 ns | 2.6195 ns | 0.2688 ns | 28.383 ns | 30.145 ns | 31.817 ns | 33.568 ns | 39.307 ns |  31,118,650.2 |      - |         - |
+| Method          |      Mean |     Error |     StdDev |    StdErr |       Min |        Q1 |    Median |        Q3 |        Max |          Op/s |  Gen 0 | Allocated |
+|-----------------|----------:|----------:|-----------:|----------:|----------:|----------:|----------:|----------:|-----------:|--------------:|-------:|----------:|
+| CustomGetName   |  3.434 ns | 0.1860 ns |  0.2352 ns | 0.0490 ns |  3.134 ns |  3.228 ns |  3.445 ns |  3.569 ns |   3.988 ns | 291,230,187.1 |      - |         - |
+| DefaultToString | 56.549 ns | 5.5221 ns | 15.8439 ns | 1.6256 ns | 31.282 ns | 49.889 ns | 52.423 ns | 60.615 ns |  93.776 ns |  17,683,834.4 | 0.0057 |      24 B |
+| EnumGetName     | 60.710 ns | 6.2515 ns | 17.7345 ns | 1.8390 ns | 32.548 ns | 46.578 ns | 58.854 ns | 69.813 ns | 107.503 ns |  16,471,725.6 |      - |         - |
 
 #### MultimodalDistribution
-`EnumNameBenchmarks.NameToString`: Default -> It seems that the distribution is multimodal (mValue = 4.48)
+`EnumNameBenchmarks.EnumGetName:` Default -> It seems that the distribution is bimodal (mValue = 3.45)
 
 ![BarPlot](assets/BoxingUnboxing.Benchmarks.Benchmarks.EnumNameBenchmarks-barplot.png)
 ![BoxPlot](assets/BoxingUnboxing.Benchmarks.Benchmarks.EnumNameBenchmarks-boxplot.png)

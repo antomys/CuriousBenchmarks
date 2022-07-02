@@ -62,7 +62,7 @@ The algorithm does not have to be a [Cryptographic hash function](https://en.wik
 - A small change to a message should change the hash value so extensively that the new hash value appears uncorrelated with the old hash value (avalanche effect).
 
 <a name="machine-information"></a>
-## Machine Information
+# Machine Information
 
 ``` ini
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.22621
@@ -75,19 +75,28 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="benchmark-results"></a>
 # Benchmark results
 
-| Method      |       Mean |     Error |    StdDev |    StdErr |        Min |         Q1 |     Median |         Q3 |        Max |            Op/s | Allocated |
-|-------------|-----------:|----------:|----------:|----------:|-----------:|-----------:|-----------:|-----------:|-----------:|----------------:|----------:|
-| Default     |  0.3886 ns | 0.0329 ns | 0.0292 ns | 0.0078 ns |  0.3476 ns |  0.3728 ns |  0.3859 ns |  0.3944 ns |  0.4487 ns | 2,573,341,173.2 |         - |
-| V1          | 11.7647 ns | 0.2601 ns | 0.2891 ns | 0.0663 ns | 11.3148 ns | 11.5945 ns | 11.7632 ns | 11.8286 ns | 12.3520 ns |    84,999,715.8 |         - |
-| V3          | 11.7666 ns | 0.2618 ns | 0.3997 ns | 0.0718 ns | 11.0602 ns | 11.5622 ns | 11.7312 ns | 12.0341 ns | 12.6475 ns |    84,986,390.9 |         - |
-| V4          | 13.2362 ns | 0.2844 ns | 0.5746 ns | 0.0813 ns | 12.3089 ns | 12.7948 ns | 13.1182 ns | 13.5929 ns | 14.7663 ns |    75,550,625.6 |         - |
-| HashCombine | 14.6924 ns | 0.3785 ns | 1.1102 ns | 0.1116 ns | 13.0377 ns | 13.6180 ns | 14.5109 ns | 15.5095 ns | 17.2608 ns |    68,062,338.4 |         - |
-| V2          | 19.0793 ns | 0.2513 ns | 0.2227 ns | 0.0595 ns | 18.6759 ns | 18.9744 ns | 19.0571 ns | 19.2516 ns | 19.4625 ns |    52,412,945.7 |         - |
+| Method         |       Mean |     Error |    StdDev |    StdErr |     Median |        Min |         Q1 |         Q3 |       Max |            Op/s | Ratio | RatioSD | Allocated |
+|----------------|-----------:|----------:|----------:|----------:|-----------:|-----------:|-----------:|-----------:|----------:|----------------:|------:|--------:|----------:|
+| Default        |  0.7939 ns | 0.0984 ns | 0.2870 ns | 0.0290 ns |  0.7418 ns |  0.3804 ns |  0.5519 ns |  0.9970 ns |  1.539 ns | 1,259,546,873.0 |  1.00 |    0.00 |         - |
+| StructV5       |  3.9422 ns | 0.7204 ns | 2.0900 ns | 0.2122 ns |  3.0666 ns |  1.8546 ns |  2.3802 ns |  5.2689 ns |  9.363 ns |   253,667,726.2 |  5.60 |    3.56 |         - |
+| StructV6Ref    |  4.0087 ns | 0.0947 ns | 0.0840 ns | 0.0224 ns |  3.9974 ns |  3.8796 ns |  3.9496 ns |  4.0395 ns |  4.181 ns |   249,458,214.6 |  5.24 |    1.53 |         - |
+| StructV6       |  9.4502 ns | 1.4963 ns | 4.4120 ns | 0.4412 ns |  7.7750 ns |  5.1212 ns |  5.7852 ns | 12.8835 ns | 22.116 ns |   105,818,110.8 | 13.82 |    8.51 |         - |
+| Manual         | 15.7927 ns | 0.6847 ns | 1.8860 ns | 0.2010 ns | 15.2549 ns | 13.4931 ns | 14.2124 ns | 16.9435 ns | 21.552 ns |    63,320,262.0 | 22.34 |    8.95 |         - |
+| DefaultCombine | 19.3328 ns | 0.6286 ns | 1.8534 ns | 0.1853 ns | 19.1892 ns | 13.2464 ns | 17.8747 ns | 20.7973 ns | 23.552 ns |    51,725,432.2 | 27.82 |   10.04 |         - |
+| ManualBitwise  | 33.8660 ns | 2.0086 ns | 5.6653 ns | 0.5907 ns | 32.4228 ns | 24.9100 ns | 29.4931 ns | 36.8530 ns | 49.990 ns |    29,528,104.2 | 48.49 |   20.54 |         - |
 
-![BarPlot](assets/HashCodeBenchmarks.HashCodeBenchmarks-barplot.png)
-![BoxPlot](assets/HashCodeBenchmarks.HashCodeBenchmarks-boxplot.png)
+#### MultimodalDistribution
+`HashCodeBenchmarks.StructV5: Default` -> It seems that the distribution can have several modes (mValue = 2.98)
+`HashCodeBenchmarks.Manual: Default`   -> It seems that the distribution can have several modes (mValue = 3)
+#### BaselineCustomAnalyzer
+`Summary` -> A question mark `?` symbol indicates that it was not possible to compute the (Ratio, RatioSD) column(s) because the baseline value is too close to zero.
+#### ZeroMeasurement
+`HashCodeBenchmarks.Default: Default` -> The method duration is indistinguishable from the empty method duration
+
+![BarPlot](assets/HashCode.Benchmarks.HashCodeBenchmarks-barplot.png)
+![BoxPlot](assets/HashCode.Benchmarks.HashCodeBenchmarks-boxplot.png)
 
 <a name="conclusions"></a>
-## Conclusions
+# Conclusions
 
 Do not make your head blow and use default `GetHashCode` method :)
