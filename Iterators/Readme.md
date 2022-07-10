@@ -60,4 +60,4 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="conclusions"></a>
 ## Conclusions
 
-There is no difference for now between `for` and `foreach`. For big chunks, better use `Linq` or returning as `Yield return` :)
+There is no difference for now between `for` and `foreach`. For big chunks, better use `Linq` or returning as `Yield return`.

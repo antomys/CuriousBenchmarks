@@ -60,4 +60,4 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="conclusions"></a>
 ## Conclusions
 
-Do not instantly group. Make overall `.Distinct` or using `DistinctBy(Func)` to eliminate junk items. This will boost your performance and make Linq cleaner :)
+Do not instantly group. Make overall `.Distinct` or using `DistinctBy(Func)` to eliminate junk items. This will boost your performance and make Linq cleaner.
