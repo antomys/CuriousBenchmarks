@@ -79,4 +79,4 @@ internal static string GetName(TestEnum testEnum)
 
 The problem is that common method `Enum.GetName` inside uses binary search for some reason. This approach eliminated extensive code and makes it straightforward.
 
-2. As for int value, best method is casting to int. It is rather cheap : `((int) Enum).ToString();`
+2. As for int value, best method is casting to int. It is rather cheap : `((int) Enum).ToString();`.

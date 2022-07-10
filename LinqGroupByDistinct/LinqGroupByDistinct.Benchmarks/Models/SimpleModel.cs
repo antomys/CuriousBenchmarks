@@ -3,7 +3,7 @@ namespace LinqGroupByDistinct.Benchmarks.Models;
 /// <summary>
 ///     Test model.
 /// </summary>
-public sealed class TestModel
+public sealed class SimpleModel
 {
     /// <summary>
     ///     Id of test model.

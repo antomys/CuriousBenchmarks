@@ -3,7 +3,7 @@ namespace LinqGroupByDistinct.Benchmarks.Models;
 /// <summary>
 ///     Inner test class of test class.
 /// </summary>
-public sealed class InnerTestModel
+public sealed class InnerModel
 {
     /// <summary>
     ///     Id of inner test model.
