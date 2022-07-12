@@ -1,1 +1,3 @@
-﻿BenchmarkDotNet.Running.BenchmarkRunner.Run(typeof(Program).Assembly);
+﻿using Query.Benchmarks.Benchmarks;
+
+BenchmarkDotNet.Running.BenchmarkRunner.Run<QueryBuilderBenchmarks>();
