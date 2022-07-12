@@ -1,11 +1,10 @@
 using System.Collections.Specialized;
-using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using Bogus;
-using Microsoft.AspNetCore.WebUtilities;
-using Query.Benchmarks.Extensions;
+using Microsoft.AspNetCore.Http.Extensions;
+using Query.Benchmarks.Services.Query;
 
 namespace Query.Benchmarks.Benchmarks;
 
@@ -23,18 +22,17 @@ public class QueryBuilderBenchmarks
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(1,2,3,4,5,6,7,8,9,10)]
-    public int Count { get; set; }
+    [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]
+    public int QueryCount { get; set; }
     
-    private const string Url = "https://datausa.io/api/data";
-    
-    private static readonly StringBuilder StringBuilder = new("?");
-    private static readonly Dictionary<string, string> TestValues = new();
-    private static readonly NameValueCollection TestNvc = new();
-    private static readonly Microsoft.AspNetCore.Http.Extensions.QueryBuilder QueryBuilder = new();
-    private static readonly QueryBuilderV1 QueryBuilderV1ValuesNew = new();
-    
-    private static KeyValuePair<string, string>[]? _testKvp;
+    private const string Url = "https://localhost";
+
+    // Note: Shutting up compiler. Method below assures that there will be no methods with null.
+    private static Dictionary<string, string> _testDictionary = default!;
+    private static KeyValuePair<string, string>[] _testKvp = default!;
+    private static QueryDictionary _testQueryDictionary = default!;
+    private static NameValueCollection _testNvc = default!;
+    private static QueryBuilder _queryBuilder = default!;
 
     /// <summary>
     ///     Global setup.
@@ -43,183 +41,142 @@ public class QueryBuilderBenchmarks
     public void Setup()
     {
         var faker = new Faker();
-        Randomizer.Seed = new Random(420);
-        _testKvp = new KeyValuePair<string, string>[10];
 
-        for (var i = 0; i < 10; i++)
+        _testDictionary = new Dictionary<string, string>(QueryCount);
+        _testKvp = new KeyValuePair<string, string>[QueryCount];
+        _testQueryDictionary = new QueryDictionary(QueryCount);
+        _testNvc = new NameValueCollection(QueryCount);
+        _queryBuilder = new QueryBuilder();
+        
+        for (var i = 0; i < QueryCount; i++)
         {
             var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
 
-            TestValues.Add(testKey, testValue);
-            TestNvc.Add(testKey, testValue);
-            QueryBuilder.Add(testKey, testValue);
-            QueryBuilderV1ValuesNew.Add(testKey, testValue);
-            
             _testKvp[i] = KeyValuePair.Create(testKey, testValue);
+            _testQueryDictionary.Add(testKey, testValue);
+            _testDictionary.Add(testKey, testValue);
+            _testNvc.Add(testKey, testValue);
+            _queryBuilder.Add(testKey, testValue);
         }
     }
-    /// <summary>
-    ///     Build query from dict.
-    /// </summary>
-    /// <returns></returns>
-    [Benchmark]
-    public string QueryFromDictionary()
-    {
-        return QueryHelpers.AddQueryString(Url, TestValues);
-    }
 
     /// <summary>
-    ///     Async building query with Kvp.
+    ///     Benchmarking method <see cref="QueryService.QueryDictionary"/>.
     /// </summary>
-    /// <returns></returns>
-    [BenchmarkCategory(GroupConstants.Async), Benchmark]
-    public async Task<string> FormUrlEncodedContentQueryAsync()
-    {
-        using var content = new FormUrlEncodedContent(_testKvp!);
-
-        var result = await content.ReadAsStringAsync();
-        
-        return Url + "?" + result;
-    }
-
-    /// <summary>
-    ///     Async creating query.
-    /// </summary>
-    /// <returns></returns>
-    [BenchmarkCategory(GroupConstants.Async), Benchmark]
-    public async Task<string> FormUrlEncodedContentDictionaryQueryAsync()
-    {
-        using var content = new FormUrlEncodedContent(TestValues);
-
-        var result = await content.ReadAsStringAsync();
-        
-        return Url + "?" + result;
-    }
-
-    /// <summary>
-    ///     Custom method.
-    /// </summary>
-    /// <returns></returns>
-    [Benchmark]
-    public string CustomQuery()
-    {
-        return Url + TestNvc.ToQueryString();
-    }
-    
-    /// <summary>
-    ///     Static version of StringBuilder.
-    /// </summary>
-    /// <returns></returns>
-    [Benchmark]
-    public string CustomStaticStringBuilderQuery()
-    {
-        return Url + StaticStringBuilderString(TestNvc);
-    }
-
-    /// <summary>
-    ///     Asp.net query builder.
-    /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark(Baseline = true)]
-    public string AspNetCoreQueryBuilderQuery()
+    public string QueryDictionary()
     {
-        return Url + QueryBuilder.ToQueryString();
-    }
-
-    /// <summary>
-    ///     Linq query builder.
-    /// </summary>
-    /// <returns></returns>
-    [Benchmark]
-    public string LinqBuildQueryV1()
-    {
-        return Url + TestValues.LinqQuery();
+        return QueryService.QueryDictionary(Url, _testDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.LinqQueryAggregate"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV2()
+    public string LinqQueryAggregate()
     {
-        return Url + TestValues.LinqQueryV2();
+        return QueryService.LinqQueryAggregate(Url, _testDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.LinqSelectJoin"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV21()
+    public string LinqSelectJoin()
     {
-        return Url + TestValues.LinqQueryV2ModV1();
+        return QueryService.LinqSelectJoin(Url, _testDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.QueryConcatString"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV22()
+    public string QueryConcatString()
     {
-        return Url + TestValues.LinqQueryV2ModV2();
+        return QueryService.QueryConcatString(Url, _testDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreate"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV23()
+    public string QueryStringCreate()
     {
-        return Url + QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
+        return QueryService.QueryStringCreate(Url, _testDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.LinqQuerySpanVer2"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV23Span()
+    public string LinqQuerySpanVer2()
     {
-        var query = QueryBuilderV1ValuesNew.LinqQueryV2ModV3();
-
-        return string.Create(Url.Length + query.Length, (Url, query), (span, tuple) =>
-        {
-            var (url, s) = tuple;
-            url.CopyTo(span);
-            s.CopyTo(span[url.Length..]);
-        });
+        return QueryService.LinqQuerySpanVer2(Url, _testQueryDictionary);
     }
     
     /// <summary>
-    ///     Linq query builder.
+    ///     Benchmarking method <see cref="QueryService.QueryAspNetCore"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Constructed string.</returns>
     [Benchmark]
-    public string LinqBuildQueryV3()
+    public string QueryAspNetCore()
     {
-        return Url + TestValues.LinqQueryV3();
+        return QueryService.QueryAspNetCore(Url, _queryBuilder);
     }
     
-    private static string StaticStringBuilderString(NameValueCollection nvc)
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryNvcStringBuilder"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryNvcStringBuilder()
     {
-        var first = true;
-
-        foreach (var key in nvc.AllKeys)
-        foreach (var value in nvc.GetValues(key)!)
-        {
-            if (!first) StringBuilder.Append('&');
-
-            StringBuilder.Append($"{Uri.EscapeDataString(key!)}={Uri.EscapeDataString(value)}");
-
-            first = false;
-        }
-
-        var result = StringBuilder.ToString();
-        StringBuilder.Clear();
-
-        return result;
+        return QueryService.QueryNvcStringBuilder(Url, _testNvc);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreateConcat"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryStringCreateConcat()
+    {
+        return QueryService.QueryStringCreateConcat(Url, _testDictionary);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreateStack"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryStringCreateStack()
+    {
+        return QueryService.QueryStringCreateStack(Url, _testQueryDictionary);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryFormUrlEncodedContent"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryFormUrlEncodedContent()
+    {
+        return QueryService.QueryFormUrlEncodedContent(Url, _testDictionary);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryNvcStaticStringBuilder"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryNvcStaticStringBuilder()
+    {
+        return QueryService.QueryNvcStaticStringBuilder(Url, _testNvc);
     }
 }

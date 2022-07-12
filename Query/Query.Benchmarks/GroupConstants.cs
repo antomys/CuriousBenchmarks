@@ -2,5 +2,7 @@
 
 internal static class GroupConstants
 {
-    internal const string Async = "Async";
+    internal const string StringUrl = "String Url";
+    
+    internal const string UriUrl = "Uri Url";
 }
