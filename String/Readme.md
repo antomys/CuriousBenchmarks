@@ -6,9 +6,12 @@
     * [Contains char benchmarks](#contains-char-benchmarks)
     * [String interpolation](#string-interpolation)
     * [Unique string generation](#unique-string-generation)
-    * [Link/Dash view benchmarks](#linkdash-view-benchmarks)
-      * [Original string benchmarks](#original-string-benchmarks)
-      * [Stack string benchmarks](#stack-string-benchmarks)
+    * [Link view benchmarks](#link-view-benchmarks)
+      * [Single](#single-link-view-benchmarks)
+      * [Multiple](#multiple-link-view-benchmarks)
+    * [Dash view benchmarks](#Dash-view-benchmarks)
+      * [Single](#single-dash-view-benchmarks)
+      * [Multiple](#multiple-dash-view-benchmarks)
 - [Conclusions](#conclusions)
 
 <a name="machine-information"></a>
