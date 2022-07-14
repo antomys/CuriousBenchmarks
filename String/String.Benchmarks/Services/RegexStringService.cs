@@ -1,11 +1,11 @@
 using System.Text.RegularExpressions;
 
-namespace String.Benchmarks.StringExtensions;
+namespace String.Benchmarks.Services;
 
 /// <summary>
 ///     Old string extensions.
 /// </summary>
-public static class RegexStringExtensions
+public static class RegexStringService
 {
     private static readonly Dictionary<RegexEnum, Regex> SlugRegexes = new()
     {
@@ -27,7 +27,7 @@ public static class RegexStringExtensions
     /// <param name="inputValues">Array of input values.</param>
     /// <returns><see cref="string"/>.</returns>
     public static string ToLinkFormat(params string[] inputValues) =>
-        GenerateSlug(string.Join(Constants.Space, inputValues));
+        GenerateSlug(string.Join(Constants.LinkDelimiter, inputValues), Constants.LinkDelimiter);
 
     /// <summary>
     ///     Joins all string values with delimiter <see cref="Constants.Space"/>.
@@ -36,23 +36,23 @@ public static class RegexStringExtensions
     /// <param name="inputParams">inputParams</param>
     /// <returns><see cref="string"/>.</returns>
     public static string ToLinkFormat(this IEnumerable<string> inputCollection, params string[] inputParams)
-        => GenerateSlug(string.Join(Constants.Space, inputCollection.Concat(inputParams)));
+        => GenerateSlug(string.Join(Constants.LinkDelimiter, inputCollection.Concat(inputParams)), Constants.LinkDelimiter);
 
     /// <summary>
     ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
     /// </summary>
     /// <param name="stringCollection">collection of strings.</param>
     /// <returns><see cref="string"/>.</returns>
-    public static string ToDashedView(this IEnumerable<string> stringCollection) =>
-        string.Join(Constants.Space, stringCollection);
+    public static string ToDashFormat(this IEnumerable<string> stringCollection) =>
+        string.Join(Constants.DashedViewDelimiter, stringCollection);
 
     /// <summary>
     ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
     /// </summary>
     /// <param name="inputValues">collection of strings.</param>
     /// <returns><see cref="string"/>.</returns>
-    public static string ToDashedView(params string[] inputValues)
-        => string.Join(Constants.Space, inputValues);
+    public static string ToDashFormat(params string[] inputValues)
+        => string.Join(Constants.DashedViewDelimiter, inputValues);
 
     /// <summary>
     ///     Counts occurence of char in string. Probably, fastest way to do this.
@@ -61,11 +61,14 @@ public static class RegexStringExtensions
     /// <param name="function">function, char that should be seeked in string</param>
     /// <returns>number of occurrences in string</returns>
     /// <exception cref="ArgumentNullException">if input string is null</exception>
-    public static bool Contains(this string rawString, Func<char, bool> function)
+    public static bool Contains(this string? rawString, Func<char, bool> function)
     {
-        if (rawString == null)
+        switch (rawString)
         {
-            throw new ArgumentNullException(nameof(rawString));
+            case null:
+                throw new ArgumentNullException(nameof(rawString));
+            case "":
+                return false;
         }
 
         var length = rawString.Length;
@@ -81,11 +84,11 @@ public static class RegexStringExtensions
         return false;
     }
 
-    private static string GenerateSlug(this string phrase)
+    private static string GenerateSlug(this string phrase, char replace)
     {
-        phrase = SlugRegexes[RegexEnum.InvalidCharsRegex].Replace(phrase, string.Empty);
-        phrase = SlugRegexes[RegexEnum.MultilineRegex].Replace(phrase, Constants.Space.ToString()).Trim();
-        phrase = SlugRegexes[RegexEnum.HyphenRegex].Replace(phrase, Constants.DashedViewDelimiter);
+        phrase = SlugRegexes[RegexEnum.InvalidCharsRegex].Replace(phrase, string.Empty).Trim();
+        phrase = SlugRegexes[RegexEnum.MultilineRegex].Replace(phrase, replace.ToString()).Trim();
+        phrase = SlugRegexes[RegexEnum.HyphenRegex].Replace(phrase, replace.ToString()).Trim();
 
         return phrase;
     }

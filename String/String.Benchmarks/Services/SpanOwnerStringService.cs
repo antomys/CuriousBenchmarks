@@ -1,12 +1,12 @@
 using System.Globalization;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace String.Benchmarks.StringExtensions;
+namespace String.Benchmarks.Services;
 
 /// <summary>
 ///     Additional extensions to manipulate with strings.
 /// </summary>
-public static class SpanOwnerStringExtensions
+public static class SpanOwnerStringService
 {
     /// <summary>
     ///     Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
@@ -20,8 +20,16 @@ public static class SpanOwnerStringExtensions
     /// <param name="function">function, char that should be seeked in string</param>
     /// <returns>number of occurrences in string</returns>
     /// <exception cref="ArgumentNullException">if input string is null</exception>
-    public static bool Contains(this string rawString, Func<char, bool> function)
+    public static bool Contains(this string? rawString, Func<char, bool> function)
     {
+        switch (rawString)
+        {
+            case null:
+                throw new ArgumentNullException(nameof(rawString));
+            case "":
+                return false;
+        }
+
         var length = rawString.Length;
 
         for (var index = length - 1; index >= 0; index--)
@@ -81,10 +89,10 @@ public static class SpanOwnerStringExtensions
     {
         if (!string.IsNullOrEmpty(input2) && !string.IsNullOrEmpty(input3))
         {
-            return InternalToLinkFormat(input1, input2, input3);
+            return ToLinkFormatInternal(input1, input2, input3);
         }
 
-        return !string.IsNullOrEmpty(input2) ? InternalToLinkFormat(input1, input2) : InternalToLinkFormat(input1);
+        return !string.IsNullOrEmpty(input2) ? ToLinkFormatInternal(input1, input2) : ToLinkFormatInternal(input1);
     }
 
     /// <summary>
@@ -107,84 +115,76 @@ public static class SpanOwnerStringExtensions
         var isStackAlloc = overallLength <= MaxByteSize;
         var currentPosition = 0;
         
-        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
-        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
-        
-        for (var i = 0; i < inputStrings.Length - 1; i++)
+        if (!isStackAlloc)
         {
-            BuildPart(inputStrings[i], resultSpan, ref currentPosition, Constants.LinkDelimiter);
+            using var array = SpanOwner<char>.Allocate(overallLength);
+            var resultSpan = array.Span;
+
+            return BuildString(inputStrings, resultSpan, ref currentPosition);
         }
-
-        BuildPart(inputStrings[^1], resultSpan, ref currentPosition);
-
-        RemoveSpaces(resultSpan, ref currentPosition);
-
-        return resultSpan.Length == overallLength 
-            ? resultSpan.ToString() 
-            : resultSpan[..overallLength].ToString();
-
+        
+        Span<char> stackSpan = stackalloc char[overallLength];
+        
+        return BuildString(inputStrings, stackSpan, ref currentPosition);
     }
 
-    private static string InternalToLinkFormat(string input1)
+    private static string ToLinkFormatInternal(string input1)
     {
         var overallLength = input1.Length;
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
 
-        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
-        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        if (isStackAlloc)
+        {
+            using var array = SpanOwner<char>.Allocate(overallLength);
+            var resultSpan = array.Span;
+
+            return BuildString(input1, resultSpan, ref currentPosition);
+        }
         
-        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
-
-        RemoveSpaces(resultSpan, ref currentPosition);
-
-        return resultSpan.Length == overallLength 
-            ? resultSpan.ToString() 
-            : resultSpan[..overallLength].ToString();
+        Span<char> stackSpan = stackalloc char[overallLength];
+        
+        return BuildString(input1, stackSpan, ref currentPosition);
     }
 
-    private static string InternalToLinkFormat(string input1, string input2)
+    private static string ToLinkFormatInternal(string input1, string input2)
     {
         var overallLength = input1.Length + input2.Length + 1;
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
 
-        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
-        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
+        if (isStackAlloc)
+        {
+            using var array = SpanOwner<char>.Allocate(overallLength);
+            var resultSpan = array.Span;
+            
+            return BuildString(input1, input2, resultSpan, ref currentPosition);
+        }
+        Span<char> stackSpan = stackalloc char[overallLength];
         
-        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
-        BuildPart(input2, resultSpan, ref currentPosition);
-
-        RemoveSpaces(resultSpan, ref currentPosition);
-
-        return resultSpan.Length == overallLength 
-            ? resultSpan.ToString() 
-            : resultSpan[..overallLength].ToString();
-
+        return BuildString(input1, input2, stackSpan, ref currentPosition);
     }
 
-    private static string InternalToLinkFormat(string input1, string input2, string input3)
+    private static string ToLinkFormatInternal(string input1, string input2, string input3)
     {
         var overallLength = input1.Length + input2.Length + input3.Length + 2;
         var isStackAlloc = overallLength <= MaxByteSize;
 
         var currentPosition = 0;
 
-        using var array = isStackAlloc ? default : SpanOwner<char>.Allocate(overallLength);
-        var resultSpan = isStackAlloc ? stackalloc char[overallLength] : array.Span;
-        
-        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
-        BuildPart(input2, resultSpan, ref currentPosition, Constants.LinkDelimiter);
-        BuildPart(input3, resultSpan, ref currentPosition);
-
-        RemoveSpaces(resultSpan, ref currentPosition);
-
-        return resultSpan.Length == overallLength 
-            ? resultSpan.ToString() 
-            : resultSpan[..overallLength].ToString();
+        if (!isStackAlloc)
+        {
+            using var array = SpanOwner<char>.Allocate(overallLength);
+            var resultSpan = array.Span;
+            
+            return BuildString(input1, input2, input3, resultSpan, ref currentPosition);
         }
+        Span<char> stackSpan = stackalloc char[overallLength];
+        
+        return BuildString(input1, input2, input3, stackSpan, ref currentPosition);
+    }
 
     /// <summary>
     ///     Method to retrieve overall length of all array values.
@@ -214,11 +214,10 @@ public static class SpanOwnerStringExtensions
     /// <exception cref="ArgumentNullException">If input is null or empty.</exception>
     private static void BuildPart(string input, Span<char> overallSpan, ref int globalIndex, char delimiter = default)
     {
-        MemoryExtensions.ToLower(input, overallSpan[globalIndex..], CultureInfo.InvariantCulture);
+        var trimmedResult = MemoryExtensions.TrimEnd(input, Constants.Space);
+        globalIndex += trimmedResult.ToLower(overallSpan[globalIndex..], CultureInfo.InvariantCulture);
 
-        globalIndex += input.Length;
-
-        if (delimiter != default)
+        if (delimiter != default && globalIndex < overallSpan.Length)
         {
             overallSpan[globalIndex++] = delimiter;
         }
@@ -247,5 +246,65 @@ public static class SpanOwnerStringExtensions
             remaining = remaining[(indexOfSpace + 1)..];
             indexOfSpace = remaining.IndexOf(Constants.Space);
         }
+    }
+    
+        private static string BuildString(string[] inputStrings, Span<char> resultSpan, ref int currentPosition)
+    {
+        for (var i = 0; i < inputStrings.Length - 1; i++)
+        {
+            BuildPart(inputStrings[i], resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        }
+        
+        BuildPart(inputStrings[^1], resultSpan, ref currentPosition);
+        
+        RemoveSpaces(resultSpan, ref currentPosition);
+        
+        var endIndex = resultSpan.IndexOf('\0');
+
+        return endIndex is -1
+            ? resultSpan[..currentPosition].ToString() 
+            : resultSpan[..(endIndex < currentPosition ? endIndex : currentPosition)].ToString();
+    }
+
+    private static string BuildString(string input1, Span<char> resultSpan, ref int currentPosition)
+    {
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        
+        RemoveSpaces(resultSpan, ref currentPosition);
+
+        var endIndex = resultSpan.IndexOf('\0');
+
+        return endIndex is -1
+            ? resultSpan[..currentPosition].ToString() 
+            : resultSpan[..(endIndex < currentPosition ? endIndex : currentPosition)].ToString();
+    }
+    
+    private static string BuildString(string input1, string input2, Span<char> resultSpan, ref int currentPosition)
+    {
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        BuildPart(input2, resultSpan, ref currentPosition);
+
+        RemoveSpaces(resultSpan, ref currentPosition);
+
+        var endIndex = resultSpan.IndexOf('\0');
+
+        return endIndex is -1
+            ? resultSpan[..currentPosition].ToString() 
+            : resultSpan[..(endIndex < currentPosition ? endIndex : currentPosition)].ToString();
+    }
+    
+    private static string BuildString(string input1, string input2, string input3, Span<char> resultSpan, ref int currentPosition)
+    {
+        BuildPart(input1, resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        BuildPart(input2, resultSpan, ref currentPosition, Constants.LinkDelimiter);
+        BuildPart(input3, resultSpan, ref currentPosition);
+            
+        RemoveSpaces(resultSpan, ref currentPosition);
+
+        var eofIndex = resultSpan.IndexOf('\0');
+
+        return eofIndex is -1
+            ? resultSpan[..currentPosition].ToString() 
+            : resultSpan[..(eofIndex < currentPosition ? eofIndex : currentPosition)].ToString();
     }
 }

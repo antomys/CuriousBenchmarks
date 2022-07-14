@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
@@ -15,14 +16,16 @@ namespace Query.Benchmarks.Benchmarks;
 [CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class QueryBuilderBenchmarks
 {
     /// <summary>
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]
+    [Params(1, 2, 5, 10)]
     public int QueryCount { get; set; }
     
     private const string Url = "https://localhost";
@@ -33,6 +36,7 @@ public class QueryBuilderBenchmarks
     private static QueryDictionary _testQueryDictionary = default!;
     private static NameValueCollection _testNvc = default!;
     private static QueryBuilder _queryBuilder = default!;
+    private static QueryCustomBuilder _queryCustomBuilder = default!;
 
     /// <summary>
     ///     Global setup.
@@ -46,14 +50,16 @@ public class QueryBuilderBenchmarks
         _testKvp = new KeyValuePair<string, string>[QueryCount];
         _testQueryDictionary = new QueryDictionary(QueryCount);
         _testNvc = new NameValueCollection(QueryCount);
+        _queryCustomBuilder = new QueryCustomBuilder();
         _queryBuilder = new QueryBuilder();
-        
+
         for (var i = 0; i < QueryCount; i++)
         {
             var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
 
             _testKvp[i] = KeyValuePair.Create(testKey, testValue);
             _testQueryDictionary.Add(testKey, testValue);
+            _queryCustomBuilder.Add(testKey, testValue);
             _testDictionary.Add(testKey, testValue);
             _testNvc.Add(testKey, testValue);
             _queryBuilder.Add(testKey, testValue);
@@ -128,6 +134,16 @@ public class QueryBuilderBenchmarks
     public string QueryAspNetCore()
     {
         return QueryService.QueryAspNetCore(Url, _queryBuilder);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryCustomBuilder()
+    {
+        return QueryService.QueryCustomBuilder(Url, _queryCustomBuilder);
     }
     
     /// <summary>

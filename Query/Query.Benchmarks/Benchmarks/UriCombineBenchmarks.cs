@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
-using Query.Benchmarks.Services;
 using Query.Benchmarks.Services.Uri;
 
 namespace Query.Benchmarks.Benchmarks;
@@ -13,7 +12,7 @@ namespace Query.Benchmarks.Benchmarks;
 [CategoriesColumn, AllStatisticsColumn]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
+[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
 public class UriCombineBenchmarks
 {
     private static readonly Uri DefaultUri = new("https://localhost");

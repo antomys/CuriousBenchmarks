@@ -1,8 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace LinqGroupByDistinct.Benchmarks.Models;
 
 /// <summary>
 ///     Test model.
 /// </summary>
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class SimpleModel
 {
     /// <summary>

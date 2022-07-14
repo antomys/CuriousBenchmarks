@@ -3,12 +3,12 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace String.Benchmarks.StringExtensions;
+namespace String.Benchmarks.Services;
 
 /// <summary>
 ///     Extensions for generating unique strings.
 /// </summary>
-public static class UniqueStringGeneration
+public static class GenerationService
 {
     private static readonly char[] Chars =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
@@ -96,7 +96,7 @@ public static class UniqueStringGeneration
     /// </summary>
     /// <param name="length">Given size of generated string.</param>
     /// <returns>Generated string.</returns>
-    public static string GetUniqueKeyNewArrayPool(int length) 
+    public static string GetUniqueArrayPool(int length) 
     {
         switch (length <= 64)
         {

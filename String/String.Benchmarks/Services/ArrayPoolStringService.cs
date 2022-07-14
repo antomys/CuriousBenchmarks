@@ -1,12 +1,12 @@
 using System.Buffers;
 using System.Globalization;
 
-namespace String.Benchmarks.StringExtensions;
+namespace String.Benchmarks.Services;
 
 /// <summary>
 ///     Additional extensions to manipulate with strings.
 /// </summary>
-public static class ArrayPoolStringExtensions
+public static class ArrayPoolStringService
 {
     /// <summary>
     ///     Maximal amount of bytes for using stackalloc. If not, then using ArrayPool.
@@ -20,8 +20,16 @@ public static class ArrayPoolStringExtensions
     /// <param name="function">function, char that should be seeked in string</param>
     /// <returns>number of occurrences in string</returns>
     /// <exception cref="ArgumentNullException">if input string is null</exception>
-    public static bool Contains(this string rawString, Func<char, bool> function)
+    public static bool Contains(this string? rawString, Func<char, bool> function)
     {
+        switch (rawString)
+        {
+            case null:
+                throw new ArgumentNullException(nameof(rawString));
+            case "":
+                return false;
+        }
+
         var length = rawString.Length;
 
         for (var index = length - 1; index >= 0; index--)
@@ -121,9 +129,11 @@ public static class ArrayPoolStringExtensions
 
             RemoveSpaces(resultSpan, ref currentPosition);
 
-            return resultSpan.Length == overallLength 
-                ? resultSpan.ToString() 
-                : resultSpan[..overallLength].ToString();
+            var endIndex = resultSpan.IndexOf('\0');
+            
+            return endIndex is -1
+                ? resultSpan[..overallLength].ToString() 
+                : resultSpan[..(endIndex < overallLength ? endIndex : overallLength)].ToString();
         }
         finally
         {
@@ -150,9 +160,11 @@ public static class ArrayPoolStringExtensions
 
             RemoveSpaces(resultSpan, ref currentPosition);
 
-            return resultSpan.Length == overallLength 
-                ? resultSpan.ToString() 
-                : resultSpan[..overallLength].ToString();
+            var endIndex = resultSpan.IndexOf('\0');
+            
+            return endIndex is -1
+                ? resultSpan[..overallLength].ToString() 
+                : resultSpan[..(endIndex < overallLength ? endIndex : overallLength)].ToString();
         }
         finally
         {
@@ -180,9 +192,11 @@ public static class ArrayPoolStringExtensions
 
             RemoveSpaces(resultSpan, ref currentPosition);
 
-            return resultSpan.Length == overallLength 
-                ? resultSpan.ToString() 
-                : resultSpan[..overallLength].ToString();
+            var endIndex = resultSpan.IndexOf('\0');
+            
+            return endIndex is -1
+                ? resultSpan[..overallLength].ToString() 
+                : resultSpan[..(endIndex < overallLength ? endIndex : overallLength)].ToString();
         }
         finally
         {
@@ -211,9 +225,11 @@ public static class ArrayPoolStringExtensions
 
             RemoveSpaces(resultSpan, ref currentPosition);
 
-            return resultSpan.Length == overallLength 
-                ? resultSpan.ToString() 
-                : resultSpan[..overallLength].ToString();
+            var endIndex = resultSpan.IndexOf('\0');
+            
+            return endIndex is -1
+                ? resultSpan[..overallLength].ToString() 
+                : resultSpan[..(endIndex < overallLength ? endIndex : overallLength)].ToString();
         }
         finally
         {
@@ -252,11 +268,12 @@ public static class ArrayPoolStringExtensions
     /// <exception cref="ArgumentNullException">If input is null or empty.</exception>
     private static void BuildPart(string input, Span<char> overallSpan, ref int globalIndex, char delimiter = default)
     {
-        MemoryExtensions.ToLower(input, overallSpan[globalIndex..], CultureInfo.InvariantCulture);
+        var trimmedResult = MemoryExtensions.TrimEnd(input, Constants.Space);
+        trimmedResult.ToLower(overallSpan[globalIndex..], CultureInfo.InvariantCulture);
+        
+        globalIndex += trimmedResult.Length;
 
-        globalIndex += input.Length;
-
-        if (delimiter != default)
+        if (delimiter != default && globalIndex < overallSpan.Length)
         {
             overallSpan[globalIndex++] = delimiter;
         }

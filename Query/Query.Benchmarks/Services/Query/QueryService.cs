@@ -80,6 +80,18 @@ public static class QueryService
     }
     
     /// <summary>
+    ///     Constructs query from <see cref="QueryBuilder"/> using QueryBuilder and it's inside 'ToString()'.
+    ///     Note: No escaping special chars!
+    /// </summary>
+    /// <param name="url">Input string url.</param>
+    /// <param name="queryBuilder"><see cref="QueryCustomBuilder"/> of queries.</param>
+    /// <returns>Constructed query string</returns>
+    public static string QueryCustomBuilder(string url, QueryCustomBuilder queryBuilder)
+    {
+        return $"{url}{queryBuilder}";
+    }
+    
+    /// <summary>
     ///     Constructs query from dictionary using Linq with escaping.
     /// </summary>
     /// <param name="url">Input string url.</param>

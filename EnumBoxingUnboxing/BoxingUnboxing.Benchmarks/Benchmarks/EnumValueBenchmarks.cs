@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BoxingUnboxing.Benchmarks.Extensions;
 using BoxingUnboxing.Benchmarks.Services;
 
 namespace BoxingUnboxing.Benchmarks.Benchmarks;
