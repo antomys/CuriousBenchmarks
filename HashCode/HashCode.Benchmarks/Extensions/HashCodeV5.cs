@@ -33,20 +33,46 @@ public readonly struct HashCodeV5 : IEquatable<HashCodeV5>
     /// <returns>Bool</returns>
     public static bool operator !=(HashCodeV5 left, HashCodeV5 right) => !(left == right);
 
+    /// <summary>
+    ///     Gets hash of item.
+    /// </summary>
+    /// <param name="item">Item.</param>
+    /// <typeparam name="T">T.</typeparam>
+    /// <returns><see cref="HashCodeV5"/>.</returns>
     public static HashCodeV5 Of<T>(T item) => new(GetHashCode(item));
 
+    /// <summary>
+    ///     Gets hash of each item from a collection.
+    /// </summary>
+    /// <param name="items">Collection of items.</param>
+    /// <typeparam name="T">T.</typeparam>
+    /// <returns><see cref="HashCodeV5"/>.</returns>
     public static HashCodeV5 OfEach<T>(IEnumerable<T>? items) =>
         items is null ? new HashCodeV5(0) : new HashCodeV5(GetHashCode(items, 0));
 
+    /// <summary>
+    ///     Combines hashes.
+    /// </summary>
+    /// <param name="item">Item.</param>
+    /// <typeparam name="T">T.</typeparam>
+    /// <returns><see cref="HashCodeV5"/>.</returns>
     public HashCodeV5 And<T>(T item) => new(CombineHashCodes(_value, GetHashCode(item)));
 
+    /// <summary>
+    ///     Adds items hash codes to existing hash code.
+    /// </summary>
+    /// <param name="items">Collection of items.</param>
+    /// <typeparam name="T">T</typeparam>
+    /// <returns><see cref="HashCodeV5"/>.</returns>
     public HashCodeV5 AndEach<T>(IEnumerable<T>? items)
     {
         return items is null ? new HashCodeV5(_value) : new HashCodeV5(GetHashCode(items, _value));
     }
 
+    /// <inheritdoc />
     public bool Equals(HashCodeV5 other) => _value.Equals(other._value);
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (obj is HashCodeV5 code)
@@ -57,6 +83,7 @@ public readonly struct HashCodeV5 : IEquatable<HashCodeV5>
         return false;
     }
 
+    /// <inheritdoc />
     public override int GetHashCode() => _value.GetHashCode();
 
     private static int CombineHashCodes(int h1, int h2)
