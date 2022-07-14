@@ -24,7 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Maverick.Json\Maverick.Json.csproj" />
+        <ProjectReference Include="..\Libraries\Maverick.Json\Maverick.Json.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\Serialization" />
     </ItemGroup>
 
 </Project>
