@@ -9,7 +9,15 @@ public static class JsonOptions
     {
         PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
     };
-    
+
+    internal static readonly Newtonsoft.Json.JsonSerializerSettings NewtonsoftOptions = new()
+    {
+        ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+    };
+
+    internal static readonly MessagePack.MessagePackSerializerOptions MsgPackOptions 
+        = MessagePack.MessagePackSerializerOptions.Standard.WithCompression(MessagePack.MessagePackCompression.Lz4BlockArray);
+
     /// <summary>
     ///     Settings for Maverick Json.
     /// </summary>

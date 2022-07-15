@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Json.Benchmarks.Models;
 
 namespace Json.Benchmarks.Benchmarks.Deserialization;
 

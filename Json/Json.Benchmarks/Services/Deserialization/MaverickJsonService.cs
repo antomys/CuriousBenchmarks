@@ -15,6 +15,11 @@ public static class MaverickJsonService<T>
         return global::Maverick.Json.JsonConvert.Deserialize<ICollection<T>>(testString, JsonOptions.MaverickSettings);
     }
     
+    public static string MaverickJson(T tValue)
+    {
+        return global::Maverick.Json.JsonConvert.Serialize(tValue, global::Maverick.Json.JsonFormat.None, JsonOptions.MaverickSettings);
+    }
+    
     /// <summary>
     ///     Deserialize byte array of TValue using <see cref="Maverick(byte[])"/>.
     /// </summary>
@@ -22,6 +27,15 @@ public static class MaverickJsonService<T>
     public static ICollection<T> Maverick(byte[] testByteArray)
     {
         return global::Maverick.Json.JsonConvert.Deserialize<ICollection<T>>(testByteArray, JsonOptions.MaverickSettings);
+    }
+    
+    /// <summary>
+    ///     Deserialize byte array of TValue using <see cref="Maverick(byte[])"/>.
+    /// </summary>
+    /// <returns>Collection of TValue.</returns>
+    public static byte[] Maverick(T tValue)
+    {
+        return System.Text.Encoding.UTF8.GetBytes(global::Maverick.Json.JsonConvert.Serialize(tValue));
     }
     
     /// <summary>
@@ -35,6 +49,14 @@ public static class MaverickJsonService<T>
         _ = testStream.Read(buffer);
 
         return global::Maverick.Json.JsonConvert.Deserialize<ICollection<T>>(buffer, JsonOptions.MaverickSettings);
+    }
+    
+    public static MemoryStream MaverickStream(T tValue)
+    {
+        using var memoryStream = new MemoryStream();
+        global::Maverick.Json.JsonConvert.Serialize(memoryStream, tValue,  global::Maverick.Json.JsonFormat.None, JsonOptions.MaverickSettings);
+
+        return memoryStream;
     }
     
     /// <summary>

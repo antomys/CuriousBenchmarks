@@ -14,6 +14,11 @@ public static class SpanJsonService<T>
     {
         return global::SpanJson.JsonSerializer.Generic.Utf16.Deserialize<ICollection<T>>(testString)!;
     }
+
+    public static string SpanJson(T tValue)
+    {
+        return global::SpanJson.JsonSerializer.Generic.Utf16.Serialize(tValue)!;
+    }
     
     /// <summary>
     ///     Deserialize byte array of TValue using <see cref="SpanJson(string)"/>.
@@ -22,6 +27,11 @@ public static class SpanJsonService<T>
     public static ICollection<T> SpanJson(byte[] testByteArray)
     {
         return global::SpanJson.JsonSerializer.Generic.Utf8.Deserialize<ICollection<T>>(testByteArray)!;
+    }
+    
+    public static ArraySegment<char> SpanJsonArraySegment(T tValue)
+    {
+        return global::SpanJson.JsonSerializer.Generic.Utf16.SerializeToArrayPool(tValue)!;
     }
     
     /// <summary>
@@ -46,5 +56,13 @@ public static class SpanJsonService<T>
         testStream.Position = 0;
         
         return global::SpanJson.JsonSerializer.Generic.Utf8.DeserializeAsync<ICollection<T>>(testStream);
+    }
+
+    public static async Task<MemoryStream> SpanJsonAsync(T tValue)
+    {
+        await using var memoryStream = new MemoryStream();
+        await global::SpanJson.JsonSerializer.Generic.Utf8.SerializeAsync(tValue, memoryStream);
+
+        return memoryStream;
     }
 }

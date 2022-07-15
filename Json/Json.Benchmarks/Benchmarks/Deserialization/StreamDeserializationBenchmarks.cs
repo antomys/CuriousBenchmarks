@@ -1,6 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-
-namespace Json.Benchmarks.Benchmarks.Deserialization;
+﻿namespace Json.Benchmarks.Benchmarks.Deserialization;
 
 /// <summary>
 ///     Deserialization from stream.
@@ -16,7 +14,7 @@ public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
     /// <summary>
     ///     Override of setup.
     /// </summary>
-    [GlobalSetup]
+    [BenchmarkDotNet.Attributes.GlobalSetup]
     public new void Setup()
     {
         base.Setup();
@@ -29,7 +27,7 @@ public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
     /// <summary>
     ///     Closing streams.
     /// </summary>
-    [GlobalCleanup]
+    [BenchmarkDotNet.Attributes.GlobalCleanup]
     public void Cleanup()
     {
         _testStream.Close();

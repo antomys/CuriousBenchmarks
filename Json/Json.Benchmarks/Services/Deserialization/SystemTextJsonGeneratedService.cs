@@ -16,6 +16,11 @@ public static class SystemTextJsonGeneratedGeneratedService
         return System.Text.Json.JsonSerializer.Deserialize(testString, TestModelJsonContext.Default.ICollectionTestModel);
     }
     
+    public static string SystemTextJsonGenerated(ICollection<TestModel> testString)
+    {
+        return System.Text.Json.JsonSerializer.Serialize(testString, TestModelJsonContext.Default.ICollectionTestModel);
+    }
+    
     /// <summary>
     ///     Deserialize byte array of <see cref="TestModel"/> using <see cref="System.Text.Json"/>.
     /// </summary>
@@ -23,6 +28,11 @@ public static class SystemTextJsonGeneratedGeneratedService
     public static ICollection<TestModel> SystemTextJsonGenerated(byte[] testByteArray)
     {
         return System.Text.Json.JsonSerializer.Deserialize(testByteArray, TestModelJsonContext.Default.ICollectionTestModel)!;
+    }
+    
+    public static byte[] SystemTextJsonGeneratedBytes(ICollection<TestModel> testString)
+    {
+        return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(testString, TestModelJsonContext.Default.ICollectionTestModel);
     }
     
     /// <summary>
@@ -34,6 +44,23 @@ public static class SystemTextJsonGeneratedGeneratedService
         testStream.Position = 0;
         
         return System.Text.Json.JsonSerializer.Deserialize(testStream, TestModelJsonContext.Default.ICollectionTestModel)!;
+    }
+    
+    public static MemoryStream SystemTextJsonSourceGen(ICollection<TestModel> testModels)
+    {
+        using  var memoryStream = new MemoryStream();
+        var jsonWriter = new System.Text.Json.Utf8JsonWriter(memoryStream);
+        System.Text.Json.JsonSerializer.Serialize(jsonWriter, testModels, TestModelJsonContext.Default.ICollectionTestModel);
+
+        return memoryStream;
+    }
+    
+    public static async Task<MemoryStream> SystemTextJsonSourceGenAsync(ICollection<TestModel> testModels)
+    {
+        using  var memoryStream = new MemoryStream();
+        await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, testModels, TestModelJsonContext.Default.ICollectionTestModel);
+
+        return memoryStream;
     }
     
     /// <summary>

@@ -15,6 +15,13 @@ public static class Utf8JsonService<T>
         return global::Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testString)!;
     }
     
+    public static string Utf8Json(T tValue)
+    {
+        var serialized = global::Utf8Json.JsonSerializer.Serialize(tValue)!;
+
+        return System.Text.Encoding.UTF8.GetString(serialized, 0, serialized.Length);
+    }
+    
     /// <summary>
     ///     Deserialize byte array of TValue using <see cref="Utf8Json(string)"/>.
     /// </summary>
@@ -22,6 +29,11 @@ public static class Utf8JsonService<T>
     public static ICollection<T> Utf8Json(byte[] testByteArray)
     {
         return global::Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testByteArray)!;
+    }
+    
+    public static byte[] Utf8JsonBytes(T tValue)
+    {
+        return global::Utf8Json.JsonSerializer.Serialize(tValue)!;
     }
     
     /// <summary>
@@ -33,6 +45,14 @@ public static class Utf8JsonService<T>
         testStream.Position = 0;
 
         return global::Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testStream)!;
+    }
+    
+    public static async Task<MemoryStream> Utf8JsonAsync(T tValue)
+    {
+        using var memoryStream = new MemoryStream();
+        await global::Utf8Json.JsonSerializer.SerializeAsync(memoryStream, tValue);
+
+        return memoryStream;
     }
     
     /// <summary>

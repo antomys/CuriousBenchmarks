@@ -12,7 +12,12 @@ public static class NewtonsoftService<T>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> Newtonsoft(string testString)
     {
-        return global::Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<T>>(testString)!;
+        return global::Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<T>>(testString, JsonOptions.NewtonsoftOptions)!;
+    }
+    
+    public static string Newtonsoft(T tValue)
+    {
+        return global::Newtonsoft.Json.JsonConvert.SerializeObject(tValue, typeof(T), global::Newtonsoft.Json.Formatting.None, JsonOptions.NewtonsoftOptions);
     }
     
     /// <summary>

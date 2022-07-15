@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Json.Tests;
 
-public class UnitTest1
+public class SystemTextJsonTests
 {
     [Fact]
     public void Test1()

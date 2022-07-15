@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Json.Benchmarks.Models;
 
 namespace Json.Benchmarks.Benchmarks.Deserialization;
 
@@ -40,15 +39,5 @@ public class AsyncStreamDeserializationBenchmarks : DeserializationBenchmarksBas
         _testStream.Dispose();
         _testMsgPackStream.Dispose();
         _testProtobufStream.Dispose();
-    }
-
-    /// <summary>
-    ///     Deserialize with System.Text.Json source gen.
-    /// </summary>
-    [BenchmarkCategory(BenchmarkGroups.Stream), Benchmark]
-    public async Task<ICollection<TestModel>?> SystemTextJsonSourceGen()
-    {
-        _testStream.Position = 0;
-        return await System.Text.Json.JsonSerializer.DeserializeAsync(_testStream, TestModelJsonContext.Default.ICollectionTestModel);
     }
 }
