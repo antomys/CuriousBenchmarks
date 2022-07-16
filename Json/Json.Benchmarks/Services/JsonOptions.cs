@@ -7,7 +7,8 @@ public static class JsonOptions
     /// </summary>
     internal static readonly System.Text.Json.JsonSerializerOptions Options = new()
     {
-        PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+        Converters = { new UtcDateTimeConverter() }
     };
 
     internal static readonly Newtonsoft.Json.JsonSerializerSettings NewtonsoftOptions = new()

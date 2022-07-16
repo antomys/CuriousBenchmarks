@@ -10,7 +10,7 @@ public static class SystemTextJsonService<T>
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> SystemTextJson(string testString)
+    public static ICollection<T> SystemTextJsonDeserialize(string testString)
     {
         return System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testString, JsonOptions.Options)!;
     }
@@ -19,16 +19,16 @@ public static class SystemTextJsonService<T>
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static string SystemTextJson(T tValue)
+    public static string SystemTextJsonSerialize(ICollection<T> tValue)
     {
-        return global::System.Text.Json.JsonSerializer.Serialize(tValue, JsonOptions.Options)!;
+        return global::System.Text.Json.JsonSerializer.Serialize(tValue, JsonOptions.Options);
     }
     
     /// <summary>
     ///     Deserialize byte array of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> SystemTextJson(byte[] testByteArray)
+    public static ICollection<T> SystemTextJsonDeserializeBytes(byte[] testByteArray)
     {
         return global::System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testByteArray, JsonOptions.Options)!;
     }
@@ -37,7 +37,7 @@ public static class SystemTextJsonService<T>
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static byte[] SystemTextJsonBytes(T tValue)
+    public static byte[] SystemTextJsonSerializeBytes(ICollection<T> tValue)
     {
         return global::System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(tValue, JsonOptions.Options)!;
     }
@@ -46,7 +46,7 @@ public static class SystemTextJsonService<T>
     ///     Deserialize Stream of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> SystemTextJson(Stream testStream)
+    public static ICollection<T> SystemTextJsonDeserializeStream(Stream testStream)
     {
         testStream.Position = 0;
         
@@ -57,7 +57,7 @@ public static class SystemTextJsonService<T>
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static MemoryStream SystemTextJsonStream(T tValue)
+    public static MemoryStream SystemTextJsonSerializeStream(ICollection<T> tValue)
     {
         using var memoryStream = new MemoryStream();
         var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(memoryStream);
@@ -70,7 +70,7 @@ public static class SystemTextJsonService<T>
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static async Task<MemoryStream> SystemTextJsonStreamAsync(T tValue)
+    public static async Task<MemoryStream> SystemTextJsonSerializeStreamAsync(ICollection<T> tValue)
     {
         await using var memoryStream = new MemoryStream();
         await global::System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, tValue, JsonOptions.Options);
@@ -82,7 +82,7 @@ public static class SystemTextJsonService<T>
     ///     Asynchronously deserialize string ot TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<ICollection<T>?> SystemTextJsonAsync(Stream testStream)
+    public static ValueTask<ICollection<T>?> SystemTextJsonDeserializeAsync(Stream testStream)
     {
         testStream.Position = 0;
         
