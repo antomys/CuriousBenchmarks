@@ -3,6 +3,6 @@
 /// <summary>
 ///     Async Stream serialization benchmarks.
 /// </summary>
-public class AsyncStreamSerializationBenchmarks : SerializationBenchmarksBase
+public class AsyncStreamSerializationBenchmarks : JsonBenchmark
 {
 }

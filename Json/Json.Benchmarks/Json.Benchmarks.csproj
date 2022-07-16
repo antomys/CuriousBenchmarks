@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Serialization" />
+      <Folder Include="Converters" />
     </ItemGroup>
 
 </Project>

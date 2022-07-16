@@ -3,7 +3,7 @@
 /// <summary>
 ///     Serialization benchmarks to string
 /// </summary>
-public class StringSerializationBenchmarks : SerializationBenchmarksBase
+public class StringSerializationBenchmarks : JsonBenchmark
 {
     
 }

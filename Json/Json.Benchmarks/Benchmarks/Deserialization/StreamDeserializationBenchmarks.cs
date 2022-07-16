@@ -3,7 +3,7 @@
 /// <summary>
 ///     Deserialization from stream.
 /// </summary>
-public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
+public class StreamDeserializationBenchmarks: JsonBenchmark
 {
     private readonly Stream _testStream = new MemoryStream();
 
@@ -11,18 +11,18 @@ public class StreamDeserializationBenchmarks : DeserializationBenchmarksBase
     
     private readonly Stream _testMsgPackStream = new MemoryStream();
 
-    /// <summary>
-    ///     Override of setup.
-    /// </summary>
-    [BenchmarkDotNet.Attributes.GlobalSetup]
-    public new void Setup()
-    {
-        base.Setup();
-
-        System.Text.Json.JsonSerializer.Serialize(_testStream, TestModels, Options);
-        MessagePack.MessagePackSerializer.Serialize(_testMsgPackStream, TestModels);
-        ProtoBuf.Serializer.Serialize(_testProtobufStream, TestModels);
-    }
+    // /// <summary>
+    // ///     Override of setup.
+    // /// </summary>
+    // [BenchmarkDotNet.Attributes.GlobalSetup]
+    // public new void Setup()
+    // {
+    //     base.Setup();
+    //
+    //     System.Text.Json.JsonSerializer.Serialize(_testStream, TestModels, Options);
+    //     MessagePack.MessagePackSerializer.Serialize(_testMsgPackStream, TestModels);
+    //     ProtoBuf.Serializer.Serialize(_testProtobufStream, TestModels);
+    // }
 
     /// <summary>
     ///     Closing streams.

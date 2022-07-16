@@ -3,6 +3,6 @@
 /// <summary>
 ///     Serialization from byte array.
 /// </summary>
-public class ByteSerializationBenchmarks : SerializationBenchmarksBase
+public class ByteSerializationBenchmarks : JsonBenchmark
 {
 }

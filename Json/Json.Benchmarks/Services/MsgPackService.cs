@@ -1,4 +1,6 @@
-﻿namespace Json.Benchmarks.Services.Deserialization;
+﻿using Json.Benchmarks.Extensions;
+
+namespace Json.Benchmarks.Services;
 
 /// <summary>
 ///     Static methods wrapper of <see cref="MsgPack(string)"/>.
@@ -25,7 +27,7 @@ public static class MsgPackService<T>
     {
         var testArray = System.Text.Encoding.UTF8.GetBytes(testString);
         
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testArray, JsonOptions.MsgPackOptions);
+        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testArray, JsonServiceExtensions.MsgPackOptions);
     }
     
     public static string MsgPackClassic(T tValue)
@@ -37,7 +39,7 @@ public static class MsgPackService<T>
     
     public static string MsgPackLz4Block(T tValue)
     {
-        var serialized = MessagePack.MessagePackSerializer.Serialize(tValue, JsonOptions.MsgPackOptions);
+        var serialized = MessagePack.MessagePackSerializer.Serialize(tValue, JsonServiceExtensions.MsgPackOptions);
 
         return MessagePack.MessagePackSerializer.ConvertToJson(serialized);
     }
@@ -57,7 +59,7 @@ public static class MsgPackService<T>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> MsgPackLz4Block(byte[] testByteArray)
     {
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray, JsonOptions.MsgPackOptions)!;
+        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray, JsonServiceExtensions.MsgPackOptions)!;
     }
     
     public static byte[] MsgPackClassicBytes(T tValue)
@@ -67,7 +69,7 @@ public static class MsgPackService<T>
     
     public static byte[] MsgPackLz4BlockBytes(T tValue)
     {
-        return MessagePack.MessagePackSerializer.Serialize(tValue, JsonOptions.MsgPackOptions)!;
+        return MessagePack.MessagePackSerializer.Serialize(tValue, JsonServiceExtensions.MsgPackOptions)!;
     }
     
     /// <summary>
@@ -89,7 +91,7 @@ public static class MsgPackService<T>
     {
         testStream.Position = 0;
         
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream, JsonOptions.MsgPackOptions);
+        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream, JsonServiceExtensions.MsgPackOptions);
     }
     
     /// <summary>
@@ -111,7 +113,7 @@ public static class MsgPackService<T>
     {
         testStream.Position = 0;
         
-        return global::MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(testStream, JsonOptions.MsgPackOptions);
+        return global::MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(testStream, JsonServiceExtensions.MsgPackOptions);
     }
     
     /// <summary>
@@ -133,7 +135,7 @@ public static class MsgPackService<T>
     public static MemoryStream MsgPackSerializeLz4Block(T tValue)
     {
         using var memoryStream = new MemoryStream();
-        MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue, JsonOptions.MsgPackOptions);
+        MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
 
         return memoryStream;
     }
@@ -157,7 +159,7 @@ public static class MsgPackService<T>
     public static async Task<MemoryStream> MsgPackLz4BlockAsync(T tValue)
     {
         await using var memoryStream = new MemoryStream();
-        await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue, JsonOptions.MsgPackOptions);
+        await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
 
         return memoryStream;
     }

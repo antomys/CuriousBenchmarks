@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 namespace Json.Benchmarks.Models;
 
 /// <inheritdoc />
-[JsonSerializable(typeof(ICollection<TestModel>))]
+[JsonSerializable(typeof(ICollection<SimpleModel>))]
 [JsonSourceGenerationOptions(
     GenerationMode = JsonSourceGenerationMode.Default,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
-public sealed partial class TestModelJsonContext : JsonSerializerContext
+public sealed partial class SimpleModelJsonContext : JsonSerializerContext
 {
 }

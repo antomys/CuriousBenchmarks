@@ -1,6 +1,6 @@
 ﻿using System.Buffers;
 
-namespace Json.Benchmarks.Services.Deserialization;
+namespace Json.Benchmarks.Services;
 
 /// <summary>
 ///     Static methods wrapper of <see cref="Protobuf(string)"/>.

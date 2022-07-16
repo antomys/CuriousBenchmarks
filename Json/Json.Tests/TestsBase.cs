@@ -1,5 +1,7 @@
 ﻿using System.Text;
+using System.Xml;
 using Bogus;
+using Json.Benchmarks.Extensions;
 using Json.Tests.Models;
 
 namespace Json.Tests;
@@ -7,94 +9,90 @@ namespace Json.Tests;
 /// <summary>
 ///     Base class with arranged values.
 /// </summary>
-public sealed class TestsBase : IDisposable
+public static class TestsBase
 {
 #pragma warning disable CA1822
-    private const int InternalCount = 10;
+    private const int InternalCount = 1;
 
     private static readonly Faker<TestModel> TestModelFaker = new();
-    private readonly List<TestModel> _testModels;
-    private string _testString;
+    private static readonly List<TestModel> TestModels = TestModelFaker
+        .RuleFor(testModel => testModel.TestByte, fakerSetter => fakerSetter.Random.Byte())
+        .RuleFor(testModel => testModel.TestChar, fakerSetter => fakerSetter.Random.Char('a', 'z'))
+        .RuleFor(testModel => testModel.TestDate, fakerSetter => fakerSetter.Date.Past().ToUniversalTime())
+        .RuleFor(testModel => testModel.TestDouble, fakerSetter => fakerSetter.Random.Double())
+        .RuleFor(testModel => testModel.TestFloat, fakerSetter => fakerSetter.Random.Float())
+        .RuleFor(testModel => testModel.TestInt, fakerSetter => fakerSetter.Random.Int())
+        .RuleFor(testModel => testModel.TestLong, fakerSetter => fakerSetter.Random.Long())
+        .RuleFor(testModel => testModel.TestShort, fakerSetter => fakerSetter.Random.Short())
+        .RuleFor(testModel => testModel.TestString, fakerSetter => fakerSetter.Random.String2(5, 10))
+        .RuleFor(testModel => testModel.TestUInt, fakerSetter => fakerSetter.Random.UInt())
+        .RuleFor(testModel => testModel.TestUShort, fakerSetter => fakerSetter.Random.UShort())
+        .RuleFor(testModel => testModel.TestULong, fakerSetter => fakerSetter.Random.ULong())
+        .RuleFor(testModel => testModel.TestTimeSpan, fakerSetter => fakerSetter.Date.Timespan())
+        // .RuleFor(testModel => testModel.TestByteArray, fakerSetter => fakerSetter.Random.Bytes(internalCount))
+        .RuleFor(testModel => testModel.TestCharArray, fakerSetter => fakerSetter.Random.Chars('a', 'z', count: InternalCount))
+        .RuleFor(testModel => testModel.TestDoubleArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Double(), InternalCount))
+        .RuleFor(testModel => testModel.TestFloatArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Float(), InternalCount))
+        .RuleFor(testModel => testModel.TestIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Int(), InternalCount))
+        .RuleFor(testModel => testModel.TestUIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UInt(), InternalCount))
+        .RuleFor(testModel => testModel.TestLongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Long(), InternalCount))
+        .RuleFor(testModel => testModel.TestShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Short(), InternalCount))
+        .RuleFor(testModel => testModel.TestStringArray, fakerSetter => fakerSetter.GetArray(func => func.Random.String2(5, 10), InternalCount))
+        .RuleFor(testModel => testModel.TestUShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UShort(), InternalCount))
+        .RuleFor(testModel => testModel.TestULongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.ULong(), InternalCount))
+        .Generate(InternalCount);
+    
+    private static readonly string TestString = BuildString(TestModels, isIsoTimeSpan : false);
+    
+    private static readonly string TestJilString = BuildString(TestModels, isIsoTimeSpan: true);
 
     /// <summary>
     ///     Gets built constructed string.
     /// </summary>
     /// <returns>built constructed string.</returns>
-    public string GetTestString() => _testString;
+    public static string GetTestString() => TestString;
 
     /// <summary>
     ///     Gets array of bytes from string value.
     /// </summary>
     /// <returns>Array of bytes from string value.</returns>
-    public byte[] GetTestBytes() => Encoding.UTF8.GetBytes(_testString);
+    public static byte[] GetTestBytes() => Encoding.UTF8.GetBytes(TestString);
+    
+    /// <summary>
+    ///     Gets Jil built constructed string.
+    /// </summary>
+    /// <returns>built constructed string.</returns>
+    public static string GetTestJilString() => TestJilString;
+
+    /// <summary>
+    ///     Gets array of bytes from string value.
+    /// </summary>
+    /// <returns>Array of bytes from string value.</returns>
+    public static byte[] GetTestJilBytes() => Encoding.UTF8.GetBytes(TestJilString);
     
     /// <summary>
     ///     Gets List of <see cref="TestModel"/>.
     /// </summary>
     /// <returns>List of <see cref="TestModel"/>.</returns>
-    public List<TestModel> GetTestModels() => _testModels; 
-    
-    /// <summary>
-    ///     Constructor.
-    /// </summary>
-    public TestsBase()
-    {
-        _testModels = TestModelFaker
-            .RuleFor(x => x.TestByte, y => y.Random.Byte())
-            .RuleFor(x => x.TestChar, y => y.Random.Char('a', 'z'))
-            .RuleFor(x => x.TestDate, y => y.Date.Past())
-            .RuleFor(x => x.TestDouble, y => y.Random.Double())
-            .RuleFor(x => x.TestFloat, y => y.Random.Float())
-            .RuleFor(x => x.TestInt, y => y.Random.Int())
-            .RuleFor(x => x.TestLong, y => y.Random.Long())
-            .RuleFor(x => x.TestShort, y => y.Random.Short())
-            .RuleFor(x => x.TestString, y => y.Random.String2(5, 10))
-            .RuleFor(x => x.TestUInt, y => y.Random.UInt())
-            .RuleFor(x => x.TestUShort, y => y.Random.UShort())
-            .RuleFor(x => x.TestULong, y => y.Random.ULong())
-            .RuleFor(x => x.TestTimeSpan, y => y.Date.Timespan())
-            // .RuleFor(x => x.TestByteArray, y => y.Random.Bytes(internalCount))
-            .RuleFor(x => x.TestCharArray, y => y.Random.Chars('a', 'z', count: InternalCount))
-            .RuleFor(x => x.TestDoubleArray, y => GetArray(y, func => func.Random.Double(), InternalCount))
-            .RuleFor(x => x.TestFloatArray, y => GetArray(y, func => func.Random.Float(), InternalCount))
-            .RuleFor(x => x.TestIntArray, y => GetArray(y, func => func.Random.Int(), InternalCount))
-            .RuleFor(x => x.TestUIntArray, y => GetArray(y, func => func.Random.UInt(), InternalCount))
-            .RuleFor(x => x.TestLongArray, y => GetArray(y, func => func.Random.Long(), InternalCount))
-            .RuleFor(x => x.TestShortArray, y => GetArray(y, func => func.Random.Short(), InternalCount))
-            .RuleFor(x => x.TestStringArray, y => GetArray(y, func => func.Random.String2(5, 10), InternalCount))
-            .RuleFor(x => x.TestUShortArray, y => GetArray(y, func => func.Random.UShort(), InternalCount))
-            .RuleFor(x => x.TestULongArray, y => GetArray(y, func => func.Random.ULong(), InternalCount))
-            .Generate(InternalCount);
+    public static List<TestModel> GetTestModels() => TestModels;
 
-        _testString = BuildString(_testModels);
-    }
-
-    /// <inheritdoc />
-    public void Dispose()
-    {
-        _testModels.Clear();
-        _testString = string.Empty;
-        
-        GC.SuppressFinalize(this);
-    }
-
-    private static string BuildString(List<TestModel> testModels)
+    private static string BuildString(List<TestModel> testModels, bool isIsoTimeSpan = false)
     {
         var sb = new StringBuilder();
         sb.Append('[');
 
         for(var i = 0; i < testModels.Count - 1; i++)
         {
-            BuildString(testModels[i], ref sb);
+            BuildString(testModels[i], ref sb, isIsoTimeSpan);
             sb.Append(',');
         }
-        BuildString(testModels[^1], ref sb);
+        BuildString(testModels[^1], ref sb, isIsoTimeSpan);
         sb.Append(']');
         
         return sb.ToString();
     }
 
-    private static void BuildString(TestModel testModel, ref StringBuilder sb)
+    private static void BuildString(TestModel testModel, ref StringBuilder sb, bool isIsoTimeSpan = false)
     {
         sb.Append('{');
 
@@ -147,7 +145,8 @@ public sealed class TestsBase : IDisposable
         sb.Append(',');
 
         sb.Append("\"testCharArray\":");
-        AppendArray(testModel.TestCharArray.Select(x=> x.ToString()).ToArray(), ref sb, isString: true);
+        AppendArray(testModel.TestCharArray.Select(charValue => charValue.ToString()).ToArray(), ref sb,
+            isString: true);
         sb.Append(',');
 
         sb.Append("\"testByte\":");
@@ -198,16 +197,41 @@ public sealed class TestsBase : IDisposable
 
         sb.Append("\"testDate\":");
         sb.Append('\"');
-        sb.Append(testModel.TestDate.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'FFFFFFFZ"));
+        sb.Append(BuildDateTimeString(testModel.TestDate));
         sb.Append('\"');
         sb.Append(',');
 
         sb.Append("\"testTimeSpan\":");
         sb.Append('\"');
-        sb.Append(testModel.TestTimeSpan.ToString("c"));
+
+        var stringTimeSpan = isIsoTimeSpan
+            ? XmlConvert.ToString(testModel.TestTimeSpan)
+            : testModel.TestTimeSpan.ToString();
+        sb.Append(stringTimeSpan);
+        
         sb.Append('\"');
 
         sb.Append('}');
+    }
+
+    private static string BuildDateTimeString(DateTime dateTime)
+    {
+        var testDate = dateTime.ToString("O");
+        
+        var testDateSpan = testDate.AsSpan();
+        var indexOfDot = testDateSpan.IndexOf('.');
+        var slicedSpan = testDateSpan[indexOfDot..];
+        slicedSpan = slicedSpan[..slicedSpan.IndexOf('Z')];
+
+        var indexOfZero = slicedSpan[^1] is '0';
+        
+        while (indexOfZero)
+        {
+            slicedSpan = slicedSpan[..^1];
+            indexOfZero = slicedSpan[^1] is '0';
+        }
+
+        return $"{testDateSpan[..indexOfDot]}{slicedSpan}Z";
     }
 
     private static void AppendArray<T>(IReadOnlyList<T> array, ref StringBuilder stringBuilder, bool isString = false)
@@ -221,18 +245,6 @@ public sealed class TestsBase : IDisposable
 
         stringBuilder.Append(isString ? $"\"{array[^1]}\"" : array[^1]);
         stringBuilder.Append(']');
-    }
-
-    private static T[] GetArray<T>(Faker faker, Func<Faker,T> action, int count)
-    {
-        var result = new T[count];
-
-        for (var i = 0; i < count; i++)
-        {
-            result[i] = action.Invoke(faker);
-        }
-
-        return result;
     }
 #pragma warning restore CA1822
 }

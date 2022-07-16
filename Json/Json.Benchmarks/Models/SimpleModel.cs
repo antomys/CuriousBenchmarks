@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Json.Tests.Models;
+namespace Json.Benchmarks.Models;
 
 /// <summary>
 ///     Test model.
@@ -8,7 +8,7 @@ namespace Json.Tests.Models;
 [ProtoBuf.ProtoContract]
 [ZeroFormatter.ZeroFormattable]
 [MessagePack.MessagePackObject(true)]
-public class TestModel
+public class SimpleModel
 {
     /// <summary>
     ///     Gets or sets test string value.

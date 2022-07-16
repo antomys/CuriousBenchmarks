@@ -6,7 +6,7 @@ namespace Json.Benchmarks.Benchmarks.Deserialization;
 /// <summary>
 ///     Deserialization from string as byte array benchmarks.
 /// </summary>
-public class StringByteDeserializationBenchmarks : DeserializationBenchmarksBase
+public class StringByteDeserializationBenchmarks: JsonBenchmark
 {
     private byte[] _testByteArray = default!;
 
@@ -16,20 +16,20 @@ public class StringByteDeserializationBenchmarks : DeserializationBenchmarksBase
     
     private byte[] _protobufBytes = default!;
 
-    /// <summary>
-    ///     Override of global setup.
-    /// </summary>
-    [GlobalSetup]
-    public new void Setup()
-    {
-        base.Setup();
-        
-        _testMsgPackByteArray = MessagePack.MessagePackSerializer.Serialize(TestModels);
-        _testByteArray = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(TestModels, Options);
-        _zeroFormatterByteArray = global::ZeroFormatter.ZeroFormatterSerializer.Serialize(TestModelVirtual.ToTestModelVirtual(TestModels));
-        
-        using var memoryStream = new MemoryStream();
-        ProtoBuf.Serializer.Serialize(memoryStream, TestModels);
-        _protobufBytes = memoryStream.ToArray();
-    }
+    // /// <summary>
+    // ///     Override of global setup.
+    // /// </summary>
+    // [GlobalSetup]
+    // public new void Setup()
+    // {
+    //     base.Setup();
+    //     
+    //     _testMsgPackByteArray = MessagePack.MessagePackSerializer.Serialize(TestModels);
+    //     _testByteArray = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(TestModels, Options);
+    //     _zeroFormatterByteArray = global::ZeroFormatter.ZeroFormatterSerializer.Serialize(TestModelVirtual.ToTestModelVirtual(TestModels));
+    //     
+    //     using var memoryStream = new MemoryStream();
+    //     ProtoBuf.Serializer.Serialize(memoryStream, TestModels);
+    //     _protobufBytes = memoryStream.ToArray();
+    // }
 }
