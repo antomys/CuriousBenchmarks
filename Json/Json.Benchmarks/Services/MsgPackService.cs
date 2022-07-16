@@ -3,124 +3,77 @@
 namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="MsgPack(string)"/>.
+///     Static methods wrapper of 'MsgPack'.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class MsgPackService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="MsgPack(string)"/>.
+    ///     Deserialize string of T values using 'MsgPackClassic'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackClassic(string testString)
+    /// <returns>Collection of T values.</returns>
+    public static ICollection<T> MsgPackClassicDeserializeByte(byte[] testByteArray)
     {
-        var testArray = System.Text.Encoding.UTF8.GetBytes(testString);
-        
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testArray);
+        return MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray)!;
     }
     
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="MsgPack(string)"/>.
+    ///     Deserialize string of T values using 'MsgPackLz4Block'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackLz4Block(string testString)
+    /// <returns>Collection of T values.</returns>
+    public static ICollection<T> MsgPackLz4BlockDeserializeByte(byte[] testByteArray)
     {
-        var testArray = System.Text.Encoding.UTF8.GetBytes(testString);
-        
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testArray, JsonServiceExtensions.MsgPackOptions);
-    }
-    
-    public static string MsgPackClassic(T tValue)
-    {
-        var serialized = MessagePack.MessagePackSerializer.Serialize(tValue)!;
-
-        return MessagePack.MessagePackSerializer.ConvertToJson(serialized);
-    }
-    
-    public static string MsgPackLz4Block(T tValue)
-    {
-        var serialized = MessagePack.MessagePackSerializer.Serialize(tValue, JsonServiceExtensions.MsgPackOptions);
-
-        return MessagePack.MessagePackSerializer.ConvertToJson(serialized);
+        return MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray, JsonServiceExtensions.MsgPackOptions)!;
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="MsgPack(string)"/>.
+    ///     Serializes collection of T values using 'MsgPackClassic'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackClassic(byte[] testByteArray)
-    {
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray)!;
-    }
-    
-    /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="MsgPack(string)"/>.
-    /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackLz4Block(byte[] testByteArray)
-    {
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testByteArray, JsonServiceExtensions.MsgPackOptions)!;
-    }
-    
-    public static byte[] MsgPackClassicBytes(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized string.</returns>
+    public static byte[] MsgPackClassicSerializeBytes(ICollection<T> tValue)
     {
         return MessagePack.MessagePackSerializer.Serialize(tValue)!;
     }
     
-    public static byte[] MsgPackLz4BlockBytes(T tValue)
+    /// <summary>
+    ///     Serializes collection of T values using 'MsgPackLz4Block'.
+    /// </summary>
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized string.</returns>
+    public static byte[] MsgPackLz4BlockSerializeBytes(ICollection<T> tValue)
     {
         return MessagePack.MessagePackSerializer.Serialize(tValue, JsonServiceExtensions.MsgPackOptions)!;
     }
     
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="MsgPack(string)"/>.
+    ///     Deserialize string of T values using 'MsgPackClassic'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackClassic(Stream testStream)
+    /// <returns>Collection of T values.</returns>
+    public static ICollection<T> MsgPackClassicDeserializeStream(Stream testStream)
     {
         testStream.Position = 0;
         
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream);
+        return MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream);
     }
     
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="MsgPack(string)"/>.
+    ///     Deserialize string of T values using 'MsgPackLz4Block'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> MsgPackLz4Block(Stream testStream)
+    /// <returns>Collection of T values.</returns>
+    public static ICollection<T> MsgPackLz4BlockDeserializeStream(Stream testStream)
     {
         testStream.Position = 0;
         
-        return global::MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream, JsonServiceExtensions.MsgPackOptions);
+        return MessagePack.MessagePackSerializer.Deserialize<ICollection<T>>(testStream, JsonServiceExtensions.MsgPackOptions);
     }
-    
+
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="MsgPack(string)"/>.
+    ///     Serializes collection of T values using 'MsgPackClassic'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ValueTask<ICollection<T>> MsgPackClassicAsync(Stream testStream)
-    {
-        testStream.Position = 0;
-        
-        return global::MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(testStream);
-    }
-    
-    /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="MsgPack(string)"/>.
-    /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ValueTask<ICollection<T>> MsgPackLz4BlockAsync(Stream testStream)
-    {
-        testStream.Position = 0;
-        
-        return global::MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(testStream, JsonServiceExtensions.MsgPackOptions);
-    }
-    
-    /// <summary>
-    ///     Serializes with MessagePack.
-    /// </summary>
-    /// <returns><see cref="MemoryStream"/></returns>
-    public static MemoryStream MsgPackSerializeClassic(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static MemoryStream MsgPackClassicSerializeStream(ICollection<T> tValue)
     {
         using var memoryStream = new MemoryStream();
         MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue);
@@ -129,10 +82,11 @@ public static class MsgPackService<T>
     }
 
     /// <summary>
-    ///     Serializes with MessagePack.
+    ///     Serializes collection of T values using 'MsgPackLz4Block'.
     /// </summary>
-    /// <returns><see cref="MemoryStream"/></returns>
-    public static MemoryStream MsgPackSerializeLz4Block(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static MemoryStream MsgPackLz4BlockSerializeStream(ICollection<T> tValue)
     {
         using var memoryStream = new MemoryStream();
         MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
@@ -141,10 +95,11 @@ public static class MsgPackService<T>
     }
     
     /// <summary>
-    ///     Serializes with MessagePack.
+    ///     Serializes collection of T values using 'MsgPackClassic'.
     /// </summary>
-    /// <returns><see cref="MemoryStream"/></returns>
-    public static async Task<MemoryStream> MsgPackClassicAsync(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static async Task<MemoryStream> MsgPackClassicSerializeAsync(ICollection<T> tValue)
     {
         await using var memoryStream = new MemoryStream();
         await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue);
@@ -153,14 +108,38 @@ public static class MsgPackService<T>
     }
     
     /// <summary>
-    ///     Serializes with MessagePack.
+    ///     Serializes collection of T values using 'MsgPackLz4Block'.
     /// </summary>
-    /// <returns><see cref="MemoryStream"/></returns>
-    public static async Task<MemoryStream> MsgPackLz4BlockAsync(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static async Task<MemoryStream> MsgPackLz4BlockSerializeAsync(ICollection<T> tValue)
     {
         await using var memoryStream = new MemoryStream();
         await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
 
         return memoryStream;
+    }
+    
+    /// <summary>
+    ///     Serializes collection of T values using 'MsgPackClassic'.
+    /// </summary>
+    /// <param name="stream">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static ValueTask<ICollection<T>> MsgPackClassicDeserializeAsync(Stream stream)
+    {
+        stream.Position = 0;
+        return MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(stream);
+    }
+    
+    /// <summary>
+    ///     Serializes collection of T values using 'MsgPackLz4Block'.
+    /// </summary>
+    /// <param name="stream">Collection of T values.</param>
+    /// <returns>Serialized memory stream.</returns>
+    public static ValueTask<ICollection<T>> MsgPackLz4BlockDeserializeAsync(Stream stream)
+    {
+        stream.Position = 0;
+        
+        return MessagePack.MessagePackSerializer.DeserializeAsync<ICollection<T>>(stream, JsonServiceExtensions.MsgPackOptions);
     }
 }

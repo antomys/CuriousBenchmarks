@@ -1,33 +1,13 @@
 ﻿namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="ZeroFormatterDeserialize"/>.
+///     Static methods wrapper of <see cref="ZeroFormatter"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class ZeroFormatterService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="ZeroFormatterDeserialize"/>.
-    /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static string ZeroFormatterSerialize(ICollection<T> tValue)
-    {
-        return System.Text.Encoding.UTF8.GetString(ZeroFormatter.ZeroFormatterSerializer.Serialize(tValue));
-    }
-    
-    /// <summary>
-    ///     Deserialize string of TValue using <see cref="ZeroFormatterDeserialize"/>.
-    /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> ZeroFormatterDeserialize(string testString)
-    {
-        var testByteArray = System.Text.Encoding.UTF8.GetBytes(testString);
-        
-        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<ICollection<T>>(testByteArray)!;
-    }
-    
-    /// <summary>
-    ///     Serialize string of TValue using <see cref="ZeroFormatterDeserialize"/>.
+    ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static byte[] ZeroFormatterSerializeBytes(ICollection<T> tValue)
@@ -36,7 +16,7 @@ public static class ZeroFormatterService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="ZeroFormatterDeserialize"/>.
+    ///     Deserialize byte array of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> ZeroFormatterDeserializeBytes(byte[] testByteArray)
@@ -45,7 +25,7 @@ public static class ZeroFormatterService<T>
     }
     
     /// <summary>
-    ///     Serialize string of TValue using <see cref="ZeroFormatterDeserialize"/>.
+    ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static MemoryStream ZeroFormatterSerializeStream(ICollection<T> tValue)
@@ -57,7 +37,7 @@ public static class ZeroFormatterService<T>
     }
     
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="ZeroFormatterDeserialize"/>.
+    ///     Deserialize Stream of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> ZeroFormatterDeserializeStream(Stream testStream)

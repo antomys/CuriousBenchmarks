@@ -1,13 +1,13 @@
 ﻿namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="SpanJsonDeserialize"/>.
+///     Static methods wrapper of <see cref="SpanJson"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class SpanJsonService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="SpanJsonDeserialize"/>.
+    ///     Deserialize string of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> SpanJsonDeserialize(string testString)
@@ -26,7 +26,7 @@ public static class SpanJsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="SpanJsonDeserialize"/>.
+    ///     Deserialize byte array of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> SpanJsonDeserializeBytes(byte[] testByteArray)
@@ -35,7 +35,7 @@ public static class SpanJsonService<T>
     }
 
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="SpanJsonDeserialize"/>.
+    ///     Deserialize Stream of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> SpanJsonDeserializeStream(Stream testStream)
@@ -48,7 +48,7 @@ public static class SpanJsonService<T>
     }
     
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="SpanJsonDeserialize"/>.
+    ///     Asynchronously deserialize string ot TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ValueTask<ICollection<T>> SpanJsonDeserializeAsync(Stream testStream)
@@ -59,7 +59,7 @@ public static class SpanJsonService<T>
     }
 
     /// <summary>
-    ///     Asynchronously serialize collection of TValue using <see cref="SpanJsonDeserialize"/>.
+    ///     Asynchronously serialize collection of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static async Task<MemoryStream> SpanJsonSerializeStreamAsync(ICollection<T> tValue)

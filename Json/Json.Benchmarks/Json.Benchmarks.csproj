@@ -27,8 +27,4 @@
         <ProjectReference Include="..\Libraries\Maverick.Json\Maverick.Json.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Converters" />
-    </ItemGroup>
-
 </Project>

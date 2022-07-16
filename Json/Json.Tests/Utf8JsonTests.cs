@@ -17,7 +17,7 @@ public sealed class Utf8JsonTests
     public void Utf8JsonDeserialize_Returns_ValidModels()
     {
         // Arrange
-        var actualString = TestsBase.GetTestString();
+        var actualString = TestsBase.GetTestUtf8String();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
@@ -34,13 +34,14 @@ public sealed class Utf8JsonTests
     public void Utf8JsonSerialize_Returns_ValidString()
     {
         // Arrange
-        var expectedString = TestsBase.GetTestString();
+        var expectedString = TestsBase.GetTestUtf8String();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
         var actualString = Utf8JsonService<TestModel>.Utf8JsonSerialize(expectedModels);
         
         // Assert
+        Assert.Equal(expectedString, actualString);
         actualString.Should().BeEquivalentTo(expectedString);
     }
     
@@ -51,7 +52,7 @@ public sealed class Utf8JsonTests
     public void Utf8JsonDeserializeBytes_Returns_ValidModels()
     {
         // Arrange
-        var expectedBytes = TestsBase.GetTestBytes();
+        var expectedBytes = TestsBase.GetTestUtf8Bytes();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
@@ -68,7 +69,7 @@ public sealed class Utf8JsonTests
     public void Utf8JsonBytesSerializeBytes_Returns_ValidString()
     {
         // Arrange
-        var expectedBytes = TestsBase.GetTestBytes();
+        var expectedBytes = TestsBase.GetTestUtf8Bytes();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
@@ -86,7 +87,7 @@ public sealed class Utf8JsonTests
     {
         // Arrange
         using var ms = new MemoryStream();
-        ms.Write(TestsBase.GetTestBytes());
+        ms.Write(TestsBase.GetTestUtf8Bytes());
         
         var expectedModels = TestsBase.GetTestModels();
         
@@ -105,7 +106,7 @@ public sealed class Utf8JsonTests
     {
         // Arrange
         using var ms = new MemoryStream();
-        ms.Write(TestsBase.GetTestBytes());
+        ms.Write(TestsBase.GetTestUtf8Bytes());
         
         var expectedModels = TestsBase.GetTestModels();
         
@@ -123,7 +124,7 @@ public sealed class Utf8JsonTests
     public async Task Utf8JsonSerializeStreamAsync_Returns_ValidString()
     {
         // Arrange
-        var expectedBytes = TestsBase.GetTestBytes();
+        var expectedBytes = TestsBase.GetTestUtf8Bytes();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act

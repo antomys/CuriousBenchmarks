@@ -3,13 +3,13 @@
 namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="MaverickDeserializeBytes"/>.
+///     Static methods wrapper of <see cref="Maverick.Json"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class MaverickJsonService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Deserialize string of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> MaverickJsonDeserialize(string testString)
@@ -18,7 +18,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Serialize byte array of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Serialize byte array of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static string MaverickJsonSerialize(ICollection<T> tValue)
@@ -27,7 +27,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Deserialize byte array of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> MaverickDeserializeBytes(byte[] testByteArray)
@@ -36,7 +36,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Deserialize byte array of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static byte[] MaverickSerializeBytes(ICollection<T> tValue)
@@ -45,7 +45,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize stream of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Deserialize stream of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> MaverickDeserializeStream(Stream testStream)
@@ -58,7 +58,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Serialize byte array of TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Serialize byte array of TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static MemoryStream MaverickSerializeStream(ICollection<T> tValue)
@@ -70,7 +70,7 @@ public static class MaverickJsonService<T>
     }
     
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="MaverickDeserializeBytes"/>.
+    ///     Asynchronously deserialize string ot TValue using <see cref="Maverick.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static async Task<ICollection<T>> MaverickDeserializeAsync(Stream testStream)

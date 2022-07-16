@@ -1,13 +1,13 @@
 ﻿namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="Utf8JsonDeserialize"/>.
+///     Static methods wrapper of <see cref="Utf8Json"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class Utf8JsonService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="Utf8JsonDeserialize"/>.
+    ///     Deserialize string of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> Utf8JsonDeserialize(string testString)
@@ -28,7 +28,7 @@ public static class Utf8JsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="Utf8JsonDeserialize"/>.
+    ///     Deserialize byte array of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> Utf8JsonDeserializeBytes(byte[] testByteArray)
@@ -47,7 +47,7 @@ public static class Utf8JsonService<T>
     }
     
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="Utf8JsonDeserialize"/>.
+    ///     Deserialize Stream of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> Utf8JsonDeserializeStream(Stream testStream)
@@ -71,7 +71,7 @@ public static class Utf8JsonService<T>
     }
     
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="Utf8JsonDeserialize"/>.
+    ///     Asynchronously deserialize string ot TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static Task<ICollection<T>> Utf8JsonDeserializeAsync(Stream testStream)

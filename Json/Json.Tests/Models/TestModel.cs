@@ -190,6 +190,7 @@ public class TestModel
     [ZeroFormatter.Index(22)]
     [ProtoBuf.ProtoMember(22, DataFormat = ProtoBuf.DataFormat.Default)]
     [DataMember(Name = "testDate")]
+    [Utf8Json.JsonFormatter(typeof(Utf8Json.Formatters.ISO8601DateTimeFormatter))]
     public virtual DateTime TestDate { get; set; } = DateTime.UtcNow;
     
     /// <summary>

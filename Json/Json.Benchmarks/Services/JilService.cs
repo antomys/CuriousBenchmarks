@@ -3,13 +3,13 @@
 namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="JilDeserialize"/>.
+///     Static methods wrapper of <see cref="Jil"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class JilService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="JilDeserialize"/>.
+    ///     Deserialize string of TValue using <see cref="Jil"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> JilDeserialize(string testString)
@@ -18,7 +18,7 @@ public static class JilService<T>
     }
     
     /// <summary>
-    ///     Serialize collection of TValue using <see cref="JilDeserialize"/>.
+    ///     Serialize collection of TValue using <see cref="Jil"/>.
     /// </summary>
     /// <returns>Serialized string.</returns>
     public static string JilSerialize(ICollection<T> tValue)
@@ -27,7 +27,7 @@ public static class JilService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="JilDeserialize"/>.
+    ///     Deserialize byte array of TValue using <see cref="Jil"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> JilDeserializeBytes(byte[] testByteArray)
@@ -38,7 +38,7 @@ public static class JilService<T>
     }
     
     /// <summary>
-    ///     Serialize array of TValue using <see cref="JilDeserialize"/>.
+    ///     Serialize array of TValue using <see cref="Jil"/>.
     /// </summary>
     /// <returns>Serialized byte array.</returns>
     public static byte[] JilSerializeBytes(ICollection<T> tValue)
@@ -47,7 +47,7 @@ public static class JilService<T>
     }
 
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="JilDeserialize"/>.
+    ///     Asynchronously deserialize string ot TValue using <see cref="Jil"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static async Task<MemoryStream> JilSerializeStreamAsync(ICollection<T> tValue)

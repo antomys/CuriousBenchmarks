@@ -3,13 +3,13 @@
 namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="NewtonsoftDeserialize"/>.
+///     Static methods wrapper of <see cref="Newtonsoft"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class NewtonsoftService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="NewtonsoftDeserialize"/>.
+    ///     Deserialize string of TValue using <see cref="Newtonsoft"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> NewtonsoftDeserialize(string testString)
@@ -28,7 +28,7 @@ public static class NewtonsoftService<T>
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="NewtonsoftDeserialize"/>.
+    ///     Deserialize byte array of TValue using <see cref="Newtonsoft"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> NewtonsoftDeserializeBytes(byte[] testByteArray)

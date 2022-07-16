@@ -3,68 +3,53 @@
 namespace Json.Benchmarks.Services;
 
 /// <summary>
-///     Static methods wrapper of <see cref="Protobuf(string)"/>.
+///     Static methods wrapper of <see cref="ProtoBuf"/>.
 /// </summary>
 /// <typeparam name="T">TValue.</typeparam>
 public static class ProtobufService<T>
 {
     /// <summary>
-    ///     Deserialize string of TValue using <see cref="Protobuf(string)"/>.
+    ///     Serializes collection of T values using 'Protobuf'.
     /// </summary>
-    /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Protobuf(string testString)
-    {
-        var testArray = System.Text.Encoding.UTF8.GetBytes(testString);
-        
-        return global::ProtoBuf.Serializer.Deserialize<ICollection<T>>(testArray.AsSpan());
-    }
-    
-    public static string Protobuf(T tValue)
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized value.</returns>
+    public static byte[] ProtobufSerializeBytes(ICollection<T> tValue)
     {
         var writer = new ArrayBufferWriter<byte>();
 
-        global::ProtoBuf.Serializer.Serialize(writer, tValue);
-
-        return System.Text.Encoding.UTF8.GetString(writer.WrittenSpan);
-    }
-    
-    public static byte[] ProtobufBytes(T tValue)
-    {
-        var writer = new ArrayBufferWriter<byte>();
-
-        global::ProtoBuf.Serializer.Serialize(writer, tValue);
+        ProtoBuf.Serializer.Serialize(writer, tValue);
 
         return writer.WrittenSpan.ToArray();
     }
     
     /// <summary>
-    ///     Deserialize byte array of TValue using <see cref="Protobuf(string)"/>.
+    ///     Deserialize byte array of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Protobuf(byte[] testByteArray)
+    public static ICollection<T> ProtobufDeserializeBytes(byte[] testByteArray)
     {
-        return global::ProtoBuf.Serializer.Deserialize<ICollection<T>>(testByteArray.AsSpan())!;
+        return ProtoBuf.Serializer.Deserialize<ICollection<T>>(testByteArray.AsSpan())!;
     }
     
     /// <summary>
-    ///     Deserialize Stream of TValue using <see cref="Protobuf(string)"/>.
+    ///     Deserialize Stream of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Protobuf(Stream testStream)
+    public static ICollection<T> ProtobufDeserializeStream(Stream testStream)
     {
         testStream.Position = 0;
 
-        return global::ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream)!;
+        return ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream)!;
     }
     
     /// <summary>
-    ///     Asynchronously deserialize string ot TValue using <see cref="Protobuf(string)"/>.
+    ///     Asynchronously deserialize string ot TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<ICollection<T>> ProtobufAsync(Stream testStream)
+    public static ValueTask<ICollection<T>> ProtobufDeserializeAsync(Stream testStream)
     {
         testStream.Position = 0;
         
-        return ValueTask.FromResult(global::ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream));
+        return ValueTask.FromResult(ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream));
     }
 }

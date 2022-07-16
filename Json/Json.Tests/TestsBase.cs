@@ -12,9 +12,11 @@ namespace Json.Tests;
 public static class TestsBase
 {
 #pragma warning disable CA1822
-    private const int InternalCount = 1;
+    
+    private const int InternalCount = 10;
 
     private static readonly Faker<TestModel> TestModelFaker = new();
+    
     private static readonly List<TestModel> TestModels = TestModelFaker
         .RuleFor(testModel => testModel.TestByte, fakerSetter => fakerSetter.Random.Byte())
         .RuleFor(testModel => testModel.TestChar, fakerSetter => fakerSetter.Random.Char('a', 'z'))
@@ -44,6 +46,8 @@ public static class TestsBase
     
     private static readonly string TestString = BuildString(TestModels, isIsoTimeSpan : false);
     
+    private static readonly string TestUtf8JsonString = BuildString(TestModels, isIsoTimeSpan : false, isUtf8 : true);
+    
     private static readonly string TestJilString = BuildString(TestModels, isIsoTimeSpan: true);
 
     /// <summary>
@@ -51,12 +55,24 @@ public static class TestsBase
     /// </summary>
     /// <returns>built constructed string.</returns>
     public static string GetTestString() => TestString;
+    
+    /// <summary>
+    ///     Gets built constructed string.
+    /// </summary>
+    /// <returns>built constructed string.</returns>
+    public static string GetTestUtf8String() => TestUtf8JsonString;
 
     /// <summary>
     ///     Gets array of bytes from string value.
     /// </summary>
     /// <returns>Array of bytes from string value.</returns>
     public static byte[] GetTestBytes() => Encoding.UTF8.GetBytes(TestString);
+    
+    /// <summary>
+    ///     Gets array of bytes from string value.
+    /// </summary>
+    /// <returns>Array of bytes from string value.</returns>
+    public static byte[] GetTestUtf8Bytes() => Encoding.UTF8.GetBytes(TestUtf8JsonString);
     
     /// <summary>
     ///     Gets Jil built constructed string.
@@ -76,23 +92,23 @@ public static class TestsBase
     /// <returns>List of <see cref="TestModel"/>.</returns>
     public static List<TestModel> GetTestModels() => TestModels;
 
-    private static string BuildString(List<TestModel> testModels, bool isIsoTimeSpan = false)
+    private static string BuildString(List<TestModel> testModels, bool isIsoTimeSpan = false, bool isUtf8 = false)
     {
         var sb = new StringBuilder();
         sb.Append('[');
 
         for(var i = 0; i < testModels.Count - 1; i++)
         {
-            BuildString(testModels[i], ref sb, isIsoTimeSpan);
+            BuildString(testModels[i], ref sb, isIsoTimeSpan, isUtf8);
             sb.Append(',');
         }
-        BuildString(testModels[^1], ref sb, isIsoTimeSpan);
+        BuildString(testModels[^1], ref sb, isIsoTimeSpan, isUtf8);
         sb.Append(']');
         
         return sb.ToString();
     }
 
-    private static void BuildString(TestModel testModel, ref StringBuilder sb, bool isIsoTimeSpan = false)
+    private static void BuildString(TestModel testModel, ref StringBuilder sb, bool isIsoTimeSpan = false, bool isUtf8 = false)
     {
         sb.Append('{');
 
@@ -197,7 +213,7 @@ public static class TestsBase
 
         sb.Append("\"testDate\":");
         sb.Append('\"');
-        sb.Append(BuildDateTimeString(testModel.TestDate));
+        sb.Append(BuildDateTimeString(testModel.TestDate, isUtf8));
         sb.Append('\"');
         sb.Append(',');
 
@@ -214,9 +230,14 @@ public static class TestsBase
         sb.Append('}');
     }
 
-    private static string BuildDateTimeString(DateTime dateTime)
+    private static string BuildDateTimeString(DateTime dateTime, bool isUtf8 = false)
     {
         var testDate = dateTime.ToString("O");
+
+        if (isUtf8)
+        {
+            return testDate;
+        }
         
         var testDateSpan = testDate.AsSpan();
         var indexOfDot = testDateSpan.IndexOf('.');
@@ -246,5 +267,6 @@ public static class TestsBase
         stringBuilder.Append(isString ? $"\"{array[^1]}\"" : array[^1]);
         stringBuilder.Append(']');
     }
+    
 #pragma warning restore CA1822
 }
