@@ -5,15 +5,25 @@ using Xunit;
 
 namespace Json.Tests;
 
+/// <summary>
+///     Unit tests of <see cref="SystemTextJsonService{T}"/>
+/// </summary>
 public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
 {
     private readonly TestsBase _testsBase;
     
+    /// <summary>
+    ///     Constructor.
+    /// </summary>
+    /// <param name="testsBase">Test base class. <see cref="TestsBase"/>.</param>
     public SystemTextJsonTests(TestsBase testsBase)
     {
         _testsBase = testsBase ?? throw new ArgumentNullException(nameof(testsBase));
     }
     
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserialize"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonDeserialize_Returns_ValidModels()
     {
@@ -27,7 +37,10 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
-        
+    
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerialize"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonSerialize_Returns_ValidString()
     {
@@ -42,6 +55,9 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         actualString.Should().BeEquivalentTo(expectedString);
     }
     
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserializeBytes"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonDeserializeBytes_Returns_ValidModels()
     {
@@ -56,6 +72,9 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerializeBytes"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonSerializeBytes_Returns_ValidString()
     {
@@ -70,6 +89,9 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         Assert.Equal(expectedBytes, actualBytes);
     }
     
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserializeStream"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonDeserializeStream_Returns_ValidModels()
     {
@@ -86,6 +108,9 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
+    /// <summary>
+    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerializeStream"/>.
+    /// </summary>
     [Fact]
     public void SystemTextJsonSerializeStream_Returns_ValidString()
     {
@@ -96,8 +121,8 @@ public sealed class SystemTextJsonTests : IClassFixture<TestsBase>
         // Act
         using var actualMemoryStream = SystemTextJsonService<TestModel>.SystemTextJsonSerializeStream(expectedModels);
         var actualBytes = actualMemoryStream.ToArray();
+        
         // Assert
-
         actualBytes.Should().BeEquivalentTo(expectedBytes);
     }
 }

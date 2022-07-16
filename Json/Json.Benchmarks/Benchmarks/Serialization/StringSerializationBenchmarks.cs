@@ -5,4 +5,5 @@
 /// </summary>
 public class StringSerializationBenchmarks : SerializationBenchmarksBase
 {
+    
 }

@@ -21,7 +21,7 @@ public static class SystemTextJsonService<T>
     /// <returns>Collection of TValue.</returns>
     public static string SystemTextJsonSerialize(ICollection<T> tValue)
     {
-        return global::System.Text.Json.JsonSerializer.Serialize(tValue, JsonOptions.Options);
+        return System.Text.Json.JsonSerializer.Serialize(tValue, JsonOptions.Options);
     }
     
     /// <summary>
@@ -30,7 +30,7 @@ public static class SystemTextJsonService<T>
     /// <returns>Collection of TValue.</returns>
     public static ICollection<T> SystemTextJsonDeserializeBytes(byte[] testByteArray)
     {
-        return global::System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testByteArray, JsonOptions.Options)!;
+        return System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testByteArray, JsonOptions.Options)!;
     }
     
     /// <summary>
@@ -39,7 +39,7 @@ public static class SystemTextJsonService<T>
     /// <returns>Collection of TValue.</returns>
     public static byte[] SystemTextJsonSerializeBytes(ICollection<T> tValue)
     {
-        return global::System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(tValue, JsonOptions.Options)!;
+        return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(tValue, JsonOptions.Options);
     }
     
     /// <summary>
@@ -50,7 +50,7 @@ public static class SystemTextJsonService<T>
     {
         testStream.Position = 0;
         
-        return global::System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testStream, JsonOptions.Options)!;
+        return System.Text.Json.JsonSerializer.Deserialize<ICollection<T>>(testStream, JsonOptions.Options)!;
     }
     
     /// <summary>
@@ -60,8 +60,8 @@ public static class SystemTextJsonService<T>
     public static MemoryStream SystemTextJsonSerializeStream(ICollection<T> tValue)
     {
         using var memoryStream = new MemoryStream();
-        var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(memoryStream);
-        global::System.Text.Json.JsonSerializer.Serialize(jsonWriter, tValue, JsonOptions.Options);
+        var jsonWriter = new System.Text.Json.Utf8JsonWriter(memoryStream);
+        System.Text.Json.JsonSerializer.Serialize(jsonWriter, tValue, JsonOptions.Options);
 
         return memoryStream;
     }
@@ -73,7 +73,7 @@ public static class SystemTextJsonService<T>
     public static async Task<MemoryStream> SystemTextJsonSerializeStreamAsync(ICollection<T> tValue)
     {
         await using var memoryStream = new MemoryStream();
-        await global::System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, tValue, JsonOptions.Options);
+        await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, tValue, JsonOptions.Options);
 
         return memoryStream;
     }
@@ -86,6 +86,6 @@ public static class SystemTextJsonService<T>
     {
         testStream.Position = 0;
         
-        return global::System.Text.Json.JsonSerializer.DeserializeAsync<ICollection<T>>(testStream, JsonOptions.Options);
+        return System.Text.Json.JsonSerializer.DeserializeAsync<ICollection<T>>(testStream, JsonOptions.Options);
     }
 }

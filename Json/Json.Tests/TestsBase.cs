@@ -1,28 +1,45 @@
-﻿using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.Text;
+﻿using System.Text;
 using Bogus;
 using Json.Tests.Models;
 
 namespace Json.Tests;
 
-public class TestsBase : IDisposable
+/// <summary>
+///     Base class with arranged values.
+/// </summary>
+public sealed class TestsBase : IDisposable
 {
-    private const int internalCount = 10;
+#pragma warning disable CA1822
+    private const int InternalCount = 10;
 
-    private static readonly Faker<TestModel> _testModelFaker = new();
-    private static List<TestModel> _testModels;
-    private static string _testString;
+    private static readonly Faker<TestModel> TestModelFaker = new();
+    private readonly List<TestModel> _testModels;
+    private string _testString;
 
+    /// <summary>
+    ///     Gets built constructed string.
+    /// </summary>
+    /// <returns>built constructed string.</returns>
     public string GetTestString() => _testString;
 
+    /// <summary>
+    ///     Gets array of bytes from string value.
+    /// </summary>
+    /// <returns>Array of bytes from string value.</returns>
     public byte[] GetTestBytes() => Encoding.UTF8.GetBytes(_testString);
     
+    /// <summary>
+    ///     Gets List of <see cref="TestModel"/>.
+    /// </summary>
+    /// <returns>List of <see cref="TestModel"/>.</returns>
     public List<TestModel> GetTestModels() => _testModels; 
     
+    /// <summary>
+    ///     Constructor.
+    /// </summary>
     public TestsBase()
     {
-        _testModels = _testModelFaker
+        _testModels = TestModelFaker
             .RuleFor(x => x.TestByte, y => y.Random.Byte())
             .RuleFor(x => x.TestChar, y => y.Random.Char('a', 'z'))
             .RuleFor(x => x.TestDate, y => y.Date.Past())
@@ -37,25 +54,28 @@ public class TestsBase : IDisposable
             .RuleFor(x => x.TestULong, y => y.Random.ULong())
             .RuleFor(x => x.TestTimeSpan, y => y.Date.Timespan())
             // .RuleFor(x => x.TestByteArray, y => y.Random.Bytes(internalCount))
-            .RuleFor(x => x.TestCharArray, y => y.Random.Chars('a', 'z', count: internalCount))
-            .RuleFor(x => x.TestDoubleArray, y => GetArray(y, func => func.Random.Double(), internalCount))
-            .RuleFor(x => x.TestFloatArray, y => GetArray(y, func => func.Random.Float(), internalCount))
-            .RuleFor(x => x.TestIntArray, y => GetArray(y, func => func.Random.Int(), internalCount))
-            .RuleFor(x => x.TestUIntArray, y => GetArray(y, func => func.Random.UInt(), internalCount))
-            .RuleFor(x => x.TestLongArray, y => GetArray(y, func => func.Random.Long(), internalCount))
-            .RuleFor(x => x.TestShortArray, y => GetArray(y, func => func.Random.Short(), internalCount))
-            .RuleFor(x => x.TestStringArray, y => GetArray(y, func => func.Random.String2(5, 10), internalCount))
-            .RuleFor(x => x.TestUShortArray, y => GetArray(y, func => func.Random.UShort(), internalCount))
-            .RuleFor(x => x.TestULongArray, y => GetArray(y, func => func.Random.ULong(), internalCount))
-            .Generate(internalCount);
+            .RuleFor(x => x.TestCharArray, y => y.Random.Chars('a', 'z', count: InternalCount))
+            .RuleFor(x => x.TestDoubleArray, y => GetArray(y, func => func.Random.Double(), InternalCount))
+            .RuleFor(x => x.TestFloatArray, y => GetArray(y, func => func.Random.Float(), InternalCount))
+            .RuleFor(x => x.TestIntArray, y => GetArray(y, func => func.Random.Int(), InternalCount))
+            .RuleFor(x => x.TestUIntArray, y => GetArray(y, func => func.Random.UInt(), InternalCount))
+            .RuleFor(x => x.TestLongArray, y => GetArray(y, func => func.Random.Long(), InternalCount))
+            .RuleFor(x => x.TestShortArray, y => GetArray(y, func => func.Random.Short(), InternalCount))
+            .RuleFor(x => x.TestStringArray, y => GetArray(y, func => func.Random.String2(5, 10), InternalCount))
+            .RuleFor(x => x.TestUShortArray, y => GetArray(y, func => func.Random.UShort(), InternalCount))
+            .RuleFor(x => x.TestULongArray, y => GetArray(y, func => func.Random.ULong(), InternalCount))
+            .Generate(InternalCount);
 
         _testString = BuildString(_testModels);
     }
-    
+
+    /// <inheritdoc />
     public void Dispose()
     {
         _testModels.Clear();
         _testString = string.Empty;
+        
+        GC.SuppressFinalize(this);
     }
 
     private static string BuildString(List<TestModel> testModels)
@@ -189,15 +209,6 @@ public class TestsBase : IDisposable
 
         sb.Append('}');
     }
-    
-    private static string ToLiteral(string input)
-    {
-        using var writer = new StringWriter();
-        using var provider = CodeDomProvider.CreateProvider("CSharp");
-        provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
-        
-        return writer.ToString();
-    }
 
     private static void AppendArray<T>(IReadOnlyList<T> array, ref StringBuilder stringBuilder, bool isString = false)
     {
@@ -223,4 +234,5 @@ public class TestsBase : IDisposable
 
         return result;
     }
+#pragma warning restore CA1822
 }
