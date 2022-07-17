@@ -1,86 +1,87 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Json.Benchmarks.Models;
+using Json.Benchmarks.Services;
 
 namespace Json.Benchmarks.Benchmarks.Serialization;
 
 /// <summary>
 ///     Serialization from byte array.
 /// </summary>
-public class ByteSerializationBenchmarks : SerializationBenchmarksBase
+public class ByteSerializationBenchmarks : JsonBenchmark
 {
+    /// <summary>
+    ///     Global setup of test values.
+    /// </summary>
+    [GlobalSetup]
+    public new void Setup() => base.Setup();
+    
     /// <summary>
     ///     Serializes with System.Text.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark(Baseline = true)]
+    [Benchmark(Baseline = true)]
     public byte[] SystemTextJson()
-    {
-        return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(Persons, Options);
-    }
+     {
+         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels);
+     }
     
     /// <summary>
     ///     Serializes with System.Text.Json source gen.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] SystemTextJsonSourceGen()
     {
-        return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(Persons, TestModelJsonContext.Default.ICollectionTestModel);
+        return SystemTextJsonGeneratedService.SystemTextJsonGeneratedSerializeBytes(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with Utf8Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] Utf8Json()
     {
-        return global::Utf8Json.JsonSerializer.Serialize(Persons)!;
+        return Utf8JsonService<SimpleModel>.Utf8JsonBytesSerializeBytes(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with Utf8Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] ZeroFormatter()
     {
-        var serialized = global::ZeroFormatter.ZeroFormatterSerializer.Serialize(PersonsVirtual)!;
-
-        return serialized;
+        return ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeBytes(SimpleModels);
     }
     
     /// <summary>
-    ///     Serializes with SpanJson to byte array.
+    ///     Serializes with SpanJson.
     /// </summary>
     /// <returns><see cref="byte"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] SpanJson()
     {
-        var serialized = global::SpanJson.JsonSerializer.Generic.Utf8.Serialize(Persons)!;
-
-        return serialized;
+        return SpanJsonService<SimpleModel>.SpanJsonSerializeBytes(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] MsgPackClassic()
     {
-        return MessagePack.MessagePackSerializer.Serialize(Persons)!;
+        return MsgPackService<SimpleModel>.MsgPackClassicSerializeBytes(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.Byte), Benchmark]
+    [Benchmark]
     public byte[] MsgPackLz4Block()
     {
-        return MessagePack.MessagePackSerializer.Serialize(
-            Persons,
-            MessagePack.MessagePackSerializerOptions.Standard.WithCompression(MessagePack.MessagePackCompression.Lz4BlockArray))!;
+        return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels);
     }
 }

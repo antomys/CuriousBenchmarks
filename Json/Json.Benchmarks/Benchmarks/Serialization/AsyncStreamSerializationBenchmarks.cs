@@ -1,92 +1,77 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Json.Benchmarks.Models;
+using Json.Benchmarks.Services;
 
 namespace Json.Benchmarks.Benchmarks.Serialization;
 
 /// <summary>
 ///     Async Stream serialization benchmarks.
 /// </summary>
-public class AsyncStreamSerializationBenchmarks : SerializationBenchmarksBase
+public class AsyncStreamSerializationBenchmarks : JsonBenchmark
 {
-     /// <summary>
+    /// <summary>
+    ///     Global setup of test values.
+    /// </summary>
+    [GlobalSetup]
+    public new void Setup() => base.Setup();
+    
+    /// <summary>
     ///     Serializes with System.Text.Json.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark(Baseline = true)]
-    public async Task<MemoryStream> SystemTextJson()
-    {
-        await using var memoryStream = new MemoryStream();
-        await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, Persons, Options);
-
-        return memoryStream;
-    }
+    [Benchmark(Baseline = true)]
+    public Task<MemoryStream> SystemTextJson()
+     {
+         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeStreamAsync(SimpleModels);
+     }
     
     /// <summary>
     ///     Serializes with System.Text.Json source gen.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> SystemTextJsonSourceGen()
+    [Benchmark]
+    public Task<MemoryStream> SystemTextJsonSourceGen()
     {
-        await using var memoryStream = new MemoryStream();
-        
-        await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, Persons, TestModelJsonContext.Default.ICollectionTestModel);
-
-        return memoryStream;
+        return SystemTextJsonGeneratedService.SystemTextJsonSourceGenSerializeAsync(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with Utf8Json.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> Utf8Json()
+    [Benchmark]
+    public Task<MemoryStream> Utf8Json()
     {
-        await using var memoryStream = new MemoryStream();
-        await global::Utf8Json.JsonSerializer.SerializeAsync(memoryStream, Persons);
-
-        return memoryStream;
+        return Utf8JsonService<SimpleModel>.Utf8JsonSerializeStreamAsync(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with SpanJson.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> SpanJson()
+    [Benchmark]
+    public Task<MemoryStream> SpanJson()
     {
-        await using var memoryStream = new MemoryStream();
-        await global::SpanJson.JsonSerializer.Generic.Utf8.SerializeAsync(Persons, memoryStream);
-
-        return memoryStream;
+        return SpanJsonService<SimpleModel>.SpanJsonSerializeStreamAsync(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> MsgPackClassic()
+    [Benchmark]
+    public Task<MemoryStream> MsgPackClassic()
     {
-        await using var memoryStream = new MemoryStream();
-        await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, Persons);
-
-        return memoryStream;
+        return MsgPackService<SimpleModel>.MsgPackClassicSerializeAsync(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with MessagePack.
     /// </summary>
     /// <returns><see cref="MemoryStream"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.AsyncStream), Benchmark]
-    public async Task<MemoryStream> MsgPackLz4Block()
+    [Benchmark]
+    public Task<MemoryStream> MsgPackLz4Block()
     {
-        await using var memoryStream = new MemoryStream();
-        await MessagePack.MessagePackSerializer.SerializeAsync(
-            memoryStream,
-            Persons,
-            MessagePack.MessagePackSerializerOptions.Standard.WithCompression(MessagePack.MessagePackCompression.Lz4BlockArray));
-
-        return memoryStream;
+        return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeAsync(SimpleModels);
     }
 }

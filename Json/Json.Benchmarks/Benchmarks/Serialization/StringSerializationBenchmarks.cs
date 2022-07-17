@@ -1,123 +1,87 @@
-﻿using System.Text;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Json.Benchmarks.Models;
+using Json.Benchmarks.Services;
 
 namespace Json.Benchmarks.Benchmarks.Serialization;
 
 /// <summary>
 ///     Serialization benchmarks to string
 /// </summary>
-public class StringSerializationBenchmarks : SerializationBenchmarksBase
+public class StringSerializationBenchmarks : JsonBenchmark
 {
-     /// <summary>
+    /// <summary>
+    ///     Global setup of test values.
+    /// </summary>
+    [GlobalSetup]
+    public new void Setup() => base.Setup();
+    
+    /// <summary>
     ///     Serializes with System.Text.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark(Baseline = true)]
+    [Benchmark(Baseline = true)]
     public string SystemTextJson()
-    {
-        return System.Text.Json.JsonSerializer.Serialize(Persons, Options);
-    }
+     {
+         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerialize(SimpleModels);
+     }
     
     /// <summary>
     ///     Serializes with System.Text.Json source gen.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
+    [Benchmark]
     public string SystemTextJsonSourceGen()
     {
-        return System.Text.Json.JsonSerializer.Serialize(Persons, TestModelJsonContext.Default.ICollectionTestModel);
+        return SystemTextJsonGeneratedService.SystemTextJsonGeneratedSerialize(SimpleModels);
     }
 
     /// <summary>
     ///     Serializes with Maverick.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
+    [Benchmark]
     public string Maverick()
     {
-        return global::Maverick.Json.JsonConvert.Serialize(Persons, global::Maverick.Json.JsonFormat.None, MaverickSettings);
+        return MaverickJsonService<SimpleModel>.MaverickJsonSerialize(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with Newtonsoft.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
+    [Benchmark]
     public string Newtonsoft()
     {
-        return global::Newtonsoft.Json.JsonConvert.SerializeObject(Persons);
+        return NewtonsoftService<SimpleModel>.NewtonsoftSerialize(SimpleModels);
     }
     
     /// <summary>
     ///     Serializes with Jil.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
+    [Benchmark]
     public string Jil()
     {
-        return global::Jil.JSON.Serialize(Persons);
+        return JilService<SimpleModel>.JilSerialize(SimpleModels);
     }
 
     /// <summary>
     ///     Serializes with Utf8Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
+    [Benchmark]
     public string Utf8Json()
     {
-        var serialized = global::Utf8Json.JsonSerializer.Serialize(Persons)!;
-
-        return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
+        return Utf8JsonService<SimpleModel>.Utf8JsonSerialize(SimpleModels);
     }
-    
-    /// <summary>
-    ///     Serializes with SpanJson to bytes.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public string SpanJsonFromByte()
-    {
-        var serialized = SpanJson.JsonSerializer.Generic.Utf8.Serialize(Persons)!;
 
-        return Encoding.UTF8.GetString(serialized, 0, serialized.Length);
-    }
-    
     /// <summary>
     ///     Serializes with SpanJson to string.
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public string SpanJsonString()
+    [Benchmark]
+    public string SpanJson()
     {
-        var serialized = SpanJson.JsonSerializer.Generic.Utf16.Serialize(Persons)!;
-
-        return serialized;
-    }
-
-    /// <summary>
-    ///     Serializes with MessagePack.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public string MsgPackClassic()
-    {
-        var serialized = MessagePack.MessagePackSerializer.Serialize(Persons)!;
-
-        return MessagePack.MessagePackSerializer.ConvertToJson(serialized);
-    }
-    
-    /// <summary>
-    ///     Serializes with MessagePack.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [BenchmarkCategory(BenchmarkGroups.StringNative), Benchmark]
-    public string MsgPackLz4Block()
-    {
-        var serialized = MessagePack.MessagePackSerializer.Serialize(
-            Persons,
-            MessagePack.MessagePackSerializerOptions.Standard.WithCompression(MessagePack.MessagePackCompression.Lz4BlockArray));
-
-        return MessagePack.MessagePackSerializer.ConvertToJson(serialized);
+        return SpanJsonService<SimpleModel>.SpanJsonSerialize(SimpleModels);
     }
 }
