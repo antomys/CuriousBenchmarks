@@ -62,6 +62,23 @@ public sealed class SpanJsonTests
     }
     
     /// <summary>
+    ///     Unit testing of method <see cref="SpanJsonService{T}.SpanJsonSerializeBytes"/>.
+    /// </summary>
+    [Fact]
+    public void SpanJsonSerializeBytes_Returns_ValidString()
+    {
+        // Arrange
+        var expectedModels = TestsBase.GetTestModels();
+        
+        // Act
+        var actualBytes = SpanJsonService<TestModel>.SpanJsonSerializeBytes(expectedModels);
+        var actualModels = SpanJsonService<TestModel>.SpanJsonDeserializeBytes(actualBytes);
+        
+        // Assert
+        actualModels.Should().BeEquivalentTo(expectedModels);
+    }
+    
+    /// <summary>
     ///     Unit testing of method <see cref="SpanJsonService{T}.SpanJsonDeserializeStream"/>.
     /// </summary>
     [Fact]

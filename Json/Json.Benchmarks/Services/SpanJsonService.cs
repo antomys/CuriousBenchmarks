@@ -33,6 +33,16 @@ public static class SpanJsonService<T>
     {
         return SpanJson.JsonSerializer.Generic.Utf8.Deserialize<ICollection<T>>(testByteArray)!;
     }
+    
+    /// <summary>
+    ///     Serializes collection of T using 'SpanJson' to string.
+    /// </summary>
+    /// <param name="tValue">Collection of T values.</param>
+    /// <returns>Serialized string.</returns>
+    public static byte[] SpanJsonSerializeBytes(ICollection<T> tValue)
+    {
+        return SpanJson.JsonSerializer.Generic.Utf8.Serialize(tValue)!;
+    }
 
     /// <summary>
     ///     Deserialize Stream of TValue using <see cref="SpanJson"/>.

@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using Bogus;
@@ -15,6 +16,8 @@ namespace Json.Benchmarks.Benchmarks;
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class JsonBenchmark
 {
     /// <summary>
@@ -26,7 +29,7 @@ public class JsonBenchmark
     ///     Size of generation.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(1000, 10000, 100000, 1000000)]
+    [Params(100, 1000, 10000, 100000)]
     public int CollectionSize { get; set; }
     
     /// <summary>
@@ -54,16 +57,16 @@ public class JsonBenchmark
             .RuleFor(simpleModel => simpleModel.TestUShort, fakerSetter => fakerSetter.Random.UShort())
             .RuleFor(simpleModel => simpleModel.TestULong, fakerSetter => fakerSetter.Random.ULong())
             .RuleFor(simpleModel => simpleModel.TestTimeSpan, fakerSetter => fakerSetter.Date.Timespan())
-            .RuleFor(simpleModel => simpleModel.TestCharArray, fakerSetter => fakerSetter.Random.Chars('a', 'z', count: CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestDoubleArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Double(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestFloatArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Float(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Int(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestUIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UInt(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestLongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Long(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Short(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestStringArray, fakerSetter => fakerSetter.GetArray(func => func.Random.String2(5, 10), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestUShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UShort(), CollectionSize))
-            .RuleFor(simpleModel => simpleModel.TestULongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.ULong(), CollectionSize))
+            .RuleFor(simpleModel => simpleModel.TestCharArray, fakerSetter => fakerSetter.Random.Chars('a', 'z', count: 3))
+            .RuleFor(simpleModel => simpleModel.TestDoubleArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Double(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestFloatArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Float(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Int(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestUIntArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UInt(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestLongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Long(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Short(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestStringArray, fakerSetter => fakerSetter.GetArray(func => func.Random.String2(5, 10), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestUShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UShort(), count: 3))
+            .RuleFor(simpleModel => simpleModel.TestULongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.ULong(), count: 3))
             .Generate(CollectionSize);
     }
 }
