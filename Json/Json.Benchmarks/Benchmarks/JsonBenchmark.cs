@@ -40,7 +40,6 @@ public class JsonBenchmark
     /// <summary>
     ///     Setting private fields.
     /// </summary>
-    [GlobalSetup]
     public void Setup()
     {
         SimpleModels = Faker

@@ -9,7 +9,13 @@ namespace Json.Benchmarks.Benchmarks.Serialization;
 /// </summary>
 public class StringSerializationBenchmarks : JsonBenchmark
 {
-     /// <summary>
+    /// <summary>
+    ///     Global setup of test values.
+    /// </summary>
+    [GlobalSetup]
+    public new void Setup() => base.Setup();
+    
+    /// <summary>
     ///     Serializes with System.Text.Json.
     /// </summary>
     /// <returns><see cref="string"/></returns>

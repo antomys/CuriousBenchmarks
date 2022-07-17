@@ -10,6 +10,12 @@ namespace Json.Benchmarks.Benchmarks.Serialization;
 public class StreamSerializationBenchmarks : JsonBenchmark
 {
     /// <summary>
+    ///     Global setup of test values.
+    /// </summary>
+    [GlobalSetup]
+    public new void Setup() => base.Setup();
+    
+    /// <summary>
     ///     Serializes with System.Text.Json.
     /// </summary>
     /// <returns></returns>
