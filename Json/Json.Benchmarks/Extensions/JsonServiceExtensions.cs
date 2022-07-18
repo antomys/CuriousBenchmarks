@@ -19,6 +19,13 @@ public static class JsonServiceExtensions
         DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
     };
 
+    internal static readonly ServiceStack.Text.Config ServiceStackOptions = new() 
+    {
+        DateHandler = ServiceStack.Text.DateHandler.ISO8601,
+        AlwaysUseUtc = true,
+        TextCase = ServiceStack.Text.TextCase.CamelCase,
+    };
+
     internal static readonly Jil.Options JilOptions = 
         new(dateFormat: Jil.DateTimeFormat.ISO8601,
             serializationNameFormat: Jil.SerializationNameFormat.CamelCase);
@@ -33,9 +40,5 @@ public static class JsonServiceExtensions
     {
         NamingStrategy = Maverick.Json.JsonNamingStrategy.CamelCase,
         Format = Maverick.Json.JsonFormat.None,
-        // Converters = new List<JsonConverter>
-        // {
-        //     Capacity = 0
-        // }
     };
 }
