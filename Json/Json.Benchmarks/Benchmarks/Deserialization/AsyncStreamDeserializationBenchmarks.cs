@@ -11,6 +11,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
 {
     private Stream _testMsgPackClassicStream = null!;
     private Stream _testZeroFormatterStream = null!;
+    private Stream _testServiceStackStream = null!;
     private Stream _testMsgPackLz4Stream = null!;
     private Stream _protobufStream = null!;
     private Stream _testStream = null!;
@@ -28,6 +29,9 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
         _testMsgPackLz4Stream = new MemoryStream(MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels));
         _testStream = new MemoryStream(SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels));
         _protobufStream = new MemoryStream(ProtobufService<SimpleModel>.ProtobufSerializeBytes(SimpleModels));
+
+        using var tempStream = ServiceStackService<SimpleModel>.ServiceStackSerializeStream(SimpleModels);
+        _testServiceStackStream = new MemoryStream(tempStream.ToArray());
     }
     
     /// <summary>
@@ -94,6 +98,15 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     }
     
     /// <summary>
+    ///     Deserialize with ServiceStack.
+    /// </summary>
+    [Benchmark]
+    public Task<ICollection<SimpleModel>> ServiceStack()
+    {
+        return ServiceStackService<SimpleModel>.ServiceStackDeserializeStreamAsync(_testServiceStackStream);
+    }
+    
+    /// <summary>
     ///     Closing streams.
     /// </summary>
     [GlobalCleanup]
@@ -101,12 +114,15 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     {
         _testStream.Close();
         _testStream.Dispose();
-        
+
         _testMsgPackClassicStream.Close();
         _testMsgPackClassicStream.Dispose();
        
         _testZeroFormatterStream.Close();
         _testZeroFormatterStream.Dispose();
+        
+        _testServiceStackStream.Close();
+        _testServiceStackStream.Dispose();
         
         _testMsgPackLz4Stream.Close();
         _testMsgPackLz4Stream.Dispose();

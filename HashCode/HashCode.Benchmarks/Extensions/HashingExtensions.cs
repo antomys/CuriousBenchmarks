@@ -18,7 +18,7 @@ public static class HashingExtensions
     }
     
     /// <summary>
-    ///     Using <see cref="HashCode.Combine{T1,T2}"/>
+    ///     Using 'HashCode.Combine'.
     /// </summary>
     /// <param name="simpleModel"><see cref="SimpleModel"/>.</param>
     /// <returns>hash int</returns>

@@ -5,6 +5,9 @@ using Xunit;
 
 namespace Json.Tests;
 
+/// <summary>
+///     Unit tests of service <see cref="ServiceStackService{T}"/>
+/// </summary>
 public sealed class ServiceStackTests
 {
     /// <summary>

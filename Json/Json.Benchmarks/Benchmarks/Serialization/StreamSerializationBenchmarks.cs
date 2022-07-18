@@ -74,4 +74,14 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     {
         return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeStream(SimpleModels);
     }
+    
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
+    [Benchmark]
+    public MemoryStream ServiceStack()
+    {
+        return ServiceStackService<SimpleModel>.ServiceStackSerializeStream(SimpleModels);
+    }
 }

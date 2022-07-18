@@ -84,4 +84,14 @@ public class StringSerializationBenchmarks : JsonBenchmark
     {
         return SpanJsonService<SimpleModel>.SpanJsonSerialize(SimpleModels);
     }
+    
+    /// <summary>
+    ///     Serializes with SpanJson to string.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [Benchmark]
+    public string ServiceStack()
+    {
+        return ServiceStackService<SimpleModel>.ServiceStackSerialize(SimpleModels);
+    }
 }

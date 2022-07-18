@@ -33,6 +33,10 @@ public sealed class ServiceStackService<T>
         }
     }
     
+    /// <summary>
+    ///     Deserialize string of TValue using <see cref="ServiceStack"/>.
+    /// </summary>
+    /// <returns>Collection of TValue.</returns>
     public static ICollection<T> ServiceStackDeserializeStream(Stream stream)
     {
         using (ServiceStack.Text.JsConfig.With(JsonServiceExtensions.ServiceStackOptions))
@@ -41,6 +45,10 @@ public sealed class ServiceStackService<T>
         }
     }
     
+    /// <summary>
+    ///     Serialize collection of TValue using <see cref="ServiceStack"/>.
+    /// </summary>
+    /// <returns>Serialized string.</returns>
     public static MemoryStream ServiceStackSerializeStream(ICollection<T> tValues)
     {
         using var memoryStream = new MemoryStream();
@@ -52,6 +60,10 @@ public sealed class ServiceStackService<T>
         }
     }
     
+    /// <summary>
+    ///     Deserialize string of TValue using <see cref="ServiceStack"/>.
+    /// </summary>
+    /// <returns>Collection of TValue.</returns>
     public static Task<ICollection<T>> ServiceStackDeserializeStreamAsync(Stream stream)
     {
         using (ServiceStack.Text.JsConfig.With(JsonServiceExtensions.ServiceStackOptions))
