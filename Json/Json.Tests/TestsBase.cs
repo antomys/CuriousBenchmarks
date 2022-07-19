@@ -13,11 +13,11 @@ public static class TestsBase
 {
 #pragma warning disable CA1822
     
-    private const int InternalCount = 10;
+    private const int InternalCount = 1;
 
     private static readonly Faker<TestModel> TestModelFaker = new();
     
-    private static readonly List<TestModel> TestModels = TestModelFaker
+    private static readonly TestModel[] TestModels = TestModelFaker
         .RuleFor(testModel => testModel.TestByte, fakerSetter => fakerSetter.Random.Byte())
         .RuleFor(testModel => testModel.TestChar, fakerSetter => fakerSetter.Random.Char('a', 'z'))
         .RuleFor(testModel => testModel.TestDate, fakerSetter => fakerSetter.Date.Past().ToUniversalTime())
@@ -42,7 +42,8 @@ public static class TestsBase
         .RuleFor(testModel => testModel.TestStringArray, fakerSetter => fakerSetter.GetArray(func => func.Random.String2(5, 10), InternalCount))
         .RuleFor(testModel => testModel.TestUShortArray, fakerSetter => fakerSetter.GetArray(func => func.Random.UShort(), InternalCount))
         .RuleFor(testModel => testModel.TestULongArray, fakerSetter => fakerSetter.GetArray(func => func.Random.ULong(), InternalCount))
-        .Generate(InternalCount);
+        .Generate(InternalCount)
+        .ToArray();
     
     private static readonly string TestString = BuildString(TestModels, isIsoTimeSpan : false);
     
@@ -90,9 +91,9 @@ public static class TestsBase
     ///     Gets List of <see cref="TestModel"/>.
     /// </summary>
     /// <returns>List of <see cref="TestModel"/>.</returns>
-    public static List<TestModel> GetTestModels() => TestModels;
+    public static TestModel[] GetTestModels() => TestModels;
 
-    private static string BuildString(List<TestModel> testModels, bool isIsoTimeSpan = false, bool isUtf8 = false)
+    private static string BuildString(IReadOnlyList<TestModel> testModels, bool isIsoTimeSpan = false, bool isUtf8 = false)
     {
         var sb = new StringBuilder();
         sb.Append('[');

@@ -13,6 +13,14 @@ public static class JsonServiceExtensions
         PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
     };
 
+    internal static readonly  NetJSON.NetJSONSettings NetJsonOptions = new()
+    {
+        DateFormat = NetJSON.NetJSONDateFormat.ISO,
+        TimeZoneFormat = NetJSON.NetJSONTimeZoneFormat.Utc,
+        UseStringOptimization = true,
+        CamelCase = true
+    };
+    
     internal static readonly Newtonsoft.Json.JsonSerializerSettings NewtonsoftOptions = new()
     {
         ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),

@@ -6,12 +6,12 @@ using Xunit;
 namespace Json.Tests;
 
 /// <summary>
-///     Unit tests of <see cref="SystemTextJsonService{T}"/>
+///     Unit tests of <see cref="SystemTextJsonService"/>
 /// </summary>
 public sealed class SystemTextJsonTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserialize"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonDeserialize{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonDeserialize_Returns_ValidModels()
@@ -21,14 +21,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = SystemTextJsonService<TestModel>.SystemTextJsonDeserialize(actualString);
+        var actualModels = SystemTextJsonService.SystemTextJsonDeserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerialize"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonSerialize{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonSerialize_Returns_ValidString()
@@ -38,14 +38,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = SystemTextJsonService<TestModel>.SystemTextJsonSerialize(expectedModels);
+        var actualString = SystemTextJsonService.SystemTextJsonSerialize(expectedModels);
         
         // Assert
         actualString.Should().BeEquivalentTo(expectedString);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserializeBytes"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonDeserializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonDeserializeBytes_Returns_ValidModels()
@@ -55,14 +55,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = SystemTextJsonService<TestModel>.SystemTextJsonDeserializeBytes(expectedBytes);
+        var actualModels = SystemTextJsonService.SystemTextJsonDeserializeBytes<TestModel[]>(expectedBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerializeBytes"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonSerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonSerializeBytes_Returns_ValidString()
@@ -72,14 +72,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = SystemTextJsonService<TestModel>.SystemTextJsonSerializeBytes(expectedModels);
+        var actualBytes = SystemTextJsonService.SystemTextJsonSerializeBytes(expectedModels);
         
         // Assert
         actualBytes.Should().BeEquivalentTo(expectedBytes);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserializeStream"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonDeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonDeserializeStream_Returns_ValidModels()
@@ -91,14 +91,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = SystemTextJsonService<TestModel>.SystemTextJsonDeserializeStream(ms);
+        var actualModels = SystemTextJsonService.SystemTextJsonDeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerializeStream"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonSerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void SystemTextJsonSerializeStream_Returns_ValidString()
@@ -108,7 +108,7 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = SystemTextJsonService<TestModel>.SystemTextJsonSerializeStream(expectedModels);
+        using var actualMemoryStream = SystemTextJsonService.SystemTextJsonSerializeStream(expectedModels);
         var actualBytes = actualMemoryStream.ToArray();
         
         // Assert
@@ -116,7 +116,7 @@ public sealed class SystemTextJsonTests
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonDeserializeStream"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonDeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public async Task SystemTextJsonDeserializeAsync_Returns_ValidModels()
@@ -128,14 +128,14 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = await SystemTextJsonService<TestModel>.SystemTextJsonDeserializeAsync(ms);
+        var actualModels = await SystemTextJsonService.SystemTextJsonDeserializeAsync<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="SystemTextJsonService{T}.SystemTextJsonSerializeStream"/>.
+    ///     Unit testing of method <see cref="SystemTextJsonService.SystemTextJsonSerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public async Task SystemTextJsonSerializeStreamAsync_Returns_ValidString()
@@ -145,7 +145,7 @@ public sealed class SystemTextJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = await SystemTextJsonService<TestModel>.SystemTextJsonSerializeStreamAsync(expectedModels);
+        using var actualMemoryStream = await SystemTextJsonService.SystemTextJsonSerializeStreamAsync(expectedModels);
         var actualBytes = actualMemoryStream.ToArray();
         
         // Assert

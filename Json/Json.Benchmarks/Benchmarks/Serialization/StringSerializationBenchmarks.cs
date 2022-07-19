@@ -22,7 +22,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark(Baseline = true)]
     public string SystemTextJson()
      {
-         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerialize(SimpleModels);
+         return SystemTextJsonService.SystemTextJsonSerialize(SimpleModels);
      }
     
     /// <summary>
@@ -42,7 +42,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string Maverick()
     {
-        return MaverickJsonService<SimpleModel>.MaverickJsonSerialize(SimpleModels);
+        return MaverickJsonService.MaverickJsonSerialize(SimpleModels);
     }
     
     /// <summary>
@@ -52,7 +52,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string Newtonsoft()
     {
-        return NewtonsoftService<SimpleModel>.NewtonsoftSerialize(SimpleModels);
+        return NewtonsoftService.NewtonsoftSerialize(SimpleModels);
     }
     
     /// <summary>
@@ -62,7 +62,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string Jil()
     {
-        return JilService<SimpleModel>.JilSerialize(SimpleModels);
+        return JilService.JilSerialize(SimpleModels);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonSerialize(SimpleModels);
+        return Utf8JsonService.Utf8JsonSerialize(SimpleModels);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonSerialize(SimpleModels);
+        return SpanJsonService.SpanJsonSerialize(SimpleModels);
     }
     
     /// <summary>
@@ -92,6 +92,16 @@ public class StringSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public string ServiceStack()
     {
-        return ServiceStackService<SimpleModel>.ServiceStackSerialize(SimpleModels);
+        return ServiceStackService.ServiceStackSerialize(SimpleModels);
+    }
+    
+    /// <summary>
+    ///     Serializes with SpanJson to string.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [Benchmark]
+    public string NetJson()
+    {
+        return NetJsonService.NetJsonSerialize(SimpleModels);
     }
 }

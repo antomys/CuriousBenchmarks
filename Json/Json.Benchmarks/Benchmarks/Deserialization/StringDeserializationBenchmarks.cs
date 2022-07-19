@@ -21,18 +21,18 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     {
         base.Setup();
         
-        _testString = SystemTextJsonService<SimpleModel>.SystemTextJsonSerialize(SimpleModels);
-        _testJilString = JilService<SimpleModel>.JilSerialize(SimpleModels);
-        _testServiceStackString = ServiceStackService<SimpleModel>.ServiceStackSerialize(SimpleModels);
+        _testString = SystemTextJsonService.SystemTextJsonSerialize(SimpleModels);
+        _testJilString = JilService.JilSerialize(SimpleModels);
+        _testServiceStackString = ServiceStackService.ServiceStackSerialize(SimpleModels);
     }
     
-     /// <summary>
+    /// <summary>
     ///     Deserialize with System.Text.Json.
     /// </summary>
      [Benchmark(Baseline = true)]
     public ICollection<SimpleModel> SystemTextJson()
      {
-         return SystemTextJsonService<SimpleModel>.SystemTextJsonDeserialize(_testString);
+         return SystemTextJsonService.SystemTextJsonDeserialize<ICollection<SimpleModel>>(_testString);
      }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Maverick()
     {
-        return MaverickJsonService<SimpleModel>.MaverickJsonDeserialize(_testString);
+        return MaverickJsonService.MaverickJsonDeserialize<ICollection<SimpleModel>>(_testString);
     }
     
     /// <summary>
@@ -59,7 +59,7 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Newtonsoft()
     {
-        return NewtonsoftService<SimpleModel>.NewtonsoftDeserialize(_testString);
+        return NewtonsoftService.NewtonsoftDeserialize<ICollection<SimpleModel>>(_testString);
     }
     
     /// <summary>
@@ -68,7 +68,7 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Jil()
     {
-        return JilService<SimpleModel>.JilDeserialize(_testJilString);
+        return JilService.JilDeserialize<ICollection<SimpleModel>>(_testJilString);
     }
     
     /// <summary>
@@ -77,7 +77,7 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonDeserialize(_testString);
+        return Utf8JsonService.Utf8JsonDeserialize<ICollection<SimpleModel>>(_testString);
     }
     
     /// <summary>
@@ -87,7 +87,7 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonDeserialize(_testString);
+        return SpanJsonService.SpanJsonDeserialize<ICollection<SimpleModel>>(_testString);
     }
     
     /// <summary>
@@ -96,6 +96,15 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> ServiceStack()
     {
-        return ServiceStackService<SimpleModel>.ServiceStackDeserialize(_testServiceStackString);
+        return ServiceStackService.ServiceStackDeserialize<ICollection<SimpleModel>>(_testServiceStackString);
+    }
+    
+    /// <summary>
+    ///     Deserialize with ServiceStack.
+    /// </summary>
+    [Benchmark]
+    public ICollection<SimpleModel> NetJson()
+    {
+        return NetJsonService.NetJsonDeserialize<ICollection<SimpleModel>>(_testServiceStackString);
     }
 }

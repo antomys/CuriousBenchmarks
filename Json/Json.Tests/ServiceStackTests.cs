@@ -6,29 +6,29 @@ using Xunit;
 namespace Json.Tests;
 
 /// <summary>
-///     Unit tests of service <see cref="ServiceStackService{T}"/>
+///     Unit tests of service <see cref="ServiceStackService"/>
 /// </summary>
 public sealed class ServiceStackTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="ServiceStackService{T}.ServiceStackDeserialize"/>.
+    ///     Unit testing of method <see cref="ServiceStackService.ServiceStackDeserialize{T}"/>.
     /// </summary>
     [Fact]
-    public void FastJsonDeserialize_Returns_ValidModels()
+    public void ServiceStackDeserialize_Returns_ValidModels()
     {
         // Arrange
         var actualString = TestsBase.GetTestString();
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = ServiceStackService<TestModel>.ServiceStackDeserialize(actualString);
+        var actualModels = ServiceStackService.ServiceStackDeserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ServiceStackService{T}.ServiceStackSerialize"/>.
+    ///     Unit testing of method <see cref="ServiceStackService.ServiceStackSerialize{T}"/>.
     /// </summary>
     [Fact]
     public void ServiceStackDeserialize_Returns_ValidStringModels()
@@ -37,15 +37,15 @@ public sealed class ServiceStackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = ServiceStackService<TestModel>.ServiceStackSerialize(expectedModels);
-        var actualModels = ServiceStackService<TestModel>.ServiceStackDeserialize(actualString);
+        var actualString = ServiceStackService.ServiceStackSerialize(expectedModels);
+        var actualModels = ServiceStackService.ServiceStackDeserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ServiceStackService{T}.ServiceStackDeserializeStream"/>.
+    ///     Unit testing of method <see cref="ServiceStackService.ServiceStackDeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void ServiceStackDeserializeStream_Returns_ValidModels()
@@ -57,14 +57,14 @@ public sealed class ServiceStackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = ServiceStackService<TestModel>.ServiceStackDeserializeStream(ms);
+        var actualModels = ServiceStackService.ServiceStackDeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ServiceStackService{T}.ServiceStackSerializeStream"/>.
+    ///     Unit testing of method <see cref="ServiceStackService.ServiceStackSerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void ServiceStackSerializeStream_Returns_ValidString()
@@ -73,16 +73,16 @@ public sealed class ServiceStackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = ServiceStackService<TestModel>.ServiceStackSerializeStream(expectedModels);
+        using var actualMemoryStream = ServiceStackService.ServiceStackSerializeStream(expectedModels);
         using var serializedMemoryStream = new MemoryStream(actualMemoryStream.ToArray());
-        var actualModels = ServiceStackService<TestModel>.ServiceStackDeserializeStream(serializedMemoryStream);
+        var actualModels = ServiceStackService.ServiceStackDeserializeStream<TestModel[]>(serializedMemoryStream);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ServiceStackService{T}.ServiceStackDeserializeStreamAsync"/>.
+    ///     Unit testing of method <see cref="ServiceStackService.ServiceStackDeserializeStreamAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task ServiceStackDeserializeStreamAsync_Returns_ValidModels()
@@ -94,7 +94,7 @@ public sealed class ServiceStackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = await ServiceStackService<TestModel>.ServiceStackDeserializeStreamAsync(ms);
+        var actualModels = await ServiceStackService.ServiceStackDeserializeStreamAsync<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

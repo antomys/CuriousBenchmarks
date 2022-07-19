@@ -24,12 +24,12 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     {
         base.Setup();
 
-        _testMsgPackClassicByteArray = MsgPackService<SimpleModel>.MsgPackClassicSerializeBytes(SimpleModels);
-        _zeroFormatterByteArray = ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeBytes(SimpleModels);
-        _testMsgPackLz4ByteArray = MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels);
-        _testByteArray = SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels);
-        _protobufBytes = ProtobufService<SimpleModel>.ProtobufSerializeBytes(SimpleModels);
-        _testJilByteArray = JilService<SimpleModel>.JilSerializeBytes(SimpleModels);
+        _testMsgPackClassicByteArray = MsgPackService.MsgPackClassicSerializeBytes(SimpleModels);
+        _zeroFormatterByteArray = ZeroFormatterService.ZeroFormatterSerializeBytes(SimpleModels);
+        _testMsgPackLz4ByteArray = MsgPackService.MsgPackLz4BlockSerializeBytes(SimpleModels);
+        _testByteArray = SystemTextJsonService.SystemTextJsonSerializeBytes(SimpleModels);
+        _protobufBytes = ProtobufService.ProtobufSerializeBytes(SimpleModels);
+        _testJilByteArray = JilService.JilSerializeBytes(SimpleModels);
     }
     
     /// <summary>
@@ -38,7 +38,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark(Baseline = true)]
     public ICollection<SimpleModel> SystemTextJson()
     {
-        return SystemTextJsonService<SimpleModel>.SystemTextJsonDeserializeBytes(_testByteArray);
+        return SystemTextJsonService.SystemTextJsonDeserializeBytes<ICollection<SimpleModel>>(_testByteArray);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Maverick()
     {
-        return MaverickJsonService<SimpleModel>.MaverickDeserializeBytes(_testByteArray);
+        return MaverickJsonService.MaverickDeserializeBytes<ICollection<SimpleModel>>(_testByteArray);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonDeserializeBytes(_testByteArray);
+        return Utf8JsonService.Utf8JsonDeserializeBytes<ICollection<SimpleModel>>(_testByteArray);
     }
     
     /// <summary>
@@ -74,7 +74,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonDeserializeBytes(_testByteArray);
+        return SpanJsonService.SpanJsonDeserializeBytes<ICollection<SimpleModel>>(_testByteArray);
     }
     
     /// <summary>
@@ -83,7 +83,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Jil()
     {
-        return JilService<SimpleModel>.JilDeserializeBytes(_testJilByteArray);
+        return JilService.JilDeserializeBytes<ICollection<SimpleModel>>(_testJilByteArray);
     }
     
     /// <summary>
@@ -92,7 +92,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> ZeroFormatter()
     {
-        return ZeroFormatterService<SimpleModel>.ZeroFormatterDeserializeBytes(_zeroFormatterByteArray);
+        return ZeroFormatterService.ZeroFormatterDeserializeBytes<ICollection<SimpleModel>>(_zeroFormatterByteArray);
     }
     
     /// <summary>
@@ -101,7 +101,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Protobuf()
     {
-        return ProtobufService<SimpleModel>.ProtobufDeserializeBytes(_protobufBytes);
+        return ProtobufService.ProtobufDeserializeBytes<ICollection<SimpleModel>>(_protobufBytes);
     }
     
     /// <summary>
@@ -110,7 +110,7 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> MsgPackClassic()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicDeserializeByte(_testMsgPackClassicByteArray);
+        return MsgPackService.MsgPackClassicDeserializeBytes<ICollection<SimpleModel>>(_testMsgPackClassicByteArray);
     }
     
     /// <summary>
@@ -119,6 +119,6 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> MsgPackLz4()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockDeserializeByte(_testMsgPackLz4ByteArray);
+        return MsgPackService.MsgPackLz4BlockDeserializeBytes<ICollection<SimpleModel>>(_testMsgPackLz4ByteArray);
     }
 }

@@ -6,12 +6,12 @@ using Xunit;
 namespace Json.Tests;
 
 /// <summary>
-///     Unit tests for service <see cref="ZeroFormatterService{T}"/>.
+///     Unit tests for service <see cref="ZeroFormatterService"/>.
 /// </summary>
 public sealed class ZeroFormatterTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="ZeroFormatterService{T}.ZeroFormatterSerializeBytes"/>.
+    ///     Unit testing of method <see cref="ZeroFormatterService.ZeroFormatterSerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void ZeroFormatterSerializeBytes_Returns_ValidString()
@@ -20,15 +20,15 @@ public sealed class ZeroFormatterTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = ZeroFormatterService<TestModel>.ZeroFormatterSerializeBytes(expectedModels);
-        var actualModels = ZeroFormatterService<TestModel>.ZeroFormatterDeserializeBytes(actualBytes);
+        var actualBytes = ZeroFormatterService.ZeroFormatterSerializeBytes(expectedModels);
+        var actualModels = ZeroFormatterService.ZeroFormatterDeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ZeroFormatterService{T}.ZeroFormatterDeserializeStream"/>.
+    ///     Unit testing of method <see cref="ZeroFormatterService.ZeroFormatterDeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void ZeroFormatterSerializeStream_Returns_ValidModels()
@@ -38,9 +38,9 @@ public sealed class ZeroFormatterTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = ZeroFormatterService<TestModel>.ZeroFormatterSerializeStream(expectedModels);
+        using var actualMemoryStream = ZeroFormatterService.ZeroFormatterSerializeStream(expectedModels);
         ms.Write(actualMemoryStream.ToArray());
-        var actualModels = ZeroFormatterService<TestModel>.ZeroFormatterDeserializeStream(ms);
+        var actualModels = ZeroFormatterService.ZeroFormatterDeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
