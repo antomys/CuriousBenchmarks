@@ -3,16 +3,15 @@
 /// <summary>
 ///     Static methods wrapper of <see cref="Utf8Json"/>.
 /// </summary>
-/// <typeparam name="T">TValue.</typeparam>
-public static class Utf8JsonService<T>
+public static class Utf8JsonService
 {
     /// <summary>
     ///     Deserialize string of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Utf8JsonDeserialize(string testString)
+    public static T Utf8JsonDeserialize<T>(string testString)
     {
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testString)!;
+        return Utf8Json.JsonSerializer.Deserialize<T>(testString)!;
     }
     
     /// <summary>
@@ -20,7 +19,7 @@ public static class Utf8JsonService<T>
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static string Utf8JsonSerialize(ICollection<T> tValue)
+    public static string Utf8JsonSerialize<T>(T tValue)
     {
         var serialized = Utf8Json.JsonSerializer.Serialize(tValue)!;
 
@@ -31,9 +30,9 @@ public static class Utf8JsonService<T>
     ///     Deserialize byte array of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Utf8JsonDeserializeBytes(byte[] testByteArray)
+    public static T Utf8JsonDeserializeBytes<T>(byte[] testByteArray)
     {
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testByteArray)!;
+        return Utf8Json.JsonSerializer.Deserialize<T>(testByteArray)!;
     }
     
     /// <summary>
@@ -41,7 +40,7 @@ public static class Utf8JsonService<T>
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized byte array.</returns>
-    public static byte[] Utf8JsonBytesSerializeBytes(ICollection<T> tValue)
+    public static byte[] Utf8JsonBytesSerializeBytes<T>(T tValue)
     {
         return Utf8Json.JsonSerializer.Serialize(tValue)!;
     }
@@ -50,11 +49,11 @@ public static class Utf8JsonService<T>
     ///     Deserialize Stream of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> Utf8JsonDeserializeStream(Stream testStream)
+    public static T Utf8JsonDeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
 
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<T>>(testStream)!;
+        return Utf8Json.JsonSerializer.Deserialize<T>(testStream)!;
     }
     
     /// <summary>
@@ -62,7 +61,7 @@ public static class Utf8JsonService<T>
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized stream.</returns>
-    public static async Task<MemoryStream> Utf8JsonSerializeStreamAsync(ICollection<T> tValue)
+    public static async Task<MemoryStream> Utf8JsonSerializeStreamAsync<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         await Utf8Json.JsonSerializer.SerializeAsync(memoryStream, tValue);
@@ -74,10 +73,10 @@ public static class Utf8JsonService<T>
     ///     Asynchronously deserialize string ot TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static Task<ICollection<T>> Utf8JsonDeserializeAsync(Stream testStream)
+    public static Task<T> Utf8JsonDeserializeAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         
-        return Utf8Json.JsonSerializer.DeserializeAsync<ICollection<T>>(testStream);
+        return Utf8Json.JsonSerializer.DeserializeAsync<T>(testStream);
     }
 }

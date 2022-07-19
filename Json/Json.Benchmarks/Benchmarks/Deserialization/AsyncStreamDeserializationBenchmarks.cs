@@ -24,13 +24,13 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     {
         base.Setup();
 
-        _testMsgPackClassicStream = new MemoryStream(MsgPackService<SimpleModel>.MsgPackClassicSerializeBytes(SimpleModels));
-        _testZeroFormatterStream = new MemoryStream(ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeBytes(SimpleModels));
-        _testMsgPackLz4Stream = new MemoryStream(MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels));
-        _testStream = new MemoryStream(SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels));
-        _protobufStream = new MemoryStream(ProtobufService<SimpleModel>.ProtobufSerializeBytes(SimpleModels));
+        _testMsgPackClassicStream = new MemoryStream(MsgPackService.MsgPackClassicSerializeBytes(SimpleModels));
+        _testZeroFormatterStream = new MemoryStream(ZeroFormatterService.ZeroFormatterSerializeBytes(SimpleModels));
+        _testMsgPackLz4Stream = new MemoryStream(MsgPackService.MsgPackLz4BlockSerializeBytes(SimpleModels));
+        _testStream = new MemoryStream(SystemTextJsonService.SystemTextJsonSerializeBytes(SimpleModels));
+        _protobufStream = new MemoryStream(ProtobufService.ProtobufSerializeBytes(SimpleModels));
 
-        using var tempStream = ServiceStackService<SimpleModel>.ServiceStackSerializeStream(SimpleModels);
+        using var tempStream = ServiceStackService.ServiceStackSerializeStream(SimpleModels);
         _testServiceStackStream = new MemoryStream(tempStream.ToArray());
     }
     
@@ -40,7 +40,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark(Baseline = true)]
     public ValueTask<ICollection<SimpleModel>?> SystemTextJson()
     {
-        return SystemTextJsonService<SimpleModel>.SystemTextJsonDeserializeAsync(_testStream);
+        return SystemTextJsonService.SystemTextJsonDeserializeAsync<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public Task<ICollection<SimpleModel>> Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonDeserializeAsync(_testStream);
+        return Utf8JsonService.Utf8JsonDeserializeAsync<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ValueTask<ICollection<SimpleModel>> SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonDeserializeAsync(_testStream);
+        return SpanJsonService.SpanJsonDeserializeAsync<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ValueTask<ICollection<SimpleModel>> Protobuf()
     {
-        return ProtobufService<SimpleModel>.ProtobufDeserializeAsync(_protobufStream);
+        return ProtobufService.ProtobufDeserializeAsync<ICollection<SimpleModel>>(_protobufStream);
     }
     
     /// <summary>
@@ -85,7 +85,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ValueTask<ICollection<SimpleModel>> MsgPackClassic()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicDeserializeAsync(_testMsgPackClassicStream);
+        return MsgPackService.MsgPackClassicDeserializeAsync<ICollection<SimpleModel>>(_testMsgPackClassicStream);
     }
     
     /// <summary>
@@ -94,7 +94,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ValueTask<ICollection<SimpleModel>> MsgPackLz4()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockDeserializeAsync(_testMsgPackLz4Stream);
+        return MsgPackService.MsgPackLz4BlockDeserializeAsync<ICollection<SimpleModel>>(_testMsgPackLz4Stream);
     }
     
     /// <summary>
@@ -103,7 +103,7 @@ public class AsyncStreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public Task<ICollection<SimpleModel>> ServiceStack()
     {
-        return ServiceStackService<SimpleModel>.ServiceStackDeserializeStreamAsync(_testServiceStackStream);
+        return ServiceStackService.ServiceStackDeserializeStreamAsync<ICollection<SimpleModel>>(_testServiceStackStream);
     }
     
     /// <summary>

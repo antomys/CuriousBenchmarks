@@ -22,7 +22,7 @@ public class AsyncStreamSerializationBenchmarks : JsonBenchmark
     [Benchmark(Baseline = true)]
     public Task<MemoryStream> SystemTextJson()
      {
-         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeStreamAsync(SimpleModels);
+         return SystemTextJsonService.SystemTextJsonSerializeStreamAsync(SimpleModels);
      }
     
     /// <summary>
@@ -42,7 +42,7 @@ public class AsyncStreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public Task<MemoryStream> Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonSerializeStreamAsync(SimpleModels);
+        return Utf8JsonService.Utf8JsonSerializeStreamAsync(SimpleModels);
     }
     
     /// <summary>
@@ -52,7 +52,7 @@ public class AsyncStreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public Task<MemoryStream> SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonSerializeStreamAsync(SimpleModels);
+        return SpanJsonService.SpanJsonSerializeStreamAsync(SimpleModels);
     }
     
     /// <summary>
@@ -62,7 +62,7 @@ public class AsyncStreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public Task<MemoryStream> MsgPackClassic()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicSerializeAsync(SimpleModels);
+        return MsgPackService.MsgPackClassicSerializeAsync(SimpleModels);
     }
     
     /// <summary>
@@ -72,6 +72,6 @@ public class AsyncStreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public Task<MemoryStream> MsgPackLz4Block()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeAsync(SimpleModels);
+        return MsgPackService.MsgPackLz4BlockSerializeAsync(SimpleModels);
     }
 }

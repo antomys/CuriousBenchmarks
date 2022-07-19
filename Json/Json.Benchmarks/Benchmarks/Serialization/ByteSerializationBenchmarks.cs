@@ -22,7 +22,7 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark(Baseline = true)]
     public byte[] SystemTextJson()
      {
-         return SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels);
+         return SystemTextJsonService.SystemTextJsonSerializeBytes(SimpleModels);
      }
     
     /// <summary>
@@ -42,7 +42,7 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public byte[] Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonBytesSerializeBytes(SimpleModels);
+        return Utf8JsonService.Utf8JsonBytesSerializeBytes(SimpleModels);
     }
     
     /// <summary>
@@ -52,7 +52,7 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public byte[] ZeroFormatter()
     {
-        return ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeBytes(SimpleModels);
+        return ZeroFormatterService.ZeroFormatterSerializeBytes(SimpleModels);
     }
     
     /// <summary>
@@ -62,7 +62,7 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public byte[] SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonSerializeBytes(SimpleModels);
+        return SpanJsonService.SpanJsonSerializeBytes(SimpleModels);
     }
     
     /// <summary>
@@ -72,7 +72,7 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public byte[] MsgPackClassic()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicSerializeBytes(SimpleModels);
+        return MsgPackService.MsgPackClassicSerializeBytes(SimpleModels);
     }
     
     /// <summary>
@@ -82,6 +82,6 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public byte[] MsgPackLz4Block()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels);
+        return MsgPackService.MsgPackLz4BlockSerializeBytes(SimpleModels);
     }
 }

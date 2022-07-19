@@ -3,14 +3,13 @@
 /// <summary>
 ///     Static methods wrapper of <see cref="ZeroFormatter"/>.
 /// </summary>
-/// <typeparam name="T">TValue.</typeparam>
-public static class ZeroFormatterService<T>
+public static class ZeroFormatterService
 {
     /// <summary>
     ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static byte[] ZeroFormatterSerializeBytes(ICollection<T> tValue)
+    public static byte[] ZeroFormatterSerializeBytes<T>(T tValue)
     {
         return ZeroFormatter.ZeroFormatterSerializer.Serialize(tValue);
     }
@@ -19,16 +18,16 @@ public static class ZeroFormatterService<T>
     ///     Deserialize byte array of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> ZeroFormatterDeserializeBytes(byte[] testByteArray)
+    public static T ZeroFormatterDeserializeBytes<T>(byte[] testByteArray)
     {
-        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<ICollection<T>>(testByteArray)!;
+        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<T>(testByteArray)!;
     }
     
     /// <summary>
     ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static MemoryStream ZeroFormatterSerializeStream(ICollection<T> tValue)
+    public static MemoryStream ZeroFormatterSerializeStream<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         ZeroFormatter.ZeroFormatterSerializer.Serialize(memoryStream, tValue);
@@ -40,10 +39,10 @@ public static class ZeroFormatterService<T>
     ///     Deserialize Stream of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> ZeroFormatterDeserializeStream(Stream testStream)
+    public static T ZeroFormatterDeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         
-        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<ICollection<T>>(testStream)!;
+        return ZeroFormatter.ZeroFormatterSerializer.Deserialize<T>(testStream)!;
     }
 }
