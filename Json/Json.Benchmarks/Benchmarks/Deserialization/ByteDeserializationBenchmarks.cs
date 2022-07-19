@@ -121,4 +121,13 @@ public class ByteDeserializationBenchmarks: JsonBenchmark
     {
         return MsgPackService.MsgPackLz4BlockDeserializeBytes<ICollection<SimpleModel>>(_testMsgPackLz4ByteArray);
     }
+    
+    /// <summary>
+    ///     Deserialize with ServiceStack.
+    /// </summary>
+    [Benchmark]
+    public SimpleSrcGenModel[] JsonSrcGen()
+    {
+        return JsonSrcGenService.JsonSrcGenDeserializeBytes(_testByteArray);
+    }
 }

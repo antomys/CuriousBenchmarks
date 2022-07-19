@@ -84,4 +84,14 @@ public class ByteSerializationBenchmarks : JsonBenchmark
     {
         return MsgPackService.MsgPackLz4BlockSerializeBytes(SimpleModels);
     }
+    
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [Benchmark]
+    public byte[] JsonSrcGen()
+    {
+        return JsonSrcGenService.JsonSrcGenSerializeBytes(SimpleSrcGenModels);
+    }
 }
