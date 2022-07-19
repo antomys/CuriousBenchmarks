@@ -107,4 +107,13 @@ public class StringDeserializationBenchmarks: JsonBenchmark
     {
         return NetJsonService.NetJsonDeserialize<ICollection<SimpleModel>>(_testServiceStackString);
     }
+    
+    /// <summary>
+    ///     Deserialize with ServiceStack.
+    /// </summary>
+    [Benchmark]
+    public SimpleSrcGenModel[] JsonSrcGen()
+    {
+        return JsonSrcGenService.JsonSrcGenDeserialize(_testString);
+    }
 }

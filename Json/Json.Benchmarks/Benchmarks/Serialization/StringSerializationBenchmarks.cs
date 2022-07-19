@@ -104,4 +104,14 @@ public class StringSerializationBenchmarks : JsonBenchmark
     {
         return NetJsonService.NetJsonSerialize(SimpleModels);
     }
+    
+    /// <summary>
+    ///     Serializes with SpanJson to string.
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    [Benchmark]
+    public string JsonSrcGen()
+    {
+        return JsonSrcGenService.JsonSrcGenSerialize(SimpleSrcGenModels);
+    }
 }
