@@ -23,7 +23,7 @@ public class NetJsonTests
         
         // Act
         var actualString = NetJsonService.NetJsonSerialize(expectedModels);
-        var actualModels = NetJsonService.NetJsonDeserialize<TestModel[]>(expectedString);
+        var actualModels = NetJsonService.NetJsonDeserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

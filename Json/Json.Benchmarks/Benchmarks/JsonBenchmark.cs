@@ -2,7 +2,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
-using Bogus;
 using Json.Benchmarks.Extensions;
 using Json.Benchmarks.Models;
 
@@ -23,12 +22,12 @@ public class JsonBenchmark
     /// <summary>
     ///     Static <see cref="Faker"/> for <see cref="SimpleModel"/>.
     /// </summary>
-    private static readonly Faker<SimpleModel> Faker = new();
+    private static readonly Bogus.Faker<SimpleModel> Faker = new();
     
     /// <summary>
     ///     Static <see cref="Faker"/> for <see cref="SimpleModel"/>.
     /// </summary>
-    private static readonly Faker<SimpleSrcGenModel> FakerSrcGen = new();
+    private static readonly Bogus.Faker<SimpleSrcGenModel> FakerSrcGen = new();
     
     /// <summary>
     ///     Size of generation.

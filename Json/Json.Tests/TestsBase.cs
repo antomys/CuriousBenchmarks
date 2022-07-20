@@ -13,7 +13,7 @@ public static class TestsBase
 {
 #pragma warning disable CA1822
     
-    private const int InternalCount = 1;
+    private const int InternalCount = 10;
 
     private static readonly Faker<TestModel> TestModelFaker = new();
     
