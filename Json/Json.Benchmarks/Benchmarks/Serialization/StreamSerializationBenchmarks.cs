@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Json.Benchmarks.Models;
 using Json.Benchmarks.Services;
 
 namespace Json.Benchmarks.Benchmarks.Serialization;
@@ -22,7 +21,7 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     [Benchmark(Baseline = true)]
     public MemoryStream SystemTextJson()
     {
-        return SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeStream(SimpleModels);
+        return SystemTextJsonService.SystemTextJsonSerializeStream(SimpleModels);
     }
     
     /// <summary>
@@ -42,7 +41,7 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public MemoryStream Maverick()
     {
-        return MaverickJsonService<SimpleModel>.MaverickSerializeStream(SimpleModels);
+        return MaverickJsonService.MaverickSerializeStream(SimpleModels);
     }
 
     /// <summary>
@@ -52,7 +51,7 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public MemoryStream ZeroFormatter()
     {
-        return ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeStream(SimpleModels);
+        return ZeroFormatterService.ZeroFormatterSerializeStream(SimpleModels);
     }
 
     /// <summary>
@@ -62,7 +61,7 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public MemoryStream MsgPackNoCompress()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicSerializeStream(SimpleModels);
+        return MsgPackService.MsgPackClassicSerializeStream(SimpleModels);
     }
 
     /// <summary>
@@ -72,6 +71,16 @@ public class StreamSerializationBenchmarks : JsonBenchmark
     [Benchmark]
     public MemoryStream MsgPackLz4Block()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeStream(SimpleModels);
+        return MsgPackService.MsgPackLz4BlockSerializeStream(SimpleModels);
+    }
+    
+    /// <summary>
+    ///     Serializes with MessagePack.
+    /// </summary>
+    /// <returns><see cref="MemoryStream"/></returns>
+    [Benchmark]
+    public MemoryStream ServiceStack()
+    {
+        return ServiceStackService.ServiceStackSerializeStream(SimpleModels);
     }
 }

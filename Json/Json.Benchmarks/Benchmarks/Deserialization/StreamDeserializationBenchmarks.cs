@@ -11,6 +11,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
 {
     private Stream _testMsgPackClassicStream = null!;
     private Stream _testZeroFormatterStream = null!;
+    private Stream _testServiceStackStream = null!;
     private Stream _testMsgPackLz4Stream = null!;
     private Stream _protobufStream = null!;
     private Stream _testStream = null!;
@@ -23,11 +24,14 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     {
         base.Setup();
 
-        _testMsgPackClassicStream = new MemoryStream(MsgPackService<SimpleModel>.MsgPackClassicSerializeBytes(SimpleModels));
-        _testZeroFormatterStream = new MemoryStream(ZeroFormatterService<SimpleModel>.ZeroFormatterSerializeBytes(SimpleModels));
-        _testMsgPackLz4Stream = new MemoryStream(MsgPackService<SimpleModel>.MsgPackLz4BlockSerializeBytes(SimpleModels));
-        _testStream = new MemoryStream(SystemTextJsonService<SimpleModel>.SystemTextJsonSerializeBytes(SimpleModels));
-        _protobufStream = new MemoryStream(ProtobufService<SimpleModel>.ProtobufSerializeBytes(SimpleModels));
+        _testMsgPackClassicStream = new MemoryStream(MsgPackService.MsgPackClassicSerializeBytes(SimpleModels));
+        _testZeroFormatterStream = new MemoryStream(ZeroFormatterService.ZeroFormatterSerializeBytes(SimpleModels));
+        _testMsgPackLz4Stream = new MemoryStream(MsgPackService.MsgPackLz4BlockSerializeBytes(SimpleModels));
+        _testStream = new MemoryStream(SystemTextJsonService.SystemTextJsonSerializeBytes(SimpleModels));
+        _protobufStream = new MemoryStream(ProtobufService.ProtobufSerializeBytes(SimpleModels));
+
+        using var tempStream = ServiceStackService.ServiceStackSerializeStream(SimpleModels);
+        _testServiceStackStream = new MemoryStream(tempStream.ToArray());
     }
     
     /// <summary>
@@ -36,7 +40,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark(Baseline = true)] 
     public ICollection<SimpleModel> SystemTextJson() 
     { 
-        return SystemTextJsonService<SimpleModel>.SystemTextJsonDeserializeStream(_testStream); 
+        return SystemTextJsonService.SystemTextJsonDeserializeStream<ICollection<SimpleModel>>(_testStream); 
     }
 
     /// <summary>
@@ -54,7 +58,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Maverick()
     {
-        return MaverickJsonService<SimpleModel>.MaverickDeserializeStream(_testStream);
+        return MaverickJsonService.MaverickDeserializeStream<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -63,7 +67,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Utf8Json()
     {
-        return Utf8JsonService<SimpleModel>.Utf8JsonDeserializeStream(_testStream);
+        return Utf8JsonService.Utf8JsonDeserializeStream<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -72,7 +76,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> SpanJson()
     {
-        return SpanJsonService<SimpleModel>.SpanJsonDeserializeStream(_testStream);
+        return SpanJsonService.SpanJsonDeserializeStream<ICollection<SimpleModel>>(_testStream);
     }
 
     /// <summary>
@@ -81,7 +85,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> Protobuf()
     {
-        return ProtobufService<SimpleModel>.ProtobufDeserializeStream(_protobufStream);
+        return ProtobufService.ProtobufDeserializeStream<ICollection<SimpleModel>>(_protobufStream);
     }
     
     /// <summary>
@@ -90,7 +94,7 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> MsgPackClassic()
     {
-        return MsgPackService<SimpleModel>.MsgPackClassicDeserializeStream(_testMsgPackClassicStream);
+        return MsgPackService.MsgPackClassicDeserializeStream<ICollection<SimpleModel>>(_testMsgPackClassicStream);
     }
     
     /// <summary>
@@ -99,7 +103,16 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     [Benchmark]
     public ICollection<SimpleModel> MsgPackLz4()
     {
-        return MsgPackService<SimpleModel>.MsgPackLz4BlockDeserializeStream(_testMsgPackLz4Stream);
+        return MsgPackService.MsgPackLz4BlockDeserializeStream<ICollection<SimpleModel>>(_testMsgPackLz4Stream);
+    }
+    
+    /// <summary>
+    ///     Deserialize with ServiceStack.
+    /// </summary>
+    [Benchmark]
+    public ICollection<SimpleModel> ServiceStack()
+    {
+        return ServiceStackService.ServiceStackDeserializeStream<ICollection<SimpleModel>>(_testServiceStackStream);
     }
     
     /// <summary>
@@ -110,12 +123,15 @@ public class StreamDeserializationBenchmarks: JsonBenchmark
     {
         _testStream.Close();
         _testStream.Dispose();
-        
+
         _testMsgPackClassicStream.Close();
         _testMsgPackClassicStream.Dispose();
        
         _testZeroFormatterStream.Close();
         _testZeroFormatterStream.Dispose();
+        
+        _testServiceStackStream.Close();
+        _testServiceStackStream.Dispose();
         
         _testMsgPackLz4Stream.Close();
         _testMsgPackLz4Stream.Dispose();

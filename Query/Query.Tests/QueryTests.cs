@@ -126,6 +126,28 @@ public sealed class QueryTests
     }
     
     /// <summary>
+    ///     Testing of method <see cref="QueryService.QueryAspNetCore"/>.
+    /// </summary>
+    /// <param name="pairsCount">Count of query pairs.</param>
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(10)]
+    public void QueryValueStringBuilder_Returns_RightQuery(int pairsCount)
+    {
+        // Arrange
+        var dictionary = SetupQueryValueStringBuilderQuery(pairsCount);
+        var expectedQuery = SetupExpectedUri(dictionary);
+
+        // Act
+        var actualQuery = new Uri(QueryService.QueryValueStringBuilder(DefaultUrl, dictionary));
+        
+        // Assert
+        Assert.Equal(expectedQuery, actualQuery);
+    }
+    
+    /// <summary>
     ///     Testing of method <see cref="QueryService.LinqSelectJoin"/>.
     /// </summary>
     /// <param name="pairsCount">Count of query pairs.</param>
@@ -375,6 +397,20 @@ public sealed class QueryTests
         return new QueryCustomBuilder(dictionary);
     }
     
+    private static QueryValueStringBuilder SetupQueryValueStringBuilderQuery(int size)
+    {
+        var dictionary = new Dictionary<string, string>(size);
+      
+        for (var i = 0; i < size; i++)
+        {
+            var (testKey, testValue) = (Faker.Name.FirstName(),Faker.Name.LastName());
+
+            dictionary.TryAdd(testKey, testValue);
+        }
+
+        return new QueryValueStringBuilder(dictionary);
+    }
+    
     private static Uri SetupExpectedUri(Dictionary<string, string> dictionary)
     {
         if (dictionary.Count is 0)
@@ -456,6 +492,26 @@ public sealed class QueryTests
     }
     
     private static Uri SetupExpectedUri(QueryCustomBuilder queryBuilder)
+    {
+        if (!queryBuilder.Any())
+        {
+            return new Uri(DefaultUrl);
+        }
+        
+        var resultString = string.Empty;
+        var count = 0;
+        
+        foreach (var (testKey, testValue) in queryBuilder)
+        {
+            resultString += count++ is 0
+                ? $"{DefaultUrl}?{Uri.EscapeDataString(testKey)}={Uri.EscapeDataString(testValue)}"
+                : $"&{Uri.EscapeDataString(testKey)}={Uri.EscapeDataString(testValue)}";
+        }
+
+        return new Uri(resultString);
+    }
+    
+    private static Uri SetupExpectedUri(QueryValueStringBuilder queryBuilder)
     {
         if (!queryBuilder.Any())
         {
