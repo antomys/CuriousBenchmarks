@@ -23,6 +23,7 @@ public class NetJsonTests
         
         // Act
         var actualString = NetJsonService.NetJsonSerialize(expectedModels);
+        //todo: cope with System.OutOfMemoryException: Array dimensions exceeded supported range.
         var actualModels = NetJsonService.NetJsonDeserialize<TestModel[]>(actualString);
         
         // Assert

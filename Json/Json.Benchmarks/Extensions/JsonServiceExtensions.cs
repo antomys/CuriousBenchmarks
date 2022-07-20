@@ -13,7 +13,7 @@ public static class JsonServiceExtensions
         PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
     };
 
-    internal static readonly  NetJSON.NetJSONSettings NetJsonOptions = new()
+    internal static readonly NetJSON.NetJSONSettings NetJsonOptions = new()
     {
         DateFormat = NetJSON.NetJSONDateFormat.ISO,
         TimeZoneFormat = NetJSON.NetJSONTimeZoneFormat.Utc,
