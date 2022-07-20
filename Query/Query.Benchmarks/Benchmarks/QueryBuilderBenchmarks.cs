@@ -31,12 +31,13 @@ public class QueryBuilderBenchmarks
     private const string Url = "https://localhost";
 
     // Note: Shutting up compiler. Method below assures that there will be no methods with null.
+    private static QueryValueStringBuilder _queryValueStringBuilder = default!;
     private static Dictionary<string, string> _testDictionary = default!;
     private static KeyValuePair<string, string>[] _testKvp = default!;
+    private static QueryCustomBuilder _queryCustomBuilder = default!;
     private static QueryDictionary _testQueryDictionary = default!;
     private static NameValueCollection _testNvc = default!;
     private static QueryBuilder _queryBuilder = default!;
-    private static QueryCustomBuilder _queryCustomBuilder = default!;
 
     /// <summary>
     ///     Global setup.
@@ -47,6 +48,7 @@ public class QueryBuilderBenchmarks
         var faker = new Faker();
 
         _testDictionary = new Dictionary<string, string>(QueryCount);
+        _queryValueStringBuilder = new QueryValueStringBuilder();
         _testKvp = new KeyValuePair<string, string>[QueryCount];
         _testQueryDictionary = new QueryDictionary(QueryCount);
         _testNvc = new NameValueCollection(QueryCount);
@@ -58,6 +60,7 @@ public class QueryBuilderBenchmarks
             var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
 
             _testKvp[i] = KeyValuePair.Create(testKey, testValue);
+            _queryValueStringBuilder.Add(testKey,testValue);
             _testQueryDictionary.Add(testKey, testValue);
             _queryCustomBuilder.Add(testKey, testValue);
             _testDictionary.Add(testKey, testValue);
@@ -144,6 +147,16 @@ public class QueryBuilderBenchmarks
     public string QueryCustomBuilder()
     {
         return QueryService.QueryCustomBuilder(Url, _queryCustomBuilder);
+    }
+    
+    /// <summary>
+    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder"/>.
+    /// </summary>
+    /// <returns>Constructed string.</returns>
+    [Benchmark]
+    public string QueryValueStringBuilder()
+    {
+        return QueryService.QueryValueStringBuilder(Url, _queryValueStringBuilder);
     }
     
     /// <summary>
