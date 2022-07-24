@@ -34,7 +34,7 @@ public class JsonComplexBenchmark
     ///     Size of generation.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(1, 100, 1000, 10000)]
+    [Params(100)]
     public int CollectionSize { get; set; }
     
     /// <summary>

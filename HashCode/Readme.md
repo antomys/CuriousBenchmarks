@@ -75,15 +75,15 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="benchmark-results"></a>
 # Benchmark results
 
-| Method         |       Mean |     Error |    StdDev |    StdErr |     Median |        Min |         Q1 |         Q3 |       Max |            Op/s | Ratio | RatioSD | Allocated |
-|----------------|-----------:|----------:|----------:|----------:|-----------:|-----------:|-----------:|-----------:|----------:|----------------:|------:|--------:|----------:|
-| Default        |  0.7939 ns | 0.0984 ns | 0.2870 ns | 0.0290 ns |  0.7418 ns |  0.3804 ns |  0.5519 ns |  0.9970 ns |  1.539 ns | 1,259,546,873.0 |  1.00 |    0.00 |         - |
-| StructV5       |  3.9422 ns | 0.7204 ns | 2.0900 ns | 0.2122 ns |  3.0666 ns |  1.8546 ns |  2.3802 ns |  5.2689 ns |  9.363 ns |   253,667,726.2 |  5.60 |    3.56 |         - |
-| StructV6Ref    |  4.0087 ns | 0.0947 ns | 0.0840 ns | 0.0224 ns |  3.9974 ns |  3.8796 ns |  3.9496 ns |  4.0395 ns |  4.181 ns |   249,458,214.6 |  5.24 |    1.53 |         - |
-| StructV6       |  9.4502 ns | 1.4963 ns | 4.4120 ns | 0.4412 ns |  7.7750 ns |  5.1212 ns |  5.7852 ns | 12.8835 ns | 22.116 ns |   105,818,110.8 | 13.82 |    8.51 |         - |
-| Manual         | 15.7927 ns | 0.6847 ns | 1.8860 ns | 0.2010 ns | 15.2549 ns | 13.4931 ns | 14.2124 ns | 16.9435 ns | 21.552 ns |    63,320,262.0 | 22.34 |    8.95 |         - |
-| DefaultCombine | 19.3328 ns | 0.6286 ns | 1.8534 ns | 0.1853 ns | 19.1892 ns | 13.2464 ns | 17.8747 ns | 20.7973 ns | 23.552 ns |    51,725,432.2 | 27.82 |   10.04 |         - |
-| ManualBitwise  | 33.8660 ns | 2.0086 ns | 5.6653 ns | 0.5907 ns | 32.4228 ns | 24.9100 ns | 29.4931 ns | 36.8530 ns | 49.990 ns |    29,528,104.2 | 48.49 |   20.54 |         - |
+| Method         |       Mean |     Error |    StdDev |    StdErr |            Op/s | Allocated |
+|----------------|-----------:|----------:|----------:|----------:|----------------:|----------:|
+| Default        |  0.7939 ns | 0.0984 ns | 0.2870 ns | 0.0290 ns | 1,259,546,873.0 |         - |
+| StructV5       |  3.9422 ns | 0.7204 ns | 2.0900 ns | 0.2122 ns |   253,667,726.2 |         - |
+| StructV6Ref    |  4.0087 ns | 0.0947 ns | 0.0840 ns | 0.0224 ns |   249,458,214.6 |         - |
+| StructV6       |  9.4502 ns | 1.4963 ns | 4.4120 ns | 0.4412 ns |   105,818,110.8 |         - |
+| Manual         | 15.7927 ns | 0.6847 ns | 1.8860 ns | 0.2010 ns |    63,320,262.0 |         - |
+| DefaultCombine | 19.3328 ns | 0.6286 ns | 1.8534 ns | 0.1853 ns |    51,725,432.2 |         - |
+| ManualBitwise  | 33.8660 ns | 2.0086 ns | 5.6653 ns | 0.5907 ns |    29,528,104.2 |         - |
 
 #### MultimodalDistribution
 `HashCodeBenchmarks.StructV5: Default` -> It seems that the distribution can have several modes (mValue = 2.98)
@@ -93,8 +93,7 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 #### ZeroMeasurement
 `HashCodeBenchmarks.Default: Default` -> The method duration is indistinguishable from the empty method duration
 
-![BarPlot](assets/HashCode.Benchmarks.HashCodeBenchmarks-barplot.png)
-![BoxPlot](assets/HashCode.Benchmarks.HashCodeBenchmarks-boxplot.png)
+![Plot](assets/HashCodeBenchmarks.png)
 
 <a name="conclusions"></a>
 # Conclusions
