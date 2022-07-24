@@ -2,6 +2,7 @@
 using System.Xml;
 using Bogus;
 using Json.Benchmarks.Extensions;
+using Json.Benchmarks.Models;
 using Json.Tests.Models;
 
 namespace Json.Tests;

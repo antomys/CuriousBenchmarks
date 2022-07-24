@@ -11,7 +11,7 @@ public static class SystemTextJsonService
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SystemTextJsonDeserialize<T>(string testString)
+    public static T Deserialize<T>(string testString)
     {
         return System.Text.Json.JsonSerializer.Deserialize<T>(testString, JsonServiceExtensions.Options)!;
     }
@@ -20,7 +20,7 @@ public static class SystemTextJsonService
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static string SystemTextJsonSerialize<T>(T tValue)
+    public static string Serialize<T>(T tValue)
     {
         return System.Text.Json.JsonSerializer.Serialize(tValue, JsonServiceExtensions.Options);
     }
@@ -29,7 +29,7 @@ public static class SystemTextJsonService
     ///     Deserialize byte array of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SystemTextJsonDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         return System.Text.Json.JsonSerializer.Deserialize<T>(testByteArray, JsonServiceExtensions.Options)!;
     }
@@ -38,7 +38,7 @@ public static class SystemTextJsonService
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static byte[] SystemTextJsonSerializeBytes<T>(T tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(tValue, JsonServiceExtensions.Options);
     }
@@ -47,7 +47,7 @@ public static class SystemTextJsonService
     ///     Deserialize Stream of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SystemTextJsonDeserializeStream<T>(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         
@@ -58,7 +58,7 @@ public static class SystemTextJsonService
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static MemoryStream SystemTextJsonSerializeStream<T>(T tValue)
+    public static MemoryStream SerializeStream<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         var jsonWriter = new System.Text.Json.Utf8JsonWriter(memoryStream);
@@ -71,7 +71,7 @@ public static class SystemTextJsonService
     ///     Deserialize string of TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static async Task<MemoryStream> SystemTextJsonSerializeStreamAsync<T>(T tValue)
+    public static async Task<MemoryStream> SerializeStreamAsync<T>(T tValue)
     {
         await using var memoryStream = new MemoryStream();
         await System.Text.Json.JsonSerializer.SerializeAsync(memoryStream, tValue, JsonServiceExtensions.Options);
@@ -83,7 +83,7 @@ public static class SystemTextJsonService
     ///     Asynchronously deserialize string ot TValue using <see cref="System.Text.Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<T?> SystemTextJsonDeserializeAsync<T>(Stream testStream)
+    public static ValueTask<T?> DeserializeAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         

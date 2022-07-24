@@ -11,7 +11,7 @@ namespace Json.Tests;
 public sealed class NewtonsoftJsonTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="NewtonsoftService.NewtonsoftDeserialize{T}"/>.
+    ///     Unit testing of method <see cref="NewtonsoftService.Deserialize{T}"/>.
     /// </summary>
     [Fact]
     public void NewtonsoftDeserialize_Returns_ValidModels()
@@ -21,14 +21,14 @@ public sealed class NewtonsoftJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = NewtonsoftService.NewtonsoftDeserialize<TestModel[]>(actualString);
+        var actualModels = NewtonsoftService.Deserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="NewtonsoftService.NewtonsoftSerialize{T}"/>.
+    ///     Unit testing of method <see cref="NewtonsoftService.Serialize{T}"/>.
     /// </summary>
     [Fact]
     public void NewtonsoftSerialize_Returns_ValidString()
@@ -38,14 +38,14 @@ public sealed class NewtonsoftJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = NewtonsoftService.NewtonsoftSerialize(expectedModels);
+        var actualString = NewtonsoftService.Serialize(expectedModels);
         
         // Assert
         actualString.Should().BeEquivalentTo(expectedString);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="NewtonsoftService.NewtonsoftDeserializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="NewtonsoftService.DeserializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void NewtonsoftDeserializeBytes_Returns_ValidModels()
@@ -55,7 +55,7 @@ public sealed class NewtonsoftJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = NewtonsoftService.NewtonsoftDeserializeBytes<TestModel[]>(actualBytes);
+        var actualModels = NewtonsoftService.DeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

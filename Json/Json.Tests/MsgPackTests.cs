@@ -11,7 +11,7 @@ namespace Json.Tests;
 public sealed class MsgPackTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackClassicSerializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.ClassicSerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void MsgPackClassicSerializeBytes_Returns_ValidString()
@@ -20,15 +20,15 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = MsgPackService.MsgPackClassicSerializeBytes(expectedModels);
-        var actualModels = MsgPackService.MsgPackClassicDeserializeBytes<TestModel[]>(actualBytes);
+        var actualBytes = MsgPackService.ClassicSerializeBytes(expectedModels);
+        var actualModels = MsgPackService.ClassicDeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
   
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackLz4BlockSerializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.Lz4BlockSerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void MsgPackLz4BlockSerializeBytes_Returns_ValidString()
@@ -37,15 +37,15 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = MsgPackService.MsgPackLz4BlockSerializeBytes(expectedModels);
-        var actualModels = MsgPackService.MsgPackLz4BlockDeserializeBytes<TestModel[]>(actualBytes);
+        var actualBytes = MsgPackService.Lz4BlockSerializeBytes(expectedModels);
+        var actualModels = MsgPackService.Lz4BlockDeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackClassicSerializeStream{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.ClassicSerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void MsgPackClassicSerializeStream_Returns_ValidModels()
@@ -55,16 +55,16 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = MsgPackService.MsgPackClassicSerializeStream(expectedModels);
+        using var actualMemoryStream = MsgPackService.ClassicSerializeStream(expectedModels);
         memoryStream.Write(actualMemoryStream.ToArray());
-        var actualModels = MsgPackService.MsgPackClassicDeserializeStream<TestModel[]>(memoryStream);
+        var actualModels = MsgPackService.ClassicDeserializeStream<TestModel[]>(memoryStream);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackLz4BlockSerializeStream{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.Lz4BlockSerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void MsgPackLz4BlockSerializeStream_Returns_ValidModels()
@@ -74,16 +74,16 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = MsgPackService.MsgPackLz4BlockSerializeStream(expectedModels);
+        using var actualMemoryStream = MsgPackService.Lz4BlockSerializeStream(expectedModels);
         memoryStream.Write(actualMemoryStream.ToArray());
-        var actualModels = MsgPackService.MsgPackLz4BlockDeserializeStream<TestModel[]>(memoryStream);
+        var actualModels = MsgPackService.Lz4BlockDeserializeStream<TestModel[]>(memoryStream);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackClassicSerializeAsync{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.ClassicSerializeAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task MsgPackClassicSerializeAsync_Returns_ValidModels()
@@ -93,16 +93,16 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = await MsgPackService.MsgPackClassicSerializeAsync(expectedModels);
+        using var actualMemoryStream = await MsgPackService.ClassicSerializeAsync(expectedModels);
         memoryStream.Write(actualMemoryStream.ToArray());
-        var actualModels = await MsgPackService.MsgPackClassicDeserializeAsync<TestModel[]>(memoryStream);
+        var actualModels = await MsgPackService.ClassicDeserializeAsync<TestModel[]>(memoryStream);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MsgPackService.MsgPackLz4BlockSerializeAsync{T}"/>.
+    ///     Unit testing of method <see cref="MsgPackService.Lz4BlockSerializeAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task MsgPackLz4BlockSerializeAsync_Returns_ValidModels()
@@ -112,9 +112,9 @@ public sealed class MsgPackTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = await MsgPackService.MsgPackLz4BlockSerializeAsync(expectedModels);
+        using var actualMemoryStream = await MsgPackService.Lz4BlockSerializeAsync(expectedModels);
         memoryStream.Write(actualMemoryStream.ToArray());
-        var actualModels = await MsgPackService.MsgPackLz4BlockDeserializeAsync<TestModel[]>(memoryStream);
+        var actualModels = await MsgPackService.Lz4BlockDeserializeAsync<TestModel[]>(memoryStream);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

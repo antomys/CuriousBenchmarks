@@ -9,7 +9,7 @@ public static class SpanJsonService
     ///     Deserialize string of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SpanJsonDeserialize<T>(string testString)
+    public static T Deserialize<T>(string testString)
     {
         return SpanJson.JsonSerializer.Generic.Utf16.Deserialize<T>(testString)!;
     }
@@ -19,7 +19,7 @@ public static class SpanJsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static string SpanJsonSerialize<T>(T tValue)
+    public static string Serialize<T>(T tValue)
     {
         return SpanJson.JsonSerializer.Generic.Utf16.Serialize(tValue)!;
     }
@@ -28,7 +28,7 @@ public static class SpanJsonService
     ///     Deserialize byte array of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SpanJsonDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         return SpanJson.JsonSerializer.Generic.Utf8.Deserialize<T>(testByteArray)!;
     }
@@ -38,7 +38,7 @@ public static class SpanJsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static byte[] SpanJsonSerializeBytes<T>(T tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         return SpanJson.JsonSerializer.Generic.Utf8.Serialize(tValue)!;
     }
@@ -47,7 +47,7 @@ public static class SpanJsonService
     ///     Deserialize Stream of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T SpanJsonDeserializeStream<T>(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         var buffer = new byte[testStream.Length];
@@ -60,7 +60,7 @@ public static class SpanJsonService
     ///     Asynchronously deserialize string ot TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<T> SpanJsonDeserializeAsync<T>(Stream testStream)
+    public static ValueTask<T> DeserializeStreamAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         
@@ -71,7 +71,7 @@ public static class SpanJsonService
     ///     Asynchronously serialize collection of TValue using <see cref="SpanJson"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static async Task<MemoryStream> SpanJsonSerializeStreamAsync<T>(T tValue)
+    public static async Task<MemoryStream> SerializeStreamAsync<T>(T tValue)
     {
         await using var memoryStream = new MemoryStream();
         await SpanJson.JsonSerializer.Generic.Utf8.SerializeAsync(tValue, memoryStream);

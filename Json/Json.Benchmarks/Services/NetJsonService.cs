@@ -11,7 +11,7 @@ public static class NetJsonService
     ///     Deserialize string of TValue using <see cref="NetJSON"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T NetJsonDeserialize<T>(string testString)
+    public static T Deserialize<T>(string testString)
     {
         return NetJSON.NetJSON.Deserialize<T>(testString, JsonServiceExtensions.NetJsonOptions);
     }
@@ -21,7 +21,7 @@ public static class NetJsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static string NetJsonSerialize<T>(T tValue)
+    public static string Serialize<T>(T tValue)
     {
         return NetJSON.NetJSON.Serialize(tValue, JsonServiceExtensions.NetJsonOptions);
     }

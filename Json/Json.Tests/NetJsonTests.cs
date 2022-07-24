@@ -11,7 +11,7 @@ namespace Json.Tests;
 public class NetJsonTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="NetJsonService.NetJsonDeserialize{T}"/>.
+    ///     Unit testing of method <see cref="NetJsonService.Deserialize{T}"/>.
     /// </summary>
     [Fact]
     // Todo: cope with incorrect data deserializing. See https://github.com/rpgmaker/NetJSON/issues/242
@@ -22,16 +22,16 @@ public class NetJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = NetJsonService.NetJsonSerialize(expectedModels);
+        var actualString = NetJsonService.Serialize(expectedModels);
         //todo: cope with System.OutOfMemoryException: Array dimensions exceeded supported range.
-        var actualModels = NetJsonService.NetJsonDeserialize<TestModel[]>(actualString);
+        var actualModels = NetJsonService.Deserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="NetJsonService.NetJsonSerialize{T}"/>.
+    ///     Unit testing of method <see cref="NetJsonService.Serialize{T}"/>.
     /// </summary>
     [Fact]
     public void NetJsonSerialize_Returns_ValidStringModels()
@@ -41,7 +41,7 @@ public class NetJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = NetJsonService.NetJsonSerialize(expectedModels);
+        var actualString = NetJsonService.Serialize(expectedModels);
         
         // // Assert
         Assert.Equal(expectedString, actualString);

@@ -11,7 +11,7 @@ namespace Json.Tests;
 public sealed class ProtobufTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="ProtobufService.ProtobufSerializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="ProtobufService.SerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void ProtobufSerializeBytes_Returns_ValidString()
@@ -20,44 +20,44 @@ public sealed class ProtobufTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = ProtobufService.ProtobufSerializeBytes(expectedModels);
-        var actualModels = ProtobufService.ProtobufDeserializeBytes<TestModel[]>(actualBytes);
+        var actualBytes = ProtobufService.SerializeBytes(expectedModels);
+        var actualModels = ProtobufService.DeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
 
     /// <summary>
-    ///     Unit testing of method <see cref="ProtobufService.ProtobufDeserializeStream{T}"/>.
+    ///     Unit testing of method <see cref="ProtobufService.DeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void ProtobufDeserializeStream_Returns_ValidModels()
     {
         // Arrange
         var expectedModels = TestsBase.GetTestModels();
-        var expectedBytes = ProtobufService.ProtobufSerializeBytes(expectedModels);
+        var expectedBytes = ProtobufService.SerializeBytes(expectedModels);
         using var ms = new MemoryStream(expectedBytes);
 
         // Act
-        var actualModels = ProtobufService.ProtobufDeserializeStream<TestModel[]>(ms);
+        var actualModels = ProtobufService.DeserializeStream<TestModel[]>(ms);
 
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ProtobufService.ProtobufDeserializeAsync{T}"/>.
+    ///     Unit testing of method <see cref="ProtobufService.DeserializeStreamAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task ProtobufDeserializeAsync_Returns_ValidModels()
     {
         // Arrange
         var expectedModels = TestsBase.GetTestModels();
-        var expectedBytes = ProtobufService.ProtobufSerializeBytes(expectedModels);
+        var expectedBytes = ProtobufService.SerializeBytes(expectedModels);
         using var ms = new MemoryStream(expectedBytes);
 
         // Act
-        var actualModels = await ProtobufService.ProtobufDeserializeAsync<TestModel[]>(ms);
+        var actualModels = await ProtobufService.DeserializeStreamAsync<TestModel[]>(ms);
 
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

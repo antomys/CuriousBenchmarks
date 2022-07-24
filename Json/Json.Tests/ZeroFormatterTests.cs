@@ -11,7 +11,7 @@ namespace Json.Tests;
 public sealed class ZeroFormatterTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="ZeroFormatterService.ZeroFormatterSerializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="ZeroFormatterService.SerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void ZeroFormatterSerializeBytes_Returns_ValidString()
@@ -20,15 +20,15 @@ public sealed class ZeroFormatterTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = ZeroFormatterService.ZeroFormatterSerializeBytes(expectedModels);
-        var actualModels = ZeroFormatterService.ZeroFormatterDeserializeBytes<TestModel[]>(actualBytes);
+        var actualBytes = ZeroFormatterService.SerializeBytes(expectedModels);
+        var actualModels = ZeroFormatterService.DeserializeBytes<TestModel[]>(actualBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="ZeroFormatterService.ZeroFormatterDeserializeStream{T}"/>.
+    ///     Unit testing of method <see cref="ZeroFormatterService.DeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void ZeroFormatterSerializeStream_Returns_ValidModels()
@@ -38,9 +38,9 @@ public sealed class ZeroFormatterTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = ZeroFormatterService.ZeroFormatterSerializeStream(expectedModels);
+        using var actualMemoryStream = ZeroFormatterService.SerializeStream(expectedModels);
         ms.Write(actualMemoryStream.ToArray());
-        var actualModels = ZeroFormatterService.ZeroFormatterDeserializeStream<TestModel[]>(ms);
+        var actualModels = ZeroFormatterService.DeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

@@ -12,7 +12,7 @@ public static class ProtobufService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized value.</returns>
-    public static byte[] ProtobufSerializeBytes<T>(T tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         var writer = new ArrayBufferWriter<byte>();
 
@@ -25,7 +25,7 @@ public static class ProtobufService
     ///     Deserialize byte array of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T ProtobufDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         return ProtoBuf.Serializer.Deserialize<T>(testByteArray.AsSpan())!;
     }
@@ -34,7 +34,7 @@ public static class ProtobufService
     ///     Deserialize Stream of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T ProtobufDeserializeStream<T>(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
 
@@ -45,7 +45,7 @@ public static class ProtobufService
     ///     Asynchronously deserialize string ot TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<T> ProtobufDeserializeAsync<T>(Stream testStream)
+    public static ValueTask<T> DeserializeStreamAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         

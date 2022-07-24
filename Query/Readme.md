@@ -114,9 +114,10 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="conclusions"></a>
 ## Conclusions
 
-For building Query strings prefer using native `AspNetCoreQueryBuilder` or my own implementation using spans: `QueryCustomBuilder`.
-`AspNetCoreQueryBuilder` does not support mirroring for some special chars.  `QueryCustomBuilder` supports mirroring and is well tested.
-Difference is about 30-40%
+For building Query strings prefer using native `QueryAspNetCore` or my own implementation using spans: `QueryCustomBuilder`.
+`AspNetCoreQueryBuilder` does not support mirroring for some special chars. `QueryCustomBuilder` supports mirroring and is well tested.
+Difference is about 30-40%.
+Also `QueryAspNetCore` internally uses `StringBuilder` that allocated enormous amounts of memory.
 
 As for Uri concatenation: 
 I think that it is better to stick with `New Uri` approach or my own implementation using spans `UriFastAppend`. It is well tested and outputs

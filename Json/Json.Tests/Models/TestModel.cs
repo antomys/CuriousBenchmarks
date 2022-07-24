@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Json.Benchmarks.Models;
 
 namespace Json.Tests.Models;
 
@@ -201,4 +202,20 @@ public class TestModel
     [DataMember(Name = "testTimeSpan")]
     [Utf8Json.JsonFormatter(typeof(Utf8Json.Formatters.TimeSpanFormatter))]
     public virtual TimeSpan TestTimeSpan { get; set; } = TimeSpan.Zero;
+    
+    /// <summary>
+    ///     Gets or sets test dictionary where key - string. Value - string.
+    /// </summary>
+    [ZeroFormatter.Index(26)]
+    [ProtoBuf.ProtoMember(26)]
+    [DataMember(Name = "testDictionary")]
+    public virtual Dictionary<string, string> TestDictionary { get; set; } = default!;
+
+    /// <summary>
+    ///     Gets or sets array of test enums of type <see cref="TestTypes"/>
+    /// </summary>
+    [ZeroFormatter.Index(25)]
+    [ProtoBuf.ProtoMember(25)]
+    [DataMember(Name = "testEnums")]
+    public virtual TestTypes[] TestEnums { get; set; } = default!;
 }

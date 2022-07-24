@@ -11,7 +11,7 @@ public static class NewtonsoftService
     ///     Deserialize string of TValue using <see cref="Newtonsoft"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T NewtonsoftDeserialize<T>(string testString)
+    public static T Deserialize<T>(string testString)
     {
         return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(testString, JsonServiceExtensions.NewtonsoftOptions)!;
     }
@@ -21,7 +21,7 @@ public static class NewtonsoftService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static string NewtonsoftSerialize<T>(T tValue)
+    public static string Serialize<T>(T tValue)
     {
         return Newtonsoft.Json.JsonConvert.SerializeObject(tValue, typeof(T), Newtonsoft.Json.Formatting.None, JsonServiceExtensions.NewtonsoftOptions);
     }
@@ -30,7 +30,7 @@ public static class NewtonsoftService
     ///     Deserialize byte array of TValue using <see cref="Newtonsoft"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T NewtonsoftDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         var testString = System.Text.Encoding.UTF8.GetString(testByteArray);
         

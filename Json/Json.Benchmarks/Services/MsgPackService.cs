@@ -11,7 +11,7 @@ public static class MsgPackService
     ///     Deserialize string of T values using 'MsgPackClassic'.
     /// </summary>
     /// <returns>Collection of T values.</returns>
-    public static T MsgPackClassicDeserializeBytes<T>(byte[] testByteArray)
+    public static T ClassicDeserializeBytes<T>(byte[] testByteArray)
     {
         return MessagePack.MessagePackSerializer.Deserialize<T>(testByteArray)!;
     }
@@ -20,7 +20,7 @@ public static class MsgPackService
     ///     Deserialize string of T values using 'MsgPackLz4Block'.
     /// </summary>
     /// <returns>Collection of T values.</returns>
-    public static T MsgPackLz4BlockDeserializeBytes<T>(byte[] testByteArray)
+    public static T Lz4BlockDeserializeBytes<T>(byte[] testByteArray)
     {
         return MessagePack.MessagePackSerializer.Deserialize<T>(testByteArray, JsonServiceExtensions.MsgPackOptions)!;
     }
@@ -30,7 +30,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static byte[] MsgPackClassicSerializeBytes<T>(T tValue)
+    public static byte[] ClassicSerializeBytes<T>(T tValue)
     {
         return MessagePack.MessagePackSerializer.Serialize(tValue)!;
     }
@@ -40,7 +40,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static byte[] MsgPackLz4BlockSerializeBytes<T>(T tValue)
+    public static byte[] Lz4BlockSerializeBytes<T>(T tValue)
     {
         return MessagePack.MessagePackSerializer.Serialize(tValue, JsonServiceExtensions.MsgPackOptions)!;
     }
@@ -49,7 +49,7 @@ public static class MsgPackService
     ///     Deserialize string of T values using 'MsgPackClassic'.
     /// </summary>
     /// <returns>Collection of T values.</returns>
-    public static T MsgPackClassicDeserializeStream<T>(Stream testStream)
+    public static T ClassicDeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         
@@ -60,7 +60,7 @@ public static class MsgPackService
     ///     Deserialize string of T values using 'MsgPackLz4Block'.
     /// </summary>
     /// <returns>Collection of T values.</returns>
-    public static T MsgPackLz4BlockDeserializeStream<T>(Stream testStream)
+    public static T Lz4BlockDeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         
@@ -72,7 +72,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static MemoryStream MsgPackClassicSerializeStream<T>(T tValue)
+    public static MemoryStream ClassicSerializeStream<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue);
@@ -85,7 +85,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static MemoryStream MsgPackLz4BlockSerializeStream<T>(T tValue)
+    public static MemoryStream Lz4BlockSerializeStream<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         MessagePack.MessagePackSerializer.Serialize(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
@@ -98,7 +98,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static async Task<MemoryStream> MsgPackClassicSerializeAsync<T>(T tValue)
+    public static async Task<MemoryStream> ClassicSerializeAsync<T>(T tValue)
     {
         await using var memoryStream = new MemoryStream();
         await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue);
@@ -111,7 +111,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static async Task<MemoryStream> MsgPackLz4BlockSerializeAsync<T>(T tValue)
+    public static async Task<MemoryStream> Lz4BlockSerializeAsync<T>(T tValue)
     {
         await using var memoryStream = new MemoryStream();
         await MessagePack.MessagePackSerializer.SerializeAsync(memoryStream, tValue, JsonServiceExtensions.MsgPackOptions);
@@ -124,7 +124,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="stream">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static ValueTask<T> MsgPackClassicDeserializeAsync<T>(Stream stream)
+    public static ValueTask<T> ClassicDeserializeAsync<T>(Stream stream)
     {
         stream.Position = 0;
         return MessagePack.MessagePackSerializer.DeserializeAsync<T>(stream);
@@ -135,7 +135,7 @@ public static class MsgPackService
     /// </summary>
     /// <param name="stream">Collection of T values.</param>
     /// <returns>Serialized memory stream.</returns>
-    public static ValueTask<T> MsgPackLz4BlockDeserializeAsync<T>(Stream stream)
+    public static ValueTask<T> Lz4BlockDeserializeAsync<T>(Stream stream)
     {
         stream.Position = 0;
         

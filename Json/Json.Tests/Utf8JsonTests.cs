@@ -11,7 +11,7 @@ namespace Json.Tests;
 public sealed class Utf8JsonTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonDeserialize{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.Deserialize{T}"/>.
     /// </summary>
     [Fact]
     public void Utf8JsonDeserialize_Returns_ValidModels()
@@ -21,14 +21,14 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = Utf8JsonService.Utf8JsonDeserialize<TestModel[]>(actualString);
+        var actualModels = Utf8JsonService.Deserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonSerialize{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.Serialize{T}"/>.
     /// </summary>
     [Fact]
     public void Utf8JsonSerialize_Returns_ValidString()
@@ -38,7 +38,7 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = Utf8JsonService.Utf8JsonSerialize(expectedModels);
+        var actualString = Utf8JsonService.Serialize(expectedModels);
         
         // Assert
         Assert.Equal(expectedString, actualString);
@@ -46,7 +46,7 @@ public sealed class Utf8JsonTests
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonDeserializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.DeserializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void Utf8JsonDeserializeBytes_Returns_ValidModels()
@@ -56,14 +56,14 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = Utf8JsonService.Utf8JsonDeserializeBytes<TestModel[]>(expectedBytes);
+        var actualModels = Utf8JsonService.DeserializeBytes<TestModel[]>(expectedBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonBytesSerializeBytes{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.SerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void Utf8JsonBytesSerializeBytes_Returns_ValidString()
@@ -73,14 +73,14 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualBytes = Utf8JsonService.Utf8JsonBytesSerializeBytes(expectedModels);
+        var actualBytes = Utf8JsonService.SerializeBytes(expectedModels);
         
         // Assert
         actualBytes.Should().BeEquivalentTo(expectedBytes);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonDeserializeStream{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.DeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void Utf8JsonDeserializeStream_Returns_ValidModels()
@@ -92,14 +92,14 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = Utf8JsonService.Utf8JsonDeserializeStream<TestModel[]>(ms);
+        var actualModels = Utf8JsonService.DeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonDeserializeAsync{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.DeserializeStreamAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task Utf8JsonService_Returns_ValidModels()
@@ -111,14 +111,14 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = await Utf8JsonService.Utf8JsonDeserializeAsync<TestModel[]>(ms);
+        var actualModels = await Utf8JsonService.DeserializeStreamAsync<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="Utf8JsonService.Utf8JsonSerializeStreamAsync{T}"/>.
+    ///     Unit testing of method <see cref="Utf8JsonService.SerializeStreamAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task Utf8JsonSerializeStreamAsync_Returns_ValidString()
@@ -128,7 +128,7 @@ public sealed class Utf8JsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = await Utf8JsonService.Utf8JsonSerializeStreamAsync(expectedModels);
+        using var actualMemoryStream = await Utf8JsonService.SerializeStreamAsync(expectedModels);
         var actualBytes = actualMemoryStream.ToArray();
         
         // Assert

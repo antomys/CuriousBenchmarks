@@ -9,7 +9,7 @@ public static class ZeroFormatterService
     ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static byte[] ZeroFormatterSerializeBytes<T>(T tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         return ZeroFormatter.ZeroFormatterSerializer.Serialize(tValue);
     }
@@ -18,7 +18,7 @@ public static class ZeroFormatterService
     ///     Deserialize byte array of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T ZeroFormatterDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         return ZeroFormatter.ZeroFormatterSerializer.Deserialize<T>(testByteArray)!;
     }
@@ -27,7 +27,7 @@ public static class ZeroFormatterService
     ///     Serialize string of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static MemoryStream ZeroFormatterSerializeStream<T>(T tValue)
+    public static MemoryStream SerializeStream<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         ZeroFormatter.ZeroFormatterSerializer.Serialize(memoryStream, tValue);
@@ -39,7 +39,7 @@ public static class ZeroFormatterService
     ///     Deserialize Stream of TValue using <see cref="ZeroFormatter"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T ZeroFormatterDeserializeStream<T>(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
         

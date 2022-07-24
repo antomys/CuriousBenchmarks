@@ -9,7 +9,7 @@ public static class Utf8JsonService
     ///     Deserialize string of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T Utf8JsonDeserialize<T>(string testString)
+    public static T Deserialize<T>(string testString)
     {
         return Utf8Json.JsonSerializer.Deserialize<T>(testString)!;
     }
@@ -19,7 +19,7 @@ public static class Utf8JsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized string.</returns>
-    public static string Utf8JsonSerialize<T>(T tValue)
+    public static string Serialize<T>(T tValue)
     {
         var serialized = Utf8Json.JsonSerializer.Serialize(tValue)!;
 
@@ -30,7 +30,7 @@ public static class Utf8JsonService
     ///     Deserialize byte array of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T Utf8JsonDeserializeBytes<T>(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
         return Utf8Json.JsonSerializer.Deserialize<T>(testByteArray)!;
     }
@@ -40,7 +40,7 @@ public static class Utf8JsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized byte array.</returns>
-    public static byte[] Utf8JsonBytesSerializeBytes<T>(T tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         return Utf8Json.JsonSerializer.Serialize(tValue)!;
     }
@@ -49,7 +49,7 @@ public static class Utf8JsonService
     ///     Deserialize Stream of TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static T Utf8JsonDeserializeStream<T>(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
 
@@ -61,7 +61,7 @@ public static class Utf8JsonService
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized stream.</returns>
-    public static async Task<MemoryStream> Utf8JsonSerializeStreamAsync<T>(T tValue)
+    public static async Task<MemoryStream> SerializeStreamAsync<T>(T tValue)
     {
         using var memoryStream = new MemoryStream();
         await Utf8Json.JsonSerializer.SerializeAsync(memoryStream, tValue);
@@ -73,7 +73,7 @@ public static class Utf8JsonService
     ///     Asynchronously deserialize string ot TValue using <see cref="Utf8Json"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static Task<T> Utf8JsonDeserializeAsync<T>(Stream testStream)
+    public static Task<T> DeserializeStreamAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         
