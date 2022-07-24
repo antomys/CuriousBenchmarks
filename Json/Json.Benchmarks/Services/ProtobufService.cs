@@ -5,15 +5,14 @@ namespace Json.Benchmarks.Services;
 /// <summary>
 ///     Static methods wrapper of <see cref="ProtoBuf"/>.
 /// </summary>
-/// <typeparam name="T">TValue.</typeparam>
-public static class ProtobufService<T>
+public static class ProtobufService
 {
     /// <summary>
     ///     Serializes collection of T values using 'Protobuf'.
     /// </summary>
     /// <param name="tValue">Collection of T values.</param>
     /// <returns>Serialized value.</returns>
-    public static byte[] ProtobufSerializeBytes(ICollection<T> tValue)
+    public static byte[] SerializeBytes<T>(T tValue)
     {
         var writer = new ArrayBufferWriter<byte>();
 
@@ -26,30 +25,30 @@ public static class ProtobufService<T>
     ///     Deserialize byte array of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> ProtobufDeserializeBytes(byte[] testByteArray)
+    public static T DeserializeBytes<T>(byte[] testByteArray)
     {
-        return ProtoBuf.Serializer.Deserialize<ICollection<T>>(testByteArray.AsSpan())!;
+        return ProtoBuf.Serializer.Deserialize<T>(testByteArray.AsSpan())!;
     }
     
     /// <summary>
     ///     Deserialize Stream of TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ICollection<T> ProtobufDeserializeStream(Stream testStream)
+    public static T DeserializeStream<T>(Stream testStream)
     {
         testStream.Position = 0;
 
-        return ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream)!;
+        return ProtoBuf.Serializer.Deserialize<T>(testStream)!;
     }
     
     /// <summary>
     ///     Asynchronously deserialize string ot TValue using <see cref="ProtoBuf"/>.
     /// </summary>
     /// <returns>Collection of TValue.</returns>
-    public static ValueTask<ICollection<T>> ProtobufDeserializeAsync(Stream testStream)
+    public static ValueTask<T> DeserializeStreamAsync<T>(Stream testStream)
     {
         testStream.Position = 0;
         
-        return ValueTask.FromResult(ProtoBuf.Serializer.Deserialize<ICollection<T>>(testStream));
+        return ValueTask.FromResult(ProtoBuf.Serializer.Deserialize<T>(testStream));
     }
 }

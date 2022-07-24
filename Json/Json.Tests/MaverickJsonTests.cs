@@ -6,12 +6,12 @@ using Xunit;
 namespace Json.Tests;
 
 /// <summary>
-///     Unit tests of <see cref="MaverickJsonService{T}"/>.
+///     Unit tests of <see cref="MaverickJsonService"/>.
 /// </summary>
 public sealed class MaverickJsonTests
 {
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickJsonSerialize"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.Serialize{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickJsonSerialize_Returns_ValidModels()
@@ -21,14 +21,14 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = MaverickJsonService<TestModel>.MaverickJsonDeserialize(actualString);
+        var actualModels = MaverickJsonService.Deserialize<TestModel[]>(actualString);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickJsonDeserialize"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.Deserialize{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickJsonDeserialize_Returns_ValidString()
@@ -38,14 +38,14 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualString = MaverickJsonService<TestModel>.MaverickJsonSerialize(expectedModels);
+        var actualString = MaverickJsonService.Serialize(expectedModels);
 
         // Assert
         actualString.Should().BeEquivalentTo(expectedString);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickDeserializeBytes"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.DeserializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickDeserializeBytes_Returns_ValidModels()
@@ -55,14 +55,14 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = MaverickJsonService<TestModel>.MaverickDeserializeBytes(expectedBytes);
+        var actualModels = MaverickJsonService.DeserializeBytes<TestModel[]>(expectedBytes);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickSerializeBytes"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.SerializeBytes{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickSerializeBytes_Returns_ValidString()
@@ -72,15 +72,15 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = MaverickJsonService<TestModel>.MaverickDeserializeBytes(expectedBytes);
-        var actualBytes = MaverickJsonService<TestModel>.MaverickSerializeBytes(actualModels);
+        var actualModels = MaverickJsonService.DeserializeBytes<TestModel[]>(expectedBytes);
+        var actualBytes = MaverickJsonService.SerializeBytes(actualModels);
 
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickDeserializeStream"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.DeserializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickDeserializeStream_Returns_ValidModels()
@@ -92,14 +92,14 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = MaverickJsonService<TestModel>.MaverickDeserializeStream(ms);
+        var actualModels = MaverickJsonService.DeserializeStream<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickSerializeStream"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.SerializeStream{T}"/>.
     /// </summary>
     [Fact]
     public void MaverickSerializeStream_Returns_ValidString()
@@ -109,7 +109,7 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        using var actualMemoryStream = MaverickJsonService<TestModel>.MaverickSerializeStream(expectedModels);
+        using var actualMemoryStream = MaverickJsonService.SerializeStream(expectedModels);
         var actualBytes = actualMemoryStream.ToArray();
         
         // Assert
@@ -117,7 +117,7 @@ public sealed class MaverickJsonTests
     }
     
     /// <summary>
-    ///     Unit testing of method <see cref="MaverickJsonService{T}.MaverickDeserializeAsync"/>.
+    ///     Unit testing of method <see cref="MaverickJsonService.DeserializeAsync{T}"/>.
     /// </summary>
     [Fact]
     public async Task MaverickDeserializeAsync_Returns_ValidModels()
@@ -129,7 +129,7 @@ public sealed class MaverickJsonTests
         var expectedModels = TestsBase.GetTestModels();
         
         // Act
-        var actualModels = await MaverickJsonService<TestModel>.MaverickDeserializeAsync(ms);
+        var actualModels = await MaverickJsonService.DeserializeAsync<TestModel[]>(ms);
         
         // Assert
         actualModels.Should().BeEquivalentTo(expectedModels);

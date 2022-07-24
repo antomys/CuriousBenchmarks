@@ -13,10 +13,25 @@ public static class JsonServiceExtensions
         PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
     };
 
+    internal static readonly NetJSON.NetJSONSettings NetJsonOptions = new()
+    {
+        DateFormat = NetJSON.NetJSONDateFormat.ISO,
+        TimeZoneFormat = NetJSON.NetJSONTimeZoneFormat.Utc,
+        UseStringOptimization = true,
+        CamelCase = true
+    };
+    
     internal static readonly Newtonsoft.Json.JsonSerializerSettings NewtonsoftOptions = new()
     {
         ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
         DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+    };
+
+    internal static readonly ServiceStack.Text.Config ServiceStackOptions = new() 
+    {
+        DateHandler = ServiceStack.Text.DateHandler.ISO8601,
+        AlwaysUseUtc = true,
+        TextCase = ServiceStack.Text.TextCase.CamelCase,
     };
 
     internal static readonly Jil.Options JilOptions = 
@@ -33,9 +48,5 @@ public static class JsonServiceExtensions
     {
         NamingStrategy = Maverick.Json.JsonNamingStrategy.CamelCase,
         Format = Maverick.Json.JsonFormat.None,
-        // Converters = new List<JsonConverter>
-        // {
-        //     Capacity = 0
-        // }
     };
 }
