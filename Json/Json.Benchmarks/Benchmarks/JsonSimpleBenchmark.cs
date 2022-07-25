@@ -33,7 +33,7 @@ public class JsonSimpleBenchmark
     ///     Size of generation.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(100)]
+    [Params(1)]
     public int CollectionSize { get; set; }
     
     /// <summary>
