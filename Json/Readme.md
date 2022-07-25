@@ -112,6 +112,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | ServiceStack            | 10000 |  9,075,525.9 ns |  99,487.18 ns |  93,060.37 ns | 24,028.08 ns |       110.19 | 1,743,036 B |
 | Newtonsoft              | 10000 | 12,370,230.3 ns | 198,311.11 ns | 185,500.34 ns | 47,895.98 ns |        80.84 | 1,587,084 B |
 
+![Plot](assets/SimpleModel.Single.StringDeserialization.png)
 ![Plot](assets/SimpleModel.StringDeserialization.png)
 
 <a name="byte-simple-deserialization"></a>
@@ -166,6 +167,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJson          | 10000 | 5,992,005.31 ns |  79,189.562 ns |  74,073.966 ns | 19,125.816 ns |        166.9 | 1,103,488 B |
 | Maverick                | 10000 | 7,947,780.99 ns | 151,751.022 ns | 162,371.893 ns | 38,271.422 ns |        125.8 | 1,102,361 B |
 
+![Plot](assets/SimpleModel.Single.ByteDeserialization.png)
 ![Plot](assets/SimpleModel.ByteDeserialization.png)
 
 <a name="stream-simple-deserialization"></a>
@@ -212,6 +214,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | Maverick                | 10000 | 7,866,861.1 ns | 111,444.32 ns |  98,792.49 ns | 26,403.40 ns |       127.1 | 1,794,576 B |
 | ServiceStack            | 10000 | 9,925,313.6 ns | 194,365.66 ns | 181,809.75 ns | 46,943.08 ns |       100.8 | 2,455,969 B |
 
+![Plot](assets/SimpleModel.Single.StreamDeserialization.png)
 ![Plot](assets/SimpleModel.StreamDeserialization.png)
 
 <a name="async-stream-simple-deserialization"></a>
@@ -254,6 +257,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJsonSourceGen | 10000 | 7,231,093.2 ns |  61,710.41 ns |  51,530.99 ns | 14,292.12 ns |       138.3 | 1,102,781 B |
 | ServiceStack            | 10000 | 9,965,140.6 ns | 198,610.71 ns | 236,431.92 ns | 51,593.67 ns |       100.3 | 2,455,440 B |
 
+![Plot](assets/SimpleModel.Single.AsyncStreamDeserialization.png)
 ![Plot](assets/SimpleModel.AsyncStreamDeserialization.png)
 
 <a name="complex-model-deserialization"></a>
@@ -307,6 +311,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | ServiceStack            | 10000 | 327,034.138 μs | 3,144.7504 μs | 2,626.0090 μs |   728.3239 μs |       3.058 |  68,363 KB |
 | Newtonsoft              | 10000 | 402,045.971 μs | 4,790.9913 μs | 4,247.0890 μs | 1,135.0823 μs |       2.487 | 106,200 KB |
 
+![Plot](assets/ComplexModel.Single.StringDeserialization.png)
 ![Plot](assets/ComplexModel.StringDeserialization.png)
 
 <a name="byte-complex-deserialization"></a>
@@ -361,6 +366,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJsonSourceGen | 10000 | 208,570,142.9 ns | 3,271,265.13 ns | 2,899,891.33 ns | 775,028.56 ns |         4.795 | 39,945 KB |
 | SystemTextJson          | 10000 | 209,119,533.3 ns | 1,488,657.53 ns | 1,392,491.18 ns | 359,539.68 ns |         4.782 | 39,943 KB |
 
+![Plot](assets/ComplexModel.Single.ByteDeserialization.png)
 ![Plot](assets/ComplexModel.ByteDeserialization.png)
 
 <a name="stream-complex-deserialization"></a>
@@ -407,6 +413,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJson          | 10000 | 271,777.540 μs | 4,038.5570 μs | 3,777.6687 μs |   975.3899 μs |       3.679 |  39,946 KB |
 | ServiceStack            | 10000 | 336,766.964 μs | 3,958.6781 μs | 3,509.2650 μs |   937.8905 μs |       2.969 | 118,463 KB |
 
+![Plot](assets/ComplexModel.Single.StreamDeserialization.png)
 ![Plot](assets/ComplexModel.StreamDeserialization.png)
 
 <a name="async-stream-complex-deserialization"></a>
@@ -449,6 +456,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJson          | 10000 | 280,499.060 μs | 2,887.0566 μs | 2,700.5546 μs |   697.2802 μs |       3.565 |  39,945 KB |
 | ServiceStack            | 10000 | 358,607.307 μs | 4,361.8764 μs | 3,866.6898 μs | 1,033.4163 μs |       2.789 | 118,471 KB |
 
+![Plot](assets/ComplexModel.Single.AsyncStreamDeserialization.png)
 ![Plot](assets/ComplexModel.AsyncStreamDeserialization.png)
 
 <a name="serialization"></a>
@@ -505,6 +513,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | Newtonsoft              | 10000 | 5,912,078.54 ns |  46,917.284 ns |  43,886.457 ns | 11,331.434 ns |        169.1 | 3,260,675 B |
 | ServiceStack            | 10000 | 6,840,329.26 ns | 134,715.325 ns | 175,167.975 ns | 35,756.013 ns |        146.2 | 4,240,052 B |
 
+![Plot](assets/SimpleModel.Single.StringSerialization.png)
 ![Plot](assets/SimpleModel.StringSerialization.png)
 
 <a name="byte-simple-serialization"></a>
@@ -547,6 +556,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | MsgPackLz4Block         | 10000 | 1,771,254.67 ns | 19,078.791 ns | 35,834.594 ns | 5,402.268 ns |        564.6 |   224,368 B |
 | SystemTextJson          | 10000 | 2,632,414.23 ns | 19,377.970 ns | 17,178.066 ns | 4,591.031 ns |        379.9 |   691,898 B |
 
+![Plot](assets/SimpleModel.Single.ByteSerialization.png)
 ![Plot](assets/SimpleModel.ByteSerialization.png)
 
 <a name="stream-simple-serialization"></a>
@@ -585,6 +595,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | Maverick                | 10000 |  4,045,169.7 ns |  49,191.99 ns |  46,014.22 ns | 11,880.82 ns |       247.21 | 2,092,092 B |
 | ServiceStack            | 10000 | 10,149,708.8 ns | 197,804.54 ns | 211,648.64 ns | 49,886.06 ns |        98.52 | 4,961,474 B |
 
+![Plot](assets/SimpleModel.Single.StreamSerialization.png)
 ![Plot](assets/SimpleModel.StreamSerialization.png)
 
 <a name="async-stream-simple-serialization"></a>
@@ -619,6 +630,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJson          | 10000 | 2,793,016.2 ns | 34,977.81 ns | 29,208.06 ns | 8,100.86 ns |       358.0 | 1,877,649 B |
 | SystemTextJsonSourceGen | 10000 | 2,865,082.4 ns | 22,502.09 ns | 19,947.51 ns | 5,331.20 ns |       349.0 | 1,875,137 B |
 
+![Plot](assets/SimpleModel.Single.AsyncStreamSerialization.png)
 ![Plot](assets/SimpleModel.AsyncStreamSerialization.png)
 
 <a name="complex-model-serialization"></a>
@@ -672,6 +684,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | ServiceStack            | 10000 | 189,048.959 μs | 3,744.3993 μs | 5,488.4920 μs | 1,019.1874 μs |       5.290 | 131,225 KB |
 | Newtonsoft              | 10000 | 258,177.150 μs | 4,959.2079 μs | 6,090.3527 μs | 1,298.4676 μs |       3.873 | 143,955 KB |
 
+![Plot](assets/ComplexModel.Single.StringSerialization.png)
 ![Plot](assets/ComplexModel.StringSerialization.png)
 
 <a name="byte-complex-serialization"></a>
@@ -714,6 +727,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | Utf8Json                | 10000 | 108,272,337.5 ns | 2,102,728.64 ns | 3,273,695.17 ns | 578,713.01 ns |         9.236 | 87,353,472 B |
 | SystemTextJson          | 10000 | 119,428,050.0 ns |   997,335.85 ns |   884,112.26 ns | 236,288.94 ns |         8.373 | 17,081,571 B |
 
+![Plot](assets/ComplexModel.Single.ByteSerialization.png)
 ![Plot](assets/ComplexModel.ByteSerialization.png)
 
 <a name="stream-complex-serialization"></a>
@@ -752,6 +766,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | Maverick                | 10000 | 115,430,413.3 ns | 2,283,940.86 ns | 2,136,399.70 ns |   551,616.03 ns |         8.663 |  66,958,816 B |
 | ServiceStack            | 10000 | 206,347,175.0 ns | 4,124,690.87 ns | 4,750,000.14 ns | 1,062,132.32 ns |         4.846 | 167,276,672 B |
 
+![Plot](assets/ComplexModel.Single.StreamDeserialization.png)
 ![Plot](assets/ComplexModel.StreamDeserialization.png)
 
 <a name="async-stream-complex-serialization"></a>
@@ -786,6 +801,7 @@ Currently, following Json Serialization/Deserialization libraries were used:
 | SystemTextJsonSourceGen | 10000 | 117,840.268 μs | 1,739.4272 μs | 1,627.0613 μs | 420.1054 μs |       8.486 | 59,223 KB |
 | SystemTextJson          | 10000 | 118,762.563 μs | 1,641.8328 μs | 1,455.4420 μs | 388.9832 μs |       8.420 |      1.00 |
 
+![Plot](assets/ComplexModel.Single.AsyncStreamSerialization.png)
 ![Plot](assets/ComplexModel.AsyncStreamSerialization.png)
 
 <a name="conclusions"></a>
