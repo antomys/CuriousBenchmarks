@@ -109,6 +109,9 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 
 ![Plot](assets/QueryBuilderBenchmarks.png)
 
+![Plot](assets/query1.png)
+![Plot](assets/query2.png)
+
 <a name="conclusions"></a>
 ## Conclusions
 
