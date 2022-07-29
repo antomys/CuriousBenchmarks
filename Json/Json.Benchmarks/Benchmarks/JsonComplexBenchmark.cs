@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
-using Json.Benchmarks.Extensions;
+using CuriousBenchmarks.Common;
 using Json.Benchmarks.Models;
 using Json.Benchmarks.Models.SrcGen;
 

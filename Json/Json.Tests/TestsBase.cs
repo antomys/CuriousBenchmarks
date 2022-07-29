@@ -1,8 +1,7 @@
 ﻿using System.Text;
 using System.Xml;
 using Bogus;
-using Json.Benchmarks.Extensions;
-using Json.Benchmarks.Models;
+using CuriousBenchmarks.Common;
 using Json.Tests.Models;
 
 namespace Json.Tests;
@@ -32,7 +31,6 @@ public static class TestsBase
         .RuleFor(testModel => testModel.TestUShort, fakerSetter => fakerSetter.Random.UShort())
         .RuleFor(testModel => testModel.TestULong, fakerSetter => fakerSetter.Random.ULong())
         .RuleFor(testModel => testModel.TestTimeSpan, fakerSetter => fakerSetter.Date.Timespan())
-        // .RuleFor(testModel => testModel.TestByteArray, fakerSetter => fakerSetter.Random.Bytes(internalCount))
         .RuleFor(testModel => testModel.TestCharArray, fakerSetter => fakerSetter.Random.Chars('a', 'z', count: InternalCount))
         .RuleFor(testModel => testModel.TestDoubleArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Double(), InternalCount))
         .RuleFor(testModel => testModel.TestFloatArray, fakerSetter => fakerSetter.GetArray(func => func.Random.Float(), InternalCount))
@@ -170,16 +168,6 @@ public static class TestsBase
         sb.Append("\"testByte\":");
         sb.Append(testModel.TestByte);
         sb.Append(',');
-
-        // sb.Append("\"testByteArray\":");
-        // sb.Append('\"');
-        // foreach (var byteItem in testModel.TestByteArray)
-        // {
-        //     sb.Append((char) byteItem);
-        // }
-        // sb.Append('\"');
-        //
-        // sb.Append(',');
 
         sb.Append("\"testShort\":");
         sb.Append(testModel.TestShort);

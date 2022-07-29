@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\CuriousBenchmarks.Common\CuriousBenchmarks.Common.csproj" />
         <ProjectReference Include="..\Libraries\Maverick.Json\Maverick.Json.csproj" />
     </ItemGroup>
 
