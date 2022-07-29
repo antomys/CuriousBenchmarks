@@ -52,6 +52,6 @@ Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <a name="conclusions"></a>
 ## Conclusions
 
-For array, and collections that does not implement IEnumerable - use native `.Length` or `.Count` methods. Elsewhere, use `.Any` with no performance impact.
+For array - use native `.Length` or `.Count` methods. Elsewhere, use `.Any` with no performance impact.
 
 Pattern is somewhat slower when collection is empty, consider using native methods or `.Any`.
