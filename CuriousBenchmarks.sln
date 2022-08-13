@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{EA753603-E41E-47E1-A9F4-2D4BF68BD638}"
 	ProjectSection(SolutionItems) = preProject
 		Json\Readme.md = Json\Readme.md
+		Json\AspNetBenchmarks.md = Json\AspNetBenchmarks.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Iterators", "Iterators", "{9AF86D2B-CF26-4ED6-A6DD-8562F84C27D5}"
