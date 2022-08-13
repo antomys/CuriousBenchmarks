@@ -1,6 +1,6 @@
 ﻿namespace AnyLength.Benchmarks.Services;
 
-public static class AnyLengthService
+internal static class AnyLengthService
 {    
     public static bool CountArray<T>(this T[]? tArray)
     {
