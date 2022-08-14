@@ -26,6 +26,12 @@
       * [Bytes](#bytes-complex-serialization)
       * [Stream](#stream-complex-serialization)
       * [Async stream](#async-stream-complex-serialization)
+- [Asp.Net Formatters Benchmarks](#aspnet-formatters-benchmarks)
+  * [Simple model deserialization](#aspnet-Simple-model-deserialization)
+  * [Simple model serialization](#aspnet-Simple-model-serialization)
+  * [Complex model deserialization](#aspnet-Complex-model-deserialization)
+  * [Complex model serialization](#aspnet-Complex-model-serialization)
+  * [Asp.net Conclusions graphs](#aspnet-Conclusion)
 - [Conclusions](#conclusions)
 
 <a name="machine-information"></a>
@@ -804,11 +810,85 @@ Currently, following Json Serialization/Deserialization libraries were used:
 ![Plot](assets/ComplexModel.Single.AsyncStreamSerialization.png)
 ![Plot](assets/ComplexModel.AsyncStreamSerialization.png)
 
+<a name="aspnet-formatters-benchmarks"></a>
+# Asp.Net Formatters Benchmarks
+
+In this section i tried to test Requests per second and Time per request metrics with different serializer formatters.
+
+For `Serialization` benchmarks, command `.\abs.exe -n 20000 -c 10 https://localhost:7102/serialize/simple/100` was used.
+
+As for `Deserialization`, `.\abs.exe -p testjson.json -T application/json -n 20000 -c 10 https://localhost:7102/deserialize/simple/100` were used respectively.
+
+For detailed responses, see [Full reports](AspNetBenchmarks.md)
+
+<a name="aspnet-Simple-model-deserialization"></a>
+## Simple model deserialization
+| Method                            | RPS [#/sec] | Time per request [ms] | Time per request [ms] (mean, across all concurrent requests) | Transfer rate [Kbytes/sec] |
+|-----------------------------------|-------------|-----------------------|--------------------------------------------------------------|----------------------------|
+| System Text Json                  | 263.71      | 37.92                 | 3.792                                                        | 28.59                      |
+| System Text Json Source Generated | 245.24      | 40.777                | 4.078                                                        | 26.58                      |
+| SpanJson                          | 256.26      | 39.023                | 3.902                                                        | 27.78                      |
+| Newtonsoft Json                   | 245.68      | 40.704                | 4.07                                                         | 26.63                      |
+| Jil                               | 265.61      | 37.649                | 3.765                                                        | 31.9                       |
+| MessagePack                       | 258.8       | 38.64                 | 3.864                                                        | 28.05                      |
+| Protobuf                          | 259.96      | 38.467                | 3.847                                                        | 28.18                      |
+
+<a name="aspnet-Simple-model-serialization"></a>
+## Simple model serialization
+| Method                            | RPS [#/sec] | Time per request [ms] | Time per request [ms] (mean, across all concurrent requests) | Transfer rate [Kbytes/sec] |
+|-----------------------------------|-------------|-----------------------|--------------------------------------------------------------|----------------------------|
+| System Text Json                  | 216.82      | 46.122                | 4.612                                                        | 1492.1                     |
+| System Text Json Source Generated | 248.3       | 40.275                | 4.027                                                        | 1706.3                     |
+| SpanJson                          | 265.08      | 37.725                | 3.772                                                        | 1821.9                     |
+| Newtonsoft Json                   | 259.45      | 38.542                | 3.854                                                        | 1795.41                    |
+| Jil                               | 262.43      | 38.105                | 3.811                                                        | 1802.68                    |
+| MessagePack                       | 262.26      | 38.13                 | 3.813                                                        | 1299.28                    |
+| Protobuf                          | 269.45      | 37.112                | 3.711                                                        | 753.89                     |
+
+![Plot](assets/simplemodel.png)
+
+<a name="aspnet-Complex-model-deserialization"></a>
+## Complex model deserialization
+| Method                            | RPS [#/sec] (mean) | Time per request [ms] | Time per request [ms] (mean, across all concurrent requests) | Transfer rate [Kbytes/sec] |
+|-----------------------------------|--------------------|-----------------------|--------------------------------------------------------------|----------------------------|
+| System Text Json                  | 160.54             | 62.288                | 6.229                                                        | 17.4                       |
+| System Text Json Source Generated | 162.9              | 61.387                | 6.139                                                        | 17.66                      |
+| SpanJson                          | 189.39             | 52.801                | 5.28                                                         | 20.53                      |
+| Newtonsoft Json                   | 123.82             | 80.761                | 8.076                                                        | 13.42                      |
+| Jil                               | 252.43             | 39.616                | 3.962                                                        | 30.32                      |
+| MessagePack                       | 199                | 50.251                | 5.025                                                        | 21.57                      |
+| Protobuf                          | 202.34             | 49.421                | 4.942                                                        | 21.93                      |
+
+<a name="aspnet-Complex-model-serialization"></a>
+## Complex model serialization
+| Method                            | RPS [#/sec] (mean) | Time per request [ms] | Time per request [ms] (mean, across all concurrent requests) | Transfer rate [Kbytes/sec] |
+|-----------------------------------|--------------------|-----------------------|--------------------------------------------------------------|----------------------------|
+| System Text Json                  | 178.42             | 56.047                | 5.605                                                        | 29781.27                   |
+| System Text Json Source Generated | 205.12             | 48.752                | 4.875                                                        | 34245.72                   |
+| SpanJson                          | 228.16             | 43.83                 | 4.383                                                        | 38119.04                   |
+| Newtonsoft Json                   | 149.05             | 67.093                | 6.709                                                        | 24873.56                   |
+| Jil                               | 252.86             | 39.547                | 3.955                                                        | 1736.96                    |
+| MessagePack                       | 250.55             | 39.912                | 3.991                                                        | 19707.31                   |
+| Protobuf                          | 242.2              | 41.288                | 4.129                                                        | 20511.48                   |
+
+![Plot](assets/complexmodel.png)
+
+<a name="aspnet-Conclusion"></a>
+## Asp.net Conclusions graphs
+
+![Plot](assets/serialiation.png)
+![Plot](assets/deserialization.png)
+
+### Time per request
+
+![Plot](assets/timeperrequestdeserialization.png)
+![Plot](assets/timeperrequestserialization.png)
+
 <a name="conclusions"></a>
-## Conclusions
+# Conclusions
 
 Personally I will recommend using `SpanJson`. It has clean api and no additional overhead.
-The two fastest are `MessagePack` and `Protobuf`, but they come with cost of compatibility with other serializers and have extraordinary API. (Because they are binary serializers).
+The two fastest are `MessagePack` and `Protobuf`, but they come with cost of compatibility with other serializers and have extraordinary API. (Binary serializers).
 
 As for `JsonSrcGen`, it has major drawbacks as `[assembly]` writing in `Program.cs` and no support for critical collections as Dictionary with int key and Enums. Do not recommend to use for now.
 

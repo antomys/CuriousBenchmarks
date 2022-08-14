@@ -1,12 +1,27 @@
 ﻿namespace AnyLength.Benchmarks.Models;
 
-public class TestCollections
+/// <summary>
+///     Model for storing different collections for benchmarks.
+/// </summary>
+public sealed class TestCollections
 {
-    public string[] TestArray { get; set; }
-    
-    public List<string> TestList { get; set; }
-    
-    public ICollection<string> TestICollection { get; set; }
-    
-    public IEnumerable<string> TostIEnumerable { get; set; }
+    /// <summary>
+    ///     Collection of <see cref="Array"/> type.
+    /// </summary>
+    public string[] TestArray { get; set; } = null!;
+
+    /// <summary>
+    ///     Collection of <see cref="List{T}"/> type.
+    /// </summary>
+    public List<string> TestList { get; set; } = null!;
+
+    /// <summary>
+    ///     Collection of <see cref="ICollection{T}"/> type.
+    /// </summary>
+    public ICollection<string> TestICollection { get; set; } = null!;
+
+    /// <summary>
+    ///     Collection of <see cref="IEnumerable{T}"/> type.
+    /// </summary>
+    public IEnumerable<string> TestIEnumerable { get; set; } = null!;
 }

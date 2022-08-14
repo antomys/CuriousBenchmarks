@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{EA753603-E41E-47E1-A9F4-2D4BF68BD638}"
 	ProjectSection(SolutionItems) = preProject
 		Json\Readme.md = Json\Readme.md
+		Json\AspNetBenchmarks.md = Json\AspNetBenchmarks.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Iterators", "Iterators", "{9AF86D2B-CF26-4ED6-A6DD-8562F84C27D5}"
@@ -73,6 +74,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuriousBenchmarks.Common", "CuriousBenchmarks.Common\CuriousBenchmarks.Common.csproj", "{AF7CF5D3-A3F0-4341-B44D-67025AF14E4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyLength.Benchmarks", "AnyLength\AnyLength.Benchmarks\AnyLength.Benchmarks.csproj", "{7A8C12B4-B407-40A8-9745-D232923598DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Benchmarks.Server", "Json\Json.Benchmarks.Server\Json.Benchmarks.Server.csproj", "{52F5AE75-8340-44DA-980A-7CF446FC1B83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,6 +147,10 @@ Global
 		{7A8C12B4-B407-40A8-9745-D232923598DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A8C12B4-B407-40A8-9745-D232923598DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A8C12B4-B407-40A8-9745-D232923598DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F5AE75-8340-44DA-980A-7CF446FC1B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F5AE75-8340-44DA-980A-7CF446FC1B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F5AE75-8340-44DA-980A-7CF446FC1B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F5AE75-8340-44DA-980A-7CF446FC1B83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{33878926-9F84-44DD-9BAD-C435A7AFEFBD} = {C35BA106-F934-40FB-85AE-E2572EDB1B2E}
@@ -162,5 +169,6 @@ Global
 		{0F079463-6808-4A77-A20A-1C5D5A5EA040} = {EA753603-E41E-47E1-A9F4-2D4BF68BD638}
 		{BF540B36-7E15-4072-A6B9-00C4874B8ADC} = {0F079463-6808-4A77-A20A-1C5D5A5EA040}
 		{7A8C12B4-B407-40A8-9745-D232923598DC} = {E5B2D91F-2D01-4C59-AF61-F9646CD84E58}
+		{52F5AE75-8340-44DA-980A-7CF446FC1B83} = {EA753603-E41E-47E1-A9F4-2D4BF68BD638}
 	EndGlobalSection
 EndGlobal
