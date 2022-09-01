@@ -26,7 +26,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Aggregate' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ling Aggregate")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Linq Aggregate")]
     public int? LinqArray()
     {
         return TestArray.LinqAggregate();
@@ -35,7 +35,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ling Sum")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Linq Sum")]
     public int? SumArray()
     {
         return TestArray.LinqSum();

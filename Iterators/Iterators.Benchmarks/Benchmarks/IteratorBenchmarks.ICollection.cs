@@ -17,7 +17,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Aggregate' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Ling Aggregate. Array as ICollection")]
+    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Linq Aggregate. Array as ICollection")]
     public int? LinqICollectionArray()
     {
         return TestCollectionArray.LinqAggregate();
@@ -26,7 +26,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Ling Sum. Array as ICollection")]
+    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Linq Sum. Array as ICollection")]
     public int? SumICollectionArray()
     {
         return TestCollectionArray.LinqSum();
@@ -44,7 +44,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Aggregate' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Ling Aggregate. List as ICollection")]
+    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Linq Aggregate. List as ICollection")]
     public int? LinqICollectionList()
     {
         return TestCollectionList.LinqAggregate();
@@ -53,7 +53,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Ling Sum. List as ICollection")]
+    [BenchmarkCategory(Categories.Collection), Benchmark(Description = "Linq Sum. List as ICollection")]
     public int? SumICollectionList()
     {
         return TestCollectionList.LinqSum();
