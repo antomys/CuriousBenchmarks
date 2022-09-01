@@ -43,7 +43,9 @@ For testing were used 10 random generated int values from 0 to 100.000 for elimi
 | &#39;For&#39;             |     7.206 ns |   0.0214 ns |   0.0190 ns |  0.0051 ns |     7.181 ns |     7.194 ns |     7.199 ns |     7.212 ns |     7.245 ns | 138,770,003.8 |
 | &#39;Linq Sum&#39;        |    58.909 ns |   1.1799 ns |   1.1589 ns |  0.2897 ns |    57.433 ns |    58.069 ns |    58.551 ns |    59.701 ns |    60.895 ns |  16,975,339.0 |
 | &#39;Linq Aggregate&#39;  |    84.876 ns |   0.9933 ns |   0.8805 ns |  0.2353 ns |    81.847 ns |    85.071 ns |    85.125 ns |    85.162 ns |    85.305 ns |  11,781,860.7 |
+
 ![Plot](assets/iterationArray10.png)
+
 <a name="10-values-list"></a>
 ### List
 
@@ -55,7 +57,9 @@ For testing were used 10 random generated int values from 0 to 100.000 for elimi
 | &#39;Foreach&#39;         |    26.388 ns |   0.1653 ns |   0.1466 ns |  0.0392 ns |    26.235 ns |    26.284 ns |    26.337 ns |    26.454 ns |    26.693 ns |  37,896,123.2 |
 | &#39;Linq Sum&#39;        |    97.377 ns |   0.4049 ns |   0.3381 ns |  0.0938 ns |    96.650 ns |    97.187 ns |    97.332 ns |    97.648 ns |    97.812 ns |  10,269,359.2 |
 | &#39;Linq Aggregate&#39;  |   105.881 ns |   0.4925 ns |   0.4113 ns |  0.1141 ns |   105.209 ns |   105.666 ns |   105.881 ns |   106.095 ns |   106.749 ns |   9,444,550.9 |
+
 ![Plot](assets/iterationList10.png)
+
 <a name="10-values-icollection"></a>
 ### ICollection
 
@@ -64,7 +68,9 @@ For testing were used 10 random generated int values from 0 to 100.000 for elimi
 | &#39;Foreach&#39;         |    52.115 ns |   0.2440 ns |   0.2037 ns |  0.0565 ns |    51.867 ns |    51.952 ns |    52.129 ns |    52.227 ns |    52.539 ns |  19,188,488.0 |
 | &#39;Linq Sum&#39;        |    58.710 ns |   1.1838 ns |   1.1627 ns |  0.2907 ns |    57.353 ns |    57.584 ns |    58.407 ns |    59.971 ns |    60.291 ns |  17,032,856.0 |
 | &#39;Linq Aggregate&#39;  |    82.215 ns |   0.6267 ns |   0.5863 ns |  0.1514 ns |    81.506 ns |    81.740 ns |    82.166 ns |    82.524 ns |    83.536 ns |  12,163,203.8 |
+
 ![Plot](assets/iterationICollection10.png)
+
 <a name="10-values-serialization"></a>
 ### Model Serialization
 
@@ -75,6 +81,7 @@ For testing were used 10 random generated int values from 0 to 100.000 for elimi
 | &#39;ArrayPool + For&#39; | 5,815.086 ns |  59.3226 ns |  55.4904 ns | 14.3276 ns | 5,723.172 ns | 5,782.419 ns | 5,826.932 ns | 5,841.574 ns | 5,922.288 ns |     171,966.5 |  1.00 |    0.02 | 0.6027 |   3,816 B |
 | &#39;Foreach&#39;         | 5,875.656 ns |  51.2581 ns |  47.9469 ns | 12.3798 ns | 5,790.427 ns | 5,836.851 ns | 5,877.033 ns | 5,912.788 ns | 5,948.071 ns |     170,193.8 |  1.02 |    0.02 | 0.6104 |   3,856 B |
 | &#39;Linq&#39;            | 5,958.414 ns |  84.8508 ns |  79.3695 ns | 20.4931 ns | 5,714.796 ns | 5,944.693 ns | 5,976.887 ns | 6,002.524 ns | 6,036.476 ns |     167,829.9 |  1.03 |    0.03 | 0.6104 |   3,832 B |
+
 ![Plot](assets/iterationSerialization10.png)
 
 <a name="100000-values"></a>
@@ -93,6 +100,7 @@ For testing were used 100000 random generated int values from 0 to 100.000 for e
 | &#39;For&#39;            |  75.68 μs | 0.433 μs | 0.405 μs | 0.105 μs |  75.25 μs |  75.30 μs |  75.62 μs |  75.94 μs |  76.48 μs | 13,214.020 |         - |
 | &#39;Linq Sum&#39;       | 491.66 μs | 7.620 μs | 7.128 μs | 1.840 μs | 479.97 μs | 486.23 μs | 490.90 μs | 498.35 μs | 501.79 μs |  2,033.918 |      33 B |
 | &#39;Linq Aggregate&#39; | 775.99 μs | 7.476 μs | 6.243 μs | 1.731 μs | 768.56 μs | 772.50 μs | 774.83 μs | 777.02 μs | 791.69 μs |  1,288.672 |      33 B |
+
 ![Plot](assets/iterationArray.png)
 
 <a name="100000-values-list"></a>
@@ -106,7 +114,9 @@ For testing were used 100000 random generated int values from 0 to 100.000 for e
 | &#39;Foreach&#39;        | 182.75 μs |  0.919 μs | 0.815 μs | 0.218 μs | 181.42 μs | 182.48 μs | 182.70 μs | 183.28 μs | 184.35 μs |  5,471.894 |  2.80 |    0.06 |         - |
 | &#39;Linq Sum&#39;       | 742.94 μs |  3.818 μs | 3.188 μs | 0.884 μs | 739.09 μs | 740.29 μs | 741.96 μs | 745.70 μs | 749.20 μs |  1,345.997 | 11.35 |    0.29 |      41 B |
 | &#39;Linq Aggregate&#39; | 962.36 μs | 10.956 μs | 8.554 μs | 2.469 μs | 950.19 μs | 957.48 μs | 961.30 μs | 966.85 μs | 975.99 μs |  1,039.115 | 14.70 |    0.28 |      42 B |
+
 ![Plot](assets/iterationList.png)
+
 <a name="100000-values-icollection"></a>
 ### ICollection
 
@@ -126,4 +136,5 @@ For testing were used 100000 random generated int values from 0 to 100.000 for e
 | &#39;For&#39;             | 100,811.95 μs | 1,841.431 μs | 1,970.311 μs | 464.407 μs |  96,888.12 μs |  99,645.87 μs | 101,302.77 μs | 101,991.76 μs | 104,620.58 μs |  9.919 |  1.00 |    0.00 | 6500.0000 | 2666.6667 | 833.3333 | 36,803,919 B |
 | &#39;Foreach&#39;         | 103,222.24 μs | 2,002.375 μs | 2,056.292 μs | 498.724 μs | 100,022.51 μs | 101,564.56 μs | 102,928.34 μs | 105,266.84 μs | 106,790.17 μs |  9.688 |  1.03 |    0.03 | 6400.0000 | 2600.0000 | 800.0000 | 36,805,253 B |
 | &#39;ArrayPool + For&#39; | 103,738.45 μs | 2,012.130 μs | 2,686.136 μs | 537.227 μs |  99,163.36 μs | 102,244.06 μs | 103,612.66 μs | 105,460.54 μs | 110,207.13 μs |  9.640 |  1.03 |    0.03 | 6200.0000 | 2400.0000 | 600.0000 | 37,014,981 B |
+
 ![Plot](assets/iterationSerialization.png)
