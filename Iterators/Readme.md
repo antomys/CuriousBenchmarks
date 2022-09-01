@@ -125,7 +125,9 @@ For testing were used 100000 random generated int values from 0 to 100.000 for e
 | &#39;Foreach&#39;        | 437.65 μs | 6.370 μs | 5.958 μs | 1.538 μs | 430.94 μs | 433.02 μs | 434.92 μs | 442.72 μs | 449.71 μs | 2,284.913 |      32 B |
 | &#39;Linq Sum&#39;       | 491.54 μs | 7.633 μs | 7.140 μs | 1.843 μs | 482.56 μs | 486.66 μs | 488.72 μs | 500.49 μs | 501.41 μs | 2,034.442 |      33 B |
 | &#39;Linq Aggregate&#39; | 772.92 μs | 3.783 μs | 3.159 μs | 0.876 μs | 767.84 μs | 771.07 μs | 771.51 μs | 775.45 μs | 778.89 μs | 1,293.795 |      33 B |
+
 ![Plot](assets/iterationICollection.png)
+
 <a name="100000-values-serialization"></a>
 ### Model Serialization
 
