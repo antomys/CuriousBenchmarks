@@ -11,7 +11,7 @@ public sealed class SimpleModel
     /// <summary>
     ///     Test id.
     /// </summary>
-    public int? TestInd { get; set; }
+    public int TestInd { get; set; }
     
     /// <summary>
     ///     Test string.

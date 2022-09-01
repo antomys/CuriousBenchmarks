@@ -13,7 +13,7 @@ public static partial class IterationService
     ///     Testing with 'for' method.
     /// </summary>
     /// <param name="testInputModels"></param>
-    public static string[] For(this List<SimpleModel?> testInputModels)
+    public static string[] For(this List<SimpleModel> testInputModels)
     {
         var testOutputModels = new string[testInputModels.Count];
 
@@ -34,7 +34,7 @@ public static partial class IterationService
     ///     Testing with 'for' method.
     /// </summary>
     /// <param name="testInputModels"></param>
-    public static string[] ForArrayPool(this List<SimpleModel?> testInputModels)
+    public static string[] ForArrayPool(this List<SimpleModel> testInputModels)
     {
         var pooledArray = ArrayPool<string>.Shared.Rent(testInputModels.Count);
         try
@@ -67,7 +67,7 @@ public static partial class IterationService
     ///     Testing with 'for' method.
     /// </summary>
     /// <param name="testInputModels"></param>
-    public static IEnumerable<string> Yield(this List<SimpleModel?> testInputModels)
+    public static IEnumerable<string> Yield(this List<SimpleModel> testInputModels)
     {
         foreach (var testModel in testInputModels)
         {
@@ -83,7 +83,7 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
-    public static List<string> Foreach(this List<SimpleModel?> testInputModels)
+    public static List<string> Foreach(this List<SimpleModel> testInputModels)
     {
         var testOutputModels = new List<string>(testInputModels.Count);
         
@@ -103,7 +103,7 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
-    public static IEnumerable<string> Linq(this IEnumerable<SimpleModel?> testInputModels)
+    public static IEnumerable<string> Linq(this IEnumerable<SimpleModel> testInputModels)
     {
         return testInputModels
             .Where(testModel => testModel is not null)

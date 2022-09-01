@@ -26,6 +26,18 @@
       <Compile Update="Benchmarks\IteratorBenchmarks.Array.cs">
         <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
       </Compile>
+      <Compile Update="Services\IterationService.Array.cs">
+        <DependentUpon>IterationService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\IterationService.Collection.cs">
+        <DependentUpon>IterationService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Benchmarks\IteratorBenchmarks.ICollection.cs">
+        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Benchmarks\IteratorBenchmarks.List.cs">
+        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

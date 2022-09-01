@@ -6,13 +6,13 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
-    public static int For(this int?[] inputArray)
+    public static int For(this int[] inputArray)
     {
         var sumResult = 0;
     
         for (var i = 0; i < inputArray.Length; i++)
         {
-            sumResult += inputArray[i].GetValueOrDefault();
+            sumResult += inputArray[i];
         }
     
         return sumResult;
@@ -21,13 +21,13 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
-    public static int Foreach(this int?[] inputArray)
+    public static int Foreach(this int[] inputArray)
     {
         var sumResult = 0;
 
         foreach (var testModel in inputArray)
         {
-            sumResult += testModel.GetValueOrDefault();
+            sumResult += testModel;
         }
 
         return sumResult;
@@ -36,15 +36,15 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
-    public static int? LinqAggregate(this int?[] inputArray)
+    public static int? LinqAggregate(this int[] inputArray)
     {
-        return inputArray.Aggregate((a, b) => a.GetValueOrDefault() + b.GetValueOrDefault());
+        return inputArray.Aggregate((a, b) => a + b);
     }
     
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
-    public static int? LinqSum(this int?[] inputArray)
+    public static int? LinqSum(this int[] inputArray)
     {
         return inputArray.Sum();
     }
@@ -52,13 +52,13 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Ref Foreach' methods.
     /// </summary>
-    public static int RefForeach(this int?[] inputArray)
+    public static int RefForeach(this int[] inputArray)
     {
         var sumResult = 0;
 
         foreach (ref var input in inputArray.AsSpan())
         {
-            sumResult += input.GetValueOrDefault();
+            sumResult += input;
         }
 
         return sumResult;
@@ -67,7 +67,7 @@ public static partial class IterationService
     /// <summary>
     ///     Testing with 'Span For' methods.
     /// </summary>
-    public static int SpanFor(this int?[] inputArray)
+    public static int SpanFor(this int[] inputArray)
     {
         var sumResult = 0;
 
@@ -75,7 +75,7 @@ public static partial class IterationService
         
         for (var i = 0; i < array.Length; i++)
         {
-            sumResult += inputArray[i].GetValueOrDefault();
+            sumResult += inputArray[i];
         }
 
         return sumResult;

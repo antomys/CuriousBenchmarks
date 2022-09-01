@@ -17,6 +17,7 @@ public sealed class TestModel
         SimpleModel = simpleModel;
         JsonModel = JsonSerializer.Serialize(simpleModel);
     }
+   
     /// <summary>
     ///     Gets <see cref="SimpleModel"/>.
     /// </summary>

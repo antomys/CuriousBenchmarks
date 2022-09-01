@@ -8,7 +8,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "For. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "For")]
     public int ForArray()
     {
         return TestArray.For();
@@ -17,7 +17,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Foreach. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Foreach")]
     public int ForeachArray()
     {
         return TestArray.Foreach();
@@ -26,7 +26,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Aggregate' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ling Aggregate. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Linq Aggregate")]
     public int? LinqArray()
     {
         return TestArray.LinqAggregate();
@@ -35,7 +35,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ling Sum. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Linq Sum")]
     public int? SumArray()
     {
         return TestArray.LinqSum();
@@ -44,7 +44,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'foreach(ref)' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ref Foreach. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "Ref Foreach")]
     public int RefForeachArray()
     {
         return TestArray.RefForeach();
@@ -53,7 +53,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with '.AsSpan + for' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.Array), Benchmark(Description = "AsSpan + For. Array")]
+    [BenchmarkCategory(Categories.Array), Benchmark(Description = "AsSpan + For")]
     public int SpanForArray()
     {
         return TestArray.SpanFor();
