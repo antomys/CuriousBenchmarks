@@ -27,7 +27,7 @@ public class BenchmarksBase
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(10)]
+    [Params(10, 100000)]
     public int Size { get; set; }
 
     /// <summary>
