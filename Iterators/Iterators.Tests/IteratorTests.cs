@@ -6,12 +6,12 @@ using Xunit;
 namespace Iterators.Tests;
 
 /// <summary>
-///     Tests for <see cref="Iterators.Benchmarks.Services.IterationService"/>.
+///     Tests for "Iterators.Benchmarks.Services.IterationService"..
 /// </summary>
 public sealed class IteratorTests
 {
     /// <summary>
-    ///     Unit testing method <see cref="IterationService.For"/>
+    ///     Unit testing method "IterationService.For".
     /// </summary>
     /// <param name="size">Size of a testing collection.</param>
     [Theory]
@@ -26,14 +26,14 @@ public sealed class IteratorTests
         var simpleModels = dictionaryTestModels.Select(model => model.Value).ToList();
 
         // Act
-        var jsonCollection = simpleModels!.For();
+        var jsonCollection = simpleModels.For();
         
         // Assert
         Assert.True(dictionaryTestModels.Keys.All(value=> jsonCollection.Contains(value)));
     }
     
     /// <summary>
-    ///     Unit testing method <see cref="IterationService.Foreach"/>
+    ///     Unit testing method "IterationService.Foreach".
     /// </summary>
     /// <param name="size">Size of a testing collection.</param>
     [Theory]
@@ -48,14 +48,14 @@ public sealed class IteratorTests
         var simpleModels = dictionaryTestModels.Select(model => model.Value).ToList();
 
         // Act
-        var jsonCollection = simpleModels!.Foreach();
+        var jsonCollection = simpleModels.Foreach();
         
         // Assert
         Assert.True(dictionaryTestModels.Keys.All(value=> jsonCollection.Contains(value)));
     }
     
     /// <summary>
-    ///     Unit testing method <see cref="IterationService.Linq"/>
+    ///     Unit testing method "IterationService.Linq".
     /// </summary>
     /// <param name="size">Size of a testing collection.</param>
     [Theory]
@@ -77,7 +77,7 @@ public sealed class IteratorTests
     }
     
     /// <summary>
-    ///     Unit testing method <see cref="IterationService.Yield"/>
+    ///     Unit testing method "IterationService.Yield".
     /// </summary>
     /// <param name="size">Size of a testing collection.</param>
     [Theory]
@@ -92,16 +92,16 @@ public sealed class IteratorTests
         var simpleModels = dictionaryTestModels.Select(model => model.Value).ToList();
 
         // Act
-        var jsonCollection = simpleModels!.Yield();
+        var jsonCollection = simpleModels.Yield();
         
         // Assert
         Assert.True(dictionaryTestModels.Keys.All(value=> jsonCollection.Contains(value)));
     }
     
     /// <summary>
-    ///     Arranges collection of <see cref="TestModel"/>.
+    ///     Arranges collection of "TestModel"..
     /// </summary>
-    /// <returns>List of <see cref="TestModel"/>.</returns>
+    /// <returns>List of "TestModel"..</returns>
     private static IEnumerable<TestModel> SetupTestModels(int size)
     {
         var faker = new Faker<SimpleModel>();

@@ -38,22 +38,27 @@ public class BenchmarksBase
     /// <summary>
     ///     List of <see cref="SimpleModel"/>.
     /// </summary>
-    protected List<SimpleModel?> TestInputModels = default!;
+    protected List<SimpleModel> TestInputModels = default!;
 
     /// <summary>
     ///     Array of int.
     /// </summary>
-    protected int?[] TestArray = default!;
+    protected int[] TestArray = default!;
 
     /// <summary>
     ///     List of int.
     /// </summary>
-    protected List<int?> TestList = default!;
+    protected List<int> TestList = default!;
 
     /// <summary>
-    ///     Collection of int.
+    ///     Collection of int as array
     /// </summary>
-    protected ICollection<int?> TestCollection = default!;
+    protected ICollection<int> TestCollectionArray = default!;
+    
+    /// <summary>
+    ///     Collection of int as list
+    /// </summary>
+    protected ICollection<int> TestCollectionList = default!;
 
     /// <summary>
     ///     Global setup of private and protected parameters.
@@ -65,13 +70,14 @@ public class BenchmarksBase
         Randomizer.Seed = new Random(420);
         
         TestInputModels = faker
-            .RuleFor(testModel => testModel.TestInd, fakerSetter => fakerSetter.Random.Int())
+            .RuleFor(testModel => testModel.TestInd, fakerSetter => fakerSetter.Random.Int(-100000, 100000))
             .RuleFor(testModel => testModel.TestString, fakerSetter=> fakerSetter.Random.String2(10))
             .RuleFor(testModel => testModel.TestDateTime, fakerSetter=> fakerSetter.Date.Past())
             .Generate(Size)!;
 
-        TestArray = TestInputModels.Select(model => model?.TestInd).ToArray();
-        TestList = TestInputModels.Select(model => model?.TestInd).ToList();
-        TestCollection = TestInputModels.Select(model => model?.TestInd).ToArray();
+        TestArray = TestInputModels.Select(model => model.TestInd).ToArray();
+        TestList = TestInputModels.Select(model => model.TestInd).ToList();
+        TestCollectionArray = TestInputModels.Select(model => model.TestInd).ToArray();
+        TestCollectionList = TestInputModels.Select(model => model.TestInd).ToList();
     }
 }

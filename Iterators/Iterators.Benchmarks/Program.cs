@@ -1,1 +1,1 @@
-﻿BenchmarkDotNet.Running.BenchmarkRunner.Run(typeof(Program).Assembly);
+﻿BenchmarkDotNet.Running.BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();

@@ -8,7 +8,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "For. List", Baseline = true)]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "For", Baseline = true)]
     public int ForList()
     {
         return TestList.For();
@@ -17,7 +17,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "Foreach. List")]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "Foreach")]
     public int ForeachList()
     {
         return TestList.Foreach();
@@ -26,7 +26,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Aggregate' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ling Aggregate. List")]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ling Aggregate")]
     public int? LinqList()
     {
         return TestList.LinqAggregate();
@@ -35,7 +35,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ling Sum. List")]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ling Sum")]
     public int? SumList()
     {
         return TestList.LinqSum();
@@ -44,7 +44,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with 'foreach(ref)' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ref Foreach. List")]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "Ref Foreach")]
     public int RefForeachList()
     {
         return TestList.RefForeach();
@@ -53,7 +53,7 @@ public partial class IteratorBenchmarks
     /// <summary>
     ///     Testing with '.AsSpan + for' methods.
     /// </summary>
-    [BenchmarkCategory(Categories.List), Benchmark(Description = "AsSpan + For. List")]
+    [BenchmarkCategory(Categories.List), Benchmark(Description = "AsSpan + For")]
     public int SpanForList()
     {
         return TestList.SpanFor();
