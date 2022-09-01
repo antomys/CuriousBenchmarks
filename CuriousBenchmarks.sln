@@ -77,6 +77,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyLength.Benchmarks", "Any
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Benchmarks.Server", "Json\Json.Benchmarks.Server\Json.Benchmarks.Server.csproj", "{52F5AE75-8340-44DA-980A-7CF446FC1B83}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{61DCCEBE-48BF-41E6-B3E6-86682F472C12}"
+	ProjectSection(SolutionItems) = preProject
+		.GITIGNORE = .GITIGNORE
+		global.json = global.json
+		README.MD = README.MD
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
