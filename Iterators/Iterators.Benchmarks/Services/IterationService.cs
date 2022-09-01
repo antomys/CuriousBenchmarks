@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Buffers;
+using System.Text.Json;
 using Iterators.Benchmarks.Models;
 
 namespace Iterators.Benchmarks.Services;
@@ -6,7 +7,7 @@ namespace Iterators.Benchmarks.Services;
 /// <summary>
 ///     Iteration service. Made static for faster development
 /// </summary>
-public static class IterationService
+public static partial class IterationService
 {
     /// <summary>
     ///     Testing with 'for' method.
@@ -27,6 +28,39 @@ public static class IterationService
         }
 
         return testOutputModels;
+    }
+    
+    /// <summary>
+    ///     Testing with 'for' method.
+    /// </summary>
+    /// <param name="testInputModels"></param>
+    public static string[] ForArrayPool(this List<SimpleModel?> testInputModels)
+    {
+        var pooledArray = ArrayPool<string>.Shared.Rent(testInputModels.Count);
+        try
+        {
+            Span<string> spanArray = pooledArray;
+
+            var index = 0;
+
+            while (index < testInputModels.Count)
+            {
+                if (testInputModels[index] is null)
+                {
+                    index++;
+                    continue;
+                }
+
+                spanArray[index] = JsonSerializer.Serialize(testInputModels[index]);
+                index++;
+            }
+
+            return spanArray[..index].ToArray();
+        }
+        finally
+        {
+            ArrayPool<string>.Shared.Return(pooledArray);
+        }
     }
     
     /// <summary>

@@ -1,6 +1,6 @@
 # Curious benchmarks
 
-Updated : 7/25/2022
+Updated : 9/1/2022
 
 Here are collected some benchmarks for different approaches of solving problems. I've decided to do this to select most suitable and fast solutions and research of different approaches.
 
@@ -11,7 +11,7 @@ Have fun!
 - [Comparing GroupBy/Distinct/DistinctBy for getting unique items](LinqGroupByDistinct/Readme.md)
 - [HashCode algorithms from StackOverflow](HashCode/Readme.md)
 - [Json Serialization/Deserialization](Json/Readme.md)
-- [Comparing Linq/For/Foreach methods for iterating collections](Iterators/Readme.md)
+- [Comparing different iterators (for,foreach, linq, ref foreach, etc.)](Iterators/Readme.md)
 - [Different approaches in Building Query strings and building links](Query/Readme.md)
 - [Comparing different string link formatting, dashing for dash view, concatenating and generating unique string](String/Readme.md)
 

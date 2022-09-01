@@ -21,13 +21,13 @@ namespace Iterators.Benchmarks.Benchmarks;
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-public class BenchmarkBase
+public class BenchmarksBase
 {
     /// <summary>
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    [Params(10, 100, 1000, 10000, 100000, 1000000)]
+    [Params(10, 100000)]
     public int Size { get; set; }
 
     /// <summary>
@@ -36,19 +36,25 @@ public class BenchmarkBase
     protected readonly Consumer Consumer = new();
     
     /// <summary>
-    ///     Collection of <see cref="SimpleModel"/>.
+    ///     List of <see cref="SimpleModel"/>.
     /// </summary>
-    protected static List<SimpleModel?> TestInputModels = default!;
-    
+    protected List<SimpleModel?> TestInputModels = default!;
+
     /// <summary>
-    ///     Cleans array.
+    ///     Array of int.
     /// </summary>
-    [GlobalCleanup]
-    public void GlobalCleanup()
-    {
-        TestInputModels.Clear();
-    }
-    
+    protected int?[] TestArray = default!;
+
+    /// <summary>
+    ///     List of int.
+    /// </summary>
+    protected List<int?> TestList = default!;
+
+    /// <summary>
+    ///     Collection of int.
+    /// </summary>
+    protected ICollection<int?> TestCollection = default!;
+
     /// <summary>
     ///     Global setup of private and protected parameters.
     /// </summary>
@@ -63,5 +69,9 @@ public class BenchmarkBase
             .RuleFor(testModel => testModel.TestString, fakerSetter=> fakerSetter.Random.String2(10))
             .RuleFor(testModel => testModel.TestDateTime, fakerSetter=> fakerSetter.Date.Past())
             .Generate(Size)!;
+
+        TestArray = TestInputModels.Select(model => model?.TestInd).ToArray();
+        TestList = TestInputModels.Select(model => model?.TestInd).ToList();
+        TestCollection = TestInputModels.Select(model => model?.TestInd).ToArray();
     }
 }
