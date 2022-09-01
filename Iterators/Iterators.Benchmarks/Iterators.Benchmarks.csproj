@@ -16,4 +16,16 @@
       <PackageReference Include="Bogus" Version="34.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Services\IterationService.List.cs">
+        <DependentUpon>IterationService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Benchmarks\IteratorBenchmarks.Serializing.cs">
+        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Benchmarks\IteratorBenchmarks.Array.cs">
+        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
