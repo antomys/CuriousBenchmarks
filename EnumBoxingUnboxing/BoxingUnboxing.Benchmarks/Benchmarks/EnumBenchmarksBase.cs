@@ -21,6 +21,8 @@ public class EnumBenchmarksBase
     ///     Gets collection of enums.
     /// </summary>
     protected static TestEnum[] TestEnums { get; private set; } = default!;
+    
+    protected static string[] TestEnumNames { get; private set; } = default!;
 
     /// <summary>
     ///     Global setup of private fields.
@@ -43,5 +45,7 @@ public class EnumBenchmarksBase
             TestEnum.Eleventh,
             TestEnum.Twelfth,
         };
+
+        TestEnumNames = TestEnums.Select(testEnum => Enum.GetName(testEnum)!).ToArray();
     }
 }
