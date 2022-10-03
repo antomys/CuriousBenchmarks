@@ -73,19 +73,19 @@ public static class NameEnumService
     {
         return testStringEnum switch
         {
-            "Zero" => TestEnum.Zero,
-            "First" => TestEnum.First,
-            "Second" => TestEnum.Second,
-            "Third" => TestEnum.Third,
-            "Fourth" => TestEnum.Fourth,
-            "Fifth" => TestEnum.Fifth,
-            "Sixth" => TestEnum.Sixth,
-            "Seventh" => TestEnum.Seventh,
-            "Eighth" => TestEnum.Eighth,
-            "Ninth" => TestEnum.Ninth,
-            "Tenth" => TestEnum.Tenth,
-            "Eleventh" => TestEnum.Eleventh,
-            "Twelfth" => TestEnum.Twelfth,
+            nameof(TestEnum.Zero) => TestEnum.Zero,
+            nameof(TestEnum.First) => TestEnum.First,
+            nameof(TestEnum.Second) => TestEnum.Second,
+            nameof(TestEnum.Third) => TestEnum.Third,
+            nameof(TestEnum.Fourth) => TestEnum.Fourth,
+            nameof(TestEnum.Fifth) => TestEnum.Fifth,
+            nameof(TestEnum.Sixth) => TestEnum.Sixth,
+            nameof(TestEnum.Seventh) => TestEnum.Seventh,
+            nameof(TestEnum.Eighth) => TestEnum.Eighth,
+            nameof(TestEnum.Ninth) => TestEnum.Ninth,
+            nameof(TestEnum.Tenth) => TestEnum.Tenth,
+            nameof(TestEnum.Eleventh) => TestEnum.Eleventh,
+            nameof(TestEnum.Twelfth) => TestEnum.Twelfth,
             _ => throw new ArgumentOutOfRangeException(nameof(testStringEnum)),
         };
     }
