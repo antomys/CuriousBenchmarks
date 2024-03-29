@@ -1,0 +1,37 @@
+﻿name: dotnet package
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # set value
+      SHOULD_DEPLOY: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    strategy:
+      matrix:
+        dotnet-version: ["8.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore
+        run: dotnet restore GrowthBook/GrowthBook.csproj
+
+      - name: Build
+        run: dotnet build GrowthBook/GrowthBook.csproj --configuration Release
+
+      # current tests are written for visual studio only
+      - name: Test
+        run: dotnet test GrowthBook.Tests/GrowthBook.Tests.csproj --logger:"console;verbosity=normal"
+
+      # # Deploy if SHOULD_DEPLOY is set to true
+      # - name: publish
+      #   if: ${{ env.SHOULD_DEPLOY }}
+      #   run: dotnet nuget push dist/*.nupkg --api-key $NUGET_KEY --source $NUGET_SOURCE
+      #   env:
+      #     NUGET_KEY: ${{ secrets.NUGET_KEY }}
+      #     NUGET_SOURCE: ${{ secrets.NUGET_SOURCE }}
