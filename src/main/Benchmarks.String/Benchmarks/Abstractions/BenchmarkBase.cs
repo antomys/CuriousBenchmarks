@@ -11,15 +11,20 @@ namespace Benchmarks.String.Benchmarks.Abstractions;
 /// <summary>
 ///     Base abstraction for benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter, ExcludeFromCodeCoverage]
 public class BenchmarkBase
 {
+    /// <summary>
+    ///     Benchmark Consumer.
+    /// </summary>
+    protected readonly Consumer Consumer = new();
+
+    /// <summary>
+    ///     Collection of <see cref="StringsTestModel" /> for benchmarks.
+    /// </summary>
+    protected StringsTestModel TestStringArray = null!;
+
     /// <summary>
     ///     Gets or sets flag whether stack should be triggered or other collections.
     /// </summary>
@@ -27,28 +32,18 @@ public class BenchmarkBase
     public bool IsStack { get; set; }
 
     /// <summary>
-    ///     Collection of <see cref="StringsTestModel"/> for benchmarks.
-    /// </summary>
-    protected StringsTestModel TestStringArray = null!;
-
-    /// <summary>
-    ///     Benchmark Consumer.
-    /// </summary>
-    protected readonly Consumer Consumer = new();
-
-    /// <summary> 
-    ///   Global setup.
+    ///     Global setup.
     /// </summary>
     [GlobalSetup]
     public void Setup()
     {
         //stackalloc is used when sum of chars is less than 64. So we do generate random bigger that 64 to eliminate this behaviour.
-        TestStringArray = IsStack
-            ? new Faker<StringsTestModel>()
-                .RuleFor(x => x.Values, y => new[] {y.Random.String2(5, 20), y.Random.String2(5, 20)})
-                .Generate(1)[0]
-            : new Faker<StringsTestModel>()
-                .RuleFor(x => x.Values, y => new[] {y.Random.String2(65, 100), y.Random.String2(40, 100)})
-                .Generate(1)[0];
+
+        var from = IsStack ? 65 : 5;
+        var to = IsStack ? 100 : 20;
+
+        TestStringArray = new Faker<StringsTestModel>()
+            .RuleFor(x => x.Values, y => [y.Random.String2(from, to), y.Random.String2(from, to)])
+            .Generate(1)[0];
     }
 }

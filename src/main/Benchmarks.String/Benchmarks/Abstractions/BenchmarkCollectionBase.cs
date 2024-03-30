@@ -11,40 +11,35 @@ namespace Benchmarks.String.Benchmarks.Abstractions;
 /// <summary>
 ///     Base abstraction for benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, ExcludeFromCodeCoverage]
 public class BenchmarkCollectionBase
 {
+    /// <summary>
+    ///     Benchmark <see cref="Consumer" />.
+    /// </summary>
+    protected readonly Consumer Consumer = new();
+
+    /// <summary>
+    ///     Collection of <see cref="StringsTestModel" /> for benchmarks.
+    /// </summary>
+    protected List<StringsTestModel> TestStringArray = null!;
+
     /// <summary>
     ///     Gets or sets flag whether stack should be triggered or other collections.
     /// </summary>
     [Params(true, false)]
     public bool IsStack { get; set; }
-    
+
     /// <summary>
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(10, 100, 1000)]
     public int Values { get; set; }
-    
+
     /// <summary>
-    ///     Collection of <see cref="StringsTestModel"/> for benchmarks.
-    /// </summary>
-    protected List<StringsTestModel> TestStringArray = null!;
-    
-    /// <summary>
-    ///     Benchmark <see cref="Consumer"/>.
-    /// </summary>
-    protected readonly Consumer Consumer = new();
-    
-    /// <summary> 
-    ///   Global setup.
+    ///     Global setup.
     /// </summary>
     [GlobalSetup]
     public void Setup()

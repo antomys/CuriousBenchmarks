@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 
@@ -7,11 +8,8 @@ namespace Benchmarks.Enum.Benchmarks;
 /// <summary>
 ///     Enum boxing/unboxing benchmarks base.
 /// </summary>
-[MemoryDiagnoser]
-[MarkdownExporter]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
+[MemoryDiagnoser, MarkdownExporter, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory), ExcludeFromCodeCoverage]
 public class EnumBenchmarksBase
 {
     /// <summary>

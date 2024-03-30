@@ -1,29 +1,19 @@
-﻿using System.Text;
+﻿using Benchmark.Serializers;
 using BenchmarkDotNet.Attributes;
-using Benchmarks.Serializers.Json.Extensions;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
 public partial class SerializationBenchmark
 {
-    /// <summary>
-    ///     Serializes with Newtonsoft.Json.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+    [BenchmarkCategory(Group.SerializationString), Benchmark]
     public string NewtonsoftString()
     {
-        return Newtonsoft.Json.JsonConvert.SerializeObject(_simpleModels, JsonServiceExtensions.NewtonsoftOptions);
-
+        return Serializers.NewtonsoftString(_simpleModels);
     }
-    
-    /// <summary>
-    ///     Serializes with Newtonsoft.Json.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+
+    [BenchmarkCategory(Group.SerializationByte), Benchmark]
     public byte[] NewtonsoftBytes()
     {
-        return Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(_simpleModels, JsonServiceExtensions.NewtonsoftOptions));
+        return Serializers.NewtonsoftBytes(_simpleModels);
     }
 }

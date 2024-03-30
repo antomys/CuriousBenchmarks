@@ -1,4 +1,12 @@
-﻿namespace Benchmarks.Serializers.Json.Extensions;
+﻿using System.Text.Json;
+using Jil;
+using MessagePack;
+using NetJSON;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using ServiceStack.Text;
+
+namespace Benchmarks.Serializers.Json.Extensions;
 
 /// <summary>
 ///     Extensions for Json services.
@@ -8,36 +16,36 @@ public static class JsonServiceExtensions
     /// <summary>
     ///     Default Options for System.Text.Json.
     /// </summary>
-    public readonly static System.Text.Json.JsonSerializerOptions Options = new()
+    public readonly static JsonSerializerOptions Options = new()
     {
-        PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public readonly static NetJSON.NetJSONSettings NetJsonOptions = new()
+    public readonly static NetJSONSettings NetJsonOptions = new()
     {
-        DateFormat = NetJSON.NetJSONDateFormat.ISO,
-        TimeZoneFormat = NetJSON.NetJSONTimeZoneFormat.Utc,
+        DateFormat = NetJSONDateFormat.ISO,
+        TimeZoneFormat = NetJSONTimeZoneFormat.Utc,
         UseStringOptimization = true,
         CamelCase = true
     };
-    
-    public readonly static Newtonsoft.Json.JsonSerializerSettings NewtonsoftOptions = new()
+
+    public readonly static JsonSerializerSettings NewtonsoftOptions = new()
     {
-        ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
-        DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat,
+        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        DateFormatHandling = DateFormatHandling.IsoDateFormat
     };
 
-    public readonly static ServiceStack.Text.Config ServiceStackOptions = new() 
+    public readonly static Config ServiceStackOptions = new()
     {
-        DateHandler = ServiceStack.Text.DateHandler.ISO8601,
+        DateHandler = DateHandler.ISO8601,
         AlwaysUseUtc = true,
-        TextCase = ServiceStack.Text.TextCase.CamelCase,
+        TextCase = TextCase.CamelCase
     };
 
-    public readonly static Jil.Options JilOptions = 
-        new(dateFormat: Jil.DateTimeFormat.ISO8601,
-            serializationNameFormat: Jil.SerializationNameFormat.CamelCase);
+    public readonly static Options JilOptions =
+        new(dateFormat: DateTimeFormat.ISO8601,
+            serializationNameFormat: SerializationNameFormat.CamelCase);
 
-    public readonly static MessagePack.MessagePackSerializerOptions MsgPackOptions 
-        = MessagePack.MessagePackSerializerOptions.Standard.WithCompression(MessagePack.MessagePackCompression.Lz4BlockArray);
+    public readonly static MessagePackSerializerOptions MsgPackOptions
+        = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray);
 }

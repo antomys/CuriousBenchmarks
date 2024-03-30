@@ -12,16 +12,12 @@ namespace Benchmarks.String.Benchmarks;
 /// <summary>
 ///     Interpolation benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, ExcludeFromCodeCoverage]
 public class InterpolationBenchmarks
 {
     private readonly Consumer _consumer = new();
+
     private List<InterpolationModel> _interpolationModel = null!;
 
     /// <summary>
@@ -31,7 +27,7 @@ public class InterpolationBenchmarks
     [Params(10, 100, 1000, 10000, 100000, 1000000)]
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public int OperationsCount { get; set; }
-    
+
     /// <summary>
     ///     Global setup.
     /// </summary>
@@ -44,7 +40,7 @@ public class InterpolationBenchmarks
                 .RuleFor(x => x.SecondValue, y => y.Random.String2(10))
                 .Generate(OperationsCount);
     }
-    
+
     /// <summary>
     ///     Combines with interpolation.
     /// </summary>
@@ -53,7 +49,7 @@ public class InterpolationBenchmarks
     {
         _interpolationModel.Select(model => InterpolationService.Interpolate(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
-    
+
     /// <summary>
     ///     Combines with string.Format.
     /// </summary>
@@ -62,16 +58,16 @@ public class InterpolationBenchmarks
     {
         _interpolationModel.Select(model => InterpolationService.Format(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
-    
+
     /// <summary>
     ///     Combines with string.Concat.
     /// </summary>
     [Benchmark]
     public void Concat()
-    { 
+    {
         _interpolationModel.Select(model => InterpolationService.Concat(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
-   
+
     /// <summary>
     ///     Combines with StringBuilder.
     /// </summary>
@@ -80,7 +76,7 @@ public class InterpolationBenchmarks
     {
         _interpolationModel.Select(model => InterpolationService.StringBuilderAppend(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
-    
+
     /// <summary>
     ///     Combines with StringBuilder.
     /// </summary>
@@ -89,13 +85,13 @@ public class InterpolationBenchmarks
     {
         _interpolationModel.Select(model => InterpolationService.StaticStringBuilderAppend(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
-   
+
     /// <summary>
     ///     Combines with string.Create.
     /// </summary>
     [Benchmark]
     public void Create()
-    { 
+    {
         _interpolationModel.Select(model => InterpolationService.Create(model.FirstValue, model.SecondValue)).Consume(_consumer);
     }
 }

@@ -12,6 +12,7 @@ public sealed class SimpleModel
     ///     Id of test model.
     /// </summary>
     public string TestModelId { get; set; } = string.Empty;
+
     /// <summary>
     ///     Id of inner test model.
     /// </summary>

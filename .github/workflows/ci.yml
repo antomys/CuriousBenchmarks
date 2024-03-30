@@ -1,6 +1,6 @@
 ﻿name: dotnet package
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
       SHOULD_DEPLOY: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     strategy:
       matrix:
-        dotnet-version: ["8.x"]
+        dotnet-version: [ "8.x" ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup dotnet ${{ matrix.dotnet-version }}

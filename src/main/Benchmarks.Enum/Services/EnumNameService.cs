@@ -9,11 +9,11 @@ public static class EnumNameService
 {
     /// <summary>
     ///     Gets enum name by using default 'ToString' method.
-    /// <para>
-    ///     Note: Boxing allocation: inherited 'System.Object' virtual method call on value type instance.
-    /// </para>
+    ///     <para>
+    ///         Note: Boxing allocation: inherited 'System.Object' virtual method call on value type instance.
+    ///     </para>
     /// </summary>
-    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <param name="testEnum"><see cref="TestEnum" />.</param>
     /// <returns>Name of Enum.</returns>
     public static string DefaultToString(this TestEnum testEnum)
     {
@@ -21,9 +21,9 @@ public static class EnumNameService
     }
 
     /// <summary>
-    ///     Gets enum name by using default extensions method of <see cref="Enum"/> class <see cref="Enum.GetName"/>
+    ///     Gets enum name by using default extensions method of <see cref="Enum" /> class <see cref="Enum.GetName" />
     /// </summary>
-    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <param name="testEnum"><see cref="TestEnum" />.</param>
     /// <returns>Name of Enum.</returns>
     public static string? EnumGetName(this TestEnum testEnum)
     {
@@ -31,12 +31,12 @@ public static class EnumNameService
     }
 
     /// <summary>
-    ///     Gets enum name by using custom-made method from <see cref="EnumExtensions"/>.
+    ///     Gets enum name by using custom-made method from <see cref="EnumExtensions" />.
     /// </summary>
-    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <param name="testEnum"><see cref="TestEnum" />.</param>
     /// <returns>Name of Enum.</returns>
     public static string CustomGetName(this TestEnum testEnum)
     {
-        return EnumExtensions.GetName(testEnum);
+        return testEnum.GetName();
     }
 }

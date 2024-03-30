@@ -7,52 +7,53 @@ namespace Benchmarks.String.Services;
 /// </summary>
 public static class RegexStringService
 {
-    private static readonly Dictionary<RegexEnum, Regex> SlugRegexes = new()
+    private readonly static Dictionary<RegexEnum, Regex> SlugRegexes = new()
     {
-        { RegexEnum.InvalidCharsRegex, new Regex(@"[^a-zA-Z0-9\s-]", RegexOptions.Compiled) },
-        { RegexEnum.MultilineRegex, new Regex(@"\s+", RegexOptions.Compiled) },
-        { RegexEnum.HyphenRegex, new Regex(@"\s", RegexOptions.Compiled) },
+        {RegexEnum.InvalidCharsRegex, new Regex(@"[^a-zA-Z0-9\s-]", RegexOptions.Compiled)},
+        {RegexEnum.MultilineRegex, new Regex(@"\s+", RegexOptions.Compiled)},
+        {RegexEnum.HyphenRegex, new Regex(@"\s", RegexOptions.Compiled)}
     };
 
-    private enum RegexEnum
+    /// <summary>
+    ///     Joins all string values with delimiter <see cref="Constants.Space" />.
+    /// </summary>
+    /// <param name="inputValues">Array of input values.</param>
+    /// <returns><see cref="string" />.</returns>
+    public static string ToLinkFormat(params string[] inputValues)
     {
-        InvalidCharsRegex,
-        MultilineRegex,
-        HyphenRegex,
+        return GenerateSlug(string.Join(Constants.LinkDelimiter, inputValues), Constants.LinkDelimiter);
     }
 
     /// <summary>
-    ///     Joins all string values with delimiter <see cref="Constants.Space"/>.
-    /// </summary>
-    /// <param name="inputValues">Array of input values.</param>
-    /// <returns><see cref="string"/>.</returns>
-    public static string ToLinkFormat(params string[] inputValues) =>
-        GenerateSlug(string.Join(Constants.LinkDelimiter, inputValues), Constants.LinkDelimiter);
-
-    /// <summary>
-    ///     Joins all string values with delimiter <see cref="Constants.Space"/>.
+    ///     Joins all string values with delimiter <see cref="Constants.Space" />.
     /// </summary>
     /// <param name="inputCollection">Array of input values.</param>
     /// <param name="inputParams">inputParams</param>
-    /// <returns><see cref="string"/>.</returns>
+    /// <returns><see cref="string" />.</returns>
     public static string ToLinkFormat(this IEnumerable<string> inputCollection, params string[] inputParams)
-        => GenerateSlug(string.Join(Constants.LinkDelimiter, inputCollection.Concat(inputParams)), Constants.LinkDelimiter);
+    {
+        return GenerateSlug(string.Join(Constants.LinkDelimiter, inputCollection.Concat(inputParams)), Constants.LinkDelimiter);
+    }
 
     /// <summary>
-    ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
+    ///     Joins all string values with delimiter <see cref="Constants.Space" />.
     /// </summary>
     /// <param name="stringCollection">collection of strings.</param>
-    /// <returns><see cref="string"/>.</returns>
-    public static string ToDashFormat(this IEnumerable<string> stringCollection) =>
-        string.Join(Constants.DashedViewDelimiter, stringCollection);
+    /// <returns><see cref="string" />.</returns>
+    public static string ToDashFormat(this IEnumerable<string> stringCollection)
+    {
+        return string.Join(Constants.DashedViewDelimiter, stringCollection);
+    }
 
     /// <summary>
-    ///    Joins all string values with delimiter <see cref="Constants.Space"/>.
+    ///     Joins all string values with delimiter <see cref="Constants.Space" />.
     /// </summary>
     /// <param name="inputValues">collection of strings.</param>
-    /// <returns><see cref="string"/>.</returns>
+    /// <returns><see cref="string" />.</returns>
     public static string ToDashFormat(params string[] inputValues)
-        => string.Join(Constants.DashedViewDelimiter, inputValues);
+    {
+        return string.Join(Constants.DashedViewDelimiter, inputValues);
+    }
 
     /// <summary>
     ///     Counts occurence of char in string. Probably, fastest way to do this.
@@ -75,10 +76,7 @@ public static class RegexStringService
 
         for (var index = length - 1; index >= 0; index--)
         {
-            if (function(rawString[index]))
-            {
-                return true;
-            }
+            if (function(rawString[index])) return true;
         }
 
         return false;
@@ -91,5 +89,14 @@ public static class RegexStringService
         phrase = SlugRegexes[RegexEnum.HyphenRegex].Replace(phrase, replace.ToString()).Trim();
 
         return phrase;
+    }
+
+    private enum RegexEnum
+    {
+        InvalidCharsRegex,
+
+        MultilineRegex,
+
+        HyphenRegex
     }
 }

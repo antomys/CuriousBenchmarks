@@ -14,13 +14,8 @@ namespace Benchmarks.String.Benchmarks;
 /// <summary>
 ///     Base abstraction for benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, ExcludeFromCodeCoverage]
 public class SingleDashStringBenchmarks : BenchmarkBase
 {
     /// <summary>
@@ -31,7 +26,7 @@ public class SingleDashStringBenchmarks : BenchmarkBase
     {
         SpanOwnerStringService.ToDashFormat(TestStringArray.Values).Consume(Consumer);
     }
-    
+
     /// <summary>
     ///     Dash format with SpanOwner.
     /// </summary>

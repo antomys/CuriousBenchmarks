@@ -11,30 +11,33 @@ namespace Benchmarks.QueryBuilder.Benchmarks;
 /// <summary>
 ///     Query building methods benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, ExcludeFromCodeCoverage]
 public class QueryBuilderBenchmarks
 {
+    private const string Url = "https://localhost";
+
+    // Note: Shutting up compiler. Method below assures that there will be no methods with null.
+    private static QueryValueStringBuilder _queryValueStringBuilder = default!;
+
+    private static Dictionary<string, string> _testDictionary = default!;
+
+    private static KeyValuePair<string, string>[] _testKvp = default!;
+
+    private static QueryCustomBuilder _queryCustomBuilder = default!;
+
+    private static QueryDictionary _testQueryDictionary = default!;
+
+    private static NameValueCollection _testNvc = default!;
+
+    private static Microsoft.AspNetCore.Http.Extensions.QueryBuilder _queryBuilder = default!;
+
     /// <summary>
     ///     Parameter for models count.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(1, 2, 5, 10)]
     public int QueryCount { get; set; }
-    
-    private const string Url = "https://localhost";
-
-    // Note: Shutting up compiler. Method below assures that there will be no methods with null.
-    private static QueryValueStringBuilder _queryValueStringBuilder = default!;
-    private static Dictionary<string, string> _testDictionary = default!;
-    private static KeyValuePair<string, string>[] _testKvp = default!;
-    private static QueryCustomBuilder _queryCustomBuilder = default!;
-    private static QueryDictionary _testQueryDictionary = default!;
-    private static NameValueCollection _testNvc = default!;
-    private static Microsoft.AspNetCore.Http.Extensions.QueryBuilder _queryBuilder = default!;
 
     /// <summary>
     ///     Global setup.
@@ -57,7 +60,7 @@ public class QueryBuilderBenchmarks
             var (testKey, testValue) = (faker.Random.String2(5), faker.Random.String2(5));
 
             _testKvp[i] = KeyValuePair.Create(testKey, testValue);
-            _queryValueStringBuilder.Add(testKey,testValue);
+            _queryValueStringBuilder.Add(testKey, testValue);
             _testQueryDictionary.Add(testKey, testValue);
             _queryCustomBuilder.Add(testKey, testValue);
             _testDictionary.Add(testKey, testValue);
@@ -67,7 +70,7 @@ public class QueryBuilderBenchmarks
     }
 
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryDictionary"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryDictionary" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark(Baseline = true)]
@@ -75,9 +78,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryDictionary(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.LinqQueryAggregate"/>.
+    ///     Benchmarking method <see cref="QueryService.LinqQueryAggregate" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -85,9 +88,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.LinqQueryAggregate(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.LinqSelectJoin"/>.
+    ///     Benchmarking method <see cref="QueryService.LinqSelectJoin" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -95,9 +98,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.LinqSelectJoin(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryConcatString"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryConcatString" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -105,9 +108,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryConcatString(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryStringCreate"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreate" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -115,9 +118,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryStringCreate(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.LinqQuerySpanVer2"/>.
+    ///     Benchmarking method <see cref="QueryService.LinqQuerySpanVer2" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -125,9 +128,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.LinqQuerySpanVer2(Url, _testQueryDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryAspNetCore"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryAspNetCore" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -135,9 +138,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryAspNetCore(Url, _queryBuilder);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -145,9 +148,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryCustomBuilder(Url, _queryCustomBuilder);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryCustomBuilder" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -155,9 +158,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryValueStringBuilder(Url, _queryValueStringBuilder);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryNvcStringBuilder"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryNvcStringBuilder" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -165,9 +168,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryNvcStringBuilder(Url, _testNvc);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryStringCreateConcat"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreateConcat" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -175,9 +178,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryStringCreateConcat(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryStringCreateStack"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryStringCreateStack" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -185,9 +188,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryStringCreateStack(Url, _testQueryDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryFormUrlEncodedContent"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryFormUrlEncodedContent" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]
@@ -195,9 +198,9 @@ public class QueryBuilderBenchmarks
     {
         return QueryService.QueryFormUrlEncodedContent(Url, _testDictionary);
     }
-    
+
     /// <summary>
-    ///     Benchmarking method <see cref="QueryService.QueryNvcStaticStringBuilder"/>.
+    ///     Benchmarking method <see cref="QueryService.QueryNvcStaticStringBuilder" />.
     /// </summary>
     /// <returns>Constructed string.</returns>
     [Benchmark]

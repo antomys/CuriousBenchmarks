@@ -1,27 +1,20 @@
-﻿using BenchmarkDotNet.Attributes;
-using Benchmarks.Serializers.Json.Models;
+﻿using Benchmark.Serializers;
+using Benchmark.Serializers.Models;
+using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
 public partial class DeserializationBenchmark
 {
-    /// <summary>
-    ///     Serializes with <see cref=" Utf8Json.JsonSerializer"/>.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+    [BenchmarkCategory(Group.DeserializationString), Benchmark]
     public ICollection<SimpleModel> Utf8JsonString()
     {
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<SimpleModel>>(_testString);
+        return Serializers.Utf8JsonString<SimpleModel>(_testString);
     }
-    
-    /// <summary>
-    ///     Serializes with Utf8Json.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+
+    [BenchmarkCategory(Group.DeserializationByte), Benchmark]
     public ICollection<SimpleModel> Utf8JsonByte()
     {
-        return Utf8Json.JsonSerializer.Deserialize<ICollection<SimpleModel>>(_testBytes);
+        return Serializers.Utf8JsonByte<SimpleModel>(_testBytes);
     }
 }

@@ -1,11 +1,13 @@
 # Comparing .Length check with .Any check for collection.
 
 ### Table of contents
+
 - [Machine information](#machine-information)
 - [Benchmark results](#benchmark-results)
 - [Conclusions](#conclusions)
 
 <a name="machine-information"></a>
+
 ## Machine Information
 
 ``` ini
@@ -17,6 +19,7 @@ BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3
 ```
 
 <a name="benchmark-results"></a>
+
 ## Benchmark Results
 
 | Method                       | Categories           | Size  |      Mean |     Error |    StdDev |    StdErr |       Min |        Q1 |    Median |        Q3 |       Max |             Op/s | Allocated |
@@ -49,8 +52,8 @@ BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3
 | ListCountPatternExists       | Count Pattern Exists | 10000 | 0.1811 ns | 0.0118 ns | 0.0099 ns | 0.0027 ns | 0.1593 ns | 0.1798 ns | 0.1827 ns | 0.1856 ns | 0.1953 ns |  5,521,226,198.4 |         - |
 | CollectionCountPatternExists | Count Pattern Exists | 10000 | 1.5557 ns | 0.0154 ns | 0.0144 ns | 0.0037 ns | 1.5317 ns | 1.5483 ns | 1.5557 ns | 1.5646 ns | 1.5864 ns |    642,807,376.0 |         - |
 
-
 <a name="conclusions"></a>
+
 ## Conclusions
 
 For array - use native `.Length` or `.Count` methods. Elsewhere, use `.Any` with no performance impact.

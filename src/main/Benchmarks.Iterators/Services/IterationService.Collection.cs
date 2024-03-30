@@ -1,6 +1,7 @@
 ﻿namespace Benchmarks.Iterators.Services;
 
-/// <inheritdoc cref="IterationService" />.
+/// <inheritdoc cref="IterationService" />
+/// .
 public static partial class IterationService
 {
     /// <summary>
@@ -10,14 +11,11 @@ public static partial class IterationService
     {
         var sumResult = 0;
 
-        foreach (var testModel in inputCollection)
-        {
-            sumResult += testModel;
-        }
+        foreach (var testModel in inputCollection) sumResult += testModel;
 
         return sumResult;
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
@@ -25,7 +23,7 @@ public static partial class IterationService
     {
         return inputCollection.Aggregate((a, b) => a + b);
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>

@@ -5,11 +5,8 @@ namespace Benchmarks.QueryBuilder.Services.Query;
 
 /// <inheritdoc />
 public sealed class QueryCustomBuilder : IReadOnlyCollection<KeyValuePair<string, string>>
-{ 
+{
     private readonly IList<KeyValuePair<string, string>> _valuePairs;
-
-    /// <inheritdoc />
-    public int Count { get; private set; }
 
     /// <summary>
     ///     Constructor.
@@ -26,8 +23,23 @@ public sealed class QueryCustomBuilder : IReadOnlyCollection<KeyValuePair<string
     public QueryCustomBuilder(IReadOnlyCollection<KeyValuePair<string, string>> parameters)
     {
         Count += parameters.Sum(pair => pair.Key.Length + pair.Value.Length);
-        
+
         _valuePairs = new List<KeyValuePair<string, string>>(parameters);
+    }
+
+    /// <inheritdoc />
+    public int Count { get; private set; }
+
+    /// <inheritdoc />
+    public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+    {
+        return _valuePairs.GetEnumerator();
+    }
+
+    /// <inheritdoc />
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _valuePairs.GetEnumerator();
     }
 
     /// <summary>
@@ -38,11 +50,11 @@ public sealed class QueryCustomBuilder : IReadOnlyCollection<KeyValuePair<string
     public void Add(string key, IEnumerable<string> values)
     {
         Count += key.Length;
-        
+
         foreach (var value in values)
         {
             Count += value.Length;
-            
+
             _valuePairs.Add(KeyValuePair.Create(key, value));
         }
     }
@@ -55,18 +67,15 @@ public sealed class QueryCustomBuilder : IReadOnlyCollection<KeyValuePair<string
     public void Add(string key, string value)
     {
         Count += key.Length + value.Length;
-        
+
         _valuePairs.Add(KeyValuePair.Create(key, value));
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        if (Count is 0)
-        {
-            return string.Empty;
-        }
-        
+        if (Count is 0) return string.Empty;
+
         var queryLength = Count * 2;
 
         var isStackAlloc = queryLength <= 64;
@@ -78,48 +87,34 @@ public sealed class QueryCustomBuilder : IReadOnlyCollection<KeyValuePair<string
         try
         {
             var first = true;
+
             for (var i = 0; i < _valuePairs.Count; i++)
             {
                 var pair = _valuePairs[i];
                 resultSpan[currentPosition] = first ? '?' : '&';
                 first = false;
                 currentPosition++;
-               
+
                 var escapeKey = System.Uri.EscapeDataString(pair.Key);
                 escapeKey.CopyTo(resultSpan[currentPosition..]);
                 currentPosition += escapeKey.Length;
 
                 resultSpan[currentPosition++] = '=';
-                
+
                 var escapedValue = System.Uri.EscapeDataString(pair.Value);
                 escapedValue.CopyTo(resultSpan[currentPosition..]);
                 currentPosition += escapedValue.Length;
             }
-            
+
             var endIndex = resultSpan.IndexOf('\0');
-            
+
             return endIndex is -1
                 ? resultSpan[..currentPosition].ToString()
                 : resultSpan[..(endIndex > currentPosition ? currentPosition : endIndex)].ToString();
         }
         finally
         {
-            if (array is not null)
-            {
-                ArrayPool<char>.Shared.Return(array);
-            }
+            if (array is not null) ArrayPool<char>.Shared.Return(array);
         }
-    }
-
-    /// <inheritdoc />
-    public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
-    {
-        return _valuePairs.GetEnumerator();
-    }
-
-    /// <inheritdoc />
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return _valuePairs.GetEnumerator();
     }
 }

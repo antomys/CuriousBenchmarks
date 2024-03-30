@@ -1,26 +1,19 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using Benchmark.Serializers;
+using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
 public partial class SerializationBenchmark
 {
-    /// <summary>
-    ///     Serializes with <see cref="SpanJson.JsonSerializer"/> to string.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+    [BenchmarkCategory(Group.SerializationString), Benchmark]
     public string SpanJsonString()
     {
-        return SpanJson.JsonSerializer.Generic.Utf16.Serialize(_simpleModels)!;
+        return Serializers.SpanJsonString(_simpleModels);
     }
-    
-    /// <summary>
-    ///     Serializes with <see cref="SpanJson.JsonSerializer"/> to string.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+
+    [BenchmarkCategory(Group.SerializationByte), Benchmark]
     public byte[] SpanJsonByte()
     {
-        return SpanJson.JsonSerializer.Generic.Utf8.Serialize(_simpleModels)!;
+        return Serializers.SpanJsonByte(_simpleModels);
     }
 }

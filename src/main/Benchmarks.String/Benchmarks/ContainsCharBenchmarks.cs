@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using Benchmarks.String.Services;
@@ -9,16 +10,14 @@ namespace Benchmarks.String.Benchmarks;
 /// <summary>
 ///     Method that tests 'contains' methods.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams)]
-[MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), MarkdownExporterAttribute.GitHub, CsvMeasurementsExporter, RPlotExporter, ExcludeFromCodeCoverage]
 public class ContainsCharBenchmarks
 {
     private const char ExistingChar = ';';
+
     private const char NonExistingChar = '-';
-    
+
     private string _testString = null!;
 
     /// <summary>
@@ -28,7 +27,7 @@ public class ContainsCharBenchmarks
     public void Setup()
     {
         var faker = new Faker();
-       
+
         _testString = $"{faker.Random.String2(faker.Random.Int(1, 50))}{ExistingChar}{faker.Random.String2(faker.Random.Int(1, 50))}";
     }
 
@@ -44,7 +43,7 @@ public class ContainsCharBenchmarks
     {
         return _testString.IndexOf(ExistingChar) is not -1;
     }
-    
+
     /// <summary>
     ///     Benchmark of method 'string.IndexOf' where getting non-existing char.
     /// </summary>
@@ -57,7 +56,7 @@ public class ContainsCharBenchmarks
     {
         return _testString.IndexOf(NonExistingChar) is not -1;
     }
-    
+
     /// <summary>
     ///     Benchmark of method 'string.Contains' where getting existing char.
     /// </summary>
@@ -69,8 +68,8 @@ public class ContainsCharBenchmarks
     public bool ContainsExists()
     {
         return _testString.Contains(ExistingChar);
-    }   
-    
+    }
+
     /// <summary>
     ///     Benchmark of method 'string.Contains' where getting non-existing char.
     /// </summary>
@@ -83,9 +82,9 @@ public class ContainsCharBenchmarks
     {
         return _testString.Contains(NonExistingChar);
     }
-    
+
     /// <summary>
-    ///     Benchmark of method <see cref="RegexStringService.Contains"/> where getting existing char.
+    ///     Benchmark of method <see cref="RegexStringService.Contains" /> where getting existing char.
     /// </summary>
     /// <returns>
     ///     <c>true</c> - when exists
@@ -95,10 +94,10 @@ public class ContainsCharBenchmarks
     public bool ContainsCustomExists()
     {
         return RegexStringService.Contains(_testString, c => c is ExistingChar);
-    }   
-    
+    }
+
     /// <summary>
-    ///     Benchmark of method <see cref="RegexStringService.Contains"/> where getting non-existing char.
+    ///     Benchmark of method <see cref="RegexStringService.Contains" /> where getting non-existing char.
     /// </summary>
     /// <returns>
     ///     <c>true</c> - when exists

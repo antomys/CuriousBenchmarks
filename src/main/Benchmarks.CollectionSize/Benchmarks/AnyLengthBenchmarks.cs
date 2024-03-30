@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using Benchmarks.CollectionSize.Models;
@@ -9,23 +10,20 @@ using Bogus;
 namespace Benchmarks.CollectionSize.Benchmarks;
 
 /// <summary>
-///     Benchmarks of <see cref="AnyLengthService"/>.
+///     Benchmarks of <see cref="AnyLengthService" />.
 /// </summary>
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-[MarkdownExporterAttribute.GitHub]
+[MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory), MarkdownExporterAttribute.GitHub, ExcludeFromCodeCoverage]
 public class AnyLengthBenchmarks
 {
     private TestCollections[] _testCollections = null!;
-    
+
     /// <summary>
     ///     Size of a collection.
     /// </summary>
     [Params(10000)]
     public int Size { get; set; }
-    
+
     /// <summary>
     ///     Globally setting up fake data to every benchmark run.
     /// </summary>
@@ -33,7 +31,7 @@ public class AnyLengthBenchmarks
     public void Setup()
     {
         _testCollections = new TestCollections[2];
-        
+
         _testCollections[0] = new Faker<TestCollections>()
             .RuleFor(testCollections => testCollections.TestArray, fakerSetter => fakerSetter.GetArray(fake => fake.Random.String2(5, 10), Size))
             .RuleFor(testCollections => testCollections.TestList, fakerSetter => fakerSetter.GetList(fake => fake.Random.String2(5, 10), Size))
@@ -53,7 +51,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestArray.CountArray();
     }
-    
+
     /// <summary>
     ///     Test of 'CountList' when collection is full.
     /// </summary>
@@ -63,7 +61,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestList.CountList();
     }
-    
+
     /// <summary>
     ///     Test of 'CountCollection' when collection is full.
     /// </summary>
@@ -73,7 +71,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestICollection.CountCollection();
     }
-    
+
     /// <summary>
     ///     Test of 'CountArrayPattern' when collection is full.
     /// </summary>
@@ -83,7 +81,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestArray.CountArrayPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountListPattern' when collection is full.
     /// </summary>
@@ -93,7 +91,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestList.CountListPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountCollectionPattern' when collection is full.
     /// </summary>
@@ -103,7 +101,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestICollection.CountCollectionPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountEnumerable' when collection is full.
     /// </summary>
@@ -113,7 +111,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestIEnumerable.CountEnumerable();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyArray' when collection is full.
     /// </summary>
@@ -123,7 +121,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestArray.AnyArray();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyList' when collection is full.
     /// </summary>
@@ -133,7 +131,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestList.AnyList();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyCollection' when collection is full.
     /// </summary>
@@ -143,7 +141,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestICollection.AnyCollection();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyEnumerable' when collection is full.
     /// </summary>
@@ -153,7 +151,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[0].TestIEnumerable.AnyEnumerable();
     }
-    
+
     /// <summary>
     ///     Test of 'CountArray' when collection is empty.
     /// </summary>
@@ -163,7 +161,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestArray.CountArray();
     }
-    
+
     /// <summary>
     ///     Test of 'CountList' when collection is empty.
     /// </summary>
@@ -173,7 +171,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestList.CountList();
     }
-    
+
     /// <summary>
     ///     Test of 'CountCollection' when collection is empty.
     /// </summary>
@@ -183,7 +181,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestICollection.CountCollection();
     }
-    
+
     /// <summary>
     ///     Test of 'CountArrayPattern' when collection is empty.
     /// </summary>
@@ -193,7 +191,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestArray.CountArrayPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountListPattern' when collection is empty.
     /// </summary>
@@ -203,7 +201,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestList.CountListPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountCollectionPattern' when collection is empty.
     /// </summary>
@@ -213,7 +211,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestICollection.CountCollectionPattern();
     }
-    
+
     /// <summary>
     ///     Test of 'CountCollectionPattern' when collection is empty.
     /// </summary>
@@ -223,7 +221,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestIEnumerable.CountEnumerable();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyArray' when collection is empty.
     /// </summary>
@@ -233,7 +231,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestArray.AnyArray();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyList' when collection is empty.
     /// </summary>
@@ -243,7 +241,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestList.AnyList();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyCollection' when collection is empty.
     /// </summary>
@@ -253,7 +251,7 @@ public class AnyLengthBenchmarks
     {
         return _testCollections[1].TestICollection.AnyCollection();
     }
-    
+
     /// <summary>
     ///     Test of 'AnyEnumerable' when collection is empty.
     /// </summary>

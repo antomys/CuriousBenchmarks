@@ -1,5 +1,5 @@
-﻿using Benchmarks.Iterators.Services;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
+using Benchmarks.Iterators.Services;
 
 namespace Benchmarks.Iterators.Benchmarks;
 
@@ -31,7 +31,7 @@ public partial class IteratorBenchmarks
     {
         return TestArray.LinqAggregate();
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq.Sum' methods.
     /// </summary>
@@ -40,7 +40,7 @@ public partial class IteratorBenchmarks
     {
         return TestArray.LinqSum();
     }
-    
+
     /// <summary>
     ///     Testing with 'foreach(ref)' methods.
     /// </summary>
@@ -49,7 +49,7 @@ public partial class IteratorBenchmarks
     {
         return TestArray.RefForeach();
     }
-    
+
     /// <summary>
     ///     Testing with '.AsSpan + for' methods.
     /// </summary>

@@ -9,12 +9,12 @@ public sealed class SimpleModel
     ///     Test id.
     /// </summary>
     public int TestInd { get; set; }
-    
+
     /// <summary>
     ///     Test string.
     /// </summary>
     public string? TestString { get; set; }
-    
+
     /// <summary>
     ///     Test date time.
     /// </summary>

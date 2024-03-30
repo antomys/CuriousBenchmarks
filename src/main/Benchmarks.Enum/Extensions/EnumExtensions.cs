@@ -8,11 +8,12 @@ internal static class EnumExtensions
     /// <summary>
     ///     The simplest method to get name of the enum.
     /// </summary>
-    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <param name="testEnum"><see cref="TestEnum" />.</param>
     /// <returns>input enum name.</returns>
     /// <exception cref="ArgumentOutOfRangeException">If out of range of enum.</exception>
-    internal static string GetName(this TestEnum testEnum) 
-        => testEnum switch
+    internal static string GetName(this TestEnum testEnum)
+    {
+        return testEnum switch
         {
             TestEnum.First => nameof(TestEnum.First),
             TestEnum.Second => nameof(TestEnum.Second),
@@ -27,17 +28,19 @@ internal static class EnumExtensions
             TestEnum.Eleventh => nameof(TestEnum.Eleventh),
             TestEnum.Twelfth => nameof(TestEnum.Twelfth),
             TestEnum.Zero => nameof(TestEnum.Zero),
-            _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, message: default)
+            _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, default)
         };
-    
+    }
+
     /// <summary>
     ///     The simplest method to get name of the enum.
     /// </summary>
-    /// <param name="testEnum"><see cref="TestEnum"/>.</param>
+    /// <param name="testEnum"><see cref="TestEnum" />.</param>
     /// <returns>input enum name.</returns>
     /// <exception cref="ArgumentOutOfRangeException">If out of range of enum.</exception>
-    internal static byte GetValue(this TestEnum testEnum) 
-        => testEnum switch
+    internal static byte GetValue(this TestEnum testEnum)
+    {
+        return testEnum switch
         {
             TestEnum.First => 1,
             TestEnum.Second => 2,
@@ -52,6 +55,7 @@ internal static class EnumExtensions
             TestEnum.Eleventh => 11,
             TestEnum.Twelfth => 12,
             TestEnum.Zero => 0,
-            _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, message: default)
+            _ => throw new ArgumentOutOfRangeException(nameof(testEnum), testEnum, default)
         };
+    }
 }

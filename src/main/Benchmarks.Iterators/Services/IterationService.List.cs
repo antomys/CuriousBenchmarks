@@ -2,7 +2,8 @@
 
 namespace Benchmarks.Iterators.Services;
 
-/// <inheritdoc cref="IterationService" />.
+/// <inheritdoc cref="IterationService" />
+/// .
 public static partial class IterationService
 {
     /// <summary>
@@ -11,12 +12,12 @@ public static partial class IterationService
     public static int For(this List<int> inputList)
     {
         var sumResult = 0;
-    
+
         for (var i = 0; i < inputList.Count; i++)
         {
             sumResult += inputList[i];
         }
-    
+
         return sumResult;
     }
 
@@ -27,14 +28,11 @@ public static partial class IterationService
     {
         var sumResult = 0;
 
-        foreach (var testModel in inputList)
-        {
-            sumResult += testModel;
-        }
+        foreach (var testModel in inputList) sumResult += testModel;
 
         return sumResult;
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
@@ -42,7 +40,7 @@ public static partial class IterationService
     {
         return inputList.Aggregate((a, b) => a + b);
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
@@ -50,7 +48,7 @@ public static partial class IterationService
     {
         return inputList.Sum();
     }
-    
+
     /// <summary>
     ///     Testing with 'Ref Foreach' methods.
     /// </summary>
@@ -58,14 +56,11 @@ public static partial class IterationService
     {
         var sumResult = 0;
 
-        foreach (ref var input in CollectionsMarshal.AsSpan(inputList))
-        {
-            sumResult += input;
-        }
+        foreach (ref var input in CollectionsMarshal.AsSpan(inputList)) sumResult += input;
 
         return sumResult;
     }
-    
+
     /// <summary>
     ///     Testing with 'Span For' methods.
     /// </summary>
@@ -74,7 +69,7 @@ public static partial class IterationService
         var sumResult = 0;
 
         var array = CollectionsMarshal.AsSpan(inputList);
-        
+
         for (var i = 0; i < array.Length; i++)
         {
             sumResult += inputList[i];

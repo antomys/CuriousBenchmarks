@@ -1,28 +1,20 @@
-﻿using BenchmarkDotNet.Attributes;
-using Benchmarks.Serializers.Json.Extensions;
-using Benchmarks.Serializers.Json.Models;
+﻿using Benchmark.Serializers;
+using Benchmark.Serializers.Models;
+using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
 public partial class DeserializationBenchmark
 {
-    /// <summary>
-    ///     Serializes with <see cref="System.Text.Json"/>.
-    /// </summary>
-    /// <returns><see cref="string"/>.</returns>
-    [Benchmark]
+    [BenchmarkCategory(Group.DeserializationString), Benchmark]
     public ICollection<SimpleModel>? SystemTextJsonString()
     {
-        return System.Text.Json.JsonSerializer.Deserialize<ICollection<SimpleModel>>(_testString, JsonServiceExtensions.Options);
+        return Serializers.SystemTextJsonString<SimpleModel>(_testString);
     }
-    
-    /// <summary>
-    ///     Serializes with <see cref="System.Text.Json"/>.
-    /// </summary>
-    /// <returns><see cref="string"/>.</returns>
-    [Benchmark]
+
+    [BenchmarkCategory(Group.DeserializationByte), Benchmark]
     public ICollection<SimpleModel>? SystemTextJsonByte()
     {
-        return System.Text.Json.JsonSerializer.Deserialize<ICollection<SimpleModel>>(_testBytes, JsonServiceExtensions.Options);
+        return Serializers.SystemTextJsonByte<SimpleModel>(_testBytes);
     }
 }

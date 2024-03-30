@@ -1,7 +1,7 @@
-﻿using Benchmarks.Iterators.Services;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Benchmarks.Iterators.Models;
+using Benchmarks.Iterators.Services;
 
 namespace Benchmarks.Iterators.Benchmarks;
 
@@ -16,7 +16,7 @@ public partial class IteratorBenchmarks
     {
         TestInputModels.For().Consume(Consumer);
     }
-    
+
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
@@ -25,7 +25,7 @@ public partial class IteratorBenchmarks
     {
         TestInputModels.ForArrayPool().Consume(Consumer);
     }
-    
+
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
@@ -43,7 +43,7 @@ public partial class IteratorBenchmarks
     {
         TestInputModels.Linq().Consume(Consumer);
     }
-    
+
     /// <summary>
     ///     Testing with 'Yield' methods.
     /// </summary>

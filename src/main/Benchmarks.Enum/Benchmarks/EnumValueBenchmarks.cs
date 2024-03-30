@@ -1,11 +1,13 @@
-﻿using Benchmarks.Enum.Services;
+﻿using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
+using Benchmarks.Enum.Services;
 
 namespace Benchmarks.Enum.Benchmarks;
 
 /// <summary>
 ///     Benchmarks of getting int value from enum.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class EnumValueBenchmarks : EnumBenchmarksBase
 {
     /// <summary>

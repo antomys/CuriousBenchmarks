@@ -11,29 +11,14 @@ namespace Benchmarks.Iterators.Benchmarks;
 /// <summary>
 ///     Base class for iterators benchmarks.
 /// </summary>
-[MemoryDiagnoser]
-[AllStatisticsColumn, CategoriesColumn]
-[MarkdownExporterAttribute.GitHub]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
+[MemoryDiagnoser, AllStatisticsColumn, CategoriesColumn, MarkdownExporterAttribute.GitHub, Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory), ExcludeFromCodeCoverage]
 public class BenchmarksBase
 {
     /// <summary>
-    ///     Parameter for models count.
-    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
-    /// </summary>
-    [Params(10, 100000)]
-    public int Size { get; set; }
-
-    /// <summary>
-    ///     <see cref="BenchmarkDotNet.Engines.Consumer"/>.
+    ///     <see cref="BenchmarkDotNet.Engines.Consumer" />.
     /// </summary>
     protected readonly Consumer Consumer = new();
-    
-    /// <summary>
-    ///     List of <see cref="SimpleModel"/>.
-    /// </summary>
-    protected List<SimpleModel> TestInputModels = default!;
 
     /// <summary>
     ///     Array of int.
@@ -41,19 +26,31 @@ public class BenchmarksBase
     protected int[] TestArray = default!;
 
     /// <summary>
+    ///     Collection of int as array
+    /// </summary>
+    protected ICollection<int> TestCollectionArray = default!;
+
+    /// <summary>
+    ///     Collection of int as list
+    /// </summary>
+    protected ICollection<int> TestCollectionList = default!;
+
+    /// <summary>
+    ///     List of <see cref="SimpleModel" />.
+    /// </summary>
+    protected List<SimpleModel> TestInputModels = default!;
+
+    /// <summary>
     ///     List of int.
     /// </summary>
     protected List<int> TestList = default!;
 
     /// <summary>
-    ///     Collection of int as array
+    ///     Parameter for models count.
+    ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
-    protected ICollection<int> TestCollectionArray = default!;
-    
-    /// <summary>
-    ///     Collection of int as list
-    /// </summary>
-    protected ICollection<int> TestCollectionList = default!;
+    [Params(10, 100000)]
+    public int Size { get; set; }
 
     /// <summary>
     ///     Global setup of private and protected parameters.
@@ -63,11 +60,11 @@ public class BenchmarksBase
     {
         var faker = new Faker<SimpleModel>();
         Randomizer.Seed = new Random(420);
-        
+
         TestInputModels = faker
             .RuleFor(testModel => testModel.TestInd, fakerSetter => fakerSetter.Random.Int(-100000, 100000))
-            .RuleFor(testModel => testModel.TestString, fakerSetter=> fakerSetter.Random.String2(10))
-            .RuleFor(testModel => testModel.TestDateTime, fakerSetter=> fakerSetter.Date.Past())
+            .RuleFor(testModel => testModel.TestString, fakerSetter => fakerSetter.Random.String2(10))
+            .RuleFor(testModel => testModel.TestDateTime, fakerSetter => fakerSetter.Date.Past())
             .Generate(Size)!;
 
         TestArray = TestInputModels.Select(model => model.TestInd).ToArray();

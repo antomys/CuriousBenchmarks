@@ -1,29 +1,20 @@
-﻿using System.Text;
+﻿using Benchmark.Serializers;
+using Benchmark.Serializers.Models;
 using BenchmarkDotNet.Attributes;
-using Benchmarks.Serializers.Json.Extensions;
-using Benchmarks.Serializers.Json.Models;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
 public partial class DeserializationBenchmark
 {
-    /// <summary>
-    ///     Serializes with <see cref="NetJSON.NetJSON"/> to string.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+    [BenchmarkCategory(Group.DeserializationString), Benchmark]
     public ICollection<SimpleModel> NetJsonString()
     {
-        return NetJSON.NetJSON.Deserialize<ICollection<SimpleModel>>(_testString, JsonServiceExtensions.NetJsonOptions);
+        return Serializers.NetJsonString<SimpleModel>(_testString);
     }
-    
-    /// <summary>
-    ///     Serializes with <see cref="NetJSON.NetJSON"/> to string.
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    [Benchmark]
+
+    [BenchmarkCategory(Group.DeserializationByte), Benchmark]
     public ICollection<SimpleModel> NetJsonByte()
     {
-        return NetJSON.NetJSON.Deserialize<ICollection<SimpleModel>>(Encoding.UTF8.GetString(_testBytes), JsonServiceExtensions.NetJsonOptions);
+        return Serializers.NetJsonByte<SimpleModel>(_testBytes);
     }
 }

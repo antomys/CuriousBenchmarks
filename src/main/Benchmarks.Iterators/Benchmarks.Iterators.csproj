@@ -9,37 +9,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj" />
+        <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Services\IterationService.Array.cs">
-        <DependentUpon>IterationService.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Services\IterationService.Collection.cs">
-        <DependentUpon>IterationService.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Services\IterationService.List.cs">
-        <DependentUpon>IterationService.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Benchmarks\IteratorBenchmarks.Array.cs">
-        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Benchmarks\IteratorBenchmarks.ICollection.cs">
-        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Benchmarks\IteratorBenchmarks.List.cs">
-        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Benchmarks\IteratorBenchmarks.Serializing.cs">
-        <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Services\IterationService.Array.cs">
+            <DependentUpon>IterationService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\IterationService.Collection.cs">
+            <DependentUpon>IterationService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\IterationService.List.cs">
+            <DependentUpon>IterationService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\IteratorBenchmarks.Array.cs">
+            <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\IteratorBenchmarks.ICollection.cs">
+            <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\IteratorBenchmarks.List.cs">
+            <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\IteratorBenchmarks.Serializing.cs">
+            <DependentUpon>IteratorBenchmarks.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

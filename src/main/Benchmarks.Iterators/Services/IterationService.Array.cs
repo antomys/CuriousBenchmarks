@@ -1,6 +1,7 @@
 ﻿namespace Benchmarks.Iterators.Services;
 
-/// <inheritdoc cref="IterationService" />.
+/// <inheritdoc cref="IterationService" />
+/// .
 public static partial class IterationService
 {
     /// <summary>
@@ -9,12 +10,12 @@ public static partial class IterationService
     public static int For(this int[] inputArray)
     {
         var sumResult = 0;
-    
+
         for (var i = 0; i < inputArray.Length; i++)
         {
             sumResult += inputArray[i];
         }
-    
+
         return sumResult;
     }
 
@@ -25,14 +26,11 @@ public static partial class IterationService
     {
         var sumResult = 0;
 
-        foreach (var testModel in inputArray)
-        {
-            sumResult += testModel;
-        }
+        foreach (var testModel in inputArray) sumResult += testModel;
 
         return sumResult;
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
@@ -40,7 +38,7 @@ public static partial class IterationService
     {
         return inputArray.Aggregate((a, b) => a + b);
     }
-    
+
     /// <summary>
     ///     Testing with 'Linq' methods.
     /// </summary>
@@ -48,7 +46,7 @@ public static partial class IterationService
     {
         return inputArray.Sum();
     }
-    
+
     /// <summary>
     ///     Testing with 'Ref Foreach' methods.
     /// </summary>
@@ -56,14 +54,11 @@ public static partial class IterationService
     {
         var sumResult = 0;
 
-        foreach (ref var input in inputArray.AsSpan())
-        {
-            sumResult += input;
-        }
+        foreach (ref var input in inputArray.AsSpan()) sumResult += input;
 
         return sumResult;
     }
-    
+
     /// <summary>
     ///     Testing with 'Span For' methods.
     /// </summary>
@@ -72,7 +67,7 @@ public static partial class IterationService
         var sumResult = 0;
 
         var array = inputArray.AsSpan();
-        
+
         for (var i = 0; i < array.Length; i++)
         {
             sumResult += inputArray[i];

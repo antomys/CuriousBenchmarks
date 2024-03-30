@@ -1,12 +1,12 @@
 ﻿// using BenchmarkDotNet.Attributes;
-// using Benchmarks.Serializers.Json.Models;
-// using Benchmarks.Serializers.Json.Models.SrcGen;
-// using Benchmarks.Serializers.Json.Services;
+// using Json.Models;
+// using Json.Models.SrcGen;
+// using Json.Services;
 //
-// namespace Benchmarks.Serializers.Json.Benchmarks.Deserialization.Simple;
+// namespace Json.Benchmarks.Serializers.Simple;
 //
 // /// <summary>
-// ///     Deserialization from string benchmarks.
+// ///     Serializers from string benchmarks.
 // /// </summary>
 // public class StringDeserializationSimpleBenchmarks: JsonSimpleBenchmark
 // {
@@ -109,3 +109,4 @@
 //         return JsonSrcGenService.SimpleDeserializeArray(_testString);
 //     }
 // }
+

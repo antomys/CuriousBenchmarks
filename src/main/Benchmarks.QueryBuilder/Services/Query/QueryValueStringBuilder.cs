@@ -22,12 +22,19 @@ public sealed class QueryValueStringBuilder : IEnumerable<KeyValuePair<string, s
         _params = new List<KeyValuePair<string, string>>(parameters);
     }
 
+    public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+    {
+        return _params.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _params.GetEnumerator();
+    }
+
     public void Add(string key, IEnumerable<string> values)
     {
-        foreach (var value in values)
-        {
-            _params.Add(new KeyValuePair<string, string>(key, value));
-        }
+        foreach (var value in values) _params.Add(new KeyValuePair<string, string>(key, value));
     }
 
     public void Add(string key, string value)
@@ -38,8 +45,9 @@ public sealed class QueryValueStringBuilder : IEnumerable<KeyValuePair<string, s
     public override string ToString()
     {
         var builder = new ValueStringBuilder();
-        bool first = true;
-        for (int i = 0; i < _params.Count; i++)
+        var first = true;
+
+        for (var i = 0; i < _params.Count; i++)
         {
             var pair = _params[i];
             builder.Append(first ? "?" : "&");
@@ -65,15 +73,5 @@ public sealed class QueryValueStringBuilder : IEnumerable<KeyValuePair<string, s
     public override bool Equals(object obj)
     {
         return ToQueryString().Equals(obj);
-    }
-
-    public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
-    {
-        return _params.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return _params.GetEnumerator();
     }
 }

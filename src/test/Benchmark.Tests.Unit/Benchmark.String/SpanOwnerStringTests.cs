@@ -4,12 +4,12 @@ using Bogus;
 namespace Benchmark.Tests.Unit.Benchmark.String;
 
 /// <summary>
-///     Test of <see cref="SpanOwnerStringService"/>.
+///     Test of <see cref="SpanOwnerStringService" />.
 /// </summary>
 public sealed class SpanOwnerStringTests
 {
-    private static readonly Faker Faker = new();
-    
+    private readonly static Faker Faker = new();
+
     /// <summary>
     ///     Test of 'SpanOwnerStringService.ToDashFormat' method.
     /// </summary>
@@ -20,19 +20,19 @@ public sealed class SpanOwnerStringTests
         var firstValue = $"{Faker.Random.String2(10)} {Faker.Random.String2(5)}";
         var secondValue = Faker.Random.String2(10);
         var thirdValue = Faker.Random.String2(10);
-        
+
         var expectedString = $"{firstValue} - {secondValue}";
         var expectedCollectionString = $"{firstValue} - {secondValue} - {thirdValue}";
-        
+
         // Act
         var actualString = SpanOwnerStringService.ToDashFormat(firstValue, secondValue);
         var actualCollectionString = SpanOwnerStringService.ToDashFormat(new[] {firstValue, secondValue, thirdValue});
-        
+
         // Arrange
         Assert.Equal(expectedString, actualString);
         Assert.Equal(expectedCollectionString, actualCollectionString);
     }
-    
+
     /// <summary>
     ///     Test of 'SpanOwnerStringService.ToLinkFormat' method.
     /// </summary>
@@ -51,17 +51,17 @@ public sealed class SpanOwnerStringTests
         var expectedOneValue = $"{firstValue1}-{firstValue2}";
         var expectedStackString = $"{firstValue1}-{firstValue2}-{secondValue}";
         var expectedCollectionString = $"{firstValue1}-{firstValue2}-{secondValue}-{thirdValue}";
-        
+
         var expectedArrayPoolString = $"{firstValue1}-{additionalString}";
         additionalString = $"{additionalString}          ";
-        
+
         // Act
         var actualOneValue = SpanOwnerStringService.ToLinkFormat(firstValue);
         var actualStackString = SpanOwnerStringService.ToLinkFormat(firstValue, secondValue);
         var actualArrayPoolString = SpanOwnerStringService.ToLinkFormat(firstValue1, additionalString);
         var actualThreeStrings = SpanOwnerStringService.ToLinkFormat(firstValue, secondValue, thirdValue);
         var actualCollectionString = SpanOwnerStringService.ToLinkFormat(new[] {firstValue, secondValue, thirdValue});
-        
+
         // Arrange
         Assert.Equal(expectedOneValue, actualOneValue);
         Assert.Equal(expectedStackString, actualStackString);
@@ -69,7 +69,7 @@ public sealed class SpanOwnerStringTests
         Assert.Equal(expectedArrayPoolString, actualArrayPoolString);
         Assert.Equal(expectedCollectionString, actualCollectionString);
     }
-    
+
     /// <summary>
     ///     Test of 'SpanOwnerStringService.Contains' method when returns 'true' boolean.
     /// </summary>
@@ -79,18 +79,18 @@ public sealed class SpanOwnerStringTests
         // Arrange
         const char existingChar = ' ';
         const char nonExistingChar = '/';
-        
+
         var inputString = $"{Faker.Random.String2(10)}{existingChar}{Faker.Random.String2(5)}";
-        
+
         // Act
         var actualExistingResult = SpanOwnerStringService.Contains(inputString, c => c is existingChar);
         var actualNonExistingResult = SpanOwnerStringService.Contains(inputString, c => c is nonExistingChar);
-        
+
         // Arrange
         Assert.True(actualExistingResult);
         Assert.False(actualNonExistingResult);
     }
-    
+
     /// <summary>
     ///     Test of 'SpanOwnerStringService.Contains' method when returns 'false' boolean
     /// </summary>
@@ -108,9 +108,9 @@ public sealed class SpanOwnerStringTests
         // Arrange
         Assert.False(actualStringEmptyResult);
     }
-    
+
     /// <summary>
-    ///     Test of 'SpanOwnerStringService.Contains' method when throws <see cref="ArgumentNullException"/>.
+    ///     Test of 'SpanOwnerStringService.Contains' method when throws <see cref="ArgumentNullException" />.
     /// </summary>
     [Fact]
     public void Contains_ThrownArgumentNullException_WhenNullString()

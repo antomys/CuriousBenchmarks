@@ -22,4 +22,4 @@ public sealed class InnerModel
     ///     Test int value.
     /// </summary>
     public int Integer { get; init; }
-};
+}

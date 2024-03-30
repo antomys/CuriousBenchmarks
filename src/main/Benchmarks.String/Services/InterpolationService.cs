@@ -8,9 +8,9 @@ namespace Benchmarks.String.Services;
 public static class InterpolationService
 {
     private const string TestTemplate = "{0}{1}";
-    
-    private static readonly StringBuilder StringBuilder = new();
-    
+
+    private readonly static StringBuilder StringBuilder = new();
+
     /// <summary>
     ///     Interpolates string using string interpolation.
     /// </summary>
@@ -21,7 +21,7 @@ public static class InterpolationService
     {
         return $"{firstValue}{secondValue}";
     }
-    
+
     /// <summary>
     ///     Interpolates string using 'string.Format'.
     /// </summary>
@@ -32,7 +32,7 @@ public static class InterpolationService
     {
         return string.Format(TestTemplate, firstValue, secondValue);
     }
-    
+
     /// <summary>
     ///     Interpolates string using 'string.Concat'.
     /// </summary>
@@ -40,12 +40,12 @@ public static class InterpolationService
     /// <param name="secondValue">Second interpolation value.</param>
     /// <returns>Constructed string.</returns>
     public static string Concat(string firstValue, string secondValue)
-    { 
+    {
         return string.Concat(firstValue, secondValue);
     }
-    
+
     /// <summary>
-    ///     Interpolates string using <see cref="StringBuilder"/> and appending.
+    ///     Interpolates string using <see cref="StringBuilder" /> and appending.
     /// </summary>
     /// <param name="firstValue">First interpolation value.</param>
     /// <param name="secondValue">Second interpolation value.</param>
@@ -58,9 +58,9 @@ public static class InterpolationService
 
         return stringBuilder.ToString();
     }
-    
+
     /// <summary>
-    ///     Interpolates string using static <see cref="StringBuilder"/>, appending and cleaning.
+    ///     Interpolates string using static <see cref="StringBuilder" />, appending and cleaning.
     /// </summary>
     /// <param name="firstValue">First interpolation value.</param>
     /// <param name="secondValue">Second interpolation value.</param>
@@ -75,7 +75,7 @@ public static class InterpolationService
 
         return str;
     }
-    
+
     /// <summary>
     ///     Interpolates string using 'string.Create'.
     /// </summary>

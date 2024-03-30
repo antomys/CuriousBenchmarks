@@ -19,17 +19,14 @@ public static partial class IterationService
 
         for (var i = 0; i < testInputModels.Count; i++)
         {
-            if (testInputModels[i] is null)
-            {
-                continue;
-            }
-            
+            if (testInputModels[i] is null) continue;
+
             testOutputModels[i] = JsonSerializer.Serialize(testInputModels[i]);
         }
 
         return testOutputModels;
     }
-    
+
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
@@ -37,6 +34,7 @@ public static partial class IterationService
     public static string[] ForArrayPool(this List<SimpleModel> testInputModels)
     {
         var pooledArray = ArrayPool<string>.Shared.Rent(testInputModels.Count);
+
         try
         {
             Span<string> spanArray = pooledArray;
@@ -62,7 +60,7 @@ public static partial class IterationService
             ArrayPool<string>.Shared.Return(pooledArray);
         }
     }
-    
+
     /// <summary>
     ///     Testing with 'for' method.
     /// </summary>
@@ -71,29 +69,23 @@ public static partial class IterationService
     {
         foreach (var testModel in testInputModels)
         {
-            if (testModel is null)
-            {
-                continue;
-            }
-            
+            if (testModel is null) continue;
+
             yield return JsonSerializer.Serialize(testModel);
         }
     }
-    
+
     /// <summary>
     ///     Testing with 'Foreach' method.
     /// </summary>
     public static List<string> Foreach(this List<SimpleModel> testInputModels)
     {
         var testOutputModels = new List<string>(testInputModels.Count);
-        
+
         foreach (var testModel in testInputModels)
         {
-            if (testModel is null)
-            {
-                continue;
-            }
-            
+            if (testModel is null) continue;
+
             testOutputModels.Add(JsonSerializer.Serialize(testModel));
         }
 

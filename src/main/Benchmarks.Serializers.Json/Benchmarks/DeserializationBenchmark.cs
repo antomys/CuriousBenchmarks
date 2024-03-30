@@ -1,33 +1,36 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Text;
+using Benchmark.Serializers.Models;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
-using Benchmarks.Serializers.Json.Models;
+using Bogus;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;
 
-[MemoryDiagnoser]
-[CategoriesColumn, AllStatisticsColumn]
-[Orderer(SummaryOrderPolicy.FastestToSlowest)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
+[MemoryDiagnoser,
+ CategoriesColumn,
+ AllStatisticsColumn,
+ Orderer(SummaryOrderPolicy.FastestToSlowest),
+ GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory), ExcludeFromCodeCoverage]
 public partial class DeserializationBenchmark
 {
     /// <summary>
-    ///     Static <see cref="Faker"/> for <see cref="SimpleModel"/>.
+    ///     Static <see cref="Faker" /> for <see cref="SimpleModel" />.
     /// </summary>
-    private readonly static Bogus.Faker<SimpleModel> Faker = new();
-    
+    private readonly static Faker<SimpleModel> Faker = new();
+
+    private byte[] _testBytes = [];
+
+    private string _testString = string.Empty;
+
     /// <summary>
     ///     Size of generation.
     ///     **NOTE:** Intentionally left public for BenchmarkDotNet Params.
     /// </summary>
     [Params(1, 100, 1000)]
     public int CollectionSize { get; set; }
-
-    private string _testString = string.Empty;
-
-    private byte[] _testBytes = [];
 
     /// <summary>
     ///     Setting private fields.
@@ -46,14 +49,16 @@ public partial class DeserializationBenchmark
 
         var span = CollectionsMarshal.AsSpan(models);
 
-        for (int i = 0; i < span.Length - 1; i++)
+        for (var i = 0; i < span.Length - 1; i++)
         {
-            sb.Append(span[i].ToString());
+            sb.Append(span[i]);
             sb.Append(',');
         }
-        sb.Append(span[^1].ToString());
+
+        sb.Append(span[^1]);
         sb.Append(']');
 
         _testString = sb.ToString();
+        _testBytes = Encoding.UTF8.GetBytes(_testString);
     }
 }

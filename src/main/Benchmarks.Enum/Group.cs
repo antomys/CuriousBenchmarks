@@ -6,6 +6,6 @@
 internal static class Group
 {
     internal const string Name = "Get Enum Name";
-    
+
     internal const string Value = "Get Enum Value";
 }

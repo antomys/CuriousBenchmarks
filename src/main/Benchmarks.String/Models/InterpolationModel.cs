@@ -9,7 +9,7 @@ public sealed class InterpolationModel
     ///     First value
     /// </summary>
     public string FirstValue { get; set; } = string.Empty;
-    
+
     /// <summary>
     ///     Second value.
     /// </summary>

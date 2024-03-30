@@ -1,6 +1,8 @@
-﻿using Benchmarks.Serializers.Json.Models.SrcGen;
+﻿using BenchmarkDotNet.Running;
+using Benchmarks.Serializers.Json.Models;
+using JsonSrcGen;
 
-[assembly: JsonSrcGen.JsonArray(typeof(ComplexSrcGenModel))]
-[assembly: JsonSrcGen.JsonArray(typeof(SimpleSrcGenModel))]
+[assembly: JsonArray(typeof(ComplexSrcGenModel))]
+[assembly: JsonArray(typeof(SimpleSrcGenModel))]
 
-BenchmarkDotNet.Running.BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
+BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
