@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using Benchmark.Tests.Unit.Benchmark.Serializers.Models;
+using Benchmarks.Tests.Unit.Benchmark.Serializers.Models;
 using FluentAssertions;
 using Utf8Json;
 
-namespace Benchmark.Tests.Unit.Benchmark.Serializers.Json;
+namespace Benchmarks.Tests.Unit.Benchmark.Serializers.Json;
 
 /// <summary>
 ///     Unit tests for service <see cref="Utf8JsonService" />.

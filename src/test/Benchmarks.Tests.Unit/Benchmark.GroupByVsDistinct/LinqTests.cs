@@ -2,7 +2,7 @@ using Benchmarks.GroupByVsDistinct.Models;
 using Benchmarks.GroupByVsDistinct.Services;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.GroupByVsDistinct;
+namespace Benchmarks.Tests.Unit.Benchmark.GroupByVsDistinct;
 
 /// <summary>
 ///     Tests of <see cref="LinqService" />.

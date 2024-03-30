@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Benchmarks.Iterators.Models;
 
-namespace Benchmark.Tests.Unit.Benchmark.Iterators;
+namespace Benchmarks.Tests.Unit.Benchmark.Iterators;
 
 /// <summary>
 ///     Unit test model.

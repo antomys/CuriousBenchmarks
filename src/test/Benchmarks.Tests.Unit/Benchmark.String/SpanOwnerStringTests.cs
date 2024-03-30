@@ -1,17 +1,17 @@
 ﻿using Benchmarks.String.Services;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.String;
+namespace Benchmarks.Tests.Unit.Benchmark.String;
 
 /// <summary>
-///     Tests of <see cref="ArrayPoolStringService" />
+///     Test of <see cref="SpanOwnerStringService" />.
 /// </summary>
-public sealed class ArrayPoolStringTests
+public sealed class SpanOwnerStringTests
 {
     private readonly static Faker Faker = new();
 
     /// <summary>
-    ///     Test of 'ArrayPoolStringService.ToDashFormat' method.
+    ///     Test of 'SpanOwnerStringService.ToDashFormat' method.
     /// </summary>
     [Fact]
     public void ToDashFormat_Returns_RightDashedView()
@@ -25,8 +25,8 @@ public sealed class ArrayPoolStringTests
         var expectedCollectionString = $"{firstValue} - {secondValue} - {thirdValue}";
 
         // Act
-        var actualString = ArrayPoolStringService.ToDashFormat(firstValue, secondValue);
-        var actualCollectionString = ArrayPoolStringService.ToDashFormat(new[] {firstValue, secondValue, thirdValue});
+        var actualString = SpanOwnerStringService.ToDashFormat(firstValue, secondValue);
+        var actualCollectionString = SpanOwnerStringService.ToDashFormat(new[] {firstValue, secondValue, thirdValue});
 
         // Arrange
         Assert.Equal(expectedString, actualString);
@@ -34,8 +34,7 @@ public sealed class ArrayPoolStringTests
     }
 
     /// <summary>
-    ///     Test of 'ArrayPoolStringService.ToLinkFormat' method.
-    ///     TODO: fix ArrayPool. Because it is flaky
+    ///     Test of 'SpanOwnerStringService.ToLinkFormat' method.
     /// </summary>
     [Fact]
     public void ToLinkFormat_Returns_RightLink()
@@ -57,22 +56,22 @@ public sealed class ArrayPoolStringTests
         additionalString = $"{additionalString}          ";
 
         // Act
-        var actualOneValue = ArrayPoolStringService.ToLinkFormat(firstValue);
-        var actualStackString = ArrayPoolStringService.ToLinkFormat(firstValue, secondValue);
-        // var actualArrayPoolString = ArrayPoolStringService.ToLinkFormat(firstValue1, additionalString);
-        var actualThreeStrings = ArrayPoolStringService.ToLinkFormat(firstValue, secondValue, thirdValue);
-        var actualCollectionString = ArrayPoolStringService.ToLinkFormat([firstValue, secondValue, thirdValue]);
+        var actualOneValue = SpanOwnerStringService.ToLinkFormat(firstValue);
+        var actualStackString = SpanOwnerStringService.ToLinkFormat(firstValue, secondValue);
+        var actualArrayPoolString = SpanOwnerStringService.ToLinkFormat(firstValue1, additionalString);
+        var actualThreeStrings = SpanOwnerStringService.ToLinkFormat(firstValue, secondValue, thirdValue);
+        var actualCollectionString = SpanOwnerStringService.ToLinkFormat(new[] {firstValue, secondValue, thirdValue});
 
         // Arrange
         Assert.Equal(expectedOneValue, actualOneValue);
         Assert.Equal(expectedStackString, actualStackString);
-        // Assert.Equal(expectedArrayPoolString, actualArrayPoolString);
-        Assert.Equal(expectedCollectionString, actualCollectionString);
         Assert.Equal(expectedCollectionString, actualThreeStrings);
+        Assert.Equal(expectedArrayPoolString, actualArrayPoolString);
+        Assert.Equal(expectedCollectionString, actualCollectionString);
     }
 
     /// <summary>
-    ///     Test of 'ArrayPoolStringService.Contains' method when returns 'true' boolean.
+    ///     Test of 'SpanOwnerStringService.Contains' method when returns 'true' boolean.
     /// </summary>
     [Fact]
     public void Contains_Returns_RightBool()
@@ -84,8 +83,8 @@ public sealed class ArrayPoolStringTests
         var inputString = $"{Faker.Random.String2(10)}{existingChar}{Faker.Random.String2(5)}";
 
         // Act
-        var actualExistingResult = ArrayPoolStringService.Contains(inputString, c => c is existingChar);
-        var actualNonExistingResult = ArrayPoolStringService.Contains(inputString, c => c is nonExistingChar);
+        var actualExistingResult = SpanOwnerStringService.Contains(inputString, c => c is existingChar);
+        var actualNonExistingResult = SpanOwnerStringService.Contains(inputString, c => c is nonExistingChar);
 
         // Arrange
         Assert.True(actualExistingResult);
@@ -93,7 +92,7 @@ public sealed class ArrayPoolStringTests
     }
 
     /// <summary>
-    ///     Test of 'ArrayPoolStringService.Contains' method when returns 'false' boolean
+    ///     Test of 'SpanOwnerStringService.Contains' method when returns 'false' boolean
     /// </summary>
     [Fact]
     public void Contains_ReturnsFalse_WhenEmpty()
@@ -104,14 +103,14 @@ public sealed class ArrayPoolStringTests
         var inputString = string.Empty;
 
         // Act
-        var actualStringEmptyResult = ArrayPoolStringService.Contains(inputString, c => c is randomChar);
+        var actualStringEmptyResult = SpanOwnerStringService.Contains(inputString, c => c is randomChar);
 
         // Arrange
         Assert.False(actualStringEmptyResult);
     }
 
     /// <summary>
-    ///     Test of 'ArrayPoolStringService.Contains' method when throws <see cref="ArgumentNullException" />.
+    ///     Test of 'SpanOwnerStringService.Contains' method when throws <see cref="ArgumentNullException" />.
     /// </summary>
     [Fact]
     public void Contains_ThrownArgumentNullException_WhenNullString()
@@ -120,6 +119,6 @@ public sealed class ArrayPoolStringTests
         const char randomChar = ' ';
 
         // Act + Assert
-        Assert.Throws<ArgumentNullException>(() => ArrayPoolStringService.Contains(null, c => c is randomChar));
+        Assert.Throws<ArgumentNullException>(() => SpanOwnerStringService.Contains(null, c => c is randomChar));
     }
 }

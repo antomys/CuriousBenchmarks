@@ -2,7 +2,7 @@
 using Benchmarks.QueryBuilder.Services.Query;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.QueryBuilder;
+namespace Benchmarks.Tests.Unit.Benchmark.QueryBuilder;
 
 /// <summary>
 ///     Testing of query service (<see cref="QueryService" />).

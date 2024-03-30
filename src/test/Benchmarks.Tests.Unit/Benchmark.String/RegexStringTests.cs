@@ -1,7 +1,7 @@
 ﻿using Benchmarks.String.Services;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.String;
+namespace Benchmarks.Tests.Unit.Benchmark.String;
 
 /// <summary>
 ///     Test of <see cref="RegexStringService" />.

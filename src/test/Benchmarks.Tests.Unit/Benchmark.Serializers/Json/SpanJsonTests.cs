@@ -1,8 +1,8 @@
-﻿using Benchmark.Tests.Unit.Benchmark.Serializers.Models;
+﻿using Benchmarks.Tests.Unit.Benchmark.Serializers.Models;
 using FluentAssertions;
 using SpanJson;
 
-namespace Benchmark.Tests.Unit.Benchmark.Serializers.Json;
+namespace Benchmarks.Tests.Unit.Benchmark.Serializers.Json;
 
 /// <summary>
 ///     Unit tests of service <see cref="SpanJsonService" />.

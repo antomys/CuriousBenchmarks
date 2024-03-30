@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using Benchmark.Tests.Unit.Benchmark.Serializers.Models;
+using Benchmarks.Tests.Unit.Benchmark.Serializers.Models;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.Serializers.Json;
+namespace Benchmarks.Tests.Unit.Benchmark.Serializers.Json;
 
 /// <summary>
 ///     Base class with arranged values.

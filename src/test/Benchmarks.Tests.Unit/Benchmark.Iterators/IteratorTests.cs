@@ -2,7 +2,7 @@ using Benchmarks.Iterators.Models;
 using Benchmarks.Iterators.Services;
 using Bogus;
 
-namespace Benchmark.Tests.Unit.Benchmark.Iterators;
+namespace Benchmarks.Tests.Unit.Benchmark.Iterators;
 
 /// <summary>
 ///     Tests for "Iterators.Benchmarks.Services.IterationService"..

@@ -1,7 +1,7 @@
 ﻿using Benchmarks.Enum;
 using Benchmarks.Enum.Services;
 
-namespace Benchmark.Tests.Unit.Benchmark.Enum;
+namespace Benchmarks.Tests.Unit.Benchmark.Enum;
 
 /// <summary>
 ///     Tests for service <see cref="EnumNameService" />.

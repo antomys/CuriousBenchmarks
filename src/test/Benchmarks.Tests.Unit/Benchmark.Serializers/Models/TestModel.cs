@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using ProtoBuf;
 using ZeroFormatter;
 
-namespace Benchmark.Tests.Unit.Benchmark.Serializers.Models;
+namespace Benchmarks.Tests.Unit.Benchmark.Serializers.Models;
 
 /// <summary>
 ///     Test model.

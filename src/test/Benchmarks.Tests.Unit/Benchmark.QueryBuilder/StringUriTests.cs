@@ -1,6 +1,6 @@
 using Benchmarks.QueryBuilder.Services.Uri;
 
-namespace Benchmark.Tests.Unit.Benchmark.QueryBuilder;
+namespace Benchmarks.Tests.Unit.Benchmark.QueryBuilder;
 
 /// <summary>
 ///     Testing of methods from <see cref="StringUriCombineService" />.

@@ -1,7 +1,7 @@
-﻿using Benchmark.Tests.Unit.Benchmark.Serializers.Models;
+﻿using Benchmarks.Tests.Unit.Benchmark.Serializers.Models;
 using FluentAssertions;
 
-namespace Benchmark.Tests.Unit.Benchmark.Serializers.Json;
+namespace Benchmarks.Tests.Unit.Benchmark.Serializers.Json;
 
 /// <summary>
 ///     Unit tests of service <see cref="Jil" />.
