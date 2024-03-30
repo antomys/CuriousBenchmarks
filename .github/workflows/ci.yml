@@ -15,12 +15,8 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Restore
-        run: dotnet restore
-
       - name: Build
         run: dotnet build --configuration Release
 
-      # current tests are written for visual studio only
       - name: Test
         run: dotnet test src/test/Benchmarks.Tests.Unit.csproj --logger:"console;verbosity=normal"
