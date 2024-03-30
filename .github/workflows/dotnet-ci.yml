@@ -16,9 +16,21 @@ env:
   NUGET_XMLDOC_MODE: skip
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   DOTNET_VERSION: |
-    8.x
+    6.x
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Setup .NET SDK # detected from global.json
+        uses: actions/setup-dotnet@v4.0.0
+      - name: Add Problem Matcher for dotnet-format
+        uses: xt0rted/dotnet-format-problem-matcher@v1.2.0
+      - name: Lint
+        run: dotnet format --verify-no-changes --verbosity detailed
+
   validate:
     name: Validate NuGet Lock Files
     runs-on: ubuntu-latest
@@ -71,10 +83,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        framework: [net8.0]
+        framework: [net6.0]
         include:
           - os: windows-latest
-            framework: net8
+            framework: net48
     steps:
       - uses: actions/checkout@v4.1.2
       - name: Setup .NET SDK
