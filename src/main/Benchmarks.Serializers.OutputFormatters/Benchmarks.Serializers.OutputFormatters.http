@@ -1,0 +1,6 @@
+@Benchmarks.Serializers.OutputFormatters_HostAddress = http://localhost:5022
+
+GET {{Benchmarks.Serializers.OutputFormatters_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
