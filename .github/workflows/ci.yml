@@ -1,25 +1,110 @@
-﻿name: dotnet package
+﻿name: .NET CI
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+  NUGET_XMLDOC_MODE: skip
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  DOTNET_VERSION: |
+    8.x
 
 jobs:
-  build:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ "8.x" ]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+      - uses: actions/checkout@v4.1.2
+      - name: Setup .NET SDK # detected from global.json
+        uses: actions/setup-dotnet@v4.0.0
+      - name: Add Problem Matcher for dotnet-format
+        uses: xt0rted/dotnet-format-problem-matcher@v1.2.0
+      - name: Lint
+        run: dotnet format --verify-no-changes --verbosity detailed
+
+  validate:
+    name: Validate NuGet Lock Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: ${{ vars.DOTNET_SDK_VERSIONS }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
 
-#      - name: Restore
-#        run: dotnet restore
-#
-#      - name: Build
-#        run: dotnet build  --configuration Release
+      - name: Restore with lock files
+        run: dotnet restore --locked-mode
 
+  restore:
+    name: Update NuGet Lock Files
+    needs: validate
+    if: failure() && contains(github.head_ref, 'dependabot') && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.2
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ vars.DOTNET_SDK_VERSIONS }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore and Update Lock Files
+        run: dotnet restore --force-evaluate
+      - name: Run ECLint
+        run: npx eclint fix "**/packages.lock.json"
+
+      - name: Commit & Push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add .
+          git commit -m "chore(deps): update NuGet lock file"
+          git push
+
+  test:
+    name: Debug Build & Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        framework: [net8.0]
+        include:
+          - os: windows-latest
+            framework: net8
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ vars.DOTNET_SDK_VERSIONS }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
       - name: Test
-        run: dotnet test --logger:"console;verbosity=normal"
+        run: dotnet test --framework ${{ matrix.framework }} --no-build --settings coverlet.runsettings
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.4
+        with:
+          flags: ${{ runner.os }},${{ matrix.framework }}
+          files: "*.opencover.xml"
