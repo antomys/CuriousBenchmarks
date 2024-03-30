@@ -16,10 +16,10 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore
-        run: dotnet restore src/main/*/*.csproj
+        run: dotnet restore
 
       - name: Build
-        run: dotnet build src/main/*/*.csproj --configuration Release
+        run: dotnet build --configuration Release
 
       # current tests are written for visual studio only
       - name: Test
