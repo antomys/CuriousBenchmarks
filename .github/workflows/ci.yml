@@ -1,29 +1,25 @@
-﻿name: Build & Test
+﻿name: dotnet package
 
-on:
-  push:
-    branches: [ "master" ]
-    tags: ['*']
-  pull_request:
-    types: [ opened, synchronize ]
-    branches: [ "master" ]
-
-env:
-  NuGetDirectory: ${{ github.workspace }}\nuget
+on: [ push ]
 
 jobs:
-  build_test_and_pack:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ "8.x" ]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .net
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: |
-            8.x
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build -c Release --no-restore
-      - name: Tests
-        run: dotnet test -c Release --no-build --verbosity normal
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+#      - name: Restore
+#        run: dotnet restore
+#
+#      - name: Build
+#        run: dotnet build  --configuration Release
+
+      - name: Test
+        run: dotnet test src/test/Benchmarks.Tests.Unit.csproj --logger:"console;verbosity=normal"
