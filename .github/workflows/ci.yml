@@ -22,4 +22,4 @@ jobs:
 #        run: dotnet build  --configuration Release
 
       - name: Test
-        run: dotnet test src/test/Benchmarks.Tests.Unit.csproj --logger:"console;verbosity=normal"
+        run: dotnet test --logger:"console;verbosity=normal"
