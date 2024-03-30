@@ -44,6 +44,12 @@ public class SerializationBenchmark
     }
     
     [BenchmarkCategory(Group.SerializationByte), Benchmark]
+    public byte[] MsgPackLight()
+    {
+        return Serializers.MsgPackLightSerializeBytes(_simpleModels);
+    }
+    
+    [BenchmarkCategory(Group.SerializationByte), Benchmark]
     public byte[] MemoryPack()
     {
         return Serializers.MemoryPackSerializeBytes(_simpleModels);

@@ -56,6 +56,12 @@ public partial class DeserializationBenchmark
     }
     
     [BenchmarkCategory(Group.DeserializationByte), Benchmark]
+    public ICollection<SimpleModel> MsgPackLight()
+    {
+        return Serializers.MsgPackLightDeserializeBytes(_msgPackBytes);
+    }
+    
+    [BenchmarkCategory(Group.DeserializationByte), Benchmark]
     public ICollection<SimpleModel> MemoryPack()
     {
         return Serializers.MemoryPackDeserializeBytes<SimpleModel>(_memPackBytes);

@@ -38,6 +38,9 @@
       <Compile Update="SerializationBenchmark.ZeroFormatter.cs">
         <DependentUpon>Serializers.cs</DependentUpon>
       </Compile>
+      <Compile Update="Serializers.MsgPackLight.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
