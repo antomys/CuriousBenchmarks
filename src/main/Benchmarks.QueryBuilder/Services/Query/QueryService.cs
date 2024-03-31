@@ -25,7 +25,7 @@ public static class QueryService
     /// <returns>Constructed query string</returns>
     public static string QueryDictionary(string url, Dictionary<string, string> queryDictionary)
     {
-        return QueryHelpers.AddQueryString(url, queryDictionary);
+        return QueryHelpers.AddQueryString(url, queryDictionary!);
     }
 
     /// <summary>

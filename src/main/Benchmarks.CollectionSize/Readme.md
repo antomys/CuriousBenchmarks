@@ -105,7 +105,7 @@ Now, let's see same methods on a collection with 10k entities:
 
 ![Plot](../../../assets/benchmarks.collectionsize/any-10k-elements.png)
 
-Here is an interesting situation occurs. As we can see, `T[].Any()` is **drastically** slower, that any collections. Currently, it is an open question to me why it occurs.
+As we can see, `T[].Any()` is **drastically** slower, that any collections. Currently, it is an open question to me why it occurs.
 
 Also, using `.Any()` on `List<T>`, `ICollection<T>` and `T[]` is **drastically** , than using a `.Count` field.
 
