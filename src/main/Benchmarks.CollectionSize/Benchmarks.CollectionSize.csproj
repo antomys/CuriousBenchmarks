@@ -18,4 +18,16 @@
         <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Services\AnyLengthService.Count.cs">
+        <DependentUpon>AnyLengthService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\AnyLengthService.CountPattern.cs">
+        <DependentUpon>AnyLengthService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\AnyLengthService.Any.cs">
+        <DependentUpon>AnyLengthService.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

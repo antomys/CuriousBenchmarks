@@ -2,16 +2,24 @@
 
 ## Table of contents
 
+- [Reasons and introduction](#reasons-and-introduction)
 - [Machine information](#machine-information)
 - [Benchmark results](#benchmark-results)
     * [Getting integer value from Enum](#getting-integer-value-from-enum)
     * [Getting Name of current Enum](#getting-name-of-current-enum)
 - [Conclusions](#conclusions)
 
+<a name="reasons-and-introduction"></a>
+## Reasons and introduction
+
+The main purpose of benchmark comparison is to find out the best way possible to check:
+- How to get `Enum` name in the fastest way;
+- How to get a value from the `Enum` in a `string` the fastest way;
+
+Benchmarks use different approaches, found all over the internet
+
 <a name="machine-info"></a>
-
 ## Machine Information
-
 ``` ini
 BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3)
 13th Gen Intel Core i9-13905H, 1 CPU, 20 logical and 14 physical cores
@@ -21,7 +29,6 @@ BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3
 ```
 
 <a name="benchmark-results"></a>
-
 ## Benchmark results
 
 <a name="getting-integer-value-from-enum"></a>
