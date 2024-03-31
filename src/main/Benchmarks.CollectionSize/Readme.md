@@ -1,4 +1,4 @@
-# Comparing Different Collection checks with different collections
+# Comparing Collection existence checks with different collections
 
 ### Table of contents
 

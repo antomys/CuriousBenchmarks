@@ -8,7 +8,7 @@ using ProGaudi.MsgPack.Light;
 using ProtoBuf;
 using ZeroFormatter;
 
-namespace Benchmark.Serializers.Models;
+namespace Benchmarks.Serializers.Models;
 
 /// <summary>
 ///     Simple deserialization model. Used for tests.

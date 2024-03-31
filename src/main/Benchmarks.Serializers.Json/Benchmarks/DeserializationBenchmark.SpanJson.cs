@@ -1,5 +1,5 @@
-﻿using Benchmark.Serializers;
-using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers;
+using Benchmarks.Serializers.Models;
 using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;

@@ -1,4 +1,4 @@
-﻿using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers.Models;
 using Bogus;
 
 namespace Benchmarks.Serializers.OutputFormatters.Extensions;

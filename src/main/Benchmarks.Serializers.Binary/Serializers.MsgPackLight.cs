@@ -1,7 +1,7 @@
-﻿using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers.Models;
 using ProGaudi.MsgPack.Light;
 
-namespace Benchmark.Serializers.Binary;
+namespace Benchmarks.Serializers.Binary;
 
 public static partial class Serializers
 {

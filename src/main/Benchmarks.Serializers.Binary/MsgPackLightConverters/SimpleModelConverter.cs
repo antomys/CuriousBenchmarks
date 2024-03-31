@@ -1,10 +1,10 @@
-﻿using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers.Models;
 using FastSerialization;
 using ProGaudi.MsgPack.Light;
 
-namespace Benchmark.Serializers.Binary.MsgPackLightConverters;
+namespace Benchmarks.Serializers.Binary.MsgPackLightConverters;
 
-sealed internal class SimpleModelsConverter : IMsgPackConverter<ICollection<SimpleModel>>
+sealed internal class SimpleModelConverter : IMsgPackConverter<SimpleModel>
 {
     private IMsgPackConverter<string> _stringConverter;
     private IMsgPackConverter<int> _intConverter;
@@ -30,46 +30,7 @@ sealed internal class SimpleModelsConverter : IMsgPackConverter<ICollection<Simp
         _stringConverter.Write(nameof(value.TestBool), writer);
         _boolConverter.Write(value.TestBool, writer);
     }
-
-    public void Write(ICollection<SimpleModel> value, IMsgPackWriter writer)
-    {
-        if (value == null)
-        {
-            _context.NullConverter.Write(null, writer);
-            return;
-        }
-
-        writer.WriteArrayHeader((uint)value.Count);
-
-        foreach (var model in value)
-        {
-            Write(model, writer);
-        }
-    }
-
-    ICollection<SimpleModel> IMsgPackConverter<ICollection<SimpleModel>>.Read(IMsgPackReader reader)
-    {
-        var length = reader.ReadArrayLength();
-        if (length is null)
-        {
-            return null!;
-        }
-
-        if (length is 0)
-        {
-            throw new SerializationException("Bad format");
-        }
-
-        var result = new List<SimpleModel>((int)length);
-        for (int i = 0; i < length; i++)
-        {
-            result.Add(Read(reader));
-        }
-
-
-        return result;
-    }
-
+    
     public SimpleModel Read(IMsgPackReader reader)
     {
         var length = reader.ReadMapLength();

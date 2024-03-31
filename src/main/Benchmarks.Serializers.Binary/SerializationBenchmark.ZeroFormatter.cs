@@ -1,4 +1,4 @@
-﻿namespace Benchmark.Serializers.Binary;
+﻿namespace Benchmarks.Serializers.Binary;
 
 public static partial class Serializers
 {

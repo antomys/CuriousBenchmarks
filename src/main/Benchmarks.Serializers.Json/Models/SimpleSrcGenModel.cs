@@ -1,4 +1,4 @@
-﻿using Benchmark.Serializers;
+﻿using Benchmarks.Serializers;
 using JsonSrcGen;
 
 namespace Benchmarks.Serializers.Json.Models;

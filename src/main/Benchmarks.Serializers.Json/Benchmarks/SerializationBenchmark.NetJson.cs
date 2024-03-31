@@ -1,4 +1,4 @@
-﻿using Benchmark.Serializers;
+﻿using Benchmarks.Serializers;
 using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks.Serializers.Json.Benchmarks;

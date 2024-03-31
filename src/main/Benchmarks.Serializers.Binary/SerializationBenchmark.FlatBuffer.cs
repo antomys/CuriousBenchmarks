@@ -1,7 +1,7 @@
-﻿using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers.Models;
 using Google.FlatBuffers;
 
-namespace Benchmark.Serializers.Binary;
+namespace Benchmarks.Serializers.Binary;
 
 public static partial class Serializers
 {

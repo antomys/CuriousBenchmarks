@@ -1,4 +1,4 @@
-using Benchmark.Serializers.Models;
+using Benchmarks.Serializers.Models;
 using Benchmarks.Serializers.OutputFormatters.Extensions;
 using Benchmarks.Serializers.OutputFormatters.Formatters.Jil;
 using Benchmarks.Serializers.OutputFormatters.Formatters.MemoryPack;

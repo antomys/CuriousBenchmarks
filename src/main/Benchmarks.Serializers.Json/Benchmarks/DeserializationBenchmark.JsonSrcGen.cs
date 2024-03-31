@@ -1,4 +1,4 @@
-﻿using Benchmark.Serializers;
+﻿using Benchmarks.Serializers;
 using BenchmarkDotNet.Attributes;
 using Benchmarks.Serializers.Json.Models;
 

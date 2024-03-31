@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Benchmark.Serializers.Models;
+using Benchmarks.Serializers.Models;
 
-namespace Benchmark.Serializers;
+namespace Benchmarks.Serializers;
 
 /// <inheritdoc cref="System.Text.Json.Serialization.JsonSerializerContext" />
 [JsonSerializable(typeof(ICollection<ComplexModel>)), JsonSerializable(typeof(ICollection<SimpleModel>)), JsonSourceGenerationOptions(

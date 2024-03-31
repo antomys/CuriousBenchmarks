@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Benchmark.Serializers;
+using Benchmarks.Serializers;
 
 namespace Benchmarks.Serializers.OutputFormatters.Formatters.SystemTextJson;
 

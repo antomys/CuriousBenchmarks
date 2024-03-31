@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Benchmark.Serializers\Benchmark.Serializers.csproj" />
+      <ProjectReference Include="..\Benchmarks.Serializers\Benchmarks.Serializers.csproj" />
       <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj" />
     </ItemGroup>
 

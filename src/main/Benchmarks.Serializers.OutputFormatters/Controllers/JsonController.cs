@@ -1,4 +1,4 @@
-﻿using Benchmark.Serializers.Models;
+﻿using Benchmarks.Serializers.Models;
 using Benchmarks.Serializers.OutputFormatters.Extensions;
 using Microsoft.AspNetCore.Mvc;
 

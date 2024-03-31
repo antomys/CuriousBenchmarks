@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using Benchmark.Serializers.Models;
-using ModelsJsonContext = Benchmark.Serializers.ModelsJsonContext;
+using Benchmarks.Serializers.Models;
+using ModelsJsonContext = Benchmarks.Serializers.ModelsJsonContext;
 
 namespace Benchmarks.Serializers.Json;
 

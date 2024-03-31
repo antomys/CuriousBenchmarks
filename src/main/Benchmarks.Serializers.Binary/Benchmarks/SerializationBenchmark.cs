@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Benchmark.Serializers.Models;
+using Benchmarks.Serializers.Models;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using Bogus;
 
-namespace Benchmark.Serializers.Binary.Benchmarks;
+namespace Benchmarks.Serializers.Binary.Benchmarks;
 
 [MemoryDiagnoser, CategoriesColumn, AllStatisticsColumn, Orderer(SummaryOrderPolicy.FastestToSlowest),
  GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory), ExcludeFromCodeCoverage]

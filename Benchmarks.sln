@@ -30,11 +30,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.GroupByVsDistinc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Serializers.Json", "src\main\Benchmarks.Serializers.Json\Benchmarks.Serializers.Json.csproj", "{D77ECBF2-F77F-4058-A7D6-9EBD8C02BD38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark.Serializers", "src\main\Benchmark.Serializers\Benchmark.Serializers.csproj", "{7B2061F3-ECE3-48D6-93E2-C3424524A8A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Serializers", "src\main\Benchmarks.Serializers\Benchmarks.Serializers.csproj", "{7B2061F3-ECE3-48D6-93E2-C3424524A8A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serializers", "Serializers", "{8C6AAFA5-5455-45BC-95DE-898098E85ED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark.Serializers.Binary", "src\main\Benchmark.Serializers.Binary\Benchmark.Serializers.Binary.csproj", "{2BCB8C2D-7AEF-4074-B865-7401990BD333}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Serializers.Binary", "src\main\Benchmarks.Serializers.Binary\Benchmarks.Serializers.Binary.csproj", "{2BCB8C2D-7AEF-4074-B865-7401990BD333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Serializers.OutputFormatters", "src\main\Benchmarks.Serializers.OutputFormatters\Benchmarks.Serializers.OutputFormatters.csproj", "{9ECFEB36-1492-4F8A-8524-0694EAAF8919}"
 EndProject

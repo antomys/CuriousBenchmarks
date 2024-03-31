@@ -1,25 +1,95 @@
-﻿| Method         | GenerationSize |             Mean |           Error |           StdDev |          StdErr |           Median |              Min |               Q1 |               Q3 |              Max |          Op/s | Ratio | RatioSD |      Gen0 |      Gen1 |     Gen2 |   Allocated | Alloc Ratio |       
-|----------------|----------------|-----------------:|----------------:|-----------------:|----------------:|-----------------:|-----------------:|-----------------:|-----------------:|-----------------:|--------------:|------:|--------:|----------:|----------:|---------:|------------:|------------:|
-| DistinctTake   | 10             |         487.1 ns |         1.33 ns |          1.11 ns |         0.31 ns |         487.2 ns |         485.3 ns |         486.2 ns |         487.4 ns |         489.5 ns | 2,053,164.993 |  0.68 |    0.00 |    0.0744 |         - |        - |       936 B |        0.50 |       
-| DistinctByTake | 10             |         530.0 ns |         0.73 ns |          0.65 ns |         0.17 ns |         530.1 ns |         529.0 ns |         529.4 ns |         530.5 ns |         530.9 ns | 1,886,853.086 |  0.74 |    0.00 |    0.0744 |         - |        - |       936 B |        0.50 |       
-| GroupByTake    | 10             |         718.5 ns |         1.19 ns |          1.06 ns |         0.28 ns |         718.3 ns |         716.8 ns |         717.9 ns |         718.9 ns |         720.7 ns | 1,391,747.265 |  1.00 |    0.00 |    0.1478 |         - |        - |      1856 B |        1.00 |       
-|                |                |                  |                 |                  |                 |                  |                  |                  |                  |                  |               |       |         |           |           |          |             |             |       
-| DistinctTake   | 100            |       4,279.2 ns |        22.30 ns |         20.86 ns |         5.39 ns |       4,277.7 ns |       4,244.4 ns |       4,260.3 ns |       4,297.1 ns |       4,312.2 ns |   233,687.241 |  0.60 |    0.00 |    0.5951 |         - |        - |      7552 B |        0.56 |       
-| DistinctByTake | 100            |       4,678.4 ns |        33.03 ns |         30.90 ns |         7.98 ns |       4,663.4 ns |       4,647.9 ns |       4,655.6 ns |       4,704.1 ns |       4,733.4 ns |   213,750.374 |  0.66 |    0.01 |    0.5951 |         - |        - |      7552 B |        0.56 |       
-| GroupByTake    | 100            |       7,127.6 ns |        44.47 ns |         41.60 ns |        10.74 ns |       7,108.7 ns |       7,068.9 ns |       7,103.4 ns |       7,146.5 ns |       7,210.2 ns |   140,300.266 |  1.00 |    0.00 |    1.0681 |    0.0381 |        - |     13480 B |        1.00 |       
-|                |                |                  |                 |                  |                 |                  |                  |                  |                  |                  |               |       |         |           |           |          |             |             |       
-| DistinctTake   | 1000           |      45,816.5 ns |       911.35 ns |      1,084.90 ns |       236.74 ns |      46,503.6 ns |      43,890.4 ns |      44,717.9 ns |      46,616.7 ns |      46,975.5 ns |    21,826.215 |  0.63 |    0.02 |    5.7983 |    0.6714 |        - |     73328 B |        0.60 |       
-| DistinctByTake | 1000           |      47,684.7 ns |       156.84 ns |        146.70 ns |        37.88 ns |      47,688.0 ns |      47,314.2 ns |      47,592.8 ns |      47,778.7 ns |      47,902.9 ns |    20,971.093 |  0.66 |    0.00 |    5.7983 |    0.6714 |        - |     73328 B |        0.60 |       
-| GroupByTake    | 1000           |      72,043.1 ns |       157.81 ns |        139.89 ns |        37.39 ns |      72,016.2 ns |      71,875.4 ns |      71,934.1 ns |      72,126.9 ns |      72,385.1 ns |    13,880.574 |  1.00 |    0.00 |    9.6436 |    2.3193 |        - |    121472 B |        1.00 |
-|                |                |                  |                 |                  |                 |                  |                  |                  |                  |                  |               |       |         |           |           |          |             |             |       
-| DistinctTake   | 10000          |     508,406.7 ns |     9,835.68 ns |      9,659.95 ns |     2,414.99 ns |     507,383.3 ns |     490,481.1 ns |     502,015.4 ns |     517,857.1 ns |     520,371.8 ns |     1,966.929 |  0.27 |    0.01 |   71.2891 |   59.5703 |  50.7813 |    673426 B |        0.48 |       
-| DistinctByTake | 10000          |     525,340.7 ns |     4,625.46 ns |      4,100.35 ns |     1,095.87 ns |     525,390.6 ns |     514,544.3 ns |     523,567.2 ns |     527,033.6 ns |     532,817.5 ns |     1,903.526 |  0.28 |    0.01 |   73.2422 |   62.5000 |  52.7344 |    673510 B |        0.48 |       
-| GroupByTake    | 10000          |   1,876,811.9 ns |    36,974.12 ns |     45,407.54 ns |     9,680.92 ns |   1,882,066.3 ns |   1,784,802.9 ns |   1,842,103.0 ns |   1,911,506.6 ns |   1,948,529.3 ns |       532.818 |  1.00 |    0.00 |  138.6719 |  136.7188 |  48.8281 |   1405272 B |        1.00 |       
-|                |                |                  |                 |                  |                 |                  |                  |                  |                  |                  |               |       |         |           |           |          |             |             |       
-| DistinctByTake | 100000         |   6,273,280.5 ns |   114,817.87 ns |    107,400.71 ns |    27,730.74 ns |   6,256,978.1 ns |   6,112,024.2 ns |   6,189,333.2 ns |   6,333,658.2 ns |   6,469,815.6 ns |       159.406 |  0.27 |    0.01 |  125.0000 |  109.3750 | 109.3750 |   6038298 B |        0.46 |       
-| DistinctTake   | 100000         |   6,280,341.4 ns |   125,158.85 ns |    167,083.47 ns |    33,416.69 ns |   6,288,513.3 ns |   5,892,664.1 ns |   6,199,146.9 ns |   6,379,506.2 ns |   6,595,415.6 ns |       159.227 |  0.27 |    0.01 |  125.0000 |  117.1875 | 109.3750 |   6038134 B |        0.46 |       
-| GroupByTake    | 100000         |  23,291,228.8 ns |   454,157.91 ns |    807,265.22 ns |   127,639.84 ns |  23,102,514.1 ns |  22,029,256.2 ns |  22,735,539.8 ns |  23,816,437.5 ns |  25,105,406.2 ns |        42.935 |  1.00 |    0.00 |  843.7500 |  812.5000 | 125.0000 |  12995505 B |        1.00 |       
-|                |                |                  |                 |                  |                 |                  |                  |                  |                  |                  |               |       |         |           |           |          |             |             |       
-| DistinctByTake | 1000000        |  76,554,436.5 ns | 1,311,420.43 ns |  2,430,801.85 ns |   370,693.81 ns |  75,951,557.1 ns |  73,526,114.3 ns |  74,957,264.3 ns |  77,343,907.1 ns |  86,190,771.4 ns |        13.063 |  0.26 |    0.02 |         - |         - |        - |  53888841 B |        0.44 |
-| DistinctTake   | 1000000        |  77,061,562.9 ns |   874,589.26 ns |    818,091.34 ns |   211,230.28 ns |  77,219,285.7 ns |  75,353,328.6 ns |  76,653,350.0 ns |  77,490,300.0 ns |  78,668,942.9 ns |        12.977 |  0.25 |    0.01 |         - |         - |        - |  53888841 B |        0.44 |       
-| GroupByTake    | 1000000        | 298,609,722.1 ns | 5,957,988.63 ns | 16,209,147.48 ns | 1,747,877.32 ns | 295,983,600.0 ns | 274,374,000.0 ns | 286,248,237.5 ns | 313,595,600.0 ns | 331,698,700.0 ns |         3.349 |  1.00 |    0.00 | 7000.0000 | 6500.0000 |        - | 121555904 B |        1.00 |   
+﻿# Comparing 'GroupBy()' with 'Distinct()'
+
+## Table of contents
+
+- [Reasons and introduction](#reasons-and-introduction)
+- [Machine information](#machine-information)
+- [Benchmarks](#benchmarks)
+- [Conclusions](#conclusions)
+
+<a name="reasons-and-introduction"></a>
+## Reasons and introduction
+
+One time, we had an argument about a best way to get an array of entity from other entity.
+
+So, here i test following:
+- `.GroupBy()` + `.Select()`;
+- `.Distinct()` + `.Select()`;
+- `.DistinctBy()` + `.Select()`;
+
+<a name="machine-info"></a>
+## Machine Information
+``` ini
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3)
+13th Gen Intel Core i9-13905H, 1 CPU, 20 logical and 14 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+```
+
+<a name="benchmarks"></a>
+## Benchmarks
+
+So, I test three different combinations:
+
+1. `.GroupBy()` + `.Select()`:
+
+```csharp
+  public static IEnumerable<InnerModel> GroupByTake(
+      this IEnumerable<SimpleModel> testModelsList, Dictionary<string, InnerModel> innerTestModels, string innerTestModelConstId)
+  {
+      return testModelsList
+          .GroupBy(x => x.InnerTestModelId)
+          .Select(_ => innerTestModels[innerTestModelConstId]);
+  }
+```
+
+2. `.DistinctBy()` + `.Select()`:
+
+```csharp
+  public static IEnumerable<InnerModel> DistinctByTake(
+      this IEnumerable<SimpleModel> testModelsList, Dictionary<string, InnerModel> innerTestModels, string innerTestModelConstId)
+  {
+      return testModelsList
+          .DistinctBy(x => x.InnerTestModelId)
+          .Select(_ => innerTestModels[innerTestModelConstId]);
+  }
+```
+
+3. `.Select() + .Distinct()` + `.Select()`:
+
+```csharp
+  public static IEnumerable<InnerModel> DistinctTake(
+      this IEnumerable<SimpleModel> testModelsList, Dictionary<string, InnerModel> innerTestModels, string innerTestModelConstId)
+  {
+      return testModelsList
+          .Select(x => x.InnerTestModelId)
+          .Distinct()
+          .Select(_ => innerTestModels[innerTestModelConstId]);
+  }
+```
+
+Here are results for 10 entities in a `IEnumerable<SimpleModel>` collection:
+
+| Method                                 |     Mean |   Error |  StdDev |  StdErr |   Median |      Min |       Q1 |       Q3 |      Max |          Op/s | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |       
+|----------------------------------------|---------:|--------:|--------:|--------:|---------:|---------:|---------:|---------:|---------:|--------------:|------:|--------:|-------:|----------:|------------:|
+| '.Select() + .Distinct()` + .Select()' | 487.1 ns | 1.33 ns | 1.11 ns | 0.31 ns | 487.2 ns | 485.3 ns | 486.2 ns | 487.4 ns | 489.5 ns | 2,053,164.993 |  0.68 |    0.00 | 0.0744 |     936 B |        0.50 |       
+| '.DistinctBy() + .Select()'            | 530.0 ns | 0.73 ns | 0.65 ns | 0.17 ns | 530.1 ns | 529.0 ns | 529.4 ns | 530.5 ns | 530.9 ns | 1,886,853.086 |  0.74 |    0.00 | 0.0744 |     936 B |        0.50 |       
+| '.GroupBy() + .Select()'               | 718.5 ns | 1.19 ns | 1.06 ns | 0.28 ns | 718.3 ns | 716.8 ns | 717.9 ns | 718.9 ns | 720.7 ns | 1,391,747.265 |  1.00 |    0.00 | 0.1478 |    1856 B |        1.00 | 
+
+![Plot](../../../assets/benchmarks.groupbyvsdistinct/group-10.png)
+
+Here are results for 10k entities in a `IEnumerable<SimpleModel>` collection:
+
+| Method                                | GenerationSize |           Mean |        Error |       StdDev |      StdErr |         Median |            Min |             Q1 |             Q3 |            Max |      Op/s | Ratio | RatioSD |     Gen0 |     Gen1 |    Gen2 | Allocated | Alloc Ratio |       
+|---------------------------------------|----------------|---------------:|-------------:|-------------:|------------:|---------------:|---------------:|---------------:|---------------:|---------------:|----------:|------:|--------:|---------:|---------:|--------:|----------:|------------:|
+| '.Select() + .Distinct() + .Select()' | 10000          |   508,406.7 ns |  9,835.68 ns |  9,659.95 ns | 2,414.99 ns |   507,383.3 ns |   490,481.1 ns |   502,015.4 ns |   517,857.1 ns |   520,371.8 ns | 1,966.929 |  0.27 |    0.01 |  71.2891 |  59.5703 | 50.7813 |  673426 B |        0.48 |       
+| '.DistinctBy()` + .Select()'          | 10000          |   525,340.7 ns |  4,625.46 ns |  4,100.35 ns | 1,095.87 ns |   525,390.6 ns |   514,544.3 ns |   523,567.2 ns |   527,033.6 ns |   532,817.5 ns | 1,903.526 |  0.28 |    0.01 |  73.2422 |  62.5000 | 52.7344 |  673510 B |        0.48 |       
+| '.GroupBy() + .Select()'              | 10000          | 1,876,811.9 ns | 36,974.12 ns | 45,407.54 ns | 9,680.92 ns | 1,882,066.3 ns | 1,784,802.9 ns | 1,842,103.0 ns | 1,911,506.6 ns | 1,948,529.3 ns |   532.818 |  1.00 |    0.00 | 138.6719 | 136.7188 | 48.8281 | 1405272 B |        1.00 |     
+
+![Plot](../../../assets/benchmarks.groupbyvsdistinct/group-10k.png)
+
+<a name="conclusions"></a>
+## Conclusions
+
+Well, `.Select() + .Distinct()` + `.Select()` seems still to be the fastest solution for this issue.

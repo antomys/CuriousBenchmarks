@@ -8,7 +8,7 @@ using Utf8Json;
 using Utf8Json.Formatters;
 using ZeroFormatter;
 
-namespace Benchmark.Serializers.Models;
+namespace Benchmarks.Serializers.Models;
 
 /// <summary>
 ///     Test model.

@@ -1,4 +1,4 @@
-﻿namespace Benchmark.Serializers;
+﻿namespace Benchmarks.Serializers;
 
 public static class Fields
 {
