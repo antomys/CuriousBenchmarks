@@ -25,6 +25,9 @@ Have fun!
 - [Comparing different string link formatting, dashing for dash view, concatenating and generating unique string](src/main/Benchmarks.String/Readme.md)
 - [Json Serialization/Deserialization](src/main/Benchmarks.Serializers.Json/Readme.md)
 - [Binary Serialization/Deserialization](src/main/Benchmarks.Serializers.Binary/Readme.md)
+  - [Benchmarks](src/main/Benchmarks.Serializers.Binary/Readme.md#benchmarks)
+    - [Serialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-serialization)
+    - [Deserialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-deserialization)
 
 ## Disclaimer
 

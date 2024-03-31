@@ -1,3 +1,5 @@
+# Note: this section is going to be refactored
+
 | Method                    | Categories |      Mean |    Error |   StdDev |   StdErr |       Min |        Q1 |    Median |        Q3 |       Max |         Op/s | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |---------------------------|------------|----------:|---------:|---------:|---------:|----------:|----------:|----------:|----------:|----------:|-------------:|------:|--------:|-------:|----------:|------------:|
 | StringUriAppend           | String Url |  48.69 ns | 0.141 ns | 0.132 ns | 0.034 ns |  48.33 ns |  48.65 ns |  48.70 ns |  48.76 ns |  48.89 ns | 20,537,221.6 |  0.84 |    0.00 | 0.0140 |     176 B |        0.69 |
