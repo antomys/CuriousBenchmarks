@@ -232,7 +232,7 @@ public static class QueryService
         }
         finally
         {
-            if (array is not null) ArrayPool<char>.Shared.Return(array);
+            if (array is not null) ArrayPool<char>.Shared.Return(array, clearArray: true);
         }
     }
 
@@ -280,7 +280,7 @@ public static class QueryService
         }
         finally
         {
-            if (array is not null) ArrayPool<char>.Shared.Return(array);
+            if (array is not null) ArrayPool<char>.Shared.Return(array, clearArray: true);
         }
     }
 
@@ -332,7 +332,7 @@ public static class QueryService
         }
         finally
         {
-            if (array is not null) ArrayPool<char>.Shared.Return(array);
+            if (array is not null) ArrayPool<char>.Shared.Return(array, clearArray: true);
         }
     }
 
