@@ -50,7 +50,6 @@ Let's look at serializing only 1 entity:
 | Protobuf      | 317.34 ns | 1.920 ns | 1.702 ns | 0.455 ns | 314.14 ns | 317.49 ns | 317.79 ns | 318.41 ns | 319.40 ns |  3,151,228.2 | 0.0896 |      - |    1128 B |
 
 ![Plot](../../../assets/benchmarks.serializers.binary/serialization-1.png)
-![Plot](../../../assets/benchmarks.serializers.binary/serialization-alloc-1.png)
 
 Let's look at serializing an array of 1000 entities:
 
@@ -64,7 +63,6 @@ Let's look at serializing an array of 1000 entities:
 | MsgPackLight  | 105,371.18 ns | 536.684 ns | 502.015 ns | 129.620 ns | 104,210.47 ns | 105,159.45 ns | 105,229.48 ns | 105,640.76 ns | 106,209.89 ns |  9,490.3 | 25.7568 | 4.2725 |  325528 B |
 
 ![Plot](../../../assets/benchmarks.serializers.binary/serialization-1k.png)
-![Plot](../../../assets/benchmarks.serializers.binary/serialization-alloc-1k.png)
 
 <a name="binary-deserialization"></a>
 ### Deserialization
@@ -83,7 +81,6 @@ Let's look at serializing only 1 entity:
 | Protobuf      | 280.499 ns | 0.9661 ns | 0.9037 ns | 0.2333 ns | 278.679 ns | 279.945 ns | 280.483 ns | 281.057 ns | 281.878 ns |   3,565,072.5 | 0.0162 |     208 B |
 
 ![Plot](../../../assets/benchmarks.serializers.binary/deserialization-1.png)
-![Plot](../../../assets/benchmarks.serializers.binary/deserialization-alloc-1.png)
 
 Let's look at deserializing an array of 1000 entities:
 
@@ -96,7 +93,6 @@ Let's look at deserializing an array of 1000 entities:
 | MsgPackLight  | 70,946.240 ns | 299.4175 ns | 280.0753 ns | 72.3151 ns | 70,540.906 ns | 70,735.144 ns | 70,938.062 ns | 71,086.530 ns | 71,441.785 ns | 14,095.2 | 17.4561 | 3.5400 |  220296 B |
 
 ![Plot](../../../assets/benchmarks.serializers.binary/deserialization-1k.png)
-![Plot](../../../assets/benchmarks.serializers.binary/deserialization-alloc-1k.png)
 
 <a name="conclusions"></a>
 ## Conclusions
