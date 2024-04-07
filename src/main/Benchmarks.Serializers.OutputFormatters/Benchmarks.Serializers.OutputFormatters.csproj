@@ -15,7 +15,7 @@
         <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="2.4.35" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
         <PackageReference Include="protobuf-net.AspNetCore" Version="3.1.17" />
-        <PackageReference Include="SpanJson.AspNetCore.Formatter" Version="3.2.4" />
+        <PackageReference Include="SpanJson.AspNetCore.Formatter" Version="4.0.1" />
         <PackageReference Include="Utf8Json.AspNetCoreMvcFormatter" Version="1.3.7" />
     </ItemGroup>
 
