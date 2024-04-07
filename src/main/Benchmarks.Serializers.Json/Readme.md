@@ -1,141 +1,204 @@
-# Note: this section is going to be refactored
+# JSON serializers benchmarks
 
-# Serialization
+## Table of contents
 
-```
+- [Reasons and introduction](#reasons-and-introduction)
+- [Machine information](#machine-information)
+- [Benchmarks](#benchmarks)
+    - [Serialization](#json-serialization)
+        - [String](#json-string-serialization)
+        - [Bytes](#json-byte-serialization)
+    - [Deserialization](#json-deserialization)
+        - [String](#json-string-deserialization)
+        - [Bytes](#json-byte-deserialization)
+- [Conclusions](#conclusions)
 
-BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3374/23H2/2023Update/SunValley3)
+<a name="reasons-and-introduction"></a>
+## Reasons and introduction
+
+The main purpose is to compare different JSON serializers:
+- [Jil](https://github.com/kevin-montrose/Jil)
+- [JsonSrcGen](https://github.com/trampster/JsonSrcGen)
+- [NET.Json](https://github.com/netjson/netjson)
+- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- [ServiceStack](https://github.com/ServiceStack/ServiceStack)
+- [SpanJson](https://github.com/Tornhoof/SpanJson)
+- [System.Text.Json](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Json/ref/System.Text.Json.cs)
+    - [SourceGen System.Text.Json ](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Json/ref/System.Text.Json.cs)
+- [UTF8Json](https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.Json/ref/System.Text.Json.cs)
+
+<a name="machine-info"></a>
+## Machine Information
+``` ini
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3296/23H2/2023Update/SunValley3)
 13th Gen Intel Core i9-13905H, 1 CPU, 20 logical and 14 physical cores
 .NET SDK 8.0.100
   [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
-
-```
-| Method                        | Categories                | CollectionSize | Mean          | Error         | StdDev        | StdErr       | Min           | Q1            | Median        | Q3            | Max           | Op/s         | Gen0    | Gen1    | Gen2    | Allocated |
-|------------------------------ |-------------------------- |--------------- |--------------:|--------------:|--------------:|-------------:|--------------:|--------------:|--------------:|--------------:|--------------:|-------------:|--------:|--------:|--------:|----------:|
-| JsonSrcGenByte                | Serialization. Byte Array | 1              |      34.40 ns |      0.051 ns |      0.042 ns |     0.012 ns |      34.35 ns |      34.37 ns |      34.39 ns |      34.41 ns |      34.49 ns | 29,071,891.4 |  0.0083 |       - |       - |     104 B |
-| SpanJsonByte                  | Serialization. Byte Array | 1              |      58.49 ns |      0.116 ns |      0.108 ns |     0.028 ns |      58.16 ns |      58.46 ns |      58.51 ns |      58.56 ns |      58.61 ns | 17,098,169.6 |  0.0076 |       - |       - |      96 B |
-| Utf8JsonByte                  | Serialization. Byte Array | 1              |      58.57 ns |      0.293 ns |      0.274 ns |     0.071 ns |      57.93 ns |      58.57 ns |      58.70 ns |      58.71 ns |      58.80 ns | 17,074,469.7 |  0.0076 |       - |       - |      96 B |
-| JilBytes                      | Serialization. Byte Array | 1              |     154.68 ns |      0.723 ns |      0.677 ns |     0.175 ns |     153.05 ns |     154.77 ns |     155.00 ns |     155.05 ns |     155.18 ns |  6,464,759.7 |  0.0763 |       - |       - |     960 B |
-| NetJsonByte                   | Serialization. Byte Array | 1              |     162.58 ns |      0.229 ns |      0.203 ns |     0.054 ns |     162.16 ns |     162.51 ns |     162.62 ns |     162.68 ns |     162.89 ns |  6,150,700.0 |  0.0739 |       - |       - |     928 B |
-| SystemTextJsonSourceGenByte   | Serialization. Byte Array | 1              |     163.46 ns |      0.459 ns |      0.429 ns |     0.111 ns |     162.96 ns |     163.07 ns |     163.42 ns |     163.71 ns |     164.35 ns |  6,117,799.8 |  0.0100 |       - |       - |     128 B |
-| SystemTextJsonByte            | Serialization. Byte Array | 1              |     234.00 ns |      1.494 ns |      1.397 ns |     0.361 ns |     231.04 ns |     233.47 ns |     233.81 ns |     234.95 ns |     236.15 ns |  4,273,498.9 |  0.0324 |       - |       - |     408 B |
-| NewtonsoftBytes               | Serialization. Byte Array | 1              |     309.55 ns |      1.956 ns |      1.830 ns |     0.472 ns |     306.10 ns |     308.74 ns |     310.43 ns |     310.69 ns |     311.76 ns |  3,230,519.7 |  0.1431 |       - |       - |    1800 B |
-| ServiceStackByte              | Serialization. Byte Array | 1              |     398.24 ns |      1.314 ns |      1.229 ns |     0.317 ns |     396.50 ns |     397.23 ns |     398.26 ns |     399.32 ns |     400.62 ns |  2,511,028.5 |  0.1159 |       - |       - |    1456 B |
-| JsonSrcGenByte                | Serialization. Byte Array | 100            |   2,795.02 ns |      9.805 ns |      9.172 ns |     2.368 ns |   2,769.48 ns |   2,791.09 ns |   2,795.86 ns |   2,802.63 ns |   2,806.46 ns |    357,779.0 |  0.5531 |       - |       - |    6960 B |
-| Utf8JsonByte                  | Serialization. Byte Array | 100            |   3,166.01 ns |     14.203 ns |     11.860 ns |     3.289 ns |   3,142.03 ns |   3,162.33 ns |   3,165.56 ns |   3,170.18 ns |   3,189.55 ns |    315,855.0 |  0.5493 |       - |       - |    6896 B |
-| SpanJsonByte                  | Serialization. Byte Array | 100            |   3,518.53 ns |     13.215 ns |     12.361 ns |     3.192 ns |   3,495.65 ns |   3,511.69 ns |   3,520.12 ns |   3,526.72 ns |   3,537.29 ns |    284,209.2 |  0.5455 |       - |       - |    6888 B |
-| SystemTextJsonSourceGenByte   | Serialization. Byte Array | 100            |   4,023.56 ns |     13.962 ns |     13.060 ns |     3.372 ns |   3,993.05 ns |   4,018.02 ns |   4,028.47 ns |   4,030.68 ns |   4,046.55 ns |    248,536.3 |  0.5493 |       - |       - |    6976 B |
-| JilBytes                      | Serialization. Byte Array | 100            |   6,850.92 ns |     46.408 ns |     43.410 ns |    11.208 ns |   6,759.56 ns |   6,844.32 ns |   6,859.65 ns |   6,881.41 ns |   6,892.19 ns |    145,965.8 |  3.0289 |  0.2975 |       - |   38056 B |
-| SystemTextJsonByte            | Serialization. Byte Array | 100            |   8,828.44 ns |     72.419 ns |     60.473 ns |    16.772 ns |   8,771.63 ns |   8,778.64 ns |   8,814.94 ns |   8,866.76 ns |   8,958.70 ns |    113,270.3 |  0.5646 |       - |       - |    7240 B |
-| NetJsonByte                   | Serialization. Byte Array | 100            |  10,422.71 ns |     59.408 ns |     55.571 ns |    14.348 ns |  10,251.50 ns |  10,405.46 ns |  10,436.33 ns |  10,453.70 ns |  10,493.88 ns |     95,944.4 |  4.7760 |  0.0153 |       - |   60056 B |
-| NewtonsoftBytes               | Serialization. Byte Array | 100            |  15,172.70 ns |     64.621 ns |     60.447 ns |    15.607 ns |  15,035.75 ns |  15,173.94 ns |  15,190.06 ns |  15,213.78 ns |  15,242.52 ns |     65,907.8 |  3.4485 |  0.1984 |       - |   43304 B |
-| ServiceStackByte              | Serialization. Byte Array | 100            |  25,347.49 ns |     31.561 ns |     29.522 ns |     7.623 ns |  25,269.35 ns |  25,335.08 ns |  25,348.52 ns |  25,365.09 ns |  25,394.68 ns |     39,451.6 |  5.3101 |  0.3052 |       - |   66730 B |
-| JsonSrcGenByte                | Serialization. Byte Array | 1000           |  37,120.72 ns |    143.396 ns |    119.742 ns |    33.211 ns |  36,876.56 ns |  37,051.90 ns |  37,111.72 ns |  37,230.50 ns |  37,289.23 ns |     26,939.1 |  5.4321 |       - |       - |   68976 B |
-| SpanJsonByte                  | Serialization. Byte Array | 1000           |  43,180.94 ns |    144.164 ns |    134.851 ns |    34.818 ns |  42,948.47 ns |  43,093.82 ns |  43,184.48 ns |  43,253.99 ns |  43,464.26 ns |     23,158.4 |  5.4321 |       - |       - |   69064 B |
-| SystemTextJsonSourceGenByte   | Serialization. Byte Array | 1000           |  46,976.82 ns |    143.008 ns |    126.773 ns |    33.882 ns |  46,765.36 ns |  46,896.98 ns |  46,958.23 ns |  47,076.46 ns |  47,201.10 ns |     21,287.1 |  5.4932 |       - |       - |   69080 B |
-| Utf8JsonByte                  | Serialization. Byte Array | 1000           |  50,664.78 ns |    459.979 ns |    384.103 ns |   106.531 ns |  49,970.21 ns |  50,422.45 ns |  50,698.11 ns |  50,936.47 ns |  51,366.81 ns |     19,737.6 | 30.8228 | 25.3296 | 25.3296 |  200213 B |
-| SystemTextJsonByte            | Serialization. Byte Array | 1000           |  99,308.78 ns |    175.059 ns |    155.185 ns |    41.475 ns |  98,870.89 ns |  99,238.64 ns |  99,351.53 ns |  99,399.93 ns |  99,482.17 ns |     10,069.6 |  5.4932 |       - |       - |   69440 B |
-| NewtonsoftBytes               | Serialization. Byte Array | 1000           | 198,131.12 ns |  7,094.149 ns | 20,581.413 ns | 2,089.726 ns | 167,855.37 ns | 180,380.18 ns | 194,280.47 ns | 211,312.60 ns | 257,009.23 ns |      5,047.2 | 51.7578 | 38.0859 | 31.2500 |  401347 B |
-| JilBytes                      | Serialization. Byte Array | 1000           | 357,315.25 ns | 16,751.170 ns | 49,391.202 ns | 4,939.120 ns | 225,948.88 ns | 323,086.06 ns | 360,852.95 ns | 395,266.02 ns | 458,435.30 ns |      2,798.6 | 46.8750 | 36.6211 | 29.7852 |  353010 B |
-| ServiceStackByte              | Serialization. Byte Array | 1000           | 610,605.52 ns | 12,205.614 ns | 14,529.915 ns | 3,170.687 ns | 582,284.57 ns | 601,200.49 ns | 613,483.40 ns | 618,614.36 ns | 634,428.81 ns |      1,637.7 | 73.2422 | 41.9922 | 34.1797 |  638866 B |
-| NetJsonByte                   | Serialization. Byte Array | 1000           | 681,765.77 ns | 27,163.104 ns | 80,091.024 ns | 8,009.102 ns | 432,949.32 ns | 635,760.77 ns | 686,838.38 ns | 741,337.26 ns | 854,937.11 ns |      1,466.8 | 83.0078 | 64.4531 | 64.4531 |  598937 B |
-|                               |                           |                |               |               |               |              |               |               |               |               |               |              |         |         |         |           |
-| JsonSrcGenString              | Serialization. String     | 1              |      31.22 ns |      0.110 ns |      0.103 ns |     0.027 ns |      31.00 ns |      31.15 ns |      31.20 ns |      31.29 ns |      31.39 ns | 32,029,563.8 |  0.0127 |       - |       - |     160 B |
-| SpanJsonString                | Serialization. String     | 1              |      63.07 ns |      0.136 ns |      0.127 ns |     0.033 ns |      62.76 ns |      63.00 ns |      63.08 ns |      63.16 ns |      63.22 ns | 15,856,168.9 |  0.0126 |       - |       - |     160 B |
-| Utf8JsonString                | Serialization. String     | 1              |      70.43 ns |      0.482 ns |      0.451 ns |     0.117 ns |      69.82 ns |      70.06 ns |      70.39 ns |      70.67 ns |      71.52 ns | 14,198,665.3 |  0.0210 |       - |       - |     264 B |
-| SystemTextJsonSourceGenString | Serialization. String     | 1              |      92.02 ns |      0.172 ns |      0.152 ns |     0.041 ns |      91.70 ns |      91.93 ns |      92.03 ns |      92.12 ns |      92.24 ns | 10,866,751.7 |  0.0153 |       - |       - |     192 B |
-| NetJsonString                 | Serialization. String     | 1              |      94.65 ns |      0.251 ns |      0.234 ns |     0.061 ns |      93.92 ns |      94.62 ns |      94.72 ns |      94.76 ns |      94.88 ns | 10,565,227.4 |  0.0267 |       - |       - |     336 B |
-| JilString                     | Serialization. String     | 1              |     135.10 ns |      0.719 ns |      0.673 ns |     0.174 ns |     133.66 ns |     135.07 ns |     135.30 ns |     135.47 ns |     135.90 ns |  7,402,057.0 |  0.0687 |       - |       - |     864 B |
-| SystemTextJsonString          | Serialization. String     | 1              |     162.62 ns |      0.377 ns |      0.353 ns |     0.091 ns |     162.11 ns |     162.34 ns |     162.63 ns |     162.83 ns |     163.24 ns |  6,149,447.6 |  0.0389 |       - |       - |     488 B |
-| NewtonsoftString              | Serialization. String     | 1              |     286.62 ns |      1.828 ns |      1.527 ns |     0.423 ns |     283.85 ns |     286.78 ns |     287.30 ns |     287.46 ns |     288.10 ns |  3,488,891.6 |  0.1345 |       - |       - |    1688 B |
-| ServiceStackString            | Serialization. String     | 1              |     308.64 ns |      0.922 ns |      0.863 ns |     0.223 ns |     306.05 ns |     308.39 ns |     308.83 ns |     309.00 ns |     309.86 ns |  3,240,021.8 |  0.0591 |       - |       - |     744 B |
-| JsonSrcGenString              | Serialization. String     | 100            |   3,108.96 ns |     14.947 ns |     13.250 ns |     3.541 ns |   3,075.58 ns |   3,103.10 ns |   3,109.51 ns |   3,114.63 ns |   3,128.77 ns |    321,650.5 |  1.0986 |       - |       - |   13824 B |
-| SpanJsonString                | Serialization. String     | 100            |   3,747.57 ns |     16.125 ns |     15.083 ns |     3.894 ns |   3,720.39 ns |   3,737.30 ns |   3,751.67 ns |   3,758.03 ns |   3,771.31 ns |    266,839.7 |  1.0986 |       - |       - |   13824 B |
-| Utf8JsonString                | Serialization. String     | 100            |   3,842.14 ns |     19.487 ns |     18.228 ns |     4.706 ns |   3,787.30 ns |   3,839.03 ns |   3,843.45 ns |   3,852.16 ns |   3,864.19 ns |    260,271.9 |  1.6556 |       - |       - |   20800 B |
-| SystemTextJsonSourceGenString | Serialization. String     | 100            |   4,206.62 ns |      8.087 ns |      7.565 ns |     1.953 ns |   4,185.18 ns |   4,204.70 ns |   4,206.83 ns |   4,210.25 ns |   4,217.89 ns |    237,720.7 |  1.1063 |       - |       - |   13912 B |
-| JilString                     | Serialization. String     | 100            |   6,753.69 ns |     53.936 ns |     50.452 ns |    13.027 ns |   6,656.18 ns |   6,736.24 ns |   6,749.18 ns |   6,785.71 ns |   6,828.41 ns |    148,067.2 |  2.4719 |  0.1450 |       - |   31064 B |
-| NetJsonString                 | Serialization. String     | 100            |   9,183.77 ns |    109.098 ns |    102.050 ns |    26.349 ns |   8,942.68 ns |   9,188.67 ns |   9,217.33 ns |   9,246.61 ns |   9,282.87 ns |    108,887.8 |  2.3499 |       - |       - |   29648 B |
-| SystemTextJsonString          | Serialization. String     | 100            |   9,212.98 ns |     24.947 ns |     23.335 ns |     6.025 ns |   9,149.45 ns |   9,204.13 ns |   9,218.84 ns |   9,226.19 ns |   9,247.45 ns |    108,542.5 |  1.1139 |       - |       - |   14152 B |
-| NewtonsoftString              | Serialization. String     | 100            |  15,242.10 ns |     80.802 ns |     75.582 ns |    19.515 ns |  15,109.81 ns |  15,192.66 ns |  15,226.37 ns |  15,304.47 ns |  15,373.25 ns |     65,607.8 |  2.8839 |  0.1678 |       - |   36304 B |
-| ServiceStackString            | Serialization. String     | 100            |  24,127.10 ns |     64.515 ns |     60.347 ns |    15.582 ns |  23,944.36 ns |  24,120.59 ns |  24,141.69 ns |  24,160.49 ns |  24,199.68 ns |     41,447.2 |  3.3875 |       - |       - |   42721 B |
-| SpanJsonString                | Serialization. String     | 1000           |  50,779.37 ns |    857.878 ns |    802.459 ns |   207.194 ns |  49,581.76 ns |  50,000.49 ns |  50,796.03 ns |  51,497.28 ns |  51,797.14 ns |     19,693.0 | 26.4282 | 26.4282 | 26.4282 |  137869 B |
-| SystemTextJsonSourceGenString | Serialization. String     | 1000           |  56,933.39 ns |    443.346 ns |    414.706 ns |   107.077 ns |  56,263.05 ns |  56,632.43 ns |  56,857.82 ns |  57,316.30 ns |  57,736.69 ns |     17,564.4 | 27.7710 | 27.7710 | 27.7710 |  138301 B |
-| Utf8JsonString                | Serialization. String     | 1000           |  69,822.23 ns |  1,215.796 ns |  1,137.256 ns |   293.638 ns |  67,322.97 ns |  69,700.65 ns |  69,990.53 ns |  70,432.33 ns |  71,238.35 ns |     14,322.1 | 50.9033 | 45.5322 | 45.4102 |  338129 B |
-| SystemTextJsonString          | Serialization. String     | 1000           | 108,277.32 ns |  1,151.879 ns |  1,077.468 ns |   278.201 ns | 105,782.79 ns | 107,622.80 ns | 108,246.44 ns | 109,139.23 ns | 110,222.06 ns |      9,235.5 | 30.7617 | 30.7617 | 30.7617 |  138865 B |
-| JsonSrcGenString              | Serialization. String     | 1000           | 111,692.47 ns |  1,853.617 ns |  1,733.874 ns |   447.684 ns | 109,504.03 ns | 110,427.70 ns | 110,894.92 ns | 113,121.44 ns | 114,713.56 ns |      8,953.2 | 39.9170 | 39.9170 | 39.9170 |  138267 B |
-| NewtonsoftString              | Serialization. String     | 1000           | 173,834.72 ns |  3,884.419 ns | 11,392.328 ns | 1,144.972 ns | 156,461.52 ns | 163,985.34 ns | 172,515.36 ns | 180,790.60 ns | 205,578.34 ns |      5,752.6 | 46.3867 | 37.5977 | 31.0059 |  332345 B |
-| JilString                     | Serialization. String     | 1000           | 332,749.57 ns | 16,936.791 ns | 49,938.511 ns | 4,993.851 ns | 215,385.64 ns | 295,681.37 ns | 338,674.98 ns | 365,355.93 ns | 436,799.85 ns |      3,005.3 | 40.5273 | 34.1797 | 29.2969 |  283940 B |
-| NetJsonString                 | Serialization. String     | 1000           | 452,617.77 ns |  8,795.869 ns | 12,039.885 ns | 2,361.216 ns | 428,599.12 ns | 446,592.09 ns | 455,074.12 ns | 459,920.76 ns | 474,805.96 ns |      2,209.4 | 40.5273 | 26.8555 | 26.8555 |  294177 B |
-| ServiceStackString            | Serialization. String     | 1000           | 555,753.58 ns | 11,032.858 ns | 31,118.371 ns | 3,244.314 ns | 492,012.89 ns | 533,908.50 ns | 550,359.42 ns | 581,250.85 ns | 627,103.71 ns |      1,799.4 | 55.6641 | 33.2031 | 33.2031 |  424532 B |
-
-
-# Deserialization
-
 ```
 
-BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3374/23H2/2023Update/SunValley3)
-13th Gen Intel Core i9-13905H, 1 CPU, 20 logical and 14 physical cores
-.NET SDK 8.0.100
-  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+<a name="benchmarks"></a>
+## Benchmarks
 
+Basically, the most common way of using JSON serializer is to deserialize/serialize payload for HTTP request.
+There are two ways of handling and processing entities synchronously, via `string` or `byte[]`.
+Here are tests for both, `byte[]` and `string` manipulations.
 
-```
-| Method                        | Categories                  | CollectionSize | Mean          | Error        | StdDev       | StdErr     | Min           | Q1            | Median        | Q3            | Max           | Op/s         | Gen0    | Gen1    | Gen2    | Allocated |
-|------------------------------ |---------------------------- |--------------- |--------------:|-------------:|-------------:|-----------:|--------------:|--------------:|--------------:|--------------:|--------------:|-------------:|--------:|--------:|--------:|----------:|
-| JsonSrcGenByte                | Deserialization. Byte Array | 1              |      68.74 ns |     0.491 ns |     0.435 ns |   0.116 ns |      68.27 ns |      68.41 ns |      68.59 ns |      69.02 ns |      69.54 ns | 14,548,039.8 |  0.0114 |       - |       - |     144 B |
-| SpanJsonByte                  | Deserialization. Byte Array | 1              |      96.29 ns |     0.316 ns |     0.296 ns |   0.076 ns |      95.60 ns |      96.20 ns |      96.29 ns |      96.54 ns |      96.65 ns | 10,385,712.0 |  0.0088 |       - |       - |     112 B |
-| Utf8JsonByte                  | Deserialization. Byte Array | 1              |     100.20 ns |     0.372 ns |     0.348 ns |   0.090 ns |      99.61 ns |      99.98 ns |     100.14 ns |     100.40 ns |     101.01 ns |  9,980,247.6 |  0.0134 |       - |       - |     168 B |
-| NetJsonByte                   | Deserialization. Byte Array | 1              |     174.28 ns |     0.592 ns |     0.553 ns |   0.143 ns |     173.68 ns |     173.87 ns |     174.06 ns |     174.58 ns |     175.44 ns |  5,737,927.6 |  0.0412 |       - |       - |     520 B |
-| JilBytes                      | Deserialization. Byte Array | 1              |     182.25 ns |     0.532 ns |     0.471 ns |   0.126 ns |     181.45 ns |     181.97 ns |     182.21 ns |     182.53 ns |     183.10 ns |  5,487,082.5 |  0.0336 |       - |       - |     424 B |
-| SystemTextJsonSourceGenByte   | Deserialization. Byte Array | 1              |     250.06 ns |     0.856 ns |     0.801 ns |   0.207 ns |     248.06 ns |     249.72 ns |     250.01 ns |     250.65 ns |     251.08 ns |  3,998,997.0 |  0.0486 |       - |       - |     616 B |
-| SystemTextJsonByte            | Deserialization. Byte Array | 1              |     251.40 ns |     2.408 ns |     2.011 ns |   0.558 ns |     247.48 ns |     249.82 ns |     251.70 ns |     252.77 ns |     254.59 ns |  3,977,690.4 |  0.0482 |       - |       - |     608 B |
-| ServiceStackByte              | Deserialization. Byte Array | 1              |     381.11 ns |     1.072 ns |     1.003 ns |   0.259 ns |     378.21 ns |     380.94 ns |     381.36 ns |     381.70 ns |     382.37 ns |  2,623,902.4 |  0.0596 |       - |       - |     752 B |
-| NewtonsoftBytes               | Deserialization. Byte Array | 1              |     533.78 ns |     3.034 ns |     2.838 ns |   0.733 ns |     526.62 ns |     533.23 ns |     535.09 ns |     535.62 ns |     536.20 ns |  1,873,440.0 |  0.2527 |  0.0019 |       - |    3176 B |
-| JsonSrcGenByte                | Deserialization. Byte Array | 100            |   5,921.73 ns |    15.433 ns |    14.436 ns |   3.727 ns |   5,896.51 ns |   5,912.46 ns |   5,920.41 ns |   5,929.97 ns |   5,948.78 ns |    168,869.5 |  0.7477 |  0.0076 |       - |    9392 B |
-| SpanJsonByte                  | Deserialization. Byte Array | 100            |   7,720.06 ns |    27.993 ns |    26.185 ns |   6.761 ns |   7,682.82 ns |   7,698.83 ns |   7,716.50 ns |   7,741.46 ns |   7,758.52 ns |    129,532.7 |  0.7172 |  0.0153 |       - |    9144 B |
-| Utf8JsonByte                  | Deserialization. Byte Array | 100            |   8,488.88 ns |    53.358 ns |    47.300 ns |  12.642 ns |   8,421.11 ns |   8,458.46 ns |   8,486.23 ns |   8,516.60 ns |   8,601.45 ns |    117,801.2 |  0.8392 |  0.0153 |       - |   10608 B |
-| JilBytes                      | Deserialization. Byte Array | 100            |  12,456.29 ns |    44.309 ns |    41.447 ns |  10.701 ns |  12,356.43 ns |  12,433.35 ns |  12,480.12 ns |  12,486.34 ns |  12,500.41 ns |     80,280.7 |  1.9379 |  0.1373 |       - |   24384 B |
-| NetJsonByte                   | Deserialization. Byte Array | 100            |  17,265.14 ns |    38.458 ns |    34.092 ns |   9.111 ns |  17,205.08 ns |  17,243.02 ns |  17,267.57 ns |  17,279.58 ns |  17,323.08 ns |     57,920.2 |  3.3264 |       - |       - |   41864 B |
-| SystemTextJsonSourceGenByte   | Deserialization. Byte Array | 100            |  17,643.11 ns |    20.378 ns |    18.064 ns |   4.828 ns |  17,618.01 ns |  17,627.59 ns |  17,643.12 ns |  17,655.91 ns |  17,672.01 ns |     56,679.4 |  0.8545 |  0.0305 |       - |   11056 B |
-| SystemTextJsonByte            | Deserialization. Byte Array | 100            |  18,243.35 ns |   145.176 ns |   135.798 ns |  35.063 ns |  18,002.47 ns |  18,189.86 ns |  18,240.67 ns |  18,330.56 ns |  18,492.05 ns |     54,814.5 |  0.8545 |  0.0305 |       - |   11056 B |
-| ServiceStackByte              | Deserialization. Byte Array | 100            |  26,181.00 ns |    53.989 ns |    47.860 ns |  12.791 ns |  26,081.34 ns |  26,159.51 ns |  26,181.17 ns |  26,198.75 ns |  26,259.43 ns |     38,195.6 |  2.4719 |  0.1221 |       - |   31104 B |
-| NewtonsoftBytes               | Deserialization. Byte Array | 100            |  28,628.90 ns |    62.873 ns |    58.812 ns |  15.185 ns |  28,511.01 ns |  28,589.70 ns |  28,638.03 ns |  28,670.94 ns |  28,706.42 ns |     34,929.7 |  2.3499 |  0.1221 |       - |   29696 B |
-| JsonSrcGenByte                | Deserialization. Byte Array | 1000           |  70,282.20 ns |   166.609 ns |   147.695 ns |  39.473 ns |  70,082.20 ns |  70,152.90 ns |  70,290.89 ns |  70,357.80 ns |  70,565.53 ns |     14,228.4 |  7.3242 |  0.7324 |       - |   92024 B |
-| SpanJsonByte                  | Deserialization. Byte Array | 1000           |  87,773.79 ns |   386.869 ns |   361.878 ns |  93.436 ns |  87,159.13 ns |  87,531.92 ns |  87,900.13 ns |  87,997.32 ns |  88,460.17 ns |     11,392.9 |  7.3242 |  1.7090 |       - |   92136 B |
-| Utf8JsonByte                  | Deserialization. Byte Array | 1000           |  92,253.81 ns |   200.810 ns |   187.838 ns |  48.500 ns |  92,010.30 ns |  92,104.92 ns |  92,253.61 ns |  92,338.32 ns |  92,642.77 ns |     10,839.7 |  7.9346 |  1.5869 |       - |  100456 B |
-| SystemTextJsonSourceGenByte   | Deserialization. Byte Array | 1000           | 175,861.73 ns |   253.760 ns |   237.367 ns |  61.288 ns | 175,429.83 ns | 175,719.76 ns | 175,808.98 ns | 175,980.16 ns | 176,334.08 ns |      5,686.3 |  8.0566 |  1.7090 |       - |  101144 B |
-| SystemTextJsonByte            | Deserialization. Byte Array | 1000           | 185,920.97 ns |   322.766 ns |   301.916 ns |  77.954 ns | 185,398.54 ns | 185,709.44 ns | 185,983.28 ns | 186,148.44 ns | 186,344.85 ns |      5,378.6 |  7.8125 |  1.7090 |       - |  100888 B |
-| JilBytes                      | Deserialization. Byte Array | 1000           | 197,135.76 ns |   962.897 ns |   900.695 ns | 232.558 ns | 195,962.43 ns | 196,482.37 ns | 196,905.52 ns | 197,923.55 ns | 199,008.59 ns |      5,072.6 | 43.4570 | 43.4570 | 43.4570 |  238949 B |
-| NetJsonByte                   | Deserialization. Byte Array | 1000           | 251,618.96 ns | 3,147.522 ns | 2,790.196 ns | 745.711 ns | 248,730.27 ns | 249,565.80 ns | 250,966.19 ns | 252,541.46 ns | 258,443.51 ns |      3,974.3 | 43.4570 | 43.4570 | 43.4570 |  412638 B |
-| ServiceStackByte              | Deserialization. Byte Array | 1000           | 353,513.91 ns | 4,060.614 ns | 3,798.301 ns | 980.717 ns | 348,812.45 ns | 350,184.13 ns | 353,355.27 ns | 356,713.09 ns | 360,279.39 ns |      2,828.7 | 43.4570 | 43.4570 | 43.4570 |  303582 B |
-| NewtonsoftBytes               | Deserialization. Byte Array | 1000           | 368,919.50 ns | 3,975.930 ns | 3,719.088 ns | 960.264 ns | 365,802.59 ns | 366,371.29 ns | 366,761.47 ns | 371,331.96 ns | 375,686.62 ns |      2,710.6 | 43.4570 | 43.4570 | 43.4570 |  265126 B |
-|                               |                             |                |               |              |              |            |               |               |               |               |               |              |         |         |         |           |
-| JsonSrcGenString              | Deserialization. String     | 1              |      72.39 ns |     0.227 ns |     0.202 ns |   0.054 ns |      71.74 ns |      72.38 ns |      72.41 ns |      72.47 ns |      72.58 ns | 13,814,440.1 |  0.0120 |       - |       - |     152 B |
-| SpanJsonString                | Deserialization. String     | 1              |      96.51 ns |     0.240 ns |     0.224 ns |   0.058 ns |      96.11 ns |      96.33 ns |      96.61 ns |      96.65 ns |      96.90 ns | 10,361,693.7 |  0.0095 |       - |       - |     120 B |
-| Utf8JsonString                | Deserialization. String     | 1              |     120.01 ns |     0.577 ns |     0.511 ns |   0.137 ns |     118.99 ns |     119.64 ns |     120.18 ns |     120.41 ns |     120.57 ns |  8,332,834.2 |  0.0210 |       - |       - |     264 B |
-| NetJsonString                 | Deserialization. String     | 1              |     149.56 ns |     0.555 ns |     0.520 ns |   0.134 ns |     148.94 ns |     149.10 ns |     149.39 ns |     149.97 ns |     150.48 ns |  6,686,439.3 |  0.0274 |       - |       - |     344 B |
-| JilString                     | Deserialization. String     | 1              |     160.74 ns |     0.523 ns |     0.489 ns |   0.126 ns |     159.58 ns |     160.51 ns |     161.01 ns |     161.06 ns |     161.29 ns |  6,221,344.7 |  0.0215 |       - |       - |     272 B |
-| SystemTextJsonString          | Deserialization. String     | 1              |     287.15 ns |     1.300 ns |     1.216 ns |   0.314 ns |     284.71 ns |     286.44 ns |     286.99 ns |     287.78 ns |     289.72 ns |  3,482,477.6 |  0.0482 |       - |       - |     608 B |
-| SystemTextJsonSourceGenString | Deserialization. String     | 1              |     292.74 ns |     0.743 ns |     0.695 ns |   0.180 ns |     290.92 ns |     292.42 ns |     292.84 ns |     293.13 ns |     293.90 ns |  3,416,033.9 |  0.0482 |       - |       - |     608 B |
-| ServiceStackString            | Deserialization. String     | 1              |     363.70 ns |     0.666 ns |     0.556 ns |   0.154 ns |     362.79 ns |     363.42 ns |     363.56 ns |     364.23 ns |     364.61 ns |  2,749,518.9 |  0.0477 |       - |       - |     600 B |
-| NewtonsoftString              | Deserialization. String     | 1              |     498.97 ns |     5.019 ns |     4.695 ns |   1.212 ns |     489.48 ns |     495.86 ns |     500.43 ns |     503.22 ns |     503.86 ns |  2,004,144.1 |  0.2384 |  0.0010 |       - |    3000 B |
-| JsonSrcGenString              | Deserialization. String     | 100            |   6,280.22 ns |    13.983 ns |    12.396 ns |   3.313 ns |   6,255.18 ns |   6,273.83 ns |   6,279.91 ns |   6,286.62 ns |   6,304.41 ns |    159,230.0 |  0.7401 |  0.0076 |       - |    9288 B |
-| SpanJsonString                | Deserialization. String     | 100            |   8,007.22 ns |    16.048 ns |    14.226 ns |   3.802 ns |   7,974.42 ns |   8,000.46 ns |   8,006.79 ns |   8,018.13 ns |   8,027.25 ns |    124,887.3 |  0.7324 |  0.0153 |       - |    9360 B |
-| Utf8JsonString                | Deserialization. String     | 100            |   9,054.95 ns |    18.187 ns |    17.012 ns |   4.393 ns |   9,008.48 ns |   9,048.25 ns |   9,059.71 ns |   9,067.82 ns |   9,071.62 ns |    110,436.9 |  1.3733 |  0.0305 |       - |   17400 B |
-| JilString                     | Deserialization. String     | 100            |  12,428.30 ns |   241.240 ns |   338.185 ns |  65.084 ns |  12,028.35 ns |  12,172.84 ns |  12,297.88 ns |  12,640.73 ns |  13,162.86 ns |     80,461.5 |  0.8392 |  0.0153 |       - |   10664 B |
-| NetJsonString                 | Deserialization. String     | 100            |  16,412.14 ns |    37.976 ns |    35.523 ns |   9.172 ns |  16,367.01 ns |  16,382.65 ns |  16,409.73 ns |  16,430.52 ns |  16,495.40 ns |     60,930.5 |  2.2278 |  0.0610 |       - |   27976 B |
-| SystemTextJsonSourceGenString | Deserialization. String     | 100            |  18,203.84 ns |    78.045 ns |    73.003 ns |  18.849 ns |  18,022.58 ns |  18,174.83 ns |  18,234.49 ns |  18,250.73 ns |  18,267.36 ns |     54,933.5 |  0.8545 |  0.0305 |       - |   11096 B |
-| SystemTextJsonString          | Deserialization. String     | 100            |  18,554.40 ns |    34.223 ns |    30.338 ns |   8.108 ns |  18,511.26 ns |  18,533.02 ns |  18,556.12 ns |  18,568.13 ns |  18,620.42 ns |     53,895.6 |  0.8545 |  0.0305 |       - |   11088 B |
-| ServiceStackString            | Deserialization. String     | 100            |  25,382.64 ns |    48.991 ns |    43.429 ns |  11.607 ns |  25,312.34 ns |  25,344.22 ns |  25,388.93 ns |  25,420.43 ns |  25,452.51 ns |     39,397.0 |  1.3733 |  0.0305 |       - |   17280 B |
-| NewtonsoftString              | Deserialization. String     | 100            |  29,006.43 ns |    84.475 ns |    79.018 ns |  20.402 ns |  28,887.10 ns |  28,941.20 ns |  29,033.39 ns |  29,068.70 ns |  29,106.09 ns |     34,475.1 |  1.2512 |  0.0305 |       - |   15912 B |
-| JsonSrcGenString              | Deserialization. String     | 1000           |  74,287.99 ns |   427.920 ns |   400.277 ns | 103.351 ns |  73,636.40 ns |  74,052.72 ns |  74,213.95 ns |  74,518.09 ns |  74,960.64 ns |     13,461.1 |  7.3242 |  0.6104 |       - |   92224 B |
-| SpanJsonString                | Deserialization. String     | 1000           |  84,699.43 ns |   391.369 ns |   346.939 ns |  92.723 ns |  84,233.25 ns |  84,448.74 ns |  84,618.87 ns |  84,807.70 ns |  85,435.39 ns |     11,806.5 |  7.3242 |  1.8311 |       - |   91984 B |
-| Utf8JsonString                | Deserialization. String     | 1000           | 101,908.61 ns |   237.300 ns |   221.970 ns |  57.312 ns | 101,463.67 ns | 101,819.87 ns | 101,948.57 ns | 102,075.81 ns | 102,173.35 ns |      9,812.7 | 13.4277 |  3.1738 |       - |  169440 B |
-| JilString                     | Deserialization. String     | 1000           | 122,594.66 ns |   552.627 ns |   516.928 ns | 133.470 ns | 121,473.34 ns | 122,366.26 ns | 122,722.24 ns | 122,933.89 ns | 123,303.59 ns |      8,157.0 |  7.8125 |  1.7090 |       - |  100976 B |
-| NetJsonString                 | Deserialization. String     | 1000           | 168,663.95 ns |   490.384 ns |   409.493 ns | 113.573 ns | 167,915.80 ns | 168,413.75 ns | 168,835.55 ns | 168,873.41 ns | 169,344.38 ns |      5,928.9 | 21.7285 |  4.1504 |       - |  274504 B |
-| SystemTextJsonSourceGenString | Deserialization. String     | 1000           | 183,220.98 ns | 1,562.079 ns | 1,461.170 ns | 377.272 ns | 181,568.12 ns | 181,973.52 ns | 182,345.73 ns | 184,718.14 ns | 185,307.86 ns |      5,457.9 |  7.8125 |  1.7090 |       - |  100896 B |
-| SystemTextJsonString          | Deserialization. String     | 1000           | 188,704.77 ns |   842.847 ns |   788.400 ns | 203.564 ns | 186,996.51 ns | 188,302.17 ns | 188,992.46 ns | 189,207.37 ns | 189,754.54 ns |      5,299.3 |  8.0566 |  1.7090 |       - |  101456 B |
-| ServiceStackString            | Deserialization. String     | 1000           | 270,173.78 ns | 1,405.324 ns | 1,314.541 ns | 339.413 ns | 266,840.53 ns | 269,738.55 ns | 270,628.03 ns | 271,007.52 ns | 271,770.70 ns |      3,701.3 | 12.6953 |  2.9297 |       - |  165072 B |
-| NewtonsoftString              | Deserialization. String     | 1000           | 280,157.37 ns |   477.352 ns |   446.515 ns | 115.290 ns | 279,090.97 ns | 279,940.04 ns | 280,134.72 ns | 280,342.26 ns | 280,918.21 ns |      3,569.4 |  9.7656 |  1.9531 |       - |  127352 B |
+<a name="json-serialization"></a>
+### Serialization
+
+Here we test a serialization of different JSON serializers with input `string` and `byte[]` parameters.
+
+<a name="json-string-serialization"></a>
+#### String
+
+Let's look at serializing only 1 entity:
+
+| Method                  |          Mean |         Error |        StdDev |       StdErr |           Min |        Median | Allocated |
+|-------------------------|--------------:|--------------:|--------------:|-------------:|--------------:|--------------:|----------:|
+| JsonSrcGen              |      31.22 ns |      0.110 ns |      0.103 ns |     0.027 ns |      31.00 ns |      31.20 ns |     160 B |
+| SpanJson                |      63.07 ns |      0.136 ns |      0.127 ns |     0.033 ns |      62.76 ns |      63.08 ns |     160 B |
+| Utf8Json                |      70.43 ns |      0.482 ns |      0.451 ns |     0.117 ns |      69.82 ns |      70.39 ns |     264 B |
+| SystemTextJsonSourceGen |      92.02 ns |      0.172 ns |      0.152 ns |     0.041 ns |      91.70 ns |      92.03 ns |     192 B |
+| NetJson                 |      94.65 ns |      0.251 ns |      0.234 ns |     0.061 ns |      93.92 ns |      94.72 ns |     336 B |
+| Jil                     |     135.10 ns |      0.719 ns |      0.673 ns |     0.174 ns |     133.66 ns |     135.30 ns |     864 B |
+| SystemTextJson          |     162.62 ns |      0.377 ns |      0.353 ns |     0.091 ns |     162.11 ns |     162.63 ns |     488 B |
+| Newtonsoft              |     286.62 ns |      1.828 ns |      1.527 ns |     0.423 ns |     283.85 ns |     287.30 ns |    1688 B |
+| ServiceStack            |     308.64 ns |      0.922 ns |      0.863 ns |     0.223 ns |     306.05 ns |     308.83 ns |     744 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/serialization-string-1.png)
+
+Let's look at serializing an array of 1000 entities:
+
+| Method                  |          Mean |         Error |        StdDev |       StdErr |           Min |        Median | Allocated |
+|-------------------------|--------------:|--------------:|--------------:|-------------:|--------------:|--------------:|----------:|
+| SpanJson                |  50,779.37 ns |    857.878 ns |    802.459 ns |   207.194 ns |  49,581.76 ns |  50,796.03 ns |  137869 B |
+| SystemTextJsonSourceGen |  56,933.39 ns |    443.346 ns |    414.706 ns |   107.077 ns |  56,263.05 ns |  56,857.82 ns |  138301 B |
+| Utf8Json                |  69,822.23 ns |  1,215.796 ns |  1,137.256 ns |   293.638 ns |  67,322.97 ns |  69,990.53 ns |  338129 B |
+| SystemTextJson          | 108,277.32 ns |  1,151.879 ns |  1,077.468 ns |   278.201 ns | 105,782.79 ns | 108,246.44 ns |  138865 B |
+| JsonSrcGen              | 111,692.47 ns |  1,853.617 ns |  1,733.874 ns |   447.684 ns | 109,504.03 ns | 110,894.92 ns |  138267 B |
+| Newtonsoft              | 173,834.72 ns |  3,884.419 ns | 11,392.328 ns | 1,144.972 ns | 156,461.52 ns | 172,515.36 ns |  332345 B |
+| Jil                     | 332,749.57 ns | 16,936.791 ns | 49,938.511 ns | 4,993.851 ns | 215,385.64 ns | 338,674.98 ns |  283940 B |
+| NetJson                 | 452,617.77 ns |  8,795.869 ns | 12,039.885 ns | 2,361.216 ns | 428,599.12 ns | 455,074.12 ns |  294177 B |
+| ServiceStack            | 555,753.58 ns | 11,032.858 ns | 31,118.371 ns | 3,244.314 ns | 492,012.89 ns | 550,359.42 ns |  424532 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/serialization-string-1k.png)
+
+<a name="json-byte-serialization"></a>
+#### Bytes
+
+Let's look at serializing only 1 entity:
+
+| Method                  |           Mean |         Error |        StdDev |       StdErr |           Min |        Median | Allocated |
+|-------------------------|---------------:|--------------:|--------------:|-------------:|--------------:|--------------:|----------:|
+| JsonSrcGen              |       34.40 ns |      0.051 ns |      0.042 ns |     0.012 ns |      34.35 ns |      34.39 ns |     104 B |
+| SpanJson                |       58.49 ns |      0.116 ns |      0.108 ns |     0.028 ns |      58.16 ns |      58.51 ns |      96 B |
+| Utf8Json                |       58.57 ns |      0.293 ns |      0.274 ns |     0.071 ns |      57.93 ns |      58.70 ns |      96 B |
+| Jil                     |      154.68 ns |      0.723 ns |      0.677 ns |     0.175 ns |     153.05 ns |     155.00 ns |     960 B |
+| NetJson                 |      162.58 ns |      0.229 ns |      0.203 ns |     0.054 ns |     162.16 ns |     162.62 ns |     928 B |
+| SystemTextJsonSourceGen |      163.46 ns |      0.459 ns |      0.429 ns |     0.111 ns |     162.96 ns |     163.42 ns |     128 B |
+| SystemTextJson          |      234.00 ns |      1.494 ns |      1.397 ns |     0.361 ns |     231.04 ns |     233.81 ns |     408 B |
+| Newtonsoft              |      309.55 ns |      1.956 ns |      1.830 ns |     0.472 ns |     306.10 ns |     310.43 ns |    1800 B |
+| ServiceStack            |      398.24 ns |      1.314 ns |      1.229 ns |     0.317 ns |     396.50 ns |     398.26 ns |    1456 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/serialization-byte-1.png)
+
+Let's look at serializing an array of 1000 entities:
+
+| Method                  |           Mean |         Error |        StdDev |       StdErr |           Min |        Median | Allocated |
+|-------------------------|---------------:|--------------:|--------------:|-------------:|--------------:|--------------:|----------:|
+| JsonSrcGen              |   37,120.72 ns |    143.396 ns |    119.742 ns |    33.211 ns |  36,876.56 ns |  37,111.72 ns |   68976 B |
+| SpanJson                |   43,180.94 ns |    144.164 ns |    134.851 ns |    34.818 ns |  42,948.47 ns |  43,184.48 ns |   69064 B |
+| SystemTextJsonSourceGen |   46,976.82 ns |    143.008 ns |    126.773 ns |    33.882 ns |  46,765.36 ns |  46,958.23 ns |   69080 B |
+| Utf8Json                |   50,664.78 ns |    459.979 ns |    384.103 ns |   106.531 ns |  49,970.21 ns |  50,698.11 ns |  200213 B |
+| SystemTextJson          |   99,308.78 ns |    175.059 ns |    155.185 ns |    41.475 ns |  98,870.89 ns |  99,351.53 ns |   69440 B |
+| Newtonsoft              |  198,131.12 ns |  7,094.149 ns | 20,581.413 ns | 2,089.726 ns | 167,855.37 ns | 194,280.47 ns |  401347 B |
+| Jil                     |  357,315.25 ns | 16,751.170 ns | 49,391.202 ns | 4,939.120 ns | 225,948.88 ns | 360,852.95 ns |  353010 B |
+| ServiceStack            |  610,605.52 ns | 12,205.614 ns | 14,529.915 ns | 3,170.687 ns | 582,284.57 ns | 613,483.40 ns |  638866 B |
+| NetJson                 |  681,765.77 ns | 27,163.104 ns | 80,091.024 ns | 8,009.102 ns | 432,949.32 ns | 686,838.38 ns |  598937 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/serialization-byte-1k.png)
+
+<a name="json-deserialization"></a>
+### Deserialization
+
+Here we test a serialization of different JSON deserializers
+
+<a name="json-string-deserialization"></a>
+#### String
+
+Let's look at deserialization of 1 entity:
+
+| Method                  |          Mean |        Error |       StdDev |     StdErr |           Min |        Median |  Allocated |
+|-------------------------|--------------:|-------------:|-------------:|-----------:|--------------:|--------------:|-----------:|
+| JsonSrcGen              |      68.74 ns |     0.491 ns |     0.435 ns |   0.116 ns |      68.27 ns |      68.59 ns |      144 B |
+| SpanJson                |      96.29 ns |     0.316 ns |     0.296 ns |   0.076 ns |      95.60 ns |      96.29 ns |      112 B |
+| Utf8Json                |     100.20 ns |     0.372 ns |     0.348 ns |   0.090 ns |      99.61 ns |     100.14 ns |      168 B |
+| NetJson                 |     174.28 ns |     0.592 ns |     0.553 ns |   0.143 ns |     173.68 ns |     174.06 ns |      520 B |
+| Jil                     |     182.25 ns |     0.532 ns |     0.471 ns |   0.126 ns |     181.45 ns |     182.21 ns |      424 B |
+| SystemTextJsonSourceGen |     250.06 ns |     0.856 ns |     0.801 ns |   0.207 ns |     248.06 ns |     250.01 ns |      616 B |
+| SystemTextJson          |     251.40 ns |     2.408 ns |     2.011 ns |   0.558 ns |     247.48 ns |     251.70 ns |      608 B |
+| ServiceStack            |     381.11 ns |     1.072 ns |     1.003 ns |   0.259 ns |     378.21 ns |     381.36 ns |      752 B |
+| Newtonsoft              |     533.78 ns |     3.034 ns |     2.838 ns |   0.733 ns |     526.62 ns |     535.09 ns |     3176 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/deserialization-string-1.png)
+
+Let's look at deserialization of 1000 entities:
+
+| Method                  |          Mean |        Error |       StdDev |     StdErr |           Min |        Median |  Allocated |
+|-------------------------|--------------:|-------------:|-------------:|-----------:|--------------:|--------------:|-----------:|
+| JsonSrcGen              |  70,282.20 ns |   166.609 ns |   147.695 ns |  39.473 ns |  70,082.20 ns |  70,290.89 ns |    92024 B |
+| SpanJson                |  87,773.79 ns |   386.869 ns |   361.878 ns |  93.436 ns |  87,159.13 ns |  87,900.13 ns |    92136 B |
+| Utf8Json                |  92,253.81 ns |   200.810 ns |   187.838 ns |  48.500 ns |  92,010.30 ns |  92,253.61 ns |   100456 B |
+| SystemTextJsonSourceGen | 175,861.73 ns |   253.760 ns |   237.367 ns |  61.288 ns | 175,429.83 ns | 175,808.98 ns |   101144 B |
+| SystemTextJson          | 185,920.97 ns |   322.766 ns |   301.916 ns |  77.954 ns | 185,398.54 ns | 185,983.28 ns |   100888 B |
+| Jil                     | 197,135.76 ns |   962.897 ns |   900.695 ns | 232.558 ns | 195,962.43 ns | 196,905.52 ns |   238949 B |
+| NetJson                 | 251,618.96 ns | 3,147.522 ns | 2,790.196 ns | 745.711 ns | 248,730.27 ns | 250,966.19 ns |   412638 B |
+| ServiceStack            | 353,513.91 ns | 4,060.614 ns | 3,798.301 ns | 980.717 ns | 348,812.45 ns | 353,355.27 ns |   303582 B |
+| Newtonsoft              | 368,919.50 ns | 3,975.930 ns | 3,719.088 ns | 960.264 ns | 365,802.59 ns | 366,761.47 ns |   265126 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/deserialization-string-1k.png)
+
+<a name="json-byte-deserialization"></a>
+#### Bytes
+
+Let's look at deserialization of 1 entity:
+
+| Method                  |          Mean |        Error |       StdDev |     StdErr |           Min |        Median | Allocated |
+|-------------------------|--------------:|-------------:|-------------:|-----------:|--------------:|--------------:|----------:|
+| JsonSrcGen              |      72.39 ns |     0.227 ns |     0.202 ns |   0.054 ns |      71.74 ns |      72.41 ns |     152 B |
+| SpanJson                |      96.51 ns |     0.240 ns |     0.224 ns |   0.058 ns |      96.11 ns |      96.61 ns |     120 B |
+| Utf8Json                |     120.01 ns |     0.577 ns |     0.511 ns |   0.137 ns |     118.99 ns |     120.18 ns |     264 B |
+| NetJson                 |     149.56 ns |     0.555 ns |     0.520 ns |   0.134 ns |     148.94 ns |     149.39 ns |     344 B |
+| Jil                     |     160.74 ns |     0.523 ns |     0.489 ns |   0.126 ns |     159.58 ns |     161.01 ns |     272 B |
+| SystemTextJson          |     287.15 ns |     1.300 ns |     1.216 ns |   0.314 ns |     284.71 ns |     286.99 ns |     608 B |
+| SystemTextJsonSourceGen |     292.74 ns |     0.743 ns |     0.695 ns |   0.180 ns |     290.92 ns |     292.84 ns |     608 B |
+| ServiceStack            |     363.70 ns |     0.666 ns |     0.556 ns |   0.154 ns |     362.79 ns |     363.56 ns |     600 B |
+| Newtonsoft              |     498.97 ns |     5.019 ns |     4.695 ns |   1.212 ns |     489.48 ns |     500.43 ns |    3000 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/deserialization-byte-1.png)
+
+Let's look at deserialization of 1000 entities:
+
+| Method                  |          Mean |        Error |       StdDev |     StdErr |           Min |        Median | Allocated |
+|-------------------------|--------------:|-------------:|-------------:|-----------:|--------------:|--------------:|----------:|
+| JsonSrcGen              |  74,287.99 ns |   427.920 ns |   400.277 ns | 103.351 ns |  73,636.40 ns |  74,213.95 ns |   92224 B |
+| SpanJson                |  84,699.43 ns |   391.369 ns |   346.939 ns |  92.723 ns |  84,233.25 ns |  84,618.87 ns |   91984 B |
+| Utf8Json                | 101,908.61 ns |   237.300 ns |   221.970 ns |  57.312 ns | 101,463.67 ns | 101,948.57 ns |  169440 B |
+| Jil                     | 122,594.66 ns |   552.627 ns |   516.928 ns | 133.470 ns | 121,473.34 ns | 122,722.24 ns |  100976 B |
+| NetJson                 | 168,663.95 ns |   490.384 ns |   409.493 ns | 113.573 ns | 167,915.80 ns | 168,835.55 ns |  274504 B |
+| SystemTextJsonSourceGen | 183,220.98 ns | 1,562.079 ns | 1,461.170 ns | 377.272 ns | 181,568.12 ns | 182,345.73 ns |  100896 B |
+| SystemTextJson          | 188,704.77 ns |   842.847 ns |   788.400 ns | 203.564 ns | 186,996.51 ns | 188,992.46 ns |  101456 B |
+| ServiceStack            | 270,173.78 ns | 1,405.324 ns | 1,314.541 ns | 339.413 ns | 266,840.53 ns | 270,628.03 ns |  165072 B |
+| Newtonsoft              | 280,157.37 ns |   477.352 ns |   446.515 ns | 115.290 ns | 279,090.97 ns | 280,134.72 ns |  127352 B |
+
+![Plot](../../../assets/benchmarks.serializers.json/deserialization-byte-1k.png)
+
+<a name="conclusions"></a>
+## Conclusions
+
+[SpanJson](https://github.com/Tornhoof/SpanJson) is by far superior library, that demonstrates superior performance with little to no drawbacks.
+If JSON serialization/deserialization is not a bottleneck of your performance, it is not important to change anything.
+
+Note, built-in `System.Text.Json` is much faster than popular [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
+If you don't have complicated contracts with custom serializers, use `System.Text.Json`.

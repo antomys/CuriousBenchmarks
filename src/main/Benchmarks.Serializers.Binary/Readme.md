@@ -67,9 +67,9 @@ Let's look at serializing an array of 1000 entities:
 <a name="binary-deserialization"></a>
 ### Deserialization
 
-Here we test a serialization of different binary deserializers
+Here we test a deserialization of different binary deserializers
 
-Let's look at serializing only 1 entity:
+Let's look at deserializing only 1 entity:
 
 | Method        |       Mean |     Error |    StdDev |    StdErr |        Min |         Q1 |     Median |         Q3 |        Max |          Op/s |   Gen0 | Allocated |
 |---------------|-----------:|----------:|----------:|----------:|-----------:|-----------:|-----------:|-----------:|-----------:|--------------:|-------:|----------:|

@@ -1,5 +1,8 @@
 # Note: this section is going to be refactored
 
+<a name="url-concat"></a>
+## URL Concatenation
+
 | Method                    | Categories |      Mean |    Error |   StdDev |   StdErr |       Min |        Q1 |    Median |        Q3 |       Max |         Op/s | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |---------------------------|------------|----------:|---------:|---------:|---------:|----------:|----------:|----------:|----------:|----------:|-------------:|------:|--------:|-------:|----------:|------------:|
 | StringUriAppend           | String Url |  48.69 ns | 0.141 ns | 0.132 ns | 0.034 ns |  48.33 ns |  48.65 ns |  48.70 ns |  48.76 ns |  48.89 ns | 20,537,221.6 |  0.84 |    0.00 | 0.0140 |     176 B |        0.69 |
@@ -15,6 +18,9 @@
 | UriBuilderTryCreate       | Uri Url    |  71.27 ns | 0.233 ns | 0.218 ns | 0.056 ns |  70.72 ns |  71.14 ns |  71.32 ns |  71.43 ns |  71.57 ns | 14,031,076.4 |  0.99 |    0.00 | 0.0153 |     192 B |        1.41 |
 | NewUri                    | Uri Url    |  72.23 ns | 0.310 ns | 0.275 ns | 0.074 ns |  71.55 ns |  72.13 ns |  72.25 ns |  72.36 ns |  72.73 ns | 13,843,869.0 |  1.00 |    0.00 | 0.0107 |     136 B |        1.00 |
 | UriAppend                 | Uri Url    | 115.85 ns | 0.329 ns | 0.308 ns | 0.079 ns | 114.95 ns | 115.76 ns | 115.85 ns | 116.05 ns | 116.18 ns |  8,631,925.8 |  1.60 |    0.01 | 0.0197 |     248 B |        1.82 |
+
+<a name="query-builers"></a>
+## Query Building approaches
 
 | Method                      | QueryCount |        Mean |    Error |   StdDev |   StdErr |         Min |          Q1 |      Median |          Q3 |         Max |         Op/s | Ratio | RatioSD |   Gen0 | Allocated | Alloc Ratio |
 |-----------------------------|------------|------------:|---------:|---------:|---------:|------------:|------------:|------------:|------------:|------------:|-------------:|------:|--------:|-------:|----------:|------------:|
