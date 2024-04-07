@@ -1,0 +1,13 @@
+﻿namespace Benchmark.Serializers.Models;
+
+table SimpleFlatBufferModel {
+  test_int:int;
+  test_string:string;
+  test_bool:bool;
+}
+
+table SimpleFlatBufferModels {
+  models:[SimpleFlatBufferModel];
+}
+
+root_type SimpleFlatBufferModels;

@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UNSAFE_BYTEBUFFER>true</UNSAFE_BYTEBUFFER>
+        <BYTEBUFFER_NO_BOUNDS_CHECK>true</BYTEBUFFER_NO_BOUNDS_CHECK>
+        <ENABLE_SPAN_T>true</ENABLE_SPAN_T>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Benchmarks.Serializers\Benchmarks.Serializers.csproj" />
+        <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="SerializationBenchmark.FlatBuffer.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="SerializationBenchmark.MemoryPack.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="SerializationBenchmark.MessagePack.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="SerializationBenchmark.Protobuf.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="SerializationBenchmark.ZeroFormatter.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Serializers.MsgPackLight.cs">
+        <DependentUpon>Serializers.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Benchmarks.Serializers\Benchmarks.Serializers.csproj" />
+        <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Benchmarks\SerializationBenchmark.SystemTextJson.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.Jil.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.Newtonsoft.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.ServiceStack.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.SpanJson.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.SystemTextJsonSrcGen.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.Utf8Json.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.NetJson.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\SerializationBenchmark.JsonSrcGen.cs">
+            <DependentUpon>SerializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.Jil.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.JsonSrcGen.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.NetJson.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.Newtonsoft.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.ServiceStack.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.SpanJson.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.SystemTextJson.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.SystemTextJsonSrcGen.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Benchmarks\DeserializationBenchmark.Utf8Json.cs">
+            <DependentUpon>DeserializationBenchmark.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.Jil.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.JsonSrcGen.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.NetJson.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.Newtonsoft.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.ServiceStack.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.SpanJson.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.SystemTextJson.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.SystemTextJsonSrcGen.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serializers.Utf8Json.cs">
+            <DependentUpon>Serializers.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>
