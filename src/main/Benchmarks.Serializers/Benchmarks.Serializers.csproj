@@ -14,7 +14,7 @@
         <PackageReference Include="Google.FlatBuffers" Version="24.3.25" />
         <PackageReference Include="Jil" Version="3.0.0-alpha2"/>
         <PackageReference Include="JsonSrcGen" Version="1.1.1"/>
-        <PackageReference Include="MemoryPack" Version="1.21.0" />
+        <PackageReference Include="MemoryPack" Version="1.21.1" />
         <PackageReference Include="MessagePack" Version="2.6.100-alpha"/>
         <PackageReference Include="msgpack.light" Version="2.0.1" />
         <PackageReference Include="NetJSON" Version="1.4.4"/>
