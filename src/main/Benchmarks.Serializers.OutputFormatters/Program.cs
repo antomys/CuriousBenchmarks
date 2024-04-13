@@ -24,6 +24,7 @@ public static class Program
 
         builder.Services
             .AddControllers()
+            .AddSystemTextJsonFormatter();
             // .AddJilFormatter();
             // .AddSystemTextJsonSrcGenFormatter();
             // .AddUtf8JsonFormatter();
@@ -31,7 +32,7 @@ public static class Program
             // .AddSpanJsonFormatterV2();
             // .AddNewtonsoftJson();
             // .AddJilFormatter();
-            .AddProtobufFormatter();
+            // .AddProtobufFormatter();
             // .AddMemoryPackFormatter();
             // .AddMsgPackFormatter();
 
