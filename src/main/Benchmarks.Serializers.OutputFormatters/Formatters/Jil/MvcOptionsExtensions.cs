@@ -9,12 +9,6 @@ public static class MvcOptionsExtension
     
     public static IMvcBuilder AddJilFormatter(this IMvcBuilder mvcBuilder) 
     {
-        // //  Workaround of Synchronous operations are disallowed. Call ReadAsync or set AllowSynchronousIO to true instead.
-        // mvcBuilder.Services.Configure<KestrelServerOptions>(options =>
-        // {
-        //     options.AllowSynchronousIO = true;
-        // });
-
         Configure(mvcBuilder.Services);
         
         return mvcBuilder;
