@@ -21,7 +21,12 @@ public static class SortExtensions
         this TestModel[] source,
         string[] ids)
     {
-        return source.OrderBy(x => Array.IndexOf(ids, x.Id));
+        return source.OrderBy(x =>
+        {
+            var index = Array.IndexOf(ids, x.Id);
+            
+            return index is -1 ? int.MaxValue : index;
+        });
     }
     
     public static List<TestModel> OrderV3(
