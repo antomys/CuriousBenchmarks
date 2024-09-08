@@ -24,7 +24,7 @@ public class SortBenchmarks
     [Params(10, 100000)]
     public int Size { get; set; }
     
-    [IterationSetup]
+    [GlobalCleanup]
     public void Setup()
     {
         var faker = new Faker<TestModel>();
@@ -48,7 +48,7 @@ public class SortBenchmarks
             .ToArray();
     }
 
-    [IterationCleanup]
+    [GlobalSetup]
     public void Clean()
     {
         _models = [];
@@ -87,11 +87,11 @@ public class SortBenchmarks
         Consumer.Consume(result);
     }
     
-    [Benchmark(Description = "V4")]
-    public void OrderV4()
-    {
-        _models.OrderV4(_ids);
-
-        Consumer.Consume(_models);
-    }
+//    [Benchmark(Description = "V4")]
+//    public void OrderV4()
+//    {
+//        _models.OrderV4(_ids);
+//
+//        Consumer.Consume(_models);
+//    }
 }
