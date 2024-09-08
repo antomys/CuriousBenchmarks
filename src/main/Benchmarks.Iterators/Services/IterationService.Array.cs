@@ -1,7 +1,6 @@
 ﻿namespace Benchmarks.Iterators.Services;
 
-/// <inheritdoc cref="IterationService" />
-/// .
+/// <inheritdoc cref="IterationService" />.
 public static partial class IterationService
 {
     /// <summary>
