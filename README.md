@@ -30,6 +30,7 @@ Have fun!
   - [Benchmarks](src/main/Benchmarks.Serializers.Binary/Readme.md#benchmarks)
     - [Serialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-serialization)
     - [Deserialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-deserialization)
+- [Sort array of T by ids from string array](src/main/Benchmarks.SortArrayByArray/readme.md)
 - [WIP][String Manipulations](src/main/Benchmarks.String/Readme.md)
 - [WIP] [URL Concat and Query building](src/main/Benchmarks.QueryBuilder/readme.md)
   - [WIP] [URL Concatenation](src/main/Benchmarks.QueryBuilder/readme.md#url-concatenation)
