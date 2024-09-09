@@ -9,8 +9,26 @@ public static class SortExtensions
             .Distinct()
             .Select((s, i) => (s, i))
             .ToDictionary(kvp => kvp.s, kvp => kvp.i);
+        
+        var result = source
+            .OrderBy(i => order.GetValueOrDefault(i.Id, int.MaxValue));
 
+        return result;
+    }
+    
+    public static IOrderedEnumerable<TestModel> OrderV1Improved(
+        this TestModel[] source,
+        string[] ids)
+    {
+        var order = new Dictionary<string, int>(ids.Length);
 
+        var idsSpan = ids.AsSpan();
+        for (var i = 0; i < idsSpan.Length; i++)
+        {
+            order.TryAdd(idsSpan[i], i);
+
+        }
+        
         var result = source
             .OrderBy(i => order.GetValueOrDefault(i.Id, int.MaxValue));
 

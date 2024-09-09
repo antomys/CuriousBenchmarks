@@ -62,6 +62,14 @@ public class SortBenchmarks
 
         Consumer.Consume(result);
     }
+    
+    [Benchmark(Description = "V1 order Improved")]
+    public void OrderV1Improved()
+    {
+        var result = _models.OrderV1Improved(_ids);
+
+        Consumer.Consume(result);
+    }
 
     [Benchmark(Description = "V2 order")]
     public void OrderV2()
@@ -71,27 +79,27 @@ public class SortBenchmarks
         Consumer.Consume(result);
     }
     
-    [Benchmark(Description = "V3 order")]
-    public void OrderV3()
-    {
-        var result = _models.OrderV3(_ids);
-
-        Consumer.Consume(result);
-    }
-    
-    [Benchmark(Description = "V3 Improved order")]
-    public void OrderV3Improved()
-    {
-        var result = _models.AsSpan().OrderV3Improved(_ids);
-
-        Consumer.Consume(result);
-    }
-    
-    [Benchmark(Description = "V4")]
-    public void OrderV4()
-    {
-        _models.OrderV4(_ids);
-
-        Consumer.Consume(_models);
-    }
+    // [Benchmark(Description = "V3 order")]
+    // public void OrderV3()
+    // {
+    //     var result = _models.OrderV3(_ids);
+    //
+    //     Consumer.Consume(result);
+    // }
+    //
+    // [Benchmark(Description = "V3 Improved order")]
+    // public void OrderV3Improved()
+    // {
+    //     var result = _models.AsSpan().OrderV3Improved(_ids);
+    //
+    //     Consumer.Consume(result);
+    // }
+    //
+    // [Benchmark(Description = "V4")]
+    // public void OrderV4()
+    // {
+    //     _models.OrderV4(_ids);
+    //
+    //     Consumer.Consume(_models);
+    // }
 }
