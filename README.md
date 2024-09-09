@@ -1,6 +1,6 @@
 ﻿# Curious benchmarks
 
-Updated : 4/10/2024 (10.04.2024)
+Updated : 9/10/2024 (10.09.2024)
 
 [![.NET CI](https://github.com/nogic1008/dotnet-ci-example/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/antomys/CuriousBenchmarks/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/nogic1008/dotnet-ci-example)](LICENSE)
@@ -30,6 +30,7 @@ Have fun!
   - [Benchmarks](src/main/Benchmarks.Serializers.Binary/Readme.md#benchmarks)
     - [Serialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-serialization)
     - [Deserialization](src/main/Benchmarks.Serializers.Binary/Readme.md#binary-deserialization)
+- [Sort array of T by ids from string array](src/main/Benchmarks.SortArrayByArray/readme.md)
 - [WIP][String Manipulations](src/main/Benchmarks.String/Readme.md)
 - [WIP] [URL Concat and Query building](src/main/Benchmarks.QueryBuilder/readme.md)
   - [WIP] [URL Concatenation](src/main/Benchmarks.QueryBuilder/readme.md#url-concatenation)
