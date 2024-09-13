@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
-        <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.3.0" />
+        <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.3.1" />
         <PackageReference Include="MlkPwgen" Version="0.3.0"/>
     </ItemGroup>
 
