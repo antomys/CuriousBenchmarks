@@ -30,10 +30,10 @@
   <p align="center">
     A repository housing targeted investigations and performance analyses of various .NET development approaches, offering developers insights into optimization techniques and architectural decisions.
     <br />
-    <a href="https://github.com/antomys/CuriousBenchmarks"><strong>Explore the docs »</strong></a>
+    <a href="https://antomys.github.io/CuriousBenchmarks"><strong>Explore the docs (Work in progress)»</strong></a>
     <br />
     <br />
-    <a href="https://github.com/antomys/CuriousBenchmarks">View Documentation</a>
+    <a href="https://antomys.github.io/CuriousBenchmarks">View Documentation (Work in Progress)</a>
     ·
     <a href="https://github.com/antomys/CuriousBenchmarks/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
