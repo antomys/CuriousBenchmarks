@@ -150,6 +150,9 @@
          </ul>
       </li>
       <li>
+         <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.SortArrayByArray/readme.md">Sort array of T by ids from string array</a>
+      </li>
+      <li>
          <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.String/Readme.md">[WIP] String Manipulations</a>
       </li>
       <li>
@@ -165,7 +168,6 @@
       </li>
    </ol>
 </details>
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
