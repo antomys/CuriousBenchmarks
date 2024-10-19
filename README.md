@@ -181,11 +181,9 @@ A curated collection of in-depth studies exploring various .NET development appr
 
 ### Built With
 
-* [![.NET][.NET]][.NET]
+[![.NET][.NET]][.NET]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
