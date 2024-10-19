@@ -17,6 +17,8 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+[![.NET Core](https://github.com/antomys/CuriousBenchmarks/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antomys/CuriousBenchmarks/actions/workflows/dotnet.yml)
+[![codecov](https://codecov.io/gh/antomys/CuriousBenchmarks/branch/master/graph/badge.svg?token=8L4HN9FAIV)](https://app.codecov.io/gh/antomys/CuriousBenchmarks)
 
 <!-- PROJECT LOGO -->
 <br />
