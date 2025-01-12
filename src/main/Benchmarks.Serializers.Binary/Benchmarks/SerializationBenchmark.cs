@@ -66,10 +66,4 @@ public class SerializationBenchmark
     {
         return Serializers.ProtobufSerializeBytes(_simpleModels);
     }
-    
-    [BenchmarkCategory(Group.SerializationByte), Benchmark]
-    public byte[] FlatBuffers()
-    {
-        return Serializers.FlatBufferSerializeBytes(_simpleModels);
-    }
 }

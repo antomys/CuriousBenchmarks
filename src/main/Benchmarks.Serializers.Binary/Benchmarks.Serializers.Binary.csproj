@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8</TargetFramework>
+        <TargetFramework>net9</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -23,9 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="SerializationBenchmark.FlatBuffer.cs">
-        <DependentUpon>Serializers.cs</DependentUpon>
-      </Compile>
       <Compile Update="SerializationBenchmark.MemoryPack.cs">
         <DependentUpon>Serializers.cs</DependentUpon>
       </Compile>

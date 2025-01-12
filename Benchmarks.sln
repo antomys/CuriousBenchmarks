@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.DynamicPredicate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.SortArrayByArray", "src\main\Benchmarks.SortArrayByArray\Benchmarks.SortArrayByArray.csproj", "{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.JsonValidation", "src\main\Benchmarks.JsonValidation\Benchmarks.JsonValidation.csproj", "{C0961F30-3DCE-42E3-B012-4A90660B2DD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,7 @@ Global
 		{9ECFEB36-1492-4F8A-8524-0694EAAF8919} = {8C6AAFA5-5455-45BC-95DE-898098E85ED7}
 		{FC987AEF-DC05-4DFF-9C72-97FC1AA47039} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
+		{C0961F30-3DCE-42E3-B012-4A90660B2DD6} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A0677C09-8560-4ECD-AD88-AD7B0494C7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -123,5 +126,9 @@ Global
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0961F30-3DCE-42E3-B012-4A90660B2DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0961F30-3DCE-42E3-B012-4A90660B2DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0961F30-3DCE-42E3-B012-4A90660B2DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0961F30-3DCE-42E3-B012-4A90660B2DD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

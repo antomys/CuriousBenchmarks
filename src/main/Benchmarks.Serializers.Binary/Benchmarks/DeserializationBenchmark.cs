@@ -23,7 +23,6 @@ public partial class DeserializationBenchmark
     [Params(1, 100, 1000)]
     public int CollectionSize { get; set; }
 
-    private byte[] _flatBufferBytes = [];
     private byte[] _memPackBytes = [];
     private byte[] _msgPackBytes = [];
     private byte[] _protobufBytes = [];
@@ -42,7 +41,6 @@ public partial class DeserializationBenchmark
             .Generate(CollectionSize)
             .ToArray();
 
-        _flatBufferBytes = Serializers.FlatBufferSerializeBytes(models);
         _memPackBytes = Serializers.MemoryPackSerializeBytes(models);
         _msgPackBytes = Serializers.MessagePackSerializeBytes(models);
         _protobufBytes = Serializers.ProtobufSerializeBytes(models);
@@ -77,11 +75,5 @@ public partial class DeserializationBenchmark
     public ICollection<SimpleModel> Protobuf()
     {
         return Serializers.ProtobufDeserializeBytes<SimpleModel>(_protobufBytes);
-    }
-    
-    [BenchmarkCategory(Group.DeserializationByte), Benchmark]
-    public SimpleFlatBufferModels FlatBuffers()
-    {
-        return Serializers.FlatBufferDeserializeBytes<SimpleModel>(_flatBufferBytes);
     }
 }
