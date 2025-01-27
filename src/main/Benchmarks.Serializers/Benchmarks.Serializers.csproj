@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Alexinea.ZeroFormatter" Version="1.6.4"/>
-        <PackageReference Include="Google.FlatBuffers" Version="24.12.23" />
+        <PackageReference Include="Google.FlatBuffers" Version="25.1.24" />
         <PackageReference Include="Jil" Version="3.0.0-alpha2"/>
         <PackageReference Include="JsonSrcGen" Version="1.1.1"/>
         <PackageReference Include="MemoryPack" Version="1.21.3" />
