@@ -12,7 +12,7 @@
         <PackageReference Include="MemoryPack.AspNetCoreMvcFormatter" Version="1.21.3" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.12" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-        <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="3.1.1" />
+        <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="3.1.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.12" />
         <PackageReference Include="protobuf-net.AspNetCore" Version="3.2.46" />
         <PackageReference Include="SpanJson.AspNetCore.Formatter" Version="4.2.1" />
