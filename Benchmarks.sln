@@ -42,6 +42,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.DynamicPredicate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.SortArrayByArray", "src\main\Benchmarks.SortArrayByArray\Benchmarks.SortArrayByArray.csproj", "{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Stopwatch", "src\main\Benchmarks.Stopwatch\Benchmarks.Stopwatch.csproj", "{488D550A-E0A3-4FF7-83AE-BD05ECDC8074}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Flattening", "src\main\Benchmarks.Flattening\Benchmarks.Flattening.csproj", "{787B75D8-6DA3-44A5-961E-0C53E1D975EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,8 @@ Global
 		{9ECFEB36-1492-4F8A-8524-0694EAAF8919} = {8C6AAFA5-5455-45BC-95DE-898098E85ED7}
 		{FC987AEF-DC05-4DFF-9C72-97FC1AA47039} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
+		{488D550A-E0A3-4FF7-83AE-BD05ECDC8074} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
+		{787B75D8-6DA3-44A5-961E-0C53E1D975EC} = {992C6E84-369F-4940-913B-5EBD3D7CCE6C}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A0677C09-8560-4ECD-AD88-AD7B0494C7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -123,5 +129,13 @@ Global
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B43E4F36-134E-4BAA-BEA8-76B7A383A82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{488D550A-E0A3-4FF7-83AE-BD05ECDC8074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{488D550A-E0A3-4FF7-83AE-BD05ECDC8074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{488D550A-E0A3-4FF7-83AE-BD05ECDC8074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{488D550A-E0A3-4FF7-83AE-BD05ECDC8074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{787B75D8-6DA3-44A5-961E-0C53E1D975EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787B75D8-6DA3-44A5-961E-0C53E1D975EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787B75D8-6DA3-44A5-961E-0C53E1D975EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787B75D8-6DA3-44A5-961E-0C53E1D975EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

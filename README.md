@@ -158,6 +158,12 @@
          <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.String/Readme.md">[WIP] String Manipulations</a>
       </li>
       <li>
+         <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.Flattening/README.MD">Model flattening</a>
+      </li>
+      <li>
+         <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.Stopwatch/README.MD">A new stopwatch approach</a>
+      </li>
+      <li>
          <a href="https://github.com/antomys/CuriousBenchmarks/blob/master/src/main/Benchmarks.QueryBuilder/readme.md">URL Concat and Query building</a>
          <ul>
             <li>
