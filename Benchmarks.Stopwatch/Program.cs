@@ -1,9 +1,11 @@
-﻿namespace Benchmarks.Stopwatch;
+﻿using BenchmarkDotNet.Running;
 
-class Program
+namespace Benchmarks.Stopwatch;
+
+internal static class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        BenchmarkRunner.Run(typeof(Program).Assembly);
     }
 }

@@ -42,7 +42,7 @@ public class FlatBenchmarks
         return ToFlatModelReflection(_model);
     }
     
-    [Benchmark(Description = "ToFlat direct model")]
+    [Benchmark(Description = "ToFlat direct model", Baseline = true)]
     public Dictionary<string, string?>? ToFlatDirectModel()
     {
         return ToFlatModel(_model);
