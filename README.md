@@ -198,7 +198,7 @@ A curated collection of in-depth studies exploring various .NET development appr
 Welcome to the Curious Benchmarks! This repository is designed to help you explore and understand performance characteristics of various .NET approaches. Follow these steps to get started:
 ### Prerequisites
 
-- Install [.NET SDK](https://dotnet.microsoft.com/en-us/download) (version 8.0 or later)
+- Install [.NET SDK](https://dotnet.microsoft.com/en-us/download) (version 9.0 or later)
 - Install [BenchmarkDotNet](https://benchmarkdotnet.org/articles/overview.html) (**Included** in the project)
 
 
@@ -259,7 +259,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ihor Volokhovych - [@incomingwebhook](https://t.me/incomingwebhook) - igorvolokhovych@gmail.com
+Ihor Volokhovych - [@deqque13](https://t.me/deqque13) - igorvolokhovych@gmail.com
 
 Project Link: [https://github.com/antomys/CuriousBenchmarks](https://github.com/antomys/CuriousBenchmarks)
 
@@ -294,4 +294,4 @@ Project Link: [https://github.com/antomys/CuriousBenchmarks](https://github.com/
 [license-url]: https://github.com/antomys/CuriousBenchmarks/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/ihor-volokhovych-23875217a/
-[.NET]: https://img.shields.io/badge/-.NET%208.0-blueviolet
+[.NET]: https://img.shields.io/badge/-.NET%209.0-blueviolet
