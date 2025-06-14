@@ -17,6 +17,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+![GitHub last commit](https://img.shields.io/github/last-commit/antomys/CuriousBenchmarks.svg)
 [![.NET Core](https://github.com/antomys/CuriousBenchmarks/actions/workflows/dotnet-ci.yml/badge.svg?branch=master)](https://github.com/antomys/CuriousBenchmarks/actions/workflows/dotnet-ci.yml)
 [![codecov](https://codecov.io/gh/antomys/CuriousBenchmarks/branch/master/graph/badge.svg?token=8L4HN9FAIV)](https://app.codecov.io/gh/antomys/CuriousBenchmarks)
 
