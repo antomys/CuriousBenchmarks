@@ -2,7 +2,6 @@
 
 public static class EnumerableExtensions
 {
-    
     public static IList<T> Shuffle<T>(this IEnumerable<T> sequence)
     {
         return sequence.Shuffle(Random.Shared);
