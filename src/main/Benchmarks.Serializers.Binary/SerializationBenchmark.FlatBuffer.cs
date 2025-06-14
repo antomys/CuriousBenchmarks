@@ -1,4 +1,5 @@
-﻿using Benchmarks.Serializers.Models;
+﻿using Benchmark.Serializers.Models;
+using Benchmarks.Serializers.Models;
 using Google.FlatBuffers;
 
 namespace Benchmarks.Serializers.Binary;
