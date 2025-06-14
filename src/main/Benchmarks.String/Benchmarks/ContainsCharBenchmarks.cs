@@ -15,9 +15,7 @@ namespace Benchmarks.String.Benchmarks;
 public class ContainsCharBenchmarks
 {
     private const char ExistingChar = ';';
-
     private const char NonExistingChar = '-';
-
     private string _testString = null!;
 
     /// <summary>

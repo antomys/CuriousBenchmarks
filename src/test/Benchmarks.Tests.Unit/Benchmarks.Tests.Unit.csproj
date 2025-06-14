@@ -40,8 +40,4 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Benchmark.SportArrayByArray\" />
-    </ItemGroup>
-
 </Project>
