@@ -17,7 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.9"/>
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.11" />
     </ItemGroup>
 
