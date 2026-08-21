@@ -5,4 +5,4 @@ using JsonSrcGen;
 [assembly: JsonArray(typeof(ComplexSrcGenModel))]
 [assembly: JsonArray(typeof(SimpleSrcGenModel))]
 
-BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
+BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);

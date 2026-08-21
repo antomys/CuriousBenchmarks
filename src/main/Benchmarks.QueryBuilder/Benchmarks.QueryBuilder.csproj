@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9</TargetFramework>
+        <TargetFramework>net10</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -18,7 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Benchmarks.Common\Benchmarks.Common.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.9"/>
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.11" />
     </ItemGroup>
 
 </Project>
