@@ -44,7 +44,7 @@ public class SortBenchmarks
         _ids = anotherModels
             .Select(model => model.Id)
             .Union(_models.Select(model => model.Id))
-            .Shuffle()
+            .Randomize()
             .ToArray();
     }
 

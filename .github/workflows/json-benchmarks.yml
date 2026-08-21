@@ -27,7 +27,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '9.x.x'
+          global-json-file: global.json
       - name: Build
         run: dotnet build src/main/Benchmarks.Serializers.Json -c Release
       - name: Run benchmarks
