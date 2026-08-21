@@ -2,12 +2,12 @@
 
 public static class EnumerableExtensions
 {
-    public static IList<T> Shuffle<T>(this IEnumerable<T> sequence)
+    public static IList<T> Randomize<T>(this IEnumerable<T> sequence)
     {
-        return sequence.Shuffle(Random.Shared);
+        return sequence.Randomize(Random.Shared);
     }
 
-    private static IList<T> Shuffle<T>(this IEnumerable<T> sequence, Random randomNumberGenerator)
+    private static IList<T> Randomize<T>(this IEnumerable<T> sequence, Random randomNumberGenerator)
     {
         if (sequence == null)
         {

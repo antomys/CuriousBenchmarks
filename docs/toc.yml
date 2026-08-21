@@ -2,3 +2,7 @@
   href: introduction.md
 - name: Getting Started
   href: getting-started.md
+- name: Benchmarks
+  items:
+    - name: JSON Serializers
+      href: benchmarks/serializers-json.md

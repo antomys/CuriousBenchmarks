@@ -1,0 +1,61 @@
+name: JSON Benchmarks
+
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'BenchmarkDotNet job (dry, short, medium, default)'
+        required: false
+        default: 'short'
+  schedule:
+    # Sundays at 03:00 UTC
+    - cron: '0 3 * * 0'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: json-benchmarks
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Build
+        run: dotnet build src/main/Benchmarks.Serializers.Json -c Release
+      - name: Run benchmarks
+        env:
+          BDN_JOB: ${{ inputs.job || 'short' }}
+        run: |
+          dotnet run --project src/main/Benchmarks.Serializers.Json -c Release --no-build -- \
+            --filter '*' \
+            --job "$BDN_JOB" \
+            --exporters github json \
+            --artifacts "${{ runner.temp }}/bdn"
+      - name: Upload raw artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: json-benchmark-results
+          path: ${{ runner.temp }}/bdn
+      - name: Flush results into documentation
+        env:
+          BDN_JOB: ${{ inputs.job || 'short' }}
+        run: ./scripts/build-benchmark-doc.sh "${{ runner.temp }}/bdn" docs/benchmarks/serializers-json.md
+      - name: Commit documentation
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/benchmarks/serializers-json.md
+          if git diff --staged --quiet; then
+            echo 'No documentation changes.'
+          else
+            git commit -m 'docs: refresh JSON serializer benchmark results'
+            git push
+          fi
